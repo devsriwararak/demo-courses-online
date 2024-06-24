@@ -5,19 +5,23 @@ import { useRouter } from "next/navigation";
 const SITEMAP = [
     {
         title: "Company",
-        links: ["About Us", "Careers", "Our Team", "Projects"],
+        // links: ["About Us", "Careers", "Our Team", "Projects"],
+        links: ["About Us", "Careers"],
     },
     {
         title: "Help Center",
-        links: ["Discord", "Twitter", "GitHub", "Contact Us"],
+        // links: ["Discord", "Twitter", "GitHub", "Contact Us"],
+        links: ["Discord", "Contact Us"],
     },
     {
         title: "Resources",
-        links: ["Blog", "Newsletter", "Free Products", "Affiliate Program"],
+        // links: ["Blog", "Newsletter", "Free Products", "Affiliate Program"],
+        links: ["Blog", "Affiliate Program"],
     },
     {
         title: "Products",
-        links: ["Templates", "UI Kits", "Icons", "Mockups"],
+        // links: ["Templates", "UI Kits", "Icons", "Mockups"],
+        links: ["Templates", "UI Kits"],
     },
 ];
 

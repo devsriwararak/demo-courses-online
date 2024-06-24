@@ -4,12 +4,10 @@ import HomePage from "./components/home/home";
 
 export default function Home() {
   return (
-<div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <HeaderHome />
-      <div className="flex-grow">
-        <HomePage />
-      </div>
-      <FooterHome  />
+      <HomePage />
+      <FooterHome />
     </div>
   );
 }
