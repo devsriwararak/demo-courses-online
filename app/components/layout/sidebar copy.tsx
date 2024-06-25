@@ -24,7 +24,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [userName, setUserName] = useRecoilState(userLoginStore);
+  const [userName,setUserName] = useRecoilState(userLoginStore);
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
   const [activePath, setActivePath] = useState<string>(pathname);
 
@@ -34,6 +34,18 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         return [
           { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
           { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
+
+          // Uncomment and complete the subItems if needed
+
+          // {
+          //   text: "Users",
+          //   icon: <FaClipboardList />,
+          //   subItems: [
+          //     { text: "Add User", path: "/admin/add" },
+          //     { text: "Manage Users", path: "/admin/manage" },
+          //   ],
+          // },
+          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
         ];
       case 'super':
         return [
@@ -50,13 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     }
   }, [userName]);
 
-  useEffect(() => {
-    const storedUserName = sessionStorage.getItem('login');
-    if (storedUserName) {
-      setUserName(storedUserName);
-    }
-  }, [setUserName]);
-
+  
   useEffect(() => {
     setActivePath(pathname);
   }, [pathname]);
