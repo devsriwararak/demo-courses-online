@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         {menuItems.map((item, index) => {
           const isActive = activePath === item.path;
           return (
-            <React.Fragment key={index}>
+            <div key={index}>
               <div
                 className={`flex items-center px-4 py-2 cursor-pointer ${isActive ? 'bg-gray-400 opacity-90 rounded-md' : ''}`}
                 onClick={() => (item.path ? handleNavigation(item.path) : toggleSubMenu(item.text))}
@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                   })}
                 </div>
               )}
-            </React.Fragment>
+            </div>
           );
         })}
       </div>
