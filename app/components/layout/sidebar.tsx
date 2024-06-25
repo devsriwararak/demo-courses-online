@@ -1,9 +1,9 @@
-// components/Sidebar.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { FaClipboardList, FaChartLine, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { Typography } from "@material-tailwind/react";
-
+import { useRecoilValue } from "recoil";
+import { userLoginStore } from "@/store/store";
 
 interface MenuItem {
   text: string;
@@ -21,28 +21,46 @@ interface SidebarProps {
   setDrawerOpen?: (open: boolean) => void;
 }
 
-const menuItems: MenuItem[] = [
-  { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
-  { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
-  // Uncomment and complete the subItems if needed
-
-
-  // {
-  //   text: "Users",
-  //   icon: <FaClipboardList />,
-  //   subItems: [
-  //     { text: "Add User", path: "/admin/add" },
-  //     { text: "Manage Users", path: "/admin/manage" },
-  //   ],
-  // },
-  // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
-];
-
 const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const userName = useRecoilValue(userLoginStore);
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
-  const [activePath, setActivePath] = useState<string>("/admin");
+  const [activePath, setActivePath] = useState<string>(pathname);
+
+  const menuItems: MenuItem[] = useMemo(() => {
+    switch (userName) {
+      case 'admin':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
+
+          // Uncomment and complete the subItems if needed
+
+          // {
+          //   text: "Users",
+          //   icon: <FaClipboardList />,
+          //   subItems: [
+          //     { text: "Add User", path: "/admin/add" },
+          //     { text: "Manage Users", path: "/admin/manage" },
+          //   ],
+          // },
+          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
+        ];
+      case 'super':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/super" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/super/test" },
+        ];
+      case 'user':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/user/test" },
+        ];
+      default:
+        return [];
+    }
+  }, [userName]);
 
   useEffect(() => {
     setActivePath(pathname);
@@ -51,20 +69,15 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const handleNavigation = (path: string) => {
     setActivePath(path);
     router.push(path);
-    if (setDrawerOpen) {
-      setDrawerOpen(false);
-    }
+    setDrawerOpen?.(false);
   };
 
-  const handleClick = (text: string) => {
-    setOpen((prevOpen) => ({
-      ...prevOpen,
-      [text]: !prevOpen[text],
-    }));
+  const toggleSubMenu = (text: string) => {
+    setOpen((prevOpen) => ({ ...prevOpen, [text]: !prevOpen[text] }));
   };
 
   return (
-    <div className={`h-full flex flex-col bg-white  w-[160px]`}>
+    <div className="h-full flex flex-col bg-white w-[160px]">
       <div className="flex items-center justify-center h-[60px] bg-blue-600 text-white">
         <Typography className="text-lg">Admin Panel</Typography>
       </div>
@@ -74,15 +87,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           return (
             <React.Fragment key={index}>
               <div
-                className={`flex items-center px-4 py-2 cursor-pointer ${isActive ? `bg-gray-400 opacity-90 rounded-md ` : ''}`}
-                onClick={() => (item.path ? handleNavigation(item.path) : handleClick(item.text))}
+                className={`flex items-center px-4 py-2 cursor-pointer ${isActive ? 'bg-gray-400 opacity-90 rounded-md' : ''}`}
+                onClick={() => (item.path ? handleNavigation(item.path) : toggleSubMenu(item.text))}
               >
-                <div className={`mr-2 ${isActive ? `text-xl` : ''}`}>
+                <div className={`mr-2 ${isActive ? 'text-xl' : ''}`}>
                   {item.icon}
                 </div>
-                <div className="flex-1">
-                  {item.text}
-                </div>
+                <div className="flex-1">{item.text}</div>
                 {item.subItems && (
                   <div>
                     {open[item.text] ? <FaChevronUp /> : <FaChevronDown />}
@@ -96,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     return (
                       <div
                         key={subIndex}
-                        className={`flex items-center px-4 py-2 cursor-pointer ${isSubItemActive ? `bg-red-200 text-blue-500` : ''}`}
+                        className={`flex items-center px-4 py-2 cursor-pointer ${isSubItemActive ? 'bg-red-200 text-blue-500' : ''}`}
                         onClick={() => handleNavigation(subItem.path)}
                       >
                         {subItem.text}
