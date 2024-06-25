@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { FaClipboardList, FaChartLine, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { Typography } from "@material-tailwind/react";
@@ -28,28 +28,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
   const [activePath, setActivePath] = useState<string>(pathname);
 
-  const menuItems: MenuItem[] = useMemo(() => {
-    switch (userName) {
-      case 'admin':
-        return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
-        ];
-      case 'super':
-        return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/super" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/super/test" },
-        ];
-      case 'user':
-        return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/user/test" },
-        ];
-      default:
-        return [];
-    }
-  }, [userName]);
-
   useEffect(() => {
     const storedUserName = sessionStorage.getItem('login');
     if (storedUserName) {
@@ -61,15 +39,49 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     setActivePath(pathname);
   }, [pathname]);
 
-  const handleNavigation = (path: string) => {
+  const menuItems: MenuItem[] = useMemo(() => {
+    switch (userName) {
+      case 'admin':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
+
+          // {
+          //   text: "Users",
+          //   icon: <FaClipboardList />,
+          //   subItems: [
+          //     { text: "Add User", path: "/admin/add" },
+          //     { text: "Manage Users", path: "/admin/manage" },
+          //   ],
+          // },
+          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
+
+        ];
+      case 'super':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/super" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/super/test" },
+
+        ];
+      case 'user':
+        return [
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user" },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/user/test" },
+        ];
+      default:
+        return [];
+    }
+  }, [userName]);
+
+  const handleNavigation = useCallback((path: string) => {
     setActivePath(path);
     router.push(path);
     setDrawerOpen?.(false);
-  };
+  }, [router, setDrawerOpen]);
 
-  const toggleSubMenu = (text: string) => {
+  const toggleSubMenu = useCallback((text: string) => {
     setOpen((prevOpen) => ({ ...prevOpen, [text]: !prevOpen[text] }));
-  };
+  }, []);
 
   return (
     <div className="h-full flex flex-col bg-white w-[160px]">
