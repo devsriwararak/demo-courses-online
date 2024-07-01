@@ -79,9 +79,16 @@ const LoginPage: React.FC = () => {
                 />
               </div>
               <div>
+                <div className="flex flex-col sm:flex-row gap-3">
                 <Button type="submit" className="w-full" color="blue">
                   Login
                 </Button>
+                <Button variant="outlined" className="w-full" color="blue" onClick={() => router.push("/")}>
+                  Cancel
+                </Button>
+
+                </div>
+             
               </div>
             </div>
           </form>

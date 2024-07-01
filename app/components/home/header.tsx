@@ -96,6 +96,13 @@ export function HeaderHome() {
                         <div className="mr-4 hidden lg:block">{navList}</div>
                         <div className="flex items-center gap-x-1">
                             <Button
+                                variant="outlined"
+                                size="sm"
+                                className="hidden lg:inline-block" onClick={() => router.push('/register')}
+                            >
+                                <span>Register</span>
+                            </Button>
+                            <Button
                                 variant="gradient"
                                 size="sm"
                                 className="hidden lg:inline-block"
@@ -103,13 +110,7 @@ export function HeaderHome() {
                             >
                                 <span>Log In</span>
                             </Button>
-                            {/* <Button
-                                variant="gradient"
-                                size="sm"
-                                className="hidden lg:inline-block"
-                            >
-                                <span>Sign in</span>
-                            </Button> */}
+
                         </div>
                         <IconButton
                             variant="text"
@@ -124,12 +125,13 @@ export function HeaderHome() {
                 <Collapse open={openNav}>
                     {navList}
                     <div className="flex items-center gap-x-1">
-                        <Button fullWidth variant="gradient" size="sm" className="mb-3"  onClick={() => router.push('/login')}>
+                        <Button fullWidth variant="outlined" size="sm" className="mb-3" onClick={() => router.push('/register')}>
+                            <span>Register</span>
+                        </Button>
+                        <Button fullWidth variant="gradient" size="sm" className="mb-3" onClick={() => router.push('/login')}>
                             <span>Log In</span>
                         </Button>
-                        {/* <Button fullWidth variant="gradient" size="sm" className="">
-                            <span>Sign in</span>
-                        </Button> */}
+
                     </div>
                 </Collapse>
             </Navbar>

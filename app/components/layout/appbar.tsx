@@ -20,7 +20,7 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handle
 
   return (
     <div className={`fixed  w-screen  bg-blue-600`}>
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-4 gap-4">
         {isSmallScreen && (
           <Button variant="text"  onClick={handleDrawerToggle} className="text-white text-2xl p-0">
             <FaBars />

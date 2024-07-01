@@ -1,11 +1,16 @@
-'use client'
-
+// RootLayout.tsx
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { RecoilRoot } from "recoil";
-
+import RecoilProvider from "./recoilProvider";  // นำเข้า RecoilProvider
 
 const inter = Inter({ subsets: ["latin"] });
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ระบบคอร์สเรียน(เฉพาะธุรกิจ)",
+  // description: "aaaaaa",
+};
 
 export default function RootLayout({
   children,
@@ -15,10 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilRoot>
+        <RecoilProvider> {/* ใช้ RecoilProvider */}
           {children}
-        </RecoilRoot>
-
+        </RecoilProvider>
       </body>
     </html>
   );
