@@ -33,10 +33,10 @@ export function HeaderHome() {
                 className="p-1 font-normal"
             >
                 <button
-                    onClick={() => router.push('/pages')}
+                    onClick={() => router.push('/')}
                     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
                 >
-                    Pages
+                    หน้าหลัก
                 </button>
             </Typography>
             <Typography
@@ -46,10 +46,10 @@ export function HeaderHome() {
                 className="p-1 font-normal"
             >
                 <button
-                    onClick={() => router.push('/account')}
+                    onClick={() => router.push('/home/broker')}
                     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
                 >
-                    Account
+                    โบรกเกอร์
                 </button>
             </Typography>
             <Typography
@@ -59,10 +59,10 @@ export function HeaderHome() {
                 className="p-1 font-normal"
             >
                 <button
-                    onClick={() => router.push('/blocks')}
+                    onClick={() => router.push('/home/ebook')}
                     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
                 >
-                    Blocks
+                    EBook
                 </button>
             </Typography>
             <Typography
@@ -72,10 +72,62 @@ export function HeaderHome() {
                 className="p-1 font-normal"
             >
                 <button
-                    onClick={() => router.push('/docs')}
+                    onClick={() => router.push('/home/about')}
                     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
                 >
-                    Docs
+                    เกี่ยวกับเรา
+                </button>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <button
+                    onClick={() => router.push('/home/Portfolio')}
+                    className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+                >
+                    ผลงาน
+                </button>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <button
+                    onClick={() => router.push('/home/activity')}
+                    className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+                >
+                    กิจกรรม
+                </button>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <button
+                    onClick={() => router.push('/home/bycourse')}
+                    className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+                >
+                    วิธีการซื้อคอร์ส
+                </button>
+            </Typography>
+            <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <button
+                    onClick={() => router.push('/home/Contact')}
+                    className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+                >
+                    ติดต่อเรา
                 </button>
             </Typography>
         </ul>

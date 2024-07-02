@@ -31,7 +31,7 @@ export function FooterHome() {
     const router = useRouter();
 
     return (
-        <footer className="relative w-full bg-gray-200">
+        <footer className="relative w-full bg-gray-200 mt-auto">
             <div className="mx-auto w-full max-w-7xl px-8">
                 <div className="mx-auto grid w-full grid-cols-2 gap-8 py-3 sm:grid-cols-4 md:grid-cols-4 ">
                     {SITEMAP.map(({ title, links }, key) => (
