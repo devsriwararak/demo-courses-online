@@ -16,15 +16,16 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = useCallback(async (e: FormEvent) => {
     e.preventDefault();
+
     const data = { username: user, password: password };
 
     try {
-      // const res = await axios.post(
-      //     `${process.env.NEXT_PUBLIC_API}/api/login`,
-      //     data
-      // );
-      // const token = res.data.token;
-      const token = "aaaaaaaaaaaa"; // mock token for demonstration
+      const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API}/api/login`,
+          data
+      );
+      const token = res.data.token;
+      // const token = "aaaaaaaaaaaa"; // mock token for demonstration
 
       if (token) {
         toast.success("เข้าสู่ระบบสำเร็จ");

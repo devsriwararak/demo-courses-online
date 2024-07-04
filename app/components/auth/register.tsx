@@ -13,23 +13,29 @@ import {
 } from "@material-tailwind/react";
 
 const Register = () => {
-    const [username, setUsername] = useState('');
+    const [user, setUser] = useState<string>("");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    // const [confirmPassword, setConfirmPassword] = useState('');
     const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
-            toast.error('Passwords do not match!');
-            return;
-        }
+        // if (password !== confirmPassword) {
+        //     toast.error('Passwords do not match!');
+        //     return;
+        // }
+
+        const data = { username: user, password: password, status: 0 };
+        console.log(data)
 
         try {
-            const response = await axios.post('/api/register', { username, email, password });
-            if (response.status === 201) {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API}/api/register`,
+                data
+            );
+            if (res.status === 200) {
                 toast.success('Registration successful!');
                 router.push('/login'); // Redirect to login page
             }
@@ -47,13 +53,13 @@ const Register = () => {
                         <Input
                             type="text"
                             label="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={user}
+                            onChange={(e) => setUser(e.target.value)}
                             required
                             crossOrigin=""
                         />
                     </div>
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <Input
                             type="email"
                             label="Email"
@@ -62,7 +68,7 @@ const Register = () => {
                             required
                             crossOrigin=""
                         />
-                    </div>
+                    </div> */}
                     <div className="mb-4">
                         <Input
                             type="password"
@@ -73,7 +79,7 @@ const Register = () => {
                             crossOrigin=""
                         />
                     </div>
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <Input
                             type="password"
                             label="Confirm Password"
@@ -82,7 +88,7 @@ const Register = () => {
                             required
                             crossOrigin=""
                         />
-                    </div>
+                    </div> */}
                     <div className='flex flex-col sm:flex-row gap-3'>
 
                         <Button type="submit" color="blue" fullWidth>Register</Button>
