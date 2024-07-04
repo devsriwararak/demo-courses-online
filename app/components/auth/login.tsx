@@ -3,16 +3,22 @@ import React, { useState, FormEvent, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
+import { jwtDecode , JwtPayload  } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRecoilState } from "recoil";
-import { userLoginStore } from "@/store/store";
+
+
+interface MyJwtPayload extends JwtPayload {
+  username: string;
+  status:number,
+  id:number
+}
 
 const LoginPage: React.FC = () => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const [userLogin, setUserLogin] = useRecoilState(userLoginStore);
+
 
   const handleLogin = useCallback(async (e: FormEvent) => {
     e.preventDefault();
@@ -21,34 +27,35 @@ const LoginPage: React.FC = () => {
 
     try {
       const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/login`,
-          data
+        `${process.env.NEXT_PUBLIC_API}/api/login`,
+        data
       );
+      console.log(res)
       const token = res.data.token;
-      // const token = "aaaaaaaaaaaa"; // mock token for demonstration
-
-      if (token) {
+      const decoded = jwtDecode<MyJwtPayload>(token);
+      console.log(decoded)
+      if (token && decoded) {
         toast.success("เข้าสู่ระบบสำเร็จ");
         localStorage.setItem("Token", token);
-        sessionStorage.setItem("login", data.username);
-        setUserLogin(data.username);
-        
+        localStorage.setItem("Status", decoded.status.toString());
+        sessionStorage.setItem("login", decoded.username);
         let redirectPath = "/";
-        if (data.username === "super") {
+        if (decoded.status === 2) {
           redirectPath = "/super";
-        } else if (data.username === "admin") {
+        } else if (decoded.status === 1) {
           redirectPath = "/admin";
-        } else if (data.username === "user") {
+        } else if (decoded.status === 0) {
           redirectPath = "/user";
         }
         router.push(redirectPath);
       } else {
         toast.error("Error: Token not found");
       }
-    } catch (error) {
-      toast.error("ไม่สำเร็จ กรุณาลองอีกครั้ง");
+    } catch (err) {
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error?.response?.data.message);
     }
-  }, [user, password, router, setUserLogin]);
+  }, [user, password, router]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
@@ -81,15 +88,15 @@ const LoginPage: React.FC = () => {
               </div>
               <div>
                 <div className="flex flex-col sm:flex-row gap-3">
-                <Button type="submit" className="w-full" color="blue">
-                  Login
-                </Button>
-                <Button variant="outlined" className="w-full" color="blue" onClick={() => router.push("/")}>
-                  Cancel
-                </Button>
+                  <Button type="submit" className="w-full" color="blue">
+                    Login
+                  </Button>
+                  <Button variant="outlined" className="w-full" color="blue" onClick={() => router.push("/")}>
+                    Cancel
+                  </Button>
 
                 </div>
-             
+
               </div>
             </div>
           </form>

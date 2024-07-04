@@ -35,12 +35,15 @@ const Register = () => {
                 `${process.env.NEXT_PUBLIC_API}/api/register`,
                 data
             );
-            if (res.status === 200) {
-                toast.success('Registration successful!');
+            console.log(res)
+            if (res?.status === 200) {
+                toast.success(res?.data?.massage);
                 router.push('/login'); // Redirect to login page
             }
-        } catch (error) {
-            toast.error('Registration failed!');
+        } catch (err) {
+            const error = err as { response: { data: { message: string } } };
+            // console.log(error)
+            toast.error(error?.response?.data?.message);
         }
     };
 

@@ -7,7 +7,7 @@
 
 import { atom } from 'recoil';
 
-export const userLoginStore = atom<string | null>({
+export const userLoginStore = atom<number | null>({
   key: 'userLoginStore',
-  default: null,
+  default: 0,
 });

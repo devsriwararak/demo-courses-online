@@ -9,11 +9,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const checkAuthorization = useCallback(() => {
         const token = localStorage.getItem("login");
-        if (!token && sessionStorage.getItem("login") !== "super") {
+        const loginStatus = localStorage.getItem("Status");
+        if (!token && loginStatus !== "2") {
             router.push("/"); // Redirect ไปที่หน้า login ถ้าไม่มี token
         } else {
             setIsAuthorized(true); // ตั้งค่า state ให้แสดงเนื้อหาถูกต้อง
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     useEffect(() => {

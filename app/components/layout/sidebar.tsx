@@ -28,22 +28,25 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
   const [activePath, setActivePath] = useState<string>(pathname);
 
-  useEffect(() => {
-    const storedUserName = sessionStorage.getItem('login');
-    if (storedUserName) {
-      setUserName(storedUserName);
-    }
-  }, [setUserName]);
+  // useEffect(() => {
+  //   const storedUserName = sessionStorage.getItem('login');
+  //   const loginStatus = localStorage.getItem("Status");
+  //   if (storedUserName) {
+  //     setUserName(storedUserName);
+  //   }
+  // }, [setUserName]);
 
   useEffect(() => {
     setActivePath(pathname);
   }, [pathname]);
 
+  const loginStatus = localStorage.getItem("Status");
+
   const menuItems: MenuItem[] = useMemo(() => {
-    switch (userName) {
-      case 'admin':
+    switch (loginStatus) {
+      case '1':
         return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/admin" },
+          { text: "จัดการ", icon: <FaClipboardList />, path: "/admin" },
           { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
 
           // {
@@ -57,13 +60,22 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
 
         ];
-      case 'super':
+      case '2':
         return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/super" },
+          { text: "จัดการแอดมิน", icon: <FaClipboardList />, path: "/super" },
           { text: "รายงาน", icon: <FaChartLine />, path: "/super/test" },
+          // {
+          //   text: "Users",
+          //   icon: <FaClipboardList />,
+          //   subItems: [
+          //     { text: "Add User", path: "/admin/add" },
+          //     { text: "Manage Users", path: "/admin/manage" },
+          //   ],
+          // },
+          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
 
         ];
-      case 'user':
+      case '0':
         return [
           { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user" },
           { text: "รายงาน", icon: <FaChartLine />, path: "/user/test" },
@@ -71,7 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
       default:
         return [];
     }
-  }, [userName]);
+  }, [loginStatus]);
 
   const handleNavigation = useCallback((path: string) => {
     setActivePath(path);
@@ -84,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col bg-white w-[160px]">
+    <div className="h-full flex flex-col bg-white w-[200px]">
       <div className="flex items-center justify-center h-[60px] bg-blue-600 text-white">
         <Typography className="text-lg">Admin Panel</Typography>
       </div>
@@ -94,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           return (
             <div key={index}>
               <div
-                className={`flex items-center px-4 py-2 cursor-pointer ${isActive ? 'bg-gray-400 opacity-90 rounded-md' : ''}`}
+                className={`flex items-center px-4 mx-3 py-2 cursor-pointer ${isActive ? 'bg-gray-400 opacity-90 rounded-md mx-3 ' : ''}`}
                 onClick={() => (item.path ? handleNavigation(item.path) : toggleSubMenu(item.text))}
               >
                 <div className={`mr-2 ${isActive ? 'text-xl' : ''}`}>

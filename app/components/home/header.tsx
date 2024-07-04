@@ -104,8 +104,8 @@ export function HeaderHome() {
                     >
                         Material Tailwind
                     </Typography>
-                    <div className="flex items-center gap-4">
-                        <div className="mr-4 hidden lg:block">{navList}</div>
+                    <div className="flex items-center gap-4  whitespace-nowrap ">
+                        <div className="mr-4 hidden lg:block ">{navList}</div>
                         <div className="flex items-center gap-x-1">
                             <HeaderButton href="/register" variant="outlined">Register</HeaderButton>
                             <HeaderButton href="/login" variant="gradient">Log In</HeaderButton>
