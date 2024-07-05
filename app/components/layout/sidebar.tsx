@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaClipboardList, FaChartLine, FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { FaClipboardList, FaChartLine, FaChevronUp, FaChevronDown, FaBookReader  } from "react-icons/fa";
 import { Typography } from "@material-tailwind/react";
 import { useRecoilState } from "recoil";
 import { userLoginStore } from "@/store/store";
@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
       case '1':
         return [
           { text: "จัดการคอร์สเรียน", icon: <FaClipboardList />, path: "/admin", hasDivider: false },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report", hasDivider: true },
+          { text: "คอร์ดเรียน", icon: <FaBookReader />, path: "/admin/learning", hasDivider: true },
 
           // {
           //   text: "Users",
@@ -99,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col bg-white w-[210px]">
+    <div className={`h-full flex flex-col bg-white ${loginStatus === "1" ? " w-[180px]": " w-[210px]"}`}>
       <div className="flex items-center justify-center h-[52px] bg-blue-600 text-white">
         <Typography className="text-lg">Admin Panel</Typography>
       </div>
@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                 <div className={`mr-2 ${isActive ? 'text-xl' : ''}`}>
                   {item.icon}
                 </div>
-                <div className="flex-1 ">{item.text}</div>
+                <div className="flex-1  text-nowrap ">{item.text}</div>
 
                 {item.subItems && (
                   <div>

@@ -18,7 +18,6 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handle
     sessionStorage.removeItem("login");
     router.push("/");
   };
-  console.log(statusLogin)
   return (
     <div className={`fixed w-full  bg-blue-600 overflow-auto `}>
       <div className="flex justify-between items-center p-3 gap-4">

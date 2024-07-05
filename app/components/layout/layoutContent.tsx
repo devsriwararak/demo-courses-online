@@ -11,8 +11,14 @@ interface LayoutContentProps {
 }
 
 const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
+  const loginStatus = localStorage.getItem("Status");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const isSmallScreenQuery = useMediaQuery({ query: "(max-width: 751px)" });
+
+  // const isSmallScreenQuery = useMediaQuery({ query: "(max-width: 751px)" });
+
+  const isSmallScreenQuery = useMediaQuery({
+    query: loginStatus === '1' ? "(max-width: 1200px)" : "(max-width: 751px)"
+  });
 
   useEffect(() => {
     setIsSmallScreen(isSmallScreenQuery);
@@ -44,7 +50,7 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
 
       <div className="flex-1 flex flex-col bg-gray-200 ">
 
-        <div className="px-6 mt-[70px]">
+        <div className="mr-3 mt-[70px]">
           {children}
         </div>
       </div>

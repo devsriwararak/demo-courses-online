@@ -10,7 +10,7 @@ export function middleware(request) {
   if (pathname.startsWith("/admin")) {
     permition = "admin";
     allowedPaths = {
-      admin: ["/admin", "/admin/report"],
+      admin: ["/admin", "/admin/report" , "/admin/learning"],
     };
   }
 
