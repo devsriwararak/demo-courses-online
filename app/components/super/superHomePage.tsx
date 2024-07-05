@@ -21,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdDelete, MdEdit } from "react-icons/md";
 
 import { useState, useEffect, useCallback } from "react";
-import AddEditModal from "./addEditModal";
+import AddEditModal from "@/app/components/super/addEditModal";
 
 interface Customer {
   id: number;
@@ -35,7 +35,7 @@ interface ResponseData {
   totalPages: number;
 }
 
-const AdminPage: React.FC = () => {
+const SuperHomePage: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -46,15 +46,16 @@ const AdminPage: React.FC = () => {
     name: "",
   });
 
-  const fetchCategory = useCallback(async () => {
+  const fetchCustomer = useCallback(async () => {
     const requestData = {
+      status: 1,
       page: page,
       search: searchQuery,
     };
     // console.log(requestData)
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/category`,
+        `${process.env.NEXT_PUBLIC_API}/api/admin`,
         requestData,
         {
           ...HeaderAPI(localStorage.getItem("Token")),
@@ -73,8 +74,8 @@ const AdminPage: React.FC = () => {
   }, [page, searchQuery]);
 
   useEffect(() => {
-    fetchCategory();
-  }, [fetchCategory, page]);
+    fetchCustomer();
+  }, [fetchCustomer, page]);
 
   console.log(searchQuery);
 
@@ -100,12 +101,12 @@ const AdminPage: React.FC = () => {
   };
 
 
-  const handleAddCategory = async () => {
+  const handleAddCustomer = async () => {
     if (dataEdit) {
       const updateData = { ...formData, id: dataEdit.id };
       try {
         const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/category`,
+          `${process.env.NEXT_PUBLIC_API}/api/admin`,
           updateData,
           {
             headers: {
@@ -114,7 +115,7 @@ const AdminPage: React.FC = () => {
           }
         );
         if (res.status === 200) {
-          fetchCategory();
+          fetchCustomer();
           toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
           handleModalAdd();
         } else {
@@ -128,17 +129,15 @@ const AdminPage: React.FC = () => {
     } else {
       // Adding new customer
       const data = {
-        // username: formData.username,
-        // password: formData.password,
+        username: formData.username,
+        password: formData.password,
         name: formData.name,
-        // status: 1,
+        status: 1,
       };
-
-      console.log(data)
 
       try {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/category/add`,
+          `${process.env.NEXT_PUBLIC_API}/api/register`,
           data,
           {
             headers: {
@@ -146,9 +145,8 @@ const AdminPage: React.FC = () => {
             },
           }
         );
-        console.log(res)
         if (res.status === 200) {
-          fetchCategory();
+          fetchCustomer();
           toast.success(res.data.message);
           setFormData({ username: "", password: "", name: "" });
           handleModalAdd();
@@ -166,7 +164,7 @@ const AdminPage: React.FC = () => {
   const handleDelete = async (customer: Customer) => {
     try {
       const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
+        `${process.env.NEXT_PUBLIC_API}/api/admin/${customer.id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -176,7 +174,7 @@ const AdminPage: React.FC = () => {
 
       console.log(res);
       if (res.status === 200) {
-        fetchCategory();
+        fetchCustomer();
         toast.success(res?.data?.message);
       } else {
         toast.error("เกิดข้อผิดพลาด");
@@ -196,7 +194,7 @@ const AdminPage: React.FC = () => {
 
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center">
             <div className="flex gap-3">
               <Input
                 label="ค้นหาผู้ใช้"
@@ -237,7 +235,7 @@ const AdminPage: React.FC = () => {
                         color="blue-gray"
                         className="font-bold leading-none opacity-70"
                       >
-                        ชื่อ
+                        ชื่อ-สกุล
                       </Typography>
                     </th>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
@@ -365,11 +363,11 @@ const AdminPage: React.FC = () => {
         formData={formData}
         setFormData={setFormData}
         handleChange={handleChange}
-        handleAddCategory={handleAddCategory}
+        handleAddCustomer={handleAddCustomer}
         dataEdit={dataEdit}
       />
     </div>
   );
 };
 
-export default AdminPage;
+export default SuperHomePage;

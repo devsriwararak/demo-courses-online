@@ -12,12 +12,13 @@ interface AppbarComponentProps {
 const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handleDrawerToggle }) => {
   const router = useRouter();
   const login = sessionStorage.getItem("login");
+  const statusLogin = localStorage.getItem("Status");
 
   const handleLogout = () : void => {
     sessionStorage.removeItem("login");
     router.push("/");
   };
-
+console.log(statusLogin)
   return (
     <div className={`fixed  w-screen  bg-blue-600`}>
       <div className="flex justify-between items-center p-4 gap-4">
@@ -27,7 +28,7 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handle
           </Button>
         )}
         <div className="text-white text-xl ">
-          ระบบคอร์สเรียน (เฉพาะธุรกิจ) {login}
+          ระบบคอร์สเรียน (เฉพาะธุรกิจ) {statusLogin == "2" ? "Super" : statusLogin == "1" ? "Admin" : statusLogin == "0" ? "user" :""}
         </div>
         <Button variant="text" onClick={handleLogout} className="text-white text-2xl p-0 mr-5">
           <FaSignOutAlt />

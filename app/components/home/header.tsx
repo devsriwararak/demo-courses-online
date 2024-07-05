@@ -81,9 +81,11 @@ export function HeaderHome() {
     }, []);
 
     const handleNavigation = useCallback((href: string) => {
-        setOpenNav((prevOpenNav) => !prevOpenNav);
         router.push(href);
-    }, [router]);
+        if (openNav) {
+            setOpenNav((prevOpenNav) => !prevOpenNav);
+        }
+    }, [router, openNav]);
 
     const navList = useMemo(() => (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">

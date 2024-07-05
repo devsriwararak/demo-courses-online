@@ -10,11 +10,13 @@ interface MenuItem {
   icon?: React.ReactNode;
   path?: string;
   subItems?: SubMenuItem[];
+  hasDivider?: boolean;
 }
 
 interface SubMenuItem {
   text: string;
   path: string;
+  hasDivider?: boolean;
 }
 
 interface SidebarProps {
@@ -46,24 +48,25 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     switch (loginStatus) {
       case '1':
         return [
-          { text: "จัดการ", icon: <FaClipboardList />, path: "/admin" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report" },
+          { text: "จัดการคอร์สเรียน", icon: <FaClipboardList />, path: "/admin", hasDivider: false },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/admin/report", hasDivider: true },
 
           // {
           //   text: "Users",
           //   icon: <FaClipboardList />,
           //   subItems: [
-          //     { text: "Add User", path: "/admin/add" },
-          //     { text: "Manage Users", path: "/admin/manage" },
+          //     { text: "Add User", path: "/admin/add", hasDivider: false },
+          //     { text: "Manage Users", path: "/admin/manage", hasDivider: true },
           //   ],
+          //   hasDivider: false
           // },
-          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
+          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings", hasDivider: true },
 
         ];
       case '2':
         return [
-          { text: "จัดการแอดมิน", icon: <FaClipboardList />, path: "/super" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/super/test" },
+          { text: "จัดการแอดมิน", icon: <FaClipboardList />, path: "/super", hasDivider: true },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/super/test", hasDivider: false },
           // {
           //   text: "Users",
           //   icon: <FaClipboardList />,
@@ -77,8 +80,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         ];
       case '0':
         return [
-          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user" },
-          { text: "รายงาน", icon: <FaChartLine />, path: "/user/test" },
+          { text: "จัดการรายการ", icon: <FaClipboardList />, path: "/user", hasDivider: true },
+          { text: "รายงาน", icon: <FaChartLine />, path: "/user/test", hasDivider: true },
         ];
       default:
         return [];
@@ -96,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col bg-white w-[200px]">
+    <div className="h-full flex flex-col bg-white w-[210px]">
       <div className="flex items-center justify-center h-[60px] bg-blue-600 text-white">
         <Typography className="text-lg">Admin Panel</Typography>
       </div>
@@ -106,33 +109,42 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           return (
             <div key={index}>
               <div
-                className={`flex items-center px-4 mx-3 py-2 cursor-pointer ${isActive ? 'bg-gray-400 opacity-90 rounded-md mx-3 ' : ''}`}
+                className={`flex items-center px-2 mx-3 py-2 cursor-pointer  ${isActive ? 'bg-gray-400 opacity-90 rounded-md mx-3 ' : ''}`}
                 onClick={() => (item.path ? handleNavigation(item.path) : toggleSubMenu(item.text))}
               >
                 <div className={`mr-2 ${isActive ? 'text-xl' : ''}`}>
                   {item.icon}
                 </div>
-                <div className="flex-1">{item.text}</div>
+                <div className="flex-1 ">{item.text}</div>
+
                 {item.subItems && (
                   <div>
                     {open[item.text] ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
                 )}
               </div>
+              {item.hasDivider && (<div className=" bg-gray-500  h-[2px] mx-3 mt-1 mb-1 " >.</div>)}
               {item.subItems && open[item.text] && (
-                <div className="pl-8">
+                <div >
                   {item.subItems.map((subItem, subIndex) => {
                     const isSubItemActive = activePath === subItem.path;
                     return (
-                      <div
-                        key={subIndex}
-                        className={`flex items-center px-4 py-2 cursor-pointer ${isSubItemActive ? 'bg-red-200 text-blue-500' : ''}`}
-                        onClick={() => handleNavigation(subItem.path)}
-                      >
-                        {subItem.text}
+                      <div key={subIndex}>
+                        <div
+                          className={`flex items-center px-4 py-2 cursor-pointer pl-10 ${isSubItemActive ? 'bg-red-200 text-blue-500' : ''}`}
+                          onClick={() => handleNavigation(subItem.path)}
+                        >
+                          {subItem.text}
+                        </div>
+                        <div>
+                          {subItem.hasDivider && (<div className=" bg-gray-500   h-[2px] mx-3 mt-1 mb-1 " >.</div>)}
+                        </div>
                       </div>
                     );
-                  })}
+                  }
+                  )}
+
+
                 </div>
               )}
             </div>
