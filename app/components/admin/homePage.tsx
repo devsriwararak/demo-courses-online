@@ -191,9 +191,8 @@ const AdminPage: React.FC = () => {
   console.log(dataEdit);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center ">
       <ToastContainer autoClose={2000} theme="colored" />
-
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">

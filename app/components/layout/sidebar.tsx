@@ -100,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
 
   return (
     <div className="h-full flex flex-col bg-white w-[210px]">
-      <div className="flex items-center justify-center h-[60px] bg-blue-600 text-white">
+      <div className="flex items-center justify-center h-[52px] bg-blue-600 text-white">
         <Typography className="text-lg">Admin Panel</Typography>
       </div>
       <div className="flex-1 mt-5 overflow-y-auto">

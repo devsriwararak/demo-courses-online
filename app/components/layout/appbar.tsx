@@ -14,21 +14,21 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handle
   const login = sessionStorage.getItem("login");
   const statusLogin = localStorage.getItem("Status");
 
-  const handleLogout = () : void => {
+  const handleLogout = (): void => {
     sessionStorage.removeItem("login");
     router.push("/");
   };
-console.log(statusLogin)
+  console.log(statusLogin)
   return (
-    <div className={`fixed  w-screen  bg-blue-600`}>
-      <div className="flex justify-between items-center p-4 gap-4">
+    <div className={`fixed w-full  bg-blue-600 overflow-auto `}>
+      <div className="flex justify-between items-center p-3 gap-4">
         {isSmallScreen && (
-          <Button variant="text"  onClick={handleDrawerToggle} className="text-white text-2xl p-0">
+          <Button variant="text" onClick={handleDrawerToggle} className="text-white text-2xl p-0">
             <FaBars />
           </Button>
         )}
-        <div className="text-white text-xl ">
-          ระบบคอร์สเรียน (เฉพาะธุรกิจ) {statusLogin == "2" ? "Super" : statusLogin == "1" ? "Admin" : statusLogin == "0" ? "user" :""}
+        <div className="text-white text-sm md:text-lg lg:text-xl text-center text-nowrap  ">
+          ระบบคอร์สเรียน (เฉพาะธุรกิจ) {statusLogin == "2" ? "Super" : statusLogin == "1" ? "Admin" : statusLogin == "0" ? "user" : ""}
         </div>
         <Button variant="text" onClick={handleLogout} className="text-white text-2xl p-0 mr-5">
           <FaSignOutAlt />

@@ -25,7 +25,7 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-auto md:overflow-hidden">
       {!isSmallScreen && <Sidebar />}
 
       {isSmallScreen && isDrawerOpen && (
@@ -42,9 +42,9 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
         </div>
       )}
 
-      <div className="flex-1 flex flex-col bg-gray-200 overflow-auto">
+      <div className="flex-1 flex flex-col bg-gray-200 ">
 
-        <div className="p-6 mt-16">
+        <div className="px-6 mt-[70px]">
           {children}
         </div>
       </div>
