@@ -13,7 +13,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect, useCallback, useRef } from "react";
 
+import Swal from "sweetalert2"; // นำเข้า sweetalert2
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 import dynamic from "next/dynamic";
+import LearningShow from "./learningShow";
 
 const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
 
@@ -37,7 +43,7 @@ const theme = {
 
 const LearningPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<any>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [image, setImage] = useState<string | null>(null);
@@ -47,8 +53,7 @@ const LearningPage: React.FC = () => {
   const [regularPrice, setRegularPrice] = useState<number>(0);
   const [discountPrice, setDiscountPrice] = useState<number>(0);
 
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
+  const categorySelectRef = useRef<HTMLSelectElement>(null);
 
   const fetchCategory = useCallback(async () => {
     const requestData = { page, search: searchQuery };
@@ -63,9 +68,9 @@ const LearningPage: React.FC = () => {
       } else {
         toast.error("error");
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("error");
+    } catch (err) {
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
     }
   }, [page, searchQuery]);
 
@@ -81,31 +86,28 @@ const LearningPage: React.FC = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log(image)
     if (file) {
-        const img = new Image();
-        img.src = URL.createObjectURL(file);
-        img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                canvas.width = 1200;
-                canvas.height = 800;
-                ctx.drawImage(img, 0, 0, 1200, 800);
-                const resizedImage = canvas.toDataURL("image/jpeg");
-                setImage(resizedImage);
-            }
-        };
-        img.onerror = () => {
-            toast.error("Invalid image file.");
-            event.target.value = ""; // Reset input value
-        };
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          canvas.width = 1200;
+          canvas.height = 800;
+          ctx.drawImage(img, 0, 0, 1200, 800);
+          const resizedImage = canvas.toDataURL("image/jpeg");
+          setImage(resizedImage);
+        }
+      };
+      img.onerror = () => {
+        toast.error("Invalid image file.");
+        event.target.value = ""; // Reset input value
+      };
     } else {
-        toast.error("Please upload a valid image file.");
+      toast.error("Please upload a valid image file.");
     }
-};
-
-  
+  };
 
   const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -116,15 +118,18 @@ const LearningPage: React.FC = () => {
     }
   };
 
-
-
   const handleSubmit = async () => {
-    console.log(video)
-    console.log(image)
-    console.log(regularPrice)
-    console.log(discountPrice)
-    console.log(selectedCategory)
-    
+
+    MySwal.fire({
+      title: 'กำลังส่งข้อมูล...',
+      allowOutsideClick: false,
+      width: "350px",
+      padding: "35px",
+      didOpen: () => {
+        MySwal.showLoading();
+      },
+    });
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("price", regularPrice.toString());
@@ -138,52 +143,78 @@ const LearningPage: React.FC = () => {
     }
     formData.append("dec", editorData);
 
-    console.log(formData)
-
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/product/add`,
         formData,
         { ...HeaderMultiAPI(localStorage.getItem("Token")) }
       );
-
-      console.log(res);
+      console.log(res)
       if (res.status === 200) {
-        toast.success("Form submitted successfully!");
+        toast.success(res.data.message);
+        resetForm();
+        MySwal.close();
       } else {
         toast.error("Form submission failed!");
+        MySwal.close();
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Form submission failed!");
+    } catch (err) {
+      MySwal.close();
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+
     }
   };
 
-  const handleReset = () => {
+  const resetForm = () => {
     setTitle("");
     setRegularPrice(0);
     setDiscountPrice(0);
-    setSelectedCategory(0);
+    setSelectedCategory("");
     setImage(null);
     setVideo(null);
     setEditorData("");
-    if (imageInputRef.current) {
-      imageInputRef.current.value = "";
+
+    console.log('selectedCategory :', selectedCategory);
+
+
+    // Reset file inputs
+    const imageInput = document.getElementById("imageInput") as HTMLInputElement;
+    const videoInput = document.getElementById("videoInput") as HTMLInputElement;
+    const categorySelect = document.getElementById("categorySelect") as HTMLInputElement;
+
+
+
+    if (imageInput) {
+      imageInput.value = "";
     }
-    if (videoInputRef.current) {
-      videoInputRef.current.value = "";
+
+    if (videoInput) {
+      videoInput.value = "";
+    }
+
+    if (categorySelectRef.current) {
+      categorySelectRef.current.selectedIndex = 0; // Reset select element
+    }
+
+  }
+
+  // ฟังก์ชันการแจ้งเตือน toast
+  const showToast = (message: string, type: "success" | "error") => {
+    if (type === "success") {
+      toast.success(message);
+    } else {
+      toast.error(message);
     }
   };
 
-  console.log(selectedCategory);
-
   return (
     <ThemeProvider value={theme}>
-      <div className="flex justify-center gap-3">
+      <div className="flex flex-col lg:flex-row  justify-center gap-3  overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
-        <div className="w-7/12">
-          <Card className="flex h-[85vh] overflow-auto">
-            <div className="flex flex-col w-full p-5 gap-4">
+        <div className="w-full lg:w-7/12">
+          <Card className="flex h-[88vh] overflow-auto">
+            <form className="flex flex-col w-full p-5 gap-4" >
               <div>
                 <Input
                   label="หัวข้อ"
@@ -217,14 +248,28 @@ const LearningPage: React.FC = () => {
                     }
                   />
                 </div>
-                <div className="w-full xl:w-4/12">
-                  <Select label="หมวดหมู่" onChange={handleCategoryChange}>
+
+                <div className="w-full xl:w-4/12  flex justify-center">
+                  {/* 
+                  <Select label="หมวดหมู่" value={selectedCategory} onChange={(e) => setSelectedCategory(e)}>
+                    <Option value="" >เลือก</Option>
                     {categories.map((category) => (
                       <Option key={category.id} value={category.id.toString()}>
                         {category.name}
                       </Option>
                     ))}
-                  </Select>
+                  </Select> */}
+
+                  <select
+                    className=" w-full border-2 border-gray-300 px-4 rounded-md text-sm font-light"
+                    value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                    <option value="">เลือกหมวดหมู่</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id.toString()}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="flex flex-col gap-5 xl:flex-row">
@@ -234,8 +279,8 @@ const LearningPage: React.FC = () => {
                     type="file"
                     crossOrigin="anonymous"
                     accept="image/*"
+                    id="imageInput"
                     onChange={handleImageUpload}
-                    ref={imageInputRef}
                   />
                 </div>
                 <div className="w-full xl:w-4/12">
@@ -243,10 +288,9 @@ const LearningPage: React.FC = () => {
                     label="Upload VDO"
                     type="file"
                     accept="video/*"
+                    id="videoInput"
                     onChange={handleVideoUpload}
-                    ref={videoInputRef}
                     crossOrigin="anonymous"
-              
                   />
                 </div>
               </div>
@@ -255,22 +299,23 @@ const LearningPage: React.FC = () => {
               </div>
               <div className="flex flex-col gap-5 md:flex-row justify-end">
                 <div className="md:w-[100px]">
+
+                  <Button color="green" variant="outlined" size="sm" className="w-full" onClick={resetForm}>
+                    สร้างใหม่
+                  </Button>
+                </div>
+                <div className="md:w-[100px]">
                   <Button color="blue" size="sm" className="w-full" onClick={handleSubmit}>
                     บันทึก
                   </Button>
                 </div>
-                <div className="md:w-[100px]">
-                  <Button color="green" size="sm" className="w-full" onClick={handleReset}>
-                    สร้างใหม่
-                  </Button>
-                </div>
               </div>
-            </div>
+            </form>
           </Card>
         </div>
-        <div className="w-5/12">
-          <Card className="flex h-[85vh]">
-            <div></div>
+        <div className="w-full lg:w-5/12 " >
+          <Card className="flex h-[88vh] overflow-auto ">
+            <LearningShow showToast={showToast} />
           </Card>
         </div>
       </div>

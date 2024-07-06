@@ -5,10 +5,6 @@ import {
   Button,
   Input,
   Typography,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
   IconButton,
 } from "@material-tailwind/react";
 
@@ -22,6 +18,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 
 import { useState, useEffect, useCallback } from "react";
 import AddEditModal from "./addEditModal";
+
+import Swal from "sweetalert2";
 
 interface Customer {
   id: number;
@@ -99,7 +97,6 @@ const AdminPage: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
   const handleAddCategory = async () => {
     if (dataEdit) {
       const updateData = { ...formData, id: dataEdit.id };
@@ -134,7 +131,7 @@ const AdminPage: React.FC = () => {
         // status: 1,
       };
 
-      console.log(data)
+      console.log(data);
 
       try {
         const res = await axios.post(
@@ -146,7 +143,7 @@ const AdminPage: React.FC = () => {
             },
           }
         );
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
           fetchCategory();
           toast.success(res.data.message);
@@ -163,35 +160,95 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (customer: Customer) => {
-    try {
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
-          },
-        }
-      );
+  // const handleDelete = async (customer: Customer) => {
+  //   try {
+  //     const res = await axios.delete(
+  //       `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("Token")}`,
+  //         },
+  //       }
+  //     );
 
-      console.log(res);
-      if (res.status === 200) {
-        fetchCategory();
-        toast.success(res?.data?.message);
-      } else {
-        toast.error("เกิดข้อผิดพลาด");
+  //     console.log(res);
+  //     if (res.status === 200) {
+  //       fetchCategory();
+  //       toast.success(res?.data?.message);
+  //     } else {
+  //       toast.error("เกิดข้อผิดพลาด");
+  //     }
+  //   } catch (err) {
+  //     const error = err as { response: { data: { message: string } } };
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
+
+  const handleDelete = async (customer: Customer) => {
+    Swal.fire({
+      title: "คุณแน่ใจหรือไม่ ?",
+      text: "คุณจะไม่สามารถย้อนกลับได้!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ใช่, ลบเลย!",
+      cancelButtonText: "ยกเลิก",
+      background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+      width: "350px", // ปรับขนาดความกว้าง
+      padding: "1em", // ปรับขนาดความสูง
+      backdrop: `
+        rgba(0,0,0,0.4)
+        url("/images/nyan-cat.gif")
+        left top
+        no-repeat
+      `, // ปรับแต่ง backdrop
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(
+            `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("Token")}`,
+              },
+            }
+          );
+          if (res.status === 200) {
+            fetchCategory();
+            Swal.fire({
+              // title: "ลบแล้ว !",
+              text: "ข้อมูลของคุณถูกลบแล้ว.",
+              icon: "success",
+              width: "400px", // ปรับขนาดความกว้าง
+              background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+              timer: 1000, // กำหนดเวลาให้ปิดเอง (2000 มิลลิวินาที = 2 วินาที)
+              timerProgressBar: true, // แสดงแถบความคืบหน้า
+              // willClose: () => {
+              //   console.log("Alert is closed"); // คุณสามารถเพิ่มการทำงานเพิ่มเติมได้ที่นี่
+              // },
+              backdrop: `
+              rgba(0,0,0,0.4)
+              url("/images/nyan-cat.gif")
+              left top
+              no-repeat
+            `, // ปรับแต่ง backdrop
+            });
+          } else {
+            toast.error("เกิดข้อผิดพลาด");
+          }
+        } catch (err) {
+          const error = err as { response: { data: { message: string } } };
+          toast.error(error.response.data.message);
+        }
       }
-    } catch (err) {
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
-    }
+    });
   };
 
-  //   console.log(page);
   console.log(dataEdit);
 
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center gap-3 ">
       <ToastContainer autoClose={2000} theme="colored" />
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
@@ -217,7 +274,7 @@ const AdminPage: React.FC = () => {
             </div>
           </div>
           <div className="overflow-auto h-[80%] lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[65vh] overflow-auto mb-3 border-2 ">
+            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
               <table className="w-full min-w-max ">
                 <thead>
                   <tr>

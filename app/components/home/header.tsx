@@ -96,7 +96,7 @@ export function HeaderHome() {
     ), [handleNavigation]);
 
     return (
-        <div className="max-h-[768px]">
+        <div className="max-h-[768px] ">
             <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-0 lg:px-8 bg-gray-200">
                 <div className="flex w-full items-center justify-between text-blue-gray-900">
                     <Typography
