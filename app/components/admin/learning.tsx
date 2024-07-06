@@ -1,187 +1,281 @@
-// LearningPage.tsx
 "use client";
 import {
-    Card,
-    Button,
-    Input,
-    Select,
-    Option,
-    ThemeProvider,
+  Card,
+  Button,
+  Input,
+  Select,
+  Option,
+  ThemeProvider,
 } from "@material-tailwind/react";
 import axios from "axios";
-import { HeaderAPI } from "@/headerApi";
+import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const CustomEditor = dynamic(() => import('./richTextEditor'), { ssr: false });
-
+const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
 
 interface Category {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 
 const theme = {
-    input: {
-        styles: {
-            base: {
-                container: {
-                    width: "w-auto",
-                    minWidth: "min-w-[100px]",
-                },
-            },
+  input: {
+    styles: {
+      base: {
+        container: {
+          width: "w-auto",
+          minWidth: "min-w-[100px]",
         },
+      },
     },
+  },
 };
 
 const LearningPage: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [page, setPage] = useState(1);
-    const [image, setImage] = useState<string | null>(null);
-    const [video, setVideo] = useState<File | null>(null);
-    const [editorData, setEditorData] = useState<string>("");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [image, setImage] = useState<string | null>(null);
+  const [video, setVideo] = useState<File | null>(null);
+  const [editorData, setEditorData] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [regularPrice, setRegularPrice] = useState<number>(0);
+  const [discountPrice, setDiscountPrice] = useState<number>(0);
 
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
 
+  const fetchCategory = useCallback(async () => {
+    const requestData = { page, search: searchQuery };
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/category`,
+        requestData,
+        { ...HeaderAPI(localStorage.getItem("Token")) }
+      );
+      if (res.status === 200) {
+        setCategories(res.data.data);
+      } else {
+        toast.error("error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("error");
+    }
+  }, [page, searchQuery]);
 
-    const fetchCategory = useCallback(async () => {
-        const requestData = { page, search: searchQuery };
-        try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API}/api/category`,
-                requestData,
-                { ...HeaderAPI(localStorage.getItem("Token")) }
-            );
-            if (res.status === 200) {
-                setCategories(res.data.data);
-            } else {
-                toast.error("error");
+  useEffect(() => {
+    fetchCategory();
+  }, [fetchCategory, page]);
+
+  const handleCategoryChange = (value: string | undefined) => {
+    if (value !== undefined) {
+      setSelectedCategory(parseInt(value, 10));
+    }
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    console.log(image)
+    if (file) {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+                canvas.width = 1200;
+                canvas.height = 800;
+                ctx.drawImage(img, 0, 0, 1200, 800);
+                const resizedImage = canvas.toDataURL("image/jpeg");
+                setImage(resizedImage);
             }
-        } catch (error) {
-            console.error(error);
-            toast.error("error");
-        }
-    }, [page, searchQuery]);
+        };
+        img.onerror = () => {
+            toast.error("Invalid image file.");
+            event.target.value = ""; // Reset input value
+        };
+    } else {
+        toast.error("Please upload a valid image file.");
+    }
+};
 
-    useEffect(() => {
-        fetchCategory();
-    }, [fetchCategory, page]);
+  
 
-    const handleCategoryChange = (value: string | undefined) => {
-        setSelectedCategory(value);
-    };
+  const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setVideo(file);
+    } else {
+      toast.error("Please upload a valid video file.");
+    }
+  };
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const img = new Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-                const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
-                if (ctx) {
-                    canvas.width = 1200;
-                    canvas.height = 800;
-                    ctx.drawImage(img, 0, 0, 1200, 800);
-                    const resizedImage = canvas.toDataURL("image/jpeg");
-                    setImage(resizedImage);
-                }
-            };
-            img.onerror = () => {
-                toast.error("Invalid image file.");
-                event.target.value = ""; // Reset input value
-            };
-        } else {
-            toast.error("Please upload a valid image file.");
-        }
-    };
 
-    const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setVideo(file);
-        } else {
-            toast.error("Please upload a valid video file.");
-        }
-    };
 
-    return (
-        <ThemeProvider value={theme}>
-            <div className="flex justify-center gap-3">
-                <ToastContainer autoClose={2000} theme="colored" />
-                <div className="w-7/12">
-                    <Card className="flex h-[85vh] overflow-auto">
-                        <div className="flex flex-col w-full p-5 gap-4">
-                            <div>
-                                <Input label="หัวข้อ" crossOrigin="anonymous" />
-                            </div>
-                            <div className="flex flex-col gap-5 xl:flex-row md:justify-between">
-                                <div className="w-full xl:w-4/12">
-                                    <Input label="ราคาปกติ" type="number" min={0} crossOrigin="anonymous" />
-                                </div>
-                                <div className="w-full xl:w-4/12">
-                                    <Input label="ราคาส่วนลด" type="number" min={0} crossOrigin="anonymous" />
-                                </div>
-                                <div className="w-full xl:w-4/12">
-                                    <Select label="หมวดหมู่" onChange={handleCategoryChange}>
-                                        {categories.map((category) => (
-                                            <Option key={category.id} value={category.name}>
-                                                {category.name}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-5 xl:flex-row">
-                                <div className="w-full xl:w-4/12">
-                                    <Input
-                                        label="Uploadรูปหน้าปก"
-                                        type="file"
-                                        crossOrigin="anonymous"
-                                        accept="image/*"
-                                        onChange={handleImageUpload}
-                                    />
-                                </div>
-                                <div className="w-full xl:w-4/12">
-                                    <Input
-                                        label="Upload VDO"
-                                        type="file"
-                                        accept="video/*"
-                                        onChange={handleVideoUpload}
-                                        crossOrigin="anonymous"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <CustomEditor />
-                            </div>
-                            <div className="flex flex-col gap-5 md:flex-row justify-end">
-                                <div className="md:w-[100px]">
-                                    <Button color="blue" size="sm" className="w-full">
-                                        บันทึก
-                                    </Button>
-                                </div>
-                                <div className="md:w-[100px]">
-                                    <Button color="green" size="sm" className="w-full">
-                                        สร้างใหม่
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
+  const handleSubmit = async () => {
+    console.log(video)
+    console.log(image)
+    console.log(regularPrice)
+    console.log(discountPrice)
+    console.log(selectedCategory)
+    
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("price", regularPrice.toString());
+    formData.append("price_sale", discountPrice.toString());
+    formData.append("category_id", selectedCategory.toString());
+    if (image) {
+      formData.append("image", image);
+    }
+    if (video) {
+      formData.append("video", video);
+    }
+    formData.append("dec", editorData);
+
+    console.log(formData)
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/product/add`,
+        formData,
+        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+      );
+
+      console.log(res);
+      if (res.status === 200) {
+        toast.success("Form submitted successfully!");
+      } else {
+        toast.error("Form submission failed!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Form submission failed!");
+    }
+  };
+
+  const handleReset = () => {
+    setTitle("");
+    setRegularPrice(0);
+    setDiscountPrice(0);
+    setSelectedCategory(0);
+    setImage(null);
+    setVideo(null);
+    setEditorData("");
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+    if (videoInputRef.current) {
+      videoInputRef.current.value = "";
+    }
+  };
+
+  console.log(selectedCategory);
+
+  return (
+    <ThemeProvider value={theme}>
+      <div className="flex justify-center gap-3">
+        <ToastContainer autoClose={2000} theme="colored" />
+        <div className="w-7/12">
+          <Card className="flex h-[85vh] overflow-auto">
+            <div className="flex flex-col w-full p-5 gap-4">
+              <div>
+                <Input
+                  label="หัวข้อ"
+                  crossOrigin="anonymous"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-5 xl:flex-row md:justify-between">
+                <div className="w-full xl:w-4/12">
+                  <Input
+                    label="ราคาปกติ"
+                    type="number"
+                    min={0}
+                    crossOrigin="anonymous"
+                    value={regularPrice.toString()}
+                    onChange={(e) =>
+                      setRegularPrice(parseFloat(e.target.value))
+                    }
+                  />
                 </div>
-                <div className="w-5/12">
-                    <Card className="flex h-[85vh]">
-                        <div></div>
-                    </Card>
+                <div className="w-full xl:w-4/12">
+                  <Input
+                    label="ราคาส่วนลด"
+                    type="number"
+                    min={0}
+                    crossOrigin="anonymous"
+                    value={discountPrice.toString()}
+                    onChange={(e) =>
+                      setDiscountPrice(parseFloat(e.target.value))
+                    }
+                  />
                 </div>
+                <div className="w-full xl:w-4/12">
+                  <Select label="หมวดหมู่" onChange={handleCategoryChange}>
+                    {categories.map((category) => (
+                      <Option key={category.id} value={category.id.toString()}>
+                        {category.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className="flex flex-col gap-5 xl:flex-row">
+                <div className="w-full xl:w-4/12">
+                  <Input
+                    label="Uploadรูปหน้าปก"
+                    type="file"
+                    crossOrigin="anonymous"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    ref={imageInputRef}
+                  />
+                </div>
+                <div className="w-full xl:w-4/12">
+                  <Input
+                    label="Upload VDO"
+                    type="file"
+                    accept="video/*"
+                    onChange={handleVideoUpload}
+                    ref={videoInputRef}
+                    crossOrigin="anonymous"
+              
+                  />
+                </div>
+              </div>
+              <div>
+                <CustomEditor value={editorData} onEditorChange={setEditorData} />
+              </div>
+              <div className="flex flex-col gap-5 md:flex-row justify-end">
+                <div className="md:w-[100px]">
+                  <Button color="blue" size="sm" className="w-full" onClick={handleSubmit}>
+                    บันทึก
+                  </Button>
+                </div>
+                <div className="md:w-[100px]">
+                  <Button color="green" size="sm" className="w-full" onClick={handleReset}>
+                    สร้างใหม่
+                  </Button>
+                </div>
+              </div>
             </div>
-        </ThemeProvider>
-    );
+          </Card>
+        </div>
+        <div className="w-5/12">
+          <Card className="flex h-[85vh]">
+            <div></div>
+          </Card>
+        </div>
+      </div>
+    </ThemeProvider>
+  );
 };
 
 export default LearningPage;

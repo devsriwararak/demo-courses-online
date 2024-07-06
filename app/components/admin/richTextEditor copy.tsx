@@ -17,13 +17,13 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     <div>
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
-        value={value}
+        initialValue={value}
         apiKey="7j5tfsxfycw1gz0z0cyp57b3s713xyy54zyr7qxg000qinu4"
         init={{
           menubar: true,
           height: 330,
-        //   autosave_ask_before_unload: false,
-        //   powerpaste_allow_local_images: true,
+          autosave_ask_before_unload: false,
+          powerpaste_allow_local_images: true,
           plugins: [
             "advlist",
             "autolink",
@@ -46,10 +46,10 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
      
           ],
           toolbar:
-            " formatselect  bold italic underline strikethrough fontsizeinput  " +
-            "forecolor backcolor  alignleft aligncenter alignright alignjustify  " +
-            "bullist numlist outdent indent  superscript subscript charmap hr  " +
-            "removeformat  help",
+            "undo redo | formatselect | bold italic underline strikethrough | " +
+            "forecolor backcolor | alignleft aligncenter alignright alignjustify | " +
+            "bullist numlist outdent indent | superscript subscript charmap hr | " +
+            "removeformat | help",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
         }}

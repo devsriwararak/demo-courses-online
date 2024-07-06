@@ -6,4 +6,13 @@ export const HeaderAPI = (Token) => {
       },
     };
   };
+
+export const HeaderMultiAPI = (Token) => {
+    return {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${Token}`,
+      },
+    };
+  };
   
