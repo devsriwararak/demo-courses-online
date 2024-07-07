@@ -9,6 +9,9 @@ const nextConfig = {
           },
         ];
       },
+      images: {
+        domains: ['203.146.252.205'],
+      },
 };
 
 export default nextConfig;

@@ -21,11 +21,21 @@ const MySwal = withReactContent(Swal);
 import dynamic from "next/dynamic";
 import LearningShow from "./learningShow";
 
-const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
+const TextEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
 
 interface Category {
   id: number;
   name: string;
+}
+
+interface Course {
+  category_id: number;
+  id: number;
+  image: string;
+  price: number;
+  price_sale: number;
+  title: string;
+  video: string;
 }
 
 const theme = {
@@ -78,12 +88,6 @@ const LearningPage: React.FC = () => {
     fetchCategory();
   }, [fetchCategory, page]);
 
-  const handleCategoryChange = (value: string | undefined) => {
-    if (value !== undefined) {
-      setSelectedCategory(parseInt(value, 10));
-    }
-  };
-
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -123,6 +127,8 @@ const LearningPage: React.FC = () => {
     MySwal.fire({
       title: 'กำลังส่งข้อมูล...',
       allowOutsideClick: false,
+      width: "350px",
+      padding: "35px",
       didOpen: () => {
         MySwal.showLoading();
       },
@@ -160,7 +166,7 @@ const LearningPage: React.FC = () => {
       MySwal.close();
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
-     
+
     }
   };
 
@@ -179,9 +185,6 @@ const LearningPage: React.FC = () => {
     // Reset file inputs
     const imageInput = document.getElementById("imageInput") as HTMLInputElement;
     const videoInput = document.getElementById("videoInput") as HTMLInputElement;
-    const categorySelect = document.getElementById("categorySelect") as HTMLInputElement;
-
-
 
     if (imageInput) {
       imageInput.value = "";
@@ -190,11 +193,6 @@ const LearningPage: React.FC = () => {
     if (videoInput) {
       videoInput.value = "";
     }
-
-    if (categorySelectRef.current) {
-      categorySelectRef.current.selectedIndex = 0; // Reset select element
-    }
-
   }
 
   // ฟังก์ชันการแจ้งเตือน toast
@@ -204,6 +202,17 @@ const LearningPage: React.FC = () => {
     } else {
       toast.error(message);
     }
+  };
+
+  // ฟังก์ชันสำหรับอัปเดตข้อมูลที่ต้องการแก้ไข
+  const handleEdit = (data: Course) => {
+    setTitle(data.title);
+    setRegularPrice(data.price);
+    setDiscountPrice(data.price_sale);
+    setSelectedCategory(data.category_id.toString());
+    setImage(data.image);
+    setVideo(data.video);
+    setEditorData(data.description); // Assuming there's a description field
   };
 
   return (
@@ -269,11 +278,6 @@ const LearningPage: React.FC = () => {
                     ))}
                   </select>
                 </div>
-
-
-
-
-
               </div>
               <div className="flex flex-col gap-5 xl:flex-row">
                 <div className="w-full xl:w-4/12">
@@ -298,17 +302,18 @@ const LearningPage: React.FC = () => {
                 </div>
               </div>
               <div>
-                <CustomEditor value={editorData} onEditorChange={setEditorData} />
+                <TextEditor value={editorData} onEditorChange={setEditorData} />
               </div>
               <div className="flex flex-col gap-5 md:flex-row justify-end">
                 <div className="md:w-[100px]">
-                  <Button color="blue" size="sm" className="w-full" onClick={handleSubmit}>
-                    บันทึก
+
+                  <Button color="green" variant="outlined" size="sm" className="w-full" onClick={resetForm}>
+                    สร้างใหม่
                   </Button>
                 </div>
                 <div className="md:w-[100px]">
-                  <Button color="green" size="sm" className="w-full" onClick={resetForm}>
-                    สร้างใหม่
+                  <Button color="blue" size="sm" className="w-full" onClick={handleSubmit}>
+                    บันทึก
                   </Button>
                 </div>
               </div>
@@ -317,7 +322,7 @@ const LearningPage: React.FC = () => {
         </div>
         <div className="w-full lg:w-5/12 " >
           <Card className="flex h-[88vh] overflow-auto ">
-            <LearningShow showToast={showToast} />
+            <LearningShow showToast={showToast} onEdit={handleEdit} />
           </Card>
         </div>
       </div>
