@@ -54,7 +54,7 @@ const LearningPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
   const [formData, setFormData] = useState({
     id: 0,
     category_id: "",
@@ -244,18 +244,6 @@ const LearningPage: React.FC = () => {
     }
   };
 
-  // const resetForm = () => {
-  //   setFormData({
-  //     selectedCategory: "",
-  //     image: null,
-  //     videoFile: null,
-  //     videoUrl: "",
-  //     dec: "",
-  //     title: "",
-  //     regularPrice: 0,
-  //     discountPrice: 0,
-  //     setStatusEdit(0: number);
-  //   });
 
   const resetForm = () => {
     setFormData({
@@ -297,12 +285,11 @@ const LearningPage: React.FC = () => {
     }
   };
 
-  // ฟังก์ชันสำหรับอัปเดตข้อมูลที่ต้องการแก้ไข
-  // const handleEdit = (data: Course) => {
 
-  //   console.log(data)
+  // const handleEdit = (data: Course) => {
   //   setFormData({
-  //     selectedCategory: data.category_id.toString(),
+  //     id: data.id,
+  //     category_id: data.category_id,
   //     image: data.image,
   //     videoFile: null,
   //     videoUrl: data.video,
@@ -311,12 +298,13 @@ const LearningPage: React.FC = () => {
   //     regularPrice: data.price,
   //     discountPrice: data.price_sale,
   //   });
+  //   setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
   // };
 
   const handleEdit = (data: Course) => {
     setFormData({
       id: data.id,
-      category_id: data.category_id,
+      category_id: data.category_id.toString(),
       image: data.image,
       videoFile: null,
       videoUrl: data.video,
@@ -327,6 +315,7 @@ const LearningPage: React.FC = () => {
     });
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
   };
+  
 
   return (
     <ThemeProvider value={theme}>
