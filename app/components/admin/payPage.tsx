@@ -262,6 +262,15 @@ const PayPage: React.FC = () => {
                         ลำดับ
                       </Typography>
                     </th>
+                    <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70 "
+                      >
+                        เลขที่บิล
+                      </Typography>
+                    </th>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
                       <Typography
                         variant="small"
@@ -327,6 +336,17 @@ const PayPage: React.FC = () => {
                               className="font-normal"
                             >
                               {index + 1}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td className="py-2">
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {item?.code}
                             </Typography>
                           </div>
                         </td>
