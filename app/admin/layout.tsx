@@ -17,12 +17,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const checkAuthorization = useCallback(() => {
     const token = localStorage.getItem("login");
     const loginStatus = localStorage.getItem("Status");
-    if (!token && loginStatus !== "1") {
-      router.push("/"); // Redirect ไปที่หน้า login ถ้าไม่มี token
+    if (!token && loginStatus === "1" || loginStatus === "2") {
+      setIsAuthorized(true); // ตั้งค่า state ให้แสดงเนื้อหาถูกต้อง  
     } else {
-      setIsAuthorized(true); // ตั้งค่า state ให้แสดงเนื้อหาถูกต้อง
+      router.push("/"); // Redirect ไปที่หน้า login ถ้าไม่มี token
+
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {

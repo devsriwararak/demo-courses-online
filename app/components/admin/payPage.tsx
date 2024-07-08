@@ -21,19 +21,22 @@ import AddEditModal from "./addEditModal";
 
 import Swal from "sweetalert2";
 
-interface Customer {
+interface pay {
   id: number;
-  username: string;
+  code: string;
+  start_pay: string;
+  end_pay: string;
   name: string;
-  address: string;
+  title: string;
+  status: number;
 }
 
 interface ResponseData {
-  data: Customer[];
+  data: pay[];
   totalPages: number;
 }
 
-const AdminPage: React.FC = () => {
+const PayPage: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -44,7 +47,7 @@ const AdminPage: React.FC = () => {
     name: "",
   });
 
-  const fetchCategory = useCallback(async () => {
+  const fetchPay = useCallback(async () => {
     const requestData = {
       page: page,
       search: searchQuery,
@@ -52,7 +55,7 @@ const AdminPage: React.FC = () => {
     // console.log(requestData)
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/category`,
+        `${process.env.NEXT_PUBLIC_API}/api/pay`,
         requestData,
         {
           ...HeaderAPI(localStorage.getItem("Token")),
@@ -71,14 +74,14 @@ const AdminPage: React.FC = () => {
   }, [page, searchQuery]);
 
   useEffect(() => {
-    fetchCategory();
-  }, [fetchCategory, page]);
+    fetchPay();
+  }, [fetchPay, page]);
 
   console.log(searchQuery);
 
   //------------- modal Add Product -----------------------//
   const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [dataEdit, setDataEdit] = useState<Customer | null>(null);
+  const [dataEdit, setDataEdit] = useState<pay | null>(null);
 
   const handleModalAdd = () => {
     setOpenModalAdd(!openModalAdd);
@@ -111,7 +114,7 @@ const AdminPage: React.FC = () => {
           }
         );
         if (res.status === 200) {
-          fetchCategory();
+          fetchPay();
           toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
           handleModalAdd();
         } else {
@@ -141,7 +144,7 @@ const AdminPage: React.FC = () => {
         );
         console.log(res);
         if (res.status === 200) {
-          fetchCategory();
+          fetchPay();
           toast.success(res.data.message);
           setFormData({ username: "", password: "", name: "" });
           handleModalAdd();
@@ -156,11 +159,11 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (customer: Customer) => {
+  const handleDelete = async (customer: pay) => {
     Swal.fire({
       title: "คุณแน่ใจหรือไม่ ?",
       text: "คุณจะไม่สามารถย้อนกลับได้!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -187,7 +190,7 @@ const AdminPage: React.FC = () => {
             }
           );
           if (res.status === 200) {
-            fetchCategory();
+            fetchPay();
             Swal.fire({
               // title: "ลบแล้ว !",
               text: "ข้อมูลของคุณถูกลบแล้ว.",
@@ -227,7 +230,7 @@ const AdminPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
             <div className="flex gap-3">
               <Input
-                label="ค้นหาผู้ใช้"
+                label="ค้นหาการซื้อคอร์ดเรียน"
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
@@ -236,21 +239,21 @@ const AdminPage: React.FC = () => {
                 ล้างค้นหา
               </Button> */}
             </div>
-            <div>
+            {/* <div>
               <Button
                 className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
                 onClick={handleModalAdd}
               >
                 เพิ่มข้อมูล
               </Button>
-            </div>
+            </div> */}
           </div>
           <div className="overflow-auto  lg:h-[100%]">
             <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
-              <table className="w-full min-w-max ">
+              <table className="w-full min-w-max">
                 <thead>
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -265,10 +268,37 @@ const AdminPage: React.FC = () => {
                         color="blue-gray"
                         className="font-bold leading-none opacity-70"
                       >
-                        ชื่อ
+                        ชื่อผู้ซื้อ
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap  w-[200px]">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70 "
+                      >
+                        หัวข้อ
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap ">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70 whitespace-nowrap"
+                      >
+                        วันที่เริ่มซื้อ
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70 whitespace-nowrap"
+                      >
+                        วันที่สิ้นสุด
+                      </Typography>
+                    </th>
+                    {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -276,7 +306,7 @@ const AdminPage: React.FC = () => {
                       >
                         แก้ไข/ลบ
                       </Typography>
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -311,8 +341,43 @@ const AdminPage: React.FC = () => {
                             </Typography>
                           </div>
                         </td>
-
+                        <td className=" flex mt-2 justify-center  ">
+                          <div className="relative  justify-center align-middle text-center  tooltip  ">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal   overflow-hidden text-ellipsis whitespace-nowrap  max-w-[350px]"
+                            >
+                              {item?.title}
+                            </Typography>
+                            <div className="tooltip-text text-sm  ">
+                              {item?.title}
+                            </div>
+                          </div>
+                        </td>
                         <td>
+                          <div className="flex items-center justify-center ">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {item?.start_pay}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {item?.end_pay}
+                            </Typography>
+                          </div>
+                        </td>
+                        {/* <td>
                           <div className="flex justify-center gap-2  ">
                             <IconButton
                               size="sm"
@@ -334,7 +399,7 @@ const AdminPage: React.FC = () => {
                               <MdDelete className="h-5 w-5   " />
                             </IconButton>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   )}
@@ -368,7 +433,7 @@ const AdminPage: React.FC = () => {
       </Card>
 
       {/* modal Add and Edit  */}
-      <AddEditModal
+      {/* <AddEditModal
         open={openModalAdd}
         handleModalAdd={handleModalAdd}
         formData={formData}
@@ -376,9 +441,9 @@ const AdminPage: React.FC = () => {
         handleChange={handleChange}
         handleAddCategory={handleAddCategory}
         dataEdit={dataEdit}
-      />
+      /> */}
     </div>
   );
 };
 
-export default AdminPage;
+export default PayPage;

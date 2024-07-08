@@ -10,7 +10,7 @@ export function middleware(request) {
   if (pathname.startsWith("/admin")) {
     permition = "admin";
     allowedPaths = {
-      admin: ["/admin", "/admin/report" , "/admin/learning"],
+      admin: ["/admin", "/admin/learning","/admin/pay"],
     };
   }
 
@@ -18,7 +18,7 @@ export function middleware(request) {
   if (pathname.startsWith("/super")) {
     permition = "super";
     allowedPaths = {
-      super: ["/super", "/super/test"],
+      super: ["/super", "/super/test" ,"/admin", "/admin/learning" ,"/admin/pay"],
     };
   }
   // ตรวจสอบสิทธิ์การเข้าถึงเส้นทาง '/user'

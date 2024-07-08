@@ -189,10 +189,10 @@ const SuperHomePage: React.FC = () => {
   console.log(dataEdit);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored" />
 
-      <Card className="flex w-full h-[85vh]">
+      <Card className="flex w-full h-[85vh] ">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center">
             <div className="flex gap-3">
@@ -215,8 +215,8 @@ const SuperHomePage: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div className="overflow-auto h-[80%] lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[65vh] overflow-auto mb-3 border-2 ">
+          <div className="overflow-auto lg:h-[100%]">
+            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
               <table className="w-full min-w-max ">
                 <thead>
                   <tr>
