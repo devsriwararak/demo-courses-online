@@ -37,3 +37,35 @@
 .swal2-actions {
   margin-top: 3px;
 }
+
+/* สไตล์สำหรับการตัดคำ */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* สไตล์สำหรับทูลทิปที่แสดงข้อความทั้งหมด */
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 250px; /* กำหนดความกว้างของทูลทิป */
+  /* height: auto; */
+  background-color: #eeeeee;
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px ;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* กำหนดตำแหน่งของทูลทิป */
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* แสดงทูลทิปเมื่อเมาส์ชี้ */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+

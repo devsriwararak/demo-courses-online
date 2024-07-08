@@ -1,10 +1,6 @@
 "use client";
-import {
-  Card,
-  Button,
-  Input,
-  ThemeProvider,
-} from "@material-tailwind/react";
+import { Card, Button, Input, ThemeProvider } from "@material-tailwind/react";
+import Select from "react-select";
 import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
@@ -54,7 +50,7 @@ const LearningPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
-  const [page, setPage] = useState<number>(2);
+  const [page, setPage] = useState<number>(0);
   const [formData, setFormData] = useState({
     id: 0,
     category_id: "",
@@ -68,7 +64,7 @@ const LearningPage: React.FC = () => {
   });
 
   const fetchCategory = useCallback(async () => {
-    const requestData = { page, search: searchQuery };
+    const requestData = { page, full: true };
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/category`,
@@ -84,11 +80,18 @@ const LearningPage: React.FC = () => {
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
-  }, [page, searchQuery]);
+  }, [page]);
 
   useEffect(() => {
     fetchCategory();
   }, [fetchCategory, page]);
+
+  const handleCategoryChange = (selectedOption: any) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      category_id: selectedOption ? selectedOption.value : "",
+    }));
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -120,7 +123,7 @@ const LearningPage: React.FC = () => {
 
   const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log(file)
+    console.log(file);
     if (file) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -190,8 +193,6 @@ const LearningPage: React.FC = () => {
       },
     });
 
-   
-
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("price", formData.regularPrice.toString());
@@ -244,7 +245,6 @@ const LearningPage: React.FC = () => {
     }
   };
 
-
   const resetForm = () => {
     setFormData({
       id: 0,
@@ -285,22 +285,6 @@ const LearningPage: React.FC = () => {
     }
   };
 
-
-  // const handleEdit = (data: Course) => {
-  //   setFormData({
-  //     id: data.id,
-  //     category_id: data.category_id,
-  //     image: data.image,
-  //     videoFile: null,
-  //     videoUrl: data.video,
-  //     dec: data.dec,
-  //     title: data.title,
-  //     regularPrice: data.price,
-  //     discountPrice: data.price_sale,
-  //   });
-  //   setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
-  // };
-
   const handleEdit = (data: Course) => {
     setFormData({
       id: data.id,
@@ -315,7 +299,6 @@ const LearningPage: React.FC = () => {
     });
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
   };
-  
 
   return (
     <ThemeProvider value={theme}>
@@ -369,27 +352,44 @@ const LearningPage: React.FC = () => {
                   />
                 </div>
                 <div className="w-full xl:w-4/12 flex justify-center">
-                  <select
-                    className="w-full border-2 border-gray-300 px-4 rounded-md text-sm font-light"
-                    value={formData.category_id}
-                    onChange={(e) =>
-                      setFormData((prevFormData) => ({
-                        ...prevFormData,
-                        category_id: e.target.value,
-                      }))
+                  <Select
+                    options={categories.map((category) => ({
+                      value: category.id.toString(),
+                      label: category.name,
+                    }))}
+                    onChange={handleCategoryChange}
+                    value={
+                      categories
+                        .map((category) => ({
+                          value: category.id.toString(),
+                          label: category.name,
+                        }))
+                        .find(
+                          (option) => option.value === formData.category_id
+                        ) || null
                     }
-                  >
-                    <option value="">เลือกหมวดหมู่</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id.toString()}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="เลือกหมวดหมู่"
+                    isClearable
+                    className="z-20 w-full xl:w-[200px] "
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        borderRadius: "8px", // ปรับความมนของกรอบ
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        borderRadius: "8px", // ปรับความมนของเมนู dropdown
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        borderRadius: state.isFocused ? "8px" : "0px", // ปรับความมนของ option เมื่อ focus
+                      }),
+                    }}
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-5 xl:flex-row">
-                <div className="w-full xl:w-4/12">
+                <div className="w-full xl:w-[200px]">
                   <Input
                     label="Uploadรูปหน้าปก"
                     type="file"
@@ -399,7 +399,7 @@ const LearningPage: React.FC = () => {
                     onChange={handleImageUpload}
                   />
                 </div>
-                <div className="w-full xl:w-4/12">
+                <div className="w-full xl:w-[200px]">
                   <Input
                     label="Upload VDO"
                     type="file"
