@@ -41,6 +41,7 @@ interface Question {
 interface ListData {
   id: number;
   question: string;
+  index:number
 }
 
 interface ResponseData {
@@ -179,7 +180,21 @@ const HomeWorkPage: React.FC = () => {
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
-  const handleSort = () => {
+  // const handleSort = () => {
+  //   if (dragItem.current !== null && dragItemOver.current !== null) {
+  //     const _dataList = [...dataList.data];
+  //     const draggedItemContent = _dataList.splice(dragItem.current, 1)[0];
+  //     _dataList.splice(dragItemOver.current, 0, draggedItemContent);
+  //     dragItem.current = null;
+  //     dragItemOver.current = null;
+  //     dispatch({
+  //       type: "SET_DATA_LIST",
+  //       payload: { ...dataList, data: _dataList },
+  //     });
+  //   }
+  // };
+
+  const handleSort = async () => {
     if (dragItem.current !== null && dragItemOver.current !== null) {
       const _dataList = [...dataList.data];
       const draggedItemContent = _dataList.splice(dragItem.current, 1)[0];
@@ -190,6 +205,33 @@ const HomeWorkPage: React.FC = () => {
         type: "SET_DATA_LIST",
         payload: { ...dataList, data: _dataList },
       });
+  
+      // ส่งข้อมูลไปยัง API หลังจากการเปลี่ยนตำแหน่ง
+      try {
+        const data = {
+          arrData: _dataList,
+          page: pageList,
+        }
+        console.log(data)
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API}/api/question/list/change`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+          }
+        );
+  
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          // dispatch({ type: "RESET_FORM" });
+          // dispatch({ type: "RESET_STATUS_EDIT" });
+          // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+        } else {
+          toast.error("Failed to update data");
+        }
+      } catch (err) {
+        handleAxiosError(err, "Failed to update data");
+      }
     }
   };
 
@@ -283,7 +325,7 @@ const HomeWorkPage: React.FC = () => {
       }
     } catch (err) {
       console.log(err)
-      toast.error(err?.response?.data?.message || "Form submission failed");
+      handleAxiosError(err, "Form submission failed");
     }
   };
 
@@ -357,6 +399,7 @@ const HomeWorkPage: React.FC = () => {
         id: data.id,
         question: data.question,
         product_id: formList.product_id,
+        questNumber: data.index, 
       },
     });
     dispatch({ type: "SET_STATUS_EDIT", payload: 1 });
@@ -418,6 +461,8 @@ const HomeWorkPage: React.FC = () => {
       }
     });
   };
+
+  console.log(dataList)
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
@@ -745,12 +790,12 @@ const HomeWorkPage: React.FC = () => {
                                   color="blue-gray"
                                   className="font-normal"
                                 >
-                                  {index + 1}
+                                  ข้อที่ {item?.index}
                                 </Typography>
                               </div>
                             </td>
                             <td>
-                              <div className="relative flex items-center justify-center tooltip">
+                              <div className="relative flex items-center justify-center mt-2 tooltip">
                                 <Typography
                                   variant="small"
                                   color="blue-gray"
@@ -764,7 +809,7 @@ const HomeWorkPage: React.FC = () => {
                               </div>
                             </td>
                             <td>
-                              <div className="flex justify-center gap-2">
+                              <div className="flex justify-center mt-2 gap-2">
                                 <IconButton
                                   size="sm"
                                   className="text-white max-w-7 max-h-7 bg-yellow-700"

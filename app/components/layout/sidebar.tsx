@@ -100,10 +100,34 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/super",
             hasDivider: true,
           },
+          // {
+          //   text: "Admin Menu",
+          //   // icon: <FaClipboardList />,
+          //   // path: "/admin",
+          //   // hasDivider: false,
+          // },
           {
-            text: "รายงาน",
-            icon: <FaChartLine />,
-            path: "/super/test",
+            text: "จัดการคอร์สเรียน",
+            icon: <FaClipboardList />,
+            path: "/admin",
+            hasDivider: false,
+          },
+          {
+            text: "คอร์ดเรียน",
+            icon: <FaBookReader />,
+            path: "/admin/learning",
+            hasDivider: false,
+          },
+          {
+            text: "จัดการซื้อคอร์ดเรียน",
+            icon: <FaCcAmazonPay />,
+            path: "/admin/pay",
+            hasDivider: false,
+          },
+          {
+            text: "สร้างการบ้าน",
+            icon: <FaClipboardQuestion />,
+            path: "/admin/homework",
             hasDivider: false,
           },
           // {

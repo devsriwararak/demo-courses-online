@@ -22,8 +22,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         init={{
           menubar: false,
           height: 330,
-        //   autosave_ask_before_unload: false,
-        //   powerpaste_allow_local_images: true,
+          //   autosave_ask_before_unload: false,
+          //   powerpaste_allow_local_images: true,
           plugins: [
             "advlist",
             "autolink",
@@ -43,13 +43,13 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
             "help",
             "wordcount",
             "advtable",
-     
           ],
           toolbar:
             " formatselect  bold italic underline strikethrough fontsizeinput  " +
             "forecolor backcolor  alignleft aligncenter alignright alignjustify  " +
             "bullist numlist outdent indent  superscript subscript charmap hr  " +
-            "removeformat  help",
+            "removeformat  ",
+          toolbar_mode: "wrap",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
         }}
