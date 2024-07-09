@@ -91,7 +91,6 @@ const HomeWorkPage: React.FC = () => {
     title: "",
   });
 
-
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
@@ -111,7 +110,6 @@ const HomeWorkPage: React.FC = () => {
       }));
     }
   };
-
 
   const fetchProduct = useCallback(async () => {
     const requestData = { full: true };
@@ -173,7 +171,7 @@ const HomeWorkPage: React.FC = () => {
         ? { index: formData?.questNumber }
         : { id: formData?.id }),
     };
-  
+
     try {
       let res;
       if (statusEdit === 0) {
@@ -186,10 +184,8 @@ const HomeWorkPage: React.FC = () => {
             },
           }
         );
-
       } else {
-        
-        console.log(data)
+        console.log(data);
         res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/question/list`,
           data,
@@ -199,7 +195,6 @@ const HomeWorkPage: React.FC = () => {
             },
           }
         );
-
       }
       if (res.status === 200) {
         toast.success(res.data.message);
@@ -310,16 +305,15 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const handleEdit = (data: any) => {
-    console.log(data)
+    console.log(data);
     setFormData({
       id: data.id,
       question: data?.question,
       product_id: formList?.product_id,
-      questNumber: 0
+      questNumber: 0,
     });
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
   };
-
 
   const handleDelete = async (id: number) => {
     console.log(id);
@@ -355,7 +349,7 @@ const HomeWorkPage: React.FC = () => {
           console.log(res);
           if (res.status === 200) {
             fetchList(formList.product_id, searchList);
-            resetForm()
+            resetForm();
             Swal.fire({
               // title: "ลบแล้ว !",
               text: "ข้อมูลของคุณถูกลบแล้ว.",
@@ -383,9 +377,6 @@ const HomeWorkPage: React.FC = () => {
       }
     });
   };
-
-
-
 
   return (
     <ThemeProvider value={theme}>
@@ -432,8 +423,8 @@ const HomeWorkPage: React.FC = () => {
                             window.innerWidth < 1524
                               ? "150px"
                               : window.innerWidth < 1650
-                                ? "165px"
-                                : "150px",
+                              ? "165px"
+                              : "150px",
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -454,7 +445,7 @@ const HomeWorkPage: React.FC = () => {
                       accept="image/*"
                       id="imageInput"
                       readOnly
-                    //   onChange={handleImageUpload}
+                      //   onChange={handleImageUpload}
                     />
                   </div>
                 </div>
@@ -727,9 +718,7 @@ const HomeWorkPage: React.FC = () => {
                                 <IconButton
                                   size="sm"
                                   className=" text-white max-w-7 max-h-7 bg-yellow-700  "
-                                  onClick={() => [
-                                    handleEdit(item),
-                                  ]}
+                                  onClick={() => [handleEdit(item)]}
                                 >
                                   <MdEdit className="h-5 w-5   " />
                                 </IconButton>
