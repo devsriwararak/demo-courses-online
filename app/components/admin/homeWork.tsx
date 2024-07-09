@@ -66,6 +66,14 @@ const theme = {
   },
 };
 
+const handleAxiosError = (error: unknown, defaultMessage: string) => {
+  if (axios.isAxiosError(error) && error.response) {
+    toast.error(error.response.data.message || defaultMessage);
+  } else {
+    toast.error(defaultMessage);
+  }
+};
+
 const HomeWorkPage: React.FC = () => {
   const initialState = {
     products: [] as Product[],
@@ -198,7 +206,7 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching products");
       }
     } catch (err) {
-      toast.error(err?.response?.data.message || "Error fetching products");
+      handleAxiosError(err, "Form submission failed");
     }
   }, []);
 
@@ -229,9 +237,7 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching question number");
       }
     } catch (err) {
-      toast.error(
-        err?.response?.data.message || "Error fetching question number"
-      );
+        handleAxiosError(err, "Form submission failed");
     }
   }, []);
 
@@ -294,7 +300,7 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching questions");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Error fetching questions");
+      handleAxiosError(err, "Form submission failed");
     }
   }, [page, searchQuery]);
 
@@ -321,7 +327,7 @@ const HomeWorkPage: React.FC = () => {
           toast.error("Error fetching list");
         }
       } catch (err) {
-        toast.error(err?.response?.data?.message || "Error fetching list");
+        handleAxiosError(err, "Form submission failed");
       }
     },
     [pageList]
@@ -407,14 +413,11 @@ const HomeWorkPage: React.FC = () => {
             toast.error("เกิดข้อผิดพลาด");
           }
         } catch (err) {
-          toast.error(err?.response?.data?.message|| "เกิดข้อผิดพลาด");
+          handleAxiosError(err, "Form submission failed");
         }
       }
     });
   };
-
-
-
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
