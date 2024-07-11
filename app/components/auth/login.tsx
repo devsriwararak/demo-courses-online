@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
           } else if (decoded.status === 1) {
             redirectPath = "/admin";
           } else if (decoded.status === 0) {
-            redirectPath = "/user";
+            redirectPath = "/user/shopcourse";
           }
           router.push(redirectPath);
         } else {

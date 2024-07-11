@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
-import { FooterHome } from "../components/home/footer";
 import { UserHeader } from "../components/user/userheader";
 import { UserFooter } from "../components/user/userFooter";
 

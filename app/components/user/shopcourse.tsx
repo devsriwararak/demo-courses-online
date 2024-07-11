@@ -78,7 +78,7 @@ const truncateText = (text: string, limit: number) => {
   return text;
 };
 
-const HomePage: React.FC = () => {
+const BuyCourse: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
     >
       <ToastContainer autoClose={2000} theme="colored" />
       <div
-        className="flex  w-full  rounded-lg gap-5 shadow-lg"
+        className="flex  w-full  rounded-lg gap-5"
         style={{
           backgroundImage:
             "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
@@ -212,4 +212,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default BuyCourse;
