@@ -78,7 +78,7 @@ const truncateText = (text: string, limit: number) => {
   return text;
 };
 
-const HomePage: React.FC = () => {
+const HomeUser: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
@@ -212,4 +212,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default HomeUser;

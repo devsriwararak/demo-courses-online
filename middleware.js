@@ -32,7 +32,7 @@ export function middleware(request) {
   if (pathname.startsWith("/user")) {
     permition = "user";
     allowedPaths = {
-      user: ["/user", "/user/test"],
+      user: ["/user", "/user/manageprofile"],
     };
   }
 

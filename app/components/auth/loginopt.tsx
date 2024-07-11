@@ -13,18 +13,21 @@ interface MyJwtPayload extends JwtPayload {
   id: number;
 }
 
-const LoginPage: React.FC = () => {
-  const [user, setUser] = useState<string>("");
+const LoginOTPPage: React.FC = () => {
+  const [tel, setTel] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
   const handleLogin = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault();
+      async (e: FormEvent) => {
+          e.preventDefault();
+          console.log("aaaaa")
 
-      const data = { username: user, password: password };
+    //   const data = { username: user, password: password };
+      const data = {username: tel.toString() ,password: "1234"};
 
       try {
+        console.log(data)
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/login`,
           data
@@ -51,22 +54,65 @@ const LoginPage: React.FC = () => {
           toast.error("Error: Token not found");
         }
       } catch (err) {
+        console.log(err)
         const error = err as { response: { data: { message: string } } };
         toast.error(error?.response?.data.message);
       }
     },
-    [user, password, router]
+    [tel, router]
   );
+//   const handleLogin = useCallback(
+//     async (e: FormEvent) => {
+//       e.preventDefault();
 
+//     //   const data = { username: user, password: password };
+//       const data = {username: tel};
+
+//       try {
+//         const res = await axios.post(
+//           `${process.env.NEXT_PUBLIC_API}/api/login`,
+//           data
+//         );
+//         console.log(res);
+//         const token = res.data.token;
+//         const decoded = jwtDecode<MyJwtPayload>(token);
+//         console.log(decoded);
+//         if (token && decoded) {
+//           toast.success("เข้าสู่ระบบสำเร็จ");
+//           localStorage.setItem("Token", token);
+//           localStorage.setItem("Status", decoded.status.toString());
+//           sessionStorage.setItem("login", decoded.username);
+//           let redirectPath = "/";
+//           if (decoded.status === 2) {
+//             redirectPath = "/super";
+//           } else if (decoded.status === 1) {
+//             redirectPath = "/admin";
+//           } else if (decoded.status === 0) {
+//             redirectPath = "/user";
+//           }
+//           router.push(redirectPath);
+//         } else {
+//           toast.error("Error: Token not found");
+//         }
+//       } catch (err) {
+//         const error = err as { response: { data: { message: string } } };
+//         toast.error(error?.response?.data.message);
+//       }
+//     },
+//     [tel, router]
+//   );
+  
+   
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
+        <ToastContainer autoClose={2000} theme="colored" />
       <div className="flex items-stretch ">
         <Card className="p-5 sm:max-w-xs w-full rounded-r-none">
           <div className="flex flex-col items-center gap-5">
             <div className="flex flex-col w-full justify-center items-center">
               <div>
                 <Typography className="text-purple-500 font-medium ">
-                  เข้าสู่ระบบ
+                  เข้าสู่ระบบ (OTP)
                 </Typography>
               </div>
               <div className=" w-[90%] h-[1px] mt-2 bg-purple-300">{""}</div>
@@ -98,23 +144,11 @@ const LoginPage: React.FC = () => {
               <div className="flex flex-col gap-5">
                 <div>
                   <Input
-                    type="text"
-                    label="User"
-                    value={user}
+                    type="tel"
+                    label="Phone Number"
+                    value={tel}
                     color="purple"
-                    onChange={(e) => setUser(e.target.value)}
-                    required
-                    className="mb-4"
-                    crossOrigin=""
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="password"
-                    label="Password"
-                    value={password}
-                    color="purple"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setTel(e.target.value)}
                     required
                     className="mb-4"
                     crossOrigin=""
@@ -192,9 +226,9 @@ const LoginPage: React.FC = () => {
         </Card>
       </div>
 
-      <ToastContainer autoClose={2000} theme="colored" />
+      
     </div>
   );
 };
 
-export default LoginPage;
+export default LoginOTPPage;
