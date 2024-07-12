@@ -4,12 +4,11 @@ import { FooterHome } from "../components/home/footer";
 import { HeaderHome } from "../components/home/header";
 export default function Layout({ children }: { children: React.ReactNode }) {
 
+  
+
     useEffect(() => {
-        if (typeof window !== "undefined") {
-          // Access sessionStorage here
-          const storedValue = sessionStorage.getItem("login");
+        const storedValue = sessionStorage.getItem("login");
           console.log(storedValue);
-        }
       }, []);
       
   return (
