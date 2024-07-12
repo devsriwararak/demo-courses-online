@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (typeof window !== "undefined") {
           // Access sessionStorage here
-          const storedValue = sessionStorage.getItem("key");
+          const storedValue = sessionStorage.getItem("login");
           console.log(storedValue);
         }
       }, []);
