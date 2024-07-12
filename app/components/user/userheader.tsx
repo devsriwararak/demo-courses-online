@@ -14,12 +14,6 @@ import Image from "next/image";
 
 const navItems = [
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
-  { href: "/home/broker", label: "โบรกเกอร์" },
-  { href: "/home/ebook", label: "EBook" },
-  { href: "/home/about", label: "เกี่ยวกับเรา" },
-  { href: "/home/Portfolio", label: "ผลงาน" },
-  { href: "/home/activity", label: "กิจกรรม" },
-  { href: "/home/bycourse", label: "วิธีการซื้อคอร์ส" },
   { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
 
