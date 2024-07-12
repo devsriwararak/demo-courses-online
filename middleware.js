@@ -37,7 +37,7 @@ export function middleware(request) {
 
   // Redirect ถ้าไม่มีสิทธิ์เข้าถึงเส้นทางนั้น
   if (!allowedPaths[permition]?.includes(pathname)) {
-    return NextResponse.redirect(new URL("/home", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // อนุญาตการเข้าถึงเส้นทางอื่นๆ
@@ -45,5 +45,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/user/:path*", "/super/:path*", "/home/:path*"],
+  matcher: ["/admin/:path*", "/user/:path*", "/super/:path*"],
 };
