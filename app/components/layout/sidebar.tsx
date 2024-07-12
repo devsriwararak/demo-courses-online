@@ -10,8 +10,6 @@ import {
 } from "react-icons/fa";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import { Typography } from "@material-tailwind/react";
-import { useRecoilState } from "recoil";
-import { userLoginStore } from "@/store/store";
 
 interface MenuItem {
   text: string;
@@ -34,7 +32,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [userName, setUserName] = useRecoilState(userLoginStore);
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
   const [activePath, setActivePath] = useState<string>(pathname);
 
