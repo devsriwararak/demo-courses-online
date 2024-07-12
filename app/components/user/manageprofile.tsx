@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 
 export default function ManageProfile() {
-  const user = sessionStorage.getItem("login");
+  // const user = sessionStorage.getItem("login");
   const router = useRouter();
 
   return (
@@ -46,7 +46,8 @@ export default function ManageProfile() {
               {`จัดการข้อมูลผู้ใช้:`}
             </Typography>
             <Typography className="text-xl font-semibold">
-              {`คุณ ${user}`}
+              {/* {`คุณ ${user}`} */}
+              xxxxx
             </Typography>
           </div>
           <div className="flex flex-col lg:flex-row gap-5 w-full">

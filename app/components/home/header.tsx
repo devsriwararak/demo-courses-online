@@ -67,7 +67,7 @@ export function HeaderHome() {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
 
-  const login = sessionStorage.getItem("login");
+  // const login = sessionStorage.getItem("login");
 
   useEffect(() => {
     const handleResize = () => {

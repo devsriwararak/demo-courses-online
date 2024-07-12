@@ -6,10 +6,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   
 
-    useEffect(() => {
-        const storedValue = sessionStorage.getItem("login");
-          console.log(storedValue);
-      }, []);
+    // useEffect(() => {
+    //     const storedValue = sessionStorage.getItem("login");
+    //       console.log(storedValue);
+    //   }, []);
       
   return (
     <div className=" flex flex-col min-h-screen ">

@@ -11,7 +11,7 @@ interface AppbarComponentProps {
 
 const AppbarComponent: React.FC<AppbarComponentProps> = ({ isSmallScreen, handleDrawerToggle }) => {
   const router = useRouter();
-  const login = sessionStorage.getItem("login");
+  // const login = sessionStorage.getItem("login");
   const statusLogin = localStorage.getItem("Status");
 
   const handleLogout = (): void => {
