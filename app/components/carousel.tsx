@@ -30,8 +30,9 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
             src={slide.src}
             alt={slide.alt}
             width={550}
-            height={220}
+            height={100}
             className=" object-cover   shadow-lg"
+            crossOrigin=''
           />
         ))}
       </div>

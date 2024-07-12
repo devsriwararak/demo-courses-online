@@ -1,7 +1,7 @@
 // RootLayout.tsx
 import { Inter } from "next/font/google";
 import "./globals.css";
-import RecoilProvider from "./recoilProvider";  // นำเข้า RecoilProvider
+import RecoilProvider from "./recoilProvider"; // นำเข้า RecoilProvider
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +18,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilProvider> {/* ใช้ RecoilProvider */}
+        <RecoilProvider>
+          {" "}
+          {/* ใช้ RecoilProvider */}
           {children}
         </RecoilProvider>
       </body>

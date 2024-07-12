@@ -1,13 +1,17 @@
-// import { atom } from "recoil";
 
-// export const userLoginStore = atom<string | null>({
-//     key: "userLogin",
-//     default: null,
-// });
 
 import { atom } from 'recoil';
 
-export const userLoginStore = atom<number | null>({
-  key: 'userLoginStore',
-  default: 0,
+interface Course {
+  title: string;
+  dec: string;
+  image: string;
+  price: number;
+  price_sale: number;
+}
+
+
+export const BuyCourseStore = atom<Course | null>({
+  key: 'bycourseKey',
+  default: null,
 });

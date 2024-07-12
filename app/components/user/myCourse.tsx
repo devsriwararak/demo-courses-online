@@ -40,55 +40,7 @@ const recommendedCourses: Course[] = [
     price: 5900,
     price_sale: 0,
   },
-  {
-    title: "Course 2",
-    dec: "Description for course 2  sit amet consectetur adipisicing elit. Cupiditate placeat tempora suscipit ipsum, doloribus maiores in recusandae amet? Harum laboriosam facere, explicabo vero odit odio earum nulla consequatur similique magnam, eaque commodi id animi voluptatibus at. Exercitationem eligendi illo odit, recusandae esse, labore a incidunt hic nisi sit qui doloribus!",
-    image: "/pic4.jpg",
-    price: 2500,
-    price_sale: 0,
-  },
-  {
-    title: "Course 3",
-    dec: "Description for course 3",
-    image: "/pic4.jpg",
-    price: 4200,
-    price_sale: 250,
-  },
-  {
-    title: "Course 4",
-    dec: "Description for course 2",
-    image: "/pic4.jpg",
-    price: 3000,
-    price_sale: 1500,
-  },
-  {
-    title: "Course 5",
-    dec: "Description for course 2",
-    image: "/pic4.jpg",
-    price: 5500,
-    price_sale: 0,
-  },
-  {
-    title: "Course 6",
-    dec: "Description for course 2",
-    image: "/pic4.jpg",
-    price: 7000,
-    price_sale: 5000,
-  },
-  {
-    title: "Course 7",
-    dec: "Description for course 2",
-    image: "/pic4.jpg",
-    price: 3000,
-    price_sale: 0,
-  },
-  {
-    title: "Course 8",
-    dec: "Description for course 2",
-    image: "/pic4.jpg",
-    price: 6000,
-    price_sale: 0,
-  },
+
   // Add more courses as needed
 ];
 
@@ -105,7 +57,7 @@ const truncateText = (text: string, limit: number) => {
   return text;
 };
 
-const HomeUser: React.FC = () => {
+const MyCourse: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const router = useRouter();
 
@@ -125,9 +77,9 @@ const HomeUser: React.FC = () => {
       }}
     >
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="p-10">
+      <div className="p-1">
         <div
-          className="flex flex-col lg:flex-row mt-10  w-full  rounded-lg gap-5"
+          className="flex flex-col lg:flex-row   w-full  rounded-lg gap-5"
           style={{
             backgroundImage:
               "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
@@ -147,9 +99,10 @@ const HomeUser: React.FC = () => {
               </div>
               <div className=" bg-white rounded-lg p-2 lg:mb-2 w-full xl:w-[60%]">
                 <Input
+                  type="text"
                   label="ค้นหาคอร์สเรียน"
                   icon={<FaSearch />}
-                  crossOrigin
+                  crossOrigin="anonymous"
                   className="bg-white  !bg-opacity-100"
                 />
               </div>
@@ -157,15 +110,6 @@ const HomeUser: React.FC = () => {
           </div>
           <div className="flex  justify-center w-full lg:w-7/12 ">
             <div className="flex justify-center  w-[550px] h-[220px] py-2 px-2 ">
-              {/* <Image
-              src="/pic1.jpg"
-              alt=""
-              width={400}
-              height={200}
-              p-0
-              m-0
-              className=" rounded-lg object-cover shadow-lg"
-            /> */}
               <Carousel slides={slides} />
             </div>
           </div>
@@ -240,14 +184,14 @@ const HomeUser: React.FC = () => {
                   </Typography>
                 </div>
                 <Button
-                  className="w-full justify-center items-center text-base font-normal mb-0"
+                  className="w-full justify-end items-center text-base font-normal mb-0"
                   style={{
                     backgroundImage:
                       "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
                   }}
-                  onClick={() => handleBuyNow(course)}
+                  onClick={() => router.push("/user/study")}
                 >
-                  ซื้อตอนนี้
+                  {`ดูเนื้อหา >>>`}
                 </Button>
               </div>
             </Card>
@@ -258,4 +202,4 @@ const HomeUser: React.FC = () => {
   );
 };
 
-export default HomeUser;
+export default MyCourse;

@@ -18,14 +18,20 @@ export default function ManageProfile() {
       {/* Background Image */}
       <div
         className="absolute inset-0"
+        // style={{
+        //   backgroundImage: `url("/bg2.jpg")`,
+        //   backgroundSize: "fill",
+        //   backgroundPosition: "center",
+        //   backgroundRepeat: "no-repeat",
+        //   opacity: "0.75",
+        //   filter: "blur(3px)", // Adjust the blur level as needed
+        //   zIndex: -1,
+        // }}
         style={{
-          backgroundImage: `url("/bg2.jpg")`,
-          backgroundSize: "fill",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: "0.75",
-          filter: "blur(3px)", // Adjust the blur level as needed
-          zIndex: -1,
+          backgroundImage:
+            "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+            opacity: "0.75",
+          filter: "blur(5px)", // Adjust the blur level as needed
         }}
       ></div>
       {/* Background Overlay */}

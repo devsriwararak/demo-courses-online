@@ -31,9 +31,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className=" flex flex-col  min-h-screen">
+    <div className=" flex flex-col min-h-screen ">
+      <div className=" sticky top-0 z-50">
       <UserHeader />
-      <div className=" flex flex-grow">
+      </div>
+      <div >
       {children}
       </div>
       <UserFooter />
