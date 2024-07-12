@@ -80,22 +80,22 @@ const Study = () => {
               <Button className="w-full mb-2" onClick={() => seekTo(5100)}>
                 บทที่ 3 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(9100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(6100)}>
                 บทที่ 4 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(7100)}>
                 บทที่ 5 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(8100)}>
                 บทที่ 6 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(9100)}>
                 บทที่ 7 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(10100)}>
                 บทที่ 8 (3:30)
               </Button>
-              <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
+              <Button className="w-full mb-2" onClick={() => seekTo(15100)}>
                 บทที่ 9 (3:30)
               </Button>
               <Button className="w-full mb-2" onClick={() => seekTo(18100)}>
