@@ -83,7 +83,7 @@ data,
     try {
       console.log(show);
       const response = await axios.post(
-        // `${process.env.NEXT_PUBLIC_API}/api/product/add`,
+        `${process.env.NEXT_PUBLIC_API}/api`,
         data,
         { ...HeaderMultiAPI(localStorage.getItem("Token")) }
       );
