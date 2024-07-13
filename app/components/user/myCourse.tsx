@@ -169,20 +169,6 @@ const MyCourse: React.FC = () => {
                 </div>
               </div>
               <div className="flex flex-col mt-auto px-4 pb-5">
-                <div className="flex w-full text-wrap">
-                  <Typography
-                    className={`text-sm ${
-                      course.price_sale > 0
-                        ? "text-red-500 font-semibold"
-                        : "text-white"
-                    } mt-5 mb-2  pr-1`}
-                  >
-                    {course?.price_sale > 0
-                      ? course?.price_sale.toLocaleString()
-                      : course?.price.toLocaleString()}{" "}
-                    บาท
-                  </Typography>
-                </div>
                 <Button
                   className="w-full justify-end items-center text-base font-normal mb-0"
                   style={{
