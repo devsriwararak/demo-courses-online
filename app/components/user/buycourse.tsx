@@ -20,6 +20,7 @@ const BuyCourse = () => {
   const buyData = useRecoilValue(BuyCourseStore);
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router =useRouter()
 
@@ -30,7 +31,85 @@ const BuyCourse = () => {
     return text;
   };
 
+//   const handleCheck = async () => {
+//     MySwal.fire({
+//       title: "กำลังส่งข้อมูล...",
+//       allowOutsideClick: false,
+//       width: "350px",
+//       padding: "35px",
+//       didOpen: () => {
+//         MySwal.showLoading();
+//       },
+//     });
+
+//     const data = {
+//       title: buyData?.title,
+//     };
+//     try {
+//       console.log(show);
+//       const response = await axios.post(
+//         `${process.env.NEXT_PUBLIC_API}/api`,
+// data,
+//         { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+//       );
+
+//       if (response.status === 200) {
+//         toast.success(response.data.message);
+//         MySwal.close();
+//       } else {
+//         toast.error("Form submission failed!");
+//         MySwal.close();
+//       }
+//     } catch (err) {
+//       MySwal.close();
+//       setShow(true);
+//       const error = err as { response: { data: { message: string } } };
+//       toast.error(error.response.data.message);
+//     }
+//   };
+
+
+  // const handleSubmit = async () => {
+  //   MySwal.fire({
+  //     title: "กำลังส่งข้อมูล...",
+  //     allowOutsideClick: false,
+  //     width: "350px",
+  //     padding: "35px",
+  //     didOpen: () => {
+  //       MySwal.showLoading();
+  //     },
+  //   });
+
+  //   const data = {
+  //     title: buyData?.title,
+  //   };
+  //   try {
+  //     console.log(show);
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API}/api`,
+  //       data,
+  //       { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+  //     );
+
+  //     if (response.status === 200) {
+  //       toast.success(response.data.message);
+  //       MySwal.close();
+  //     } else {
+  //       toast.error("Form submission failed!");
+  //       MySwal.close();
+  //     }
+  //   } catch (err) {
+  //     MySwal.close();
+  //     setSuccess(true);
+  //     const error = err as { response: { data: { message: string } } };
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
+
+
+
   const handleCheck = async () => {
+    setLoading(true);
     MySwal.fire({
       title: "กำลังส่งข้อมูล...",
       allowOutsideClick: false,
@@ -45,65 +124,77 @@ const BuyCourse = () => {
       title: buyData?.title,
     };
     try {
-      console.log(show);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api`,
-data,
-        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
-      );
-
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        MySwal.close();
-      } else {
-        toast.error("Form submission failed!");
-        MySwal.close();
-      }
-    } catch (err) {
-      MySwal.close();
-      setShow(true);
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
-    }
-  };
-  const handleSubmit = async () => {
-    MySwal.fire({
-      title: "กำลังส่งข้อมูล...",
-      allowOutsideClick: false,
-      width: "350px",
-      padding: "35px",
-      didOpen: () => {
-        MySwal.showLoading();
-      },
-    });
-
-    const data = {
-      title: buyData?.title,
-    };
-    try {
-      console.log(show);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api`,
         data,
         { ...HeaderMultiAPI(localStorage.getItem("Token")) }
       );
 
-      if (response.status === 200) {
-        toast.success(response.data.message);
-        MySwal.close();
-      } else {
-        toast.error("Form submission failed!");
-        MySwal.close();
-      }
+      setTimeout(() => {
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          MySwal.close();
+        } else {
+          toast.error("Form submission failed!");
+          MySwal.close();
+        }
+        setLoading(false);
+      }, 5000); // ตั้งเวลา 5 วินาที
     } catch (err) {
-      MySwal.close();
-      setSuccess(true);
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
+      setTimeout(() => {
+        MySwal.close();
+        setShow(true);
+        const error = err as { response: { data: { message: string } } };
+        toast.error(error.response.data.message);
+        setLoading(false);
+      }, 2000); // ตั้งเวลา 5 วินาที
     }
   };
 
-  console.log(buyData);
+  const handleSubmit = async () => {
+    setLoading(true);
+    MySwal.fire({
+      title: "กำลังส่งข้อมูล...",
+      allowOutsideClick: false,
+      width: "350px",
+      padding: "35px",
+      didOpen: () => {
+        MySwal.showLoading();
+      },
+    });
+
+    const data = {
+      title: buyData?.title,
+    };
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api`,
+        data,
+        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+      );
+
+      setTimeout(() => {
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          MySwal.close();
+        } else {
+          toast.error("Form submission failed!");
+          MySwal.close();
+        }
+        setLoading(false);
+      }, 5000); // ตั้งเวลา 5 วินาที
+    } catch (err) {
+      setTimeout(() => {
+        MySwal.close();
+        setSuccess(true);
+        const error = err as { response: { data: { message: string } } };
+        toast.error(error.response.data.message);
+        setLoading(false);
+      }, 2000); // ตั้งเวลา 5 วินาที
+    }
+  }
+
+
 
   return (
     <div
