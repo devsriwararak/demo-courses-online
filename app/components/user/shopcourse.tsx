@@ -280,10 +280,8 @@ const ShopCourse: React.FC = () => {
       </div>
       </div>
 
-      <div className="mt-5">
       <Topsale/>
-
-      </div>
+ 
 
 
          
