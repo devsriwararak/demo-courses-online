@@ -168,7 +168,7 @@ const MyCourse: React.FC = () => {
                   </Typography>
                 </div>
               </div>
-              <div className="flex flex-col mt-auto px-4 pb-5">
+              <div className="flex flex-col  px-4 mt-5 pb-5">
                 <Button
                   className="w-full justify-end items-center text-base font-normal mb-0"
                   style={{
