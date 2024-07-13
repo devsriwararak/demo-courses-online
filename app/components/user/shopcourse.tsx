@@ -141,7 +141,7 @@ const ShopCourse: React.FC = () => {
             <div className="flex flex-col gap-5  ">
               <div>
                 <Typography className=" txt-xl md:text-4xl   font-bold">
-                  คอร์สเทรดออนไลน์
+                  คอร์สเทรดออนไลน์ (Profile)
                 </Typography>
            
               </div>
@@ -182,7 +182,7 @@ const ShopCourse: React.FC = () => {
 
       <div className=" px-6 md:px-28">
       <div className="mt-8">
-        <Typography className="text-lg font-bold">คอร์สแนะนำ</Typography>
+        <Typography className="text-lg font-bold">คอร์สแนะนำ โปรแกรมพร้อมใช้งานงวดที่ 3/3</Typography>
       </div>
       <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
         {courseCategories.map((category, index) => (
@@ -238,16 +238,17 @@ const ShopCourse: React.FC = () => {
               </div>
               
               <div className="flex flex-col mt-4 px-6 pb-5 ">
-                <div className="flex w-full text-wrap gap-3">
+                <div className="flex w-full text-wrap gap-3 items-center">
                   <Typography
-                    className="text-xl  line-through  mb-2  pr-1"
+                    className="text-sm  line-through  mb-2  pr-1"
                   >
                     {course?.price_sale > 0
                       ? course?.price.toLocaleString()
                       : ""}{" "}
+                      
                   </Typography>
                   <Typography
-                    className={`text-xl ${
+                    className={`text-md ${
                       course.price_sale > 0
                         ? "text-red-500 font-semibold"
                         : "text-black"
@@ -257,6 +258,7 @@ const ShopCourse: React.FC = () => {
                       ? course?.price_sale.toLocaleString()
                       : course?.price.toLocaleString()}{" "}
                     บาท
+                    
                   </Typography>
                 </div>
                 <Button
@@ -280,11 +282,7 @@ const ShopCourse: React.FC = () => {
       </div>
       </div>
 
-      <Topsale/>
- 
 
-
-         
     </div>
   );
 };

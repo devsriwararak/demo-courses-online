@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
+import Topsale from "../topsale";
 
 const MySwal = withReactContent(Swal);
 
@@ -197,16 +198,9 @@ const BuyCourse = () => {
 
 
   return (
-    <div
-      className="xl:h-[700px] overflow-auto "
-      
-      // style={{
-      //   backgroundImage:
-      //     "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-      // }}
-    >
+    <>
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 lg:px-36 overflow-auto  ">
+      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 px-6 lg:px-36 overflow-auto  ">
         <div className="w-full md:w-3/5 ">
           <Card className="h-[550px] w-full overflow-auto gap-5 !bg-white ">
             <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
@@ -222,7 +216,7 @@ const BuyCourse = () => {
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Titel:</Typography>
                 <Typography>
-                  {truncateText(buyData?.title || "", 20)}
+                  {buyData?.title || ""}
                 </Typography>
               </div>
           
@@ -342,7 +336,8 @@ const BuyCourse = () => {
           </Card>
         </div>
       </div>
-    </div>
+        <Topsale/>
+    </>
   );
 };
 
