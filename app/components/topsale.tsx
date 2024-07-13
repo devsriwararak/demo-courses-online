@@ -60,7 +60,7 @@ const Topsale = () => {
   };
 
   return (
-    <div className=" px-56 mt-10">
+    <div className="px-4 lg:px-56 mt-10">
         <div className="bg-white p-5 rounded-md shadow-lg">
       <div>
         <Typography className="text-lg font-bold">คอร์สแนะนำ Tops Salse</Typography>
