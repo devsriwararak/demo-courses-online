@@ -129,9 +129,12 @@ const HomeUser: React.FC = () => {
         <div
           className="flex flex-col lg:flex-row mt-10  w-full  rounded-lg gap-5"
           style={{
-            backgroundImage:
-              "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+            backgroundColor:"#E7C6FF"
           }}
+          // style={{
+          //   backgroundImage:
+          //     "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+          // }}
         >
           <div className="w-full lg:w-5/12 pt-4 px-5 lg:ps-4   ">
             <div className="flex flex-col gap-5">

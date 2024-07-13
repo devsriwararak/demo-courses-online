@@ -198,36 +198,34 @@ const BuyCourse = () => {
 
   return (
     <div
-      className="xl:h-[520px] overflow-auto"
-      style={{
-        backgroundImage:
-          "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-      }}
+      className="xl:h-[700px] overflow-auto "
+      
+      // style={{
+      //   backgroundImage:
+      //     "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+      // }}
     >
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 lg:px-[300px] overflow-auto ">
-        <div className="w-[350px]  ">
-          <Card className="h-[450px] w-full overflow-auto gap-5">
-            <div className="w-full ">
+      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 lg:px-36 overflow-auto  ">
+        <div className="w-full md:w-3/5 ">
+          <Card className="h-[550px] w-full overflow-auto gap-5 !bg-white ">
+            <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
               <Image
                 src={buyData?.image || ""}
                 alt=""
-                width={500}
-                height={100}
-                className="flex h-[250px] "
+                width={400}
+                height={400}
+                // className="flex h-[250px] "
               />
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 py-6  px-2 md:px-10">
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Titel:</Typography>
                 <Typography>
                   {truncateText(buyData?.title || "", 20)}
                 </Typography>
               </div>
-              <div className=" flex gap-2 ps-3 ">
-                <Typography className="font-bold ">Dec:</Typography>
-                <Typography>{truncateText(buyData?.dec || "", 70)}</Typography>
-              </div>
+          
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Price:</Typography>
                 <Typography>
@@ -237,11 +235,18 @@ const BuyCourse = () => {
                 </Typography>
                 <Typography>บาท</Typography>
               </div>
+
+              <div className=" flex gap-2 ps-3 ">
+                <Typography className="font-bold ">Dec:</Typography>
+                {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
+                <Typography >{buyData?.dec || ""}</Typography>
+
+              </div>
             </div>
           </Card>
         </div>
-        <div className="w-[300px]  ">
-          <Card className="h-[450px] w-full overflow-auto gap-5">
+        <div className="w-full md:w-2/5  ">
+          <Card className="h-[550px] w-full overflow-auto gap-5 px-6 py-4">
             <div className="w-[150px] p-2">
               <Button
                 className="w-full justify-center items-center text-base font-normal mb-0"
@@ -270,9 +275,9 @@ const BuyCourse = () => {
                       </Typography>
                     </div>
                   ) : (
-                    <div className="bg-red-500 px-3 flex gap-2 ">
-                      <Typography className="font-semibold ">สถานะ:</Typography>
-                      <Typography className="font-semibold ">
+                    <div className="bg-red-500 py-2 px-8 flex gap-2 ">
+                      <Typography className="font-semibold text-white ">สถานะ:</Typography>
+                      <Typography className="font-semibold text-white ">
                         รอชำระเงิน
                       </Typography>
                     </div>
@@ -283,14 +288,14 @@ const BuyCourse = () => {
                   ""
                 ) : (
                   <div className="">
-                    <div className=" flex gap-2 ps-5 ">
-                      <Typography className="font-bold ">Price:</Typography>
-                      <Typography>
+                    <div className=" flex gap-2 ps-5  ">
+                      <Typography className="font-bold text-xl ">ราคา :</Typography>
+                      <Typography className="text-xl">
                         {buyData?.price_sale || 0 > 0
                           ? buyData?.price_sale.toLocaleString()
                           : buyData?.price.toLocaleString()}
                       </Typography>
-                      <Typography>บาท</Typography>
+                      <Typography className="text-xl">บาท</Typography>
                     </div>
                     <div className=" flex gap-2 ps-5 mt-5 w-[200px] ">
                       <Input type="file" label="แนบสลิป files" crossOrigin />

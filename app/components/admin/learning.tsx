@@ -192,6 +192,7 @@ const LearningPage: React.FC = () => {
         MySwal.showLoading();
       },
     });
+    console.log(formData?.videoFile)
 
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
@@ -239,11 +240,13 @@ const LearningPage: React.FC = () => {
         MySwal.close();
       }
     } catch (err) {
+      console.log(err)
       MySwal.close();
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
   };
+
 
   const resetForm = () => {
     setFormData({
@@ -338,7 +341,7 @@ const LearningPage: React.FC = () => {
                 </div>
                 <div className="w-full xl:w-4/12">
                   <Input
-                    label="ราคาส่วนลด"
+                    label="ราคาลดแล้ว"
                     type="number"
                     min={0}
                     crossOrigin="anonymous"

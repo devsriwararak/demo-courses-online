@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, FormEvent, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter , usePathname } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
@@ -17,6 +17,7 @@ const LoginPage: React.FC = () => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogin = useCallback(
     async (e: FormEvent) => {
@@ -60,32 +61,34 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="flex items-stretch ">
-        <Card className="p-5 sm:max-w-xs w-full rounded-r-none">
+        <Card className="p-5 sm:max-w-xs w-full rounded-r-none ">
           <div className="flex flex-col items-center gap-5">
             <div className="flex flex-col w-full justify-center items-center">
               <div>
-                <Typography className="text-purple-500 font-medium ">
+                <Typography className=" font-medium ">
                   เข้าสู่ระบบ
                 </Typography>
               </div>
-              <div className=" w-[90%] h-[1px] mt-2 bg-purple-300">{""}</div>
+              <div className=" w-[90%] h-[1px] mt-2 bg-gray-400">{""}</div>
               <div>
-                <Typography className="text-purple-500 mt-3 font-medium">
+                <Typography className=" mt-3 font-medium">
                   ระบบห้องเรียน Online
                 </Typography>
               </div>
             </div>
             <div className="flex w-full flex-col sm:flex-row gap-3  ">
               <Button
-                variant="outlined"
+                variant={pathname === "/login" ? "gradient" : "outlined"}
                 color="purple"
-                className="w-full"
+                className="w-full "
+                size="sm"
                 onClick={() => router.push("/login")}
               >
                 User Login
               </Button>
               <Button
                 variant="outlined"
+                size="sm"
                 color="purple"
                 className="w-full"
                 onClick={() => router.push("/loginopt")}
@@ -95,10 +98,10 @@ const LoginPage: React.FC = () => {
             </div>
             <form onSubmit={handleLogin} className="w-full">
               <div className="flex flex-col gap-5">
-                <div>
+                <div >
                   <Input
                     type="text"
-                    label="User"
+                    label="Username"
                     value={user}
                     color="purple"
                     onChange={(e) => setUser(e.target.value)}
@@ -160,34 +163,35 @@ const LoginPage: React.FC = () => {
           </div>
         </Card>
         <Card
-          className="pt-5 w-[200px] rounded-l-none hidden lg:block"
+          className="pt-5 w-[250px] rounded-l-none hidden lg:block"
           style={{
-            backgroundImage:
-              "linear-gradient(125deg, #6d28d9, #7c3aed, #8b5cf6)",
+            backgroundColor:"#D6C3EF",
+            // backgroundImage:
+            //   "linear-gradient(125deg, #6d28d9, #7c3aed, #8b5cf6)",
           }}
         >
-          <Typography className="text-white text-center whitespace-nowrap  text-xl  font-semibold">
+          <Typography className="text-black  text-center whitespace-nowrap  text-xl  font-semibold">
             ยินดีต้อนรับ
           </Typography>
           <div className="px-3 mt-1">
             <hr />
           </div>
-          <Typography className="text-white whitespace-nowrap text-center mt-3">
+          <Typography className="text-gray-800 whitespace-nowrap text-center mt-3">
             เลือกรูปแบบที่ต้องการ{" "}
           </Typography>
-          <Typography className="text-white whitespace-nowrap ml-3 mt-2 text-xs ">
+          <Typography className="text-gray-800 whitespace-nowrap ml-3 mt-2 text-xs ">
             1. User Login{" "}
           </Typography>
-          <Typography className="text-white whitespace-nowrap ml-3  text-xs ">
+          <Typography className="text-gray-800 whitespace-nowrap ml-3  text-xs ">
             2. OTP Login{" "}
           </Typography>
-          <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
+          {/* <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
             เลือก Login ในแบบที่คุณ เพื่อเข้าสู่บทเรียน/เนื้อหา และ ตัวอย่างที่น่าสนใจ
           </Typography>
 
           <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
             ความรู้ไม่มีวันสิ้นสุด ขอให้สนุกกับการเรียนรู้
-          </Typography>
+          </Typography> */}
         </Card>
       </div>
 

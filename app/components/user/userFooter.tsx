@@ -1,5 +1,5 @@
 'use client'
-import { Typography } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 
 const SITEMAP = [
@@ -31,52 +31,67 @@ export function UserFooter() {
     const router = useRouter();
 
     return (
-        <footer className="relative w-full bg-gray-200 mt-auto "
-        style={{
-            backgroundImage:
-              "linear-gradient(180deg,  rgba(201,234,252,0.51) 14.9%, rgba(139,192,216,0.73) 80% )",
-          }}>
-            <div className="mx-auto w-full max-w-7xl px-8">
-                <div className="mx-auto grid w-full grid-cols-2 gap-8 mt-1 sm:grid-cols-4 md:grid-cols-4 ">
-                    {SITEMAP.map(({ title, links }, key) => (
-                        <div key={key} className="w-full">
-                            <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="mb-2 font-bold uppercase opacity-50"
-                            >
-                                {title}
-                            </Typography>
-                            <ul className="space-y-1 ">
-                                {links.map((link, key) => (
+        <>
+            <div className="bg-purple-200 bg-opacity-10">
+                <div className=" relative mt-10 bg-purple-300 mx-[450px] text-center shadow-lg rounded-full py-10 border border-gray-300 -mb-10 z-10">
+                    <div className="flex flex-col md:flex-row gap-1 px-10">
+                        <h2 className=" w-2/3 text-2xl text-white ">ติดต่อเรา</h2>
+                        <Input className="w-1/3 bg-white" type="text" crossOrigin={""} label="E-mail" />
+                    </div>
+                </div>
+                <footer className=" w-full bg-gray-200 border-t-2 border-gray-300 mt-auto   "
+
+
+                >
+                    <div className="mx-auto w-full max-w-7xl py-10 px-4 mt-10">
+                        <div className="mx-auto grid w-full grid-cols-2 gap-8 mt-1 sm:grid-cols-4 md:grid-cols-4 ">
+                            {SITEMAP.map(({ title, links }, key) => (
+                                <div key={key} className="w-full">
                                     <Typography
-                                        key={key}
-                                        as="li"
+                                        variant="small"
                                         color="blue-gray"
-                                        className="font-normal text-sm"
+                                        className="mb-2 font-bold uppercase opacity-50"
                                     >
-                                        <button
-                                            onClick={() => router.push(`/${link.toLowerCase().replace(/ /g, '-')}`)}
-                                            className="inline-block py-1 pr-2 transition-transform hover:scale-105  whitespace-nowrap"
-                                        >
-                                            {link}
-                                        </button>
+                                        {title}
                                     </Typography>
-                                ))}
-                            </ul>
+                                    <ul className="space-y-1 ">
+                                        {links.map((link, key) => (
+                                            <Typography
+                                                key={key}
+                                                as="li"
+                                                color="blue-gray"
+                                                className="font-normal text-sm"
+                                            >
+                                                <button
+                                                    onClick={() => router.push(`/${link.toLowerCase().replace(/ /g, '-')}`)}
+                                                    className="inline-block py-1 pr-2 transition-transform hover:scale-105  whitespace-nowrap"
+                                                >
+                                                    {link}
+                                                </button>
+                                            </Typography>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-                <div className="flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-1 md:flex-row md:justify-between">
-                    <Typography
-                        variant="small"
-                        className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
-                    >
-                        &copy; {currentYear} <a href="https://material-tailwind.com/">Material Tailwind</a>. All
-                        Rights Reserved.
-                    </Typography>
-                </div>
+
+                    </div>
+
+                    <div className=" mt-2 px-4 md:px-28 py-2 bg-gray-600  flex w-full flex-col items-center justify-center border-t border-blue-gray-50  md:flex-row md:justify-between">
+                        <Typography
+                            variant="small"
+                            className="mb-4 text-center font-normal text-white md:mb-0"
+                        >
+                            &copy; {currentYear} <a href="https://material-tailwind.com/">Material Tailwind</a>. All
+                            Rights Reserved.
+                        </Typography>
+                    </div>
+
+                </footer>
             </div>
-        </footer>
+
+
+        </>
+
     );
 }

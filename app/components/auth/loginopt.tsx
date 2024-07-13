@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, FormEvent, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,usePathname } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
@@ -17,6 +17,7 @@ const LoginOTPPage: React.FC = () => {
   const [tel, setTel] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogin = useCallback(
     async (e: FormEvent) => {
@@ -131,7 +132,7 @@ const LoginOTPPage: React.FC = () => {
                 User Login
               </Button>
               <Button
-                variant="outlined"
+                  variant={pathname === "/loginopt" ? "gradient" : "outlined"}
                 color="purple"
                 className="w-full"
                 onClick={() => router.push("/loginopt")}
