@@ -128,7 +128,7 @@ const ShopCourse: React.FC = () => {
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="p-1  ">
         <div
-          className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
+          className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-6 sm:px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
           // style={{
           //   backgroundColor:"#F3CEFF"
           // }}
