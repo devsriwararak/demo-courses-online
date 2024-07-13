@@ -256,7 +256,7 @@ const BuyCourse = () => {
             </div>
             {show ? (
               <div className="flex flex-col gap-3">
-                <div className="flex flex-col sm:flex-row gap-[57px] items-center">
+                <div className="flex flex-col sm:flex-row gap-[57px] items-center ">
                 <div className=" flex gap-2 ps-5 ">
                   <Typography className="font-bold ">บิลเลขที่:</Typography>
                   <Typography>A0001</Typography>
@@ -301,7 +301,7 @@ const BuyCourse = () => {
                   </div>
                 )}
                 {success ? (
-                  <div className=" flex gap-2 ps-2 w-[200px] mt-3">
+                  <div className=" flex gap-2 ps-2 w-full sm:w-[200px] mt-5">
                     <Button
                       className="w-full justify-center items-center text-base font-normal mb-0"
                       size="sm"
