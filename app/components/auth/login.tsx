@@ -166,8 +166,6 @@ const LoginPage: React.FC = () => {
           className="pt-5 w-[250px] rounded-l-none hidden lg:block"
           style={{
             backgroundColor:"#D6C3EF",
-            // backgroundImage:
-            //   "linear-gradient(125deg, #6d28d9, #7c3aed, #8b5cf6)",
           }}
         >
           <Typography className="text-black  text-center whitespace-nowrap  text-xl  font-semibold">

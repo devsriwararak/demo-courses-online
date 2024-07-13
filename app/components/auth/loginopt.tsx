@@ -111,13 +111,13 @@ const LoginOTPPage: React.FC = () => {
           <div className="flex flex-col items-center gap-5">
             <div className="flex flex-col w-full justify-center items-center">
               <div>
-                <Typography className="text-purple-500 font-medium ">
+                <Typography className=" font-medium ">
                   เข้าสู่ระบบ (OTP)
                 </Typography>
               </div>
               <div className=" w-[90%] h-[1px] mt-2 bg-purple-300">{""}</div>
               <div>
-                <Typography className="text-purple-500 mt-3 font-medium">
+                <Typography className=" mt-3 font-medium">
                   ระบบห้องเรียน Online
                 </Typography>
               </div>
@@ -223,35 +223,36 @@ const LoginOTPPage: React.FC = () => {
           </div>
         </Card>
         <Card
-          className="pt-5 w-[200px] rounded-l-none hidden lg:block"
+          className="pt-5 w-[220px] px-3 rounded-l-none hidden lg:block"
           style={{
-            backgroundImage:
-              "linear-gradient(125deg, #6d28d9, #7c3aed, #8b5cf6)",
+            backgroundColor:"#D6C3EF",
           }}
         >
-          <Typography className="text-white text-center whitespace-nowrap  text-xl  font-semibold">
+          <Typography className="text-black text-center whitespace-nowrap  text-xl  font-semibold">
             ยินดีต้อนรับ
           </Typography>
           <div className="px-3 mt-1">
             <hr />
           </div>
-          <Typography className="text-white whitespace-nowrap text-center mt-3">
+          <div >
+          <Typography className="text-gray-800   mt-3">
             เลือกรูปแบบที่ต้องการ{" "}
           </Typography>
-          <Typography className="text-white whitespace-nowrap ml-3 mt-2 text-xs ">
+          <Typography className="text-gray-800    mt-2  ">
             1. User Login{" "}
           </Typography>
-          <Typography className="text-white whitespace-nowrap ml-3  text-xs ">
+          <Typography className="text-gray-800    ">
             2. OTP Login{" "}
           </Typography>
-          <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
+          <Typography className="text-gray-800   mt-5   ">
             เลือก Login ในแบบที่คุณ เพื่อเข้าสู่บทเรียน/เนื้อหา และ
             ตัวอย่างที่น่าสนใจ
           </Typography>
 
-          <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
+          <Typography className="text-gray-800   mt-5    ">
             ความรู้ไม่มีวันสิ้นสุด ขอให้สนุกกับการเรียนรู้
           </Typography>
+          </div>
         </Card>
       </div>
     </div>
