@@ -241,7 +241,7 @@ const BuyCourse = () => {
         </div>
         <div className="w-full md:w-2/5  ">
           <Card className="h-[550px] w-full overflow-auto gap-5 px-6 py-4">
-            <div className="w-[150px] p-2">
+            <div className="w-full sm:w-[150px] p-2">
               <Button
                 className="w-full justify-center items-center text-base font-normal mb-0"
                 size="sm"
@@ -256,7 +256,7 @@ const BuyCourse = () => {
             </div>
             {show ? (
               <div className="flex flex-col gap-3">
-                <div className="flex gap-[57px] items-center">
+                <div className="flex flex-col sm:flex-row gap-[57px] items-center">
                 <div className=" flex gap-2 ps-5 ">
                   <Typography className="font-bold ">บิลเลขที่:</Typography>
                   <Typography>A0001</Typography>
@@ -284,7 +284,7 @@ const BuyCourse = () => {
                   ""
                 ) : (
                   <div className="mt-5">
-                    <div className="flex items-center gap-[34px] md:gap-[50px]">
+                    <div className="flex flex-col sm:flex-row items-center gap-[34px] md:gap-[50px]">
                     <div className=" flex gap-1 ps-5   ">
                       <Typography className="font-bold text-xl whitespace-nowrap ">ราคา :</Typography>
                       <Typography className="text-xl">
@@ -315,7 +315,7 @@ const BuyCourse = () => {
                     </Button>
                   </div>
                 ) : (
-                  <div className=" flex gap-2 ps-5 w-[150px] mt-3 ">
+                  <div className=" flex gap-2 ps-5 w-full sm:w-[150px] mt-3 ">
                     <Button
                       className="w-full justify-center items-center text-base font-normal mb-0"
                       size="sm"
