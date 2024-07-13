@@ -158,9 +158,9 @@ export function HeaderHome() {
               color="purple"
               size="sm"
               className="mb-3"
-              onClick={handleLogout}
+              onClick={()=> router.push("/login")}
             >
-              <span>ออกจากระบบ</span>
+              <span>Login</span>
             </Button>
           </div>
         </Collapse>
