@@ -256,7 +256,7 @@ const BuyCourse = () => {
             </div>
             {show ? (
               <div className="flex flex-col gap-3">
-                <div className="flex flex-col sm:flex-row gap-[57px] items-center ">
+                <div className="flex flex-col sm:flex-row gap-5 sm:gap-[57px] items-center ">
                 <div className=" flex gap-2 ps-5 ">
                   <Typography className="font-bold ">บิลเลขที่:</Typography>
                   <Typography>A0001</Typography>
@@ -284,7 +284,7 @@ const BuyCourse = () => {
                   ""
                 ) : (
                   <div className="mt-5">
-                    <div className="flex flex-col sm:flex-row items-center gap-[34px] md:gap-[50px]">
+                    <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-[34px] md:gap-[50px]">
                     <div className=" flex gap-1 ps-5   ">
                       <Typography className="font-bold text-xl whitespace-nowrap ">ราคา :</Typography>
                       <Typography className="text-xl">

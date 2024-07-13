@@ -54,7 +54,7 @@ const Study = () => {
               </div>
               <div className="flex gap-2 ps-3">
                 <Typography className="font-bold">Dec:</Typography>
-                <Typography className=" text-justify pr-2">
+                <Typography className="  pr-2">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio,
                   sed. Ad veritatis voluptatibus reiciendis eius. Beatae omnis
                   officiis tempore vel!.
