@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 
 import { useRecoilState } from "recoil";
 import { BuyCourseStore } from "@/store/store";
+import Topsale from "../topsale";
 
 const courseCategories = [
   "ทั้งหมด",
@@ -199,6 +200,7 @@ const ShopCourse: React.FC = () => {
           </Button>
         ))}
       </div>
+
       <div className="flex justify-center mt-4 ">
         <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
           {recommendedCourses.map((course, index) => (
@@ -273,14 +275,18 @@ const ShopCourse: React.FC = () => {
               </div>
             </Card>
           ))}
+          
         </div>
       </div>
       </div>
 
-    
+      <div className="mt-5">
+      <Topsale/>
+
+      </div>
 
 
-
+         
     </div>
   );
 };
