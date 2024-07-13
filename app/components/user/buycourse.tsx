@@ -240,7 +240,7 @@ const BuyCourse = () => {
           </Card>
         </div>
         <div className="w-full md:w-2/5  ">
-          <Card className="h-[550px] w-full overflow-auto gap-5 px-6 py-4">
+          <Card className="lg:h-[550px] w-full overflow-auto gap-5 px-6 py-4">
             <div className="w-full sm:w-[150px] p-2">
               <Button
                 className="w-full justify-center items-center text-base font-normal mb-0"
@@ -263,9 +263,9 @@ const BuyCourse = () => {
                 </div>
                 <div className=" flex gap-2  ps-2  ">
                   {success ? (
-                    <div className="bg-green-500 px-3 flex gap-2 ">
-                      <Typography className="font-semibold ">สถานะ:</Typography>
-                      <Typography className="font-semibold ">
+                    <div className="bg-green-500 py-2 px-8  flex gap-2 ">
+                      <Typography className="font-semibold text-white">สถานะ:</Typography>
+                      <Typography className="font-semibold text-white">
                         ชำระเงินแล้ว
                       </Typography>
                     </div>
