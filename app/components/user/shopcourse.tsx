@@ -127,7 +127,7 @@ const ShopCourse: React.FC = () => {
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="p-1  ">
         <div
-          className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-36 py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
+          className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
           // style={{
           //   backgroundColor:"#F3CEFF"
           // }}
@@ -183,7 +183,7 @@ const ShopCourse: React.FC = () => {
       <div className="mt-8">
         <Typography className="text-lg font-bold">คอร์สแนะนำ</Typography>
       </div>
-      <div className=" flex flex-wrap gap-2 justify-start mt-6 ">
+      <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
         {courseCategories.map((category, index) => (
           <Button
             key={index}
@@ -236,7 +236,14 @@ const ShopCourse: React.FC = () => {
               </div>
               
               <div className="flex flex-col mt-4 px-6 pb-5 ">
-                <div className="flex w-full text-wrap">
+                <div className="flex w-full text-wrap gap-3">
+                  <Typography
+                    className="text-xl  line-through  mb-2  pr-1"
+                  >
+                    {course?.price_sale > 0
+                      ? course?.price.toLocaleString()
+                      : ""}{" "}
+                  </Typography>
                   <Typography
                     className={`text-xl ${
                       course.price_sale > 0

@@ -262,6 +262,7 @@ const BuyCourse = () => {
             </div>
             {show ? (
               <div className="flex flex-col gap-3">
+                <div className="flex gap-[57px] items-center">
                 <div className=" flex gap-2 ps-5 ">
                   <Typography className="font-bold ">บิลเลขที่:</Typography>
                   <Typography>A0001</Typography>
@@ -283,13 +284,15 @@ const BuyCourse = () => {
                     </div>
                   )}
                 </div>
+                </div>
 
                 {success ? (
                   ""
                 ) : (
-                  <div className="">
-                    <div className=" flex gap-2 ps-5  ">
-                      <Typography className="font-bold text-xl ">ราคา :</Typography>
+                  <div className="mt-5">
+                    <div className="flex items-center gap-[34px] md:gap-[50px]">
+                    <div className=" flex gap-1 ps-5   ">
+                      <Typography className="font-bold text-xl whitespace-nowrap ">ราคา :</Typography>
                       <Typography className="text-xl">
                         {buyData?.price_sale || 0 > 0
                           ? buyData?.price_sale.toLocaleString()
@@ -297,8 +300,9 @@ const BuyCourse = () => {
                       </Typography>
                       <Typography className="text-xl">บาท</Typography>
                     </div>
-                    <div className=" flex gap-2 ps-5 mt-5 w-[200px] ">
+                    <div className=" flex gap-2 w-[200px] ">
                       <Input type="file" label="แนบสลิป files" crossOrigin />
+                    </div>
                     </div>
                   </div>
                 )}

@@ -57,7 +57,7 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
       size="sm"
       color="purple"
       className="hidden lg:inline-block "
-      onClick={() => router.push(href)}
+      onClick={()=> router.push(href)}
     >
       <span>{children}</span>
     </Button>
@@ -107,6 +107,11 @@ export function UserHeader() {
     [handleNavigation]
   );
 
+  const handleLogout = () => {
+    router.push("/home");
+    localStorage.clear();
+  };
+
   return (
     <div className="max-h-[768px]  ">
       <Navbar className=" !sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8  ">
@@ -130,9 +135,15 @@ export function UserHeader() {
             <div className="flex ">
               {/* <HeaderButton href="/register" variant="outlined">Register</HeaderButton> */}
               {login ? (
-                <HeaderButton href="/home" variant="outlined">
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  color="purple"
+                  className="hidden lg:inline-block "
+                  onClick={handleLogout}
+                >
                   ออกจากระบบ
-                </HeaderButton>
+                </Button>
               ) : (
                 <HeaderButton href="/login" variant="gradient">
                   Log In
@@ -161,7 +172,7 @@ export function UserHeader() {
               color="purple"
               size="sm"
               className="mb-3"
-              onClick={() => router.push("/home")}
+              onClick={handleLogout}
             >
               <span>ออกจากระบบ</span>
             </Button>

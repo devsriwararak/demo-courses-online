@@ -32,19 +32,23 @@ const Study = () => {
 
   return (
     <div
-    className="xl:h-[700px] overflow-auto "
-  >
+      className="xl:h-[520px] overflow-auto"
+      style={{
+        backgroundImage:
+          "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+      }}
+    >
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 lg:px-36 overflow-auto  ">
-        <div className="w-full md:w-3/5 ">
-          <Card className="h-[550px] w-full overflow-auto gap-5 !bg-white ">
-            <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
-            <ReactPlayer
+      <div className="flex flex-col w-full justify-center items-center lg:flex-row gap-5 pt-10 lg:px-[300px] overflow-auto">
+        <div className="w-full md:w-2/5 ">
+        <Card className="h-[550px] w-full overflow-auto gap-5 !bg-white ">
+        <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
+              <ReactPlayer
                 ref={videoRef}
                 url="https://youtu.be/4_c5EBr0whM"
                 controls
                 width="100%"
-                height="400px"
+                height="200px"
               />
             </div>
             <div className="flex flex-col gap-3">
@@ -63,8 +67,8 @@ const Study = () => {
             </div>
           </Card>
         </div>
-        <div className="w-full md:w-2/5  ">
-        <Card className="h-[550px] w-full overflow-auto gap-5">
+        <div className="w-[300px]">
+          <Card className="h-[450px] w-full overflow-auto gap-5">
             <Typography className="font-bold p-4">Tag List</Typography>
             <div className="px-4">
               <Button className="w-full mb-2" onClick={() => seekTo(0)}>

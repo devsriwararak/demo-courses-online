@@ -105,6 +105,11 @@ export function HeaderHome() {
     [handleNavigation]
   );
 
+  const handleLogout = () => {
+    router.push("/home")
+    localStorage.clear()
+  }
+
   return (
     <div className="max-h-[768px] ">
       <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8  ">
@@ -153,7 +158,7 @@ export function HeaderHome() {
               color="purple"
               size="sm"
               className="mb-3"
-              onClick={() => router.push("/home")}
+              onClick={handleLogout}
             >
               <span>ออกจากระบบ</span>
             </Button>
