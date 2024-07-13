@@ -209,7 +209,7 @@ const BuyCourse = () => {
                 alt=""
                 width={400}
                 height={400}
-                // className="flex h-[250px] "
+                className="flex w-auto h-auto lg:w-[400px]  "
               />
             </div>
             <div className="flex flex-col gap-3 py-6  px-2 md:px-10">
