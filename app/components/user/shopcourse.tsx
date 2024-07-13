@@ -180,7 +180,7 @@ const ShopCourse: React.FC = () => {
 
       {/* section - 2 */}
 
-      <div className=" px-12 md:px-28">
+      <div className=" px-6 md:px-28">
       <div className="mt-8">
         <Typography className="text-lg font-bold">คอร์สแนะนำ</Typography>
       </div>
