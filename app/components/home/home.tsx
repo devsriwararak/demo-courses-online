@@ -215,13 +215,12 @@ const HomePage: React.FC = () => {
                width={310}
                height={100}
                priority
-               style={{ width: "auto", height: "auto" }} // เพิ่มสไตล์เพื่อรักษาอัตราส่วน
                className="rounded-lg rounded-b-none object-cover mb-4"
              />
            </div>
            <div>
              <Typography className="text-lg font-semibold text-white ps-2">
-               {truncateText(course.title, 30)}
+               {truncateText(course.title, 30)} 
              </Typography>
            </div>
            <div className="flex w-full text-wrap">

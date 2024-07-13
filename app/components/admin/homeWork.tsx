@@ -116,6 +116,7 @@ const HomeWorkPage: React.FC = () => {
     | { type: "SET_FORM_LIST"; payload: Partial<State["formList"]> }
     | { type: "SET_SELECTED_COURSE_TITLE"; payload: string }
     | { type: "RESET_FORM" }
+    | { type: "RESET_FORM1" }
     | { type: "RESET_STATUS_EDIT" }
     | { type: "RESET_SELECTED_COURSE_TITLE" };
 
@@ -317,9 +318,10 @@ const HomeWorkPage: React.FC = () => {
       if (res.status === 200) {
         toast.success(res.data.message);
         fetchQuestion();
-        dispatch({ type: "RESET_FORM" });
+        // dispatch({ type: "RESET_FORM" });
+        fetchList(formData.product_id, searchList);
         dispatch({ type: "RESET_STATUS_EDIT" });
-        dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+        // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
       } else {
         toast.error("Form submission failed!");
       }
@@ -381,8 +383,13 @@ const HomeWorkPage: React.FC = () => {
     }
   }, [pageList, formList.product_id, searchList, fetchList]);
 
+  // const handleSendList = async (item: any) => {
+  //   dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: item.title });
+  //   await fetchList(item.products_id, "");
+  // };
   const handleSendList = async (item: any) => {
     dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: item.title });
+    dispatch({ type: "SET_PAGE_LIST", payload: 1 }); // ตั้งค่า pageList เป็น 1
     await fetchList(item.products_id, "");
   };
 
