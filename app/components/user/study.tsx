@@ -35,7 +35,7 @@ const Study = () => {
     className="xl:h-[700px] overflow-auto "
   >
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 lg:px-36 overflow-auto  ">
+      <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 pt-10 px-6 lg:px-36 overflow-auto  ">
         <div className="w-full md:w-3/5 ">
           <Card className="h-[550px] w-full overflow-auto gap-5 !bg-white ">
             <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
