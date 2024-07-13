@@ -29,7 +29,6 @@ const LoginPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/login`,
           data
         );
-        console.log(res);
         const token = res.data.token;
         const decoded = jwtDecode<MyJwtPayload>(token);
         console.log(decoded);
