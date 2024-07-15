@@ -131,13 +131,6 @@ const ShopCourse: React.FC = () => {
       <div className="p-1  ">
         <div
           className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-6 sm:px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
-          // style={{
-          //   backgroundColor:"#F3CEFF"
-          // }}
-          // style={{
-          //   backgroundImage:
-          //     "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-          // }}
         >
           <div className="w-full lg:w-5/12 pt-4 px-5 lg:ps-4   ">
             <div className="flex flex-col gap-5  ">
@@ -204,29 +197,27 @@ const ShopCourse: React.FC = () => {
       </div>
 
       <div className="flex justify-center mt-4 ">
-        <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
+        <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3 ">
           {recommendedCourses.map((course, index) => (
             <Card
               key={index}
-              className="w-full mt-5  flex flex-col justify-between border border-gray-300"
-              // style={{
-              //   backgroundImage:
-              //     "linear-gradient(180.6deg,  rgba(228,107,232,1) 11.2%, rgba(87,27,226,1) 96.7% )",
-              // }}
+              className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
+              onClick={() => handleBuyNow(course)}
             >
-              <div>
+              <div >
                 <div className="flex w-full h-[200px]">
-                  <Image
-                    src={course.image}
-                    alt={course.title}
-                    width={330}
-                    height={0}
-                    priority
-                    className="rounded-lg rounded-b-none object-cover mb-4"
-                  />
+                <Image
+                      src={course.image}
+                      alt={course.title}
+                      width={500}
+                      height={500}
+                      priority
+                      className="rounded-lg rounded-b-none object-cover mb-4"
+                      style={{width:"100%" , height:"100%"}}
+                    />
                 </div>
 
-                <div className="px-2 md:px-4 ">
+                <div className="px-2 md:px-4 mt-5 ">
                 <Typography className="text-lg font-semibold text-black ps-2">
                     {truncateText(course.title, 30)}
                   </Typography>
@@ -268,11 +259,7 @@ const ShopCourse: React.FC = () => {
                   variant="outlined"
                   color="purple"
                   size="sm"
-                  // style={{
-                  //   backgroundImage:
-                  //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                  // }}
-                  onClick={() => handleBuyNow(course)}
+                  onClick={() => handleBuyNow(course)}              
                 >
                   ซื้อตอนนี้
                 </Button>

@@ -77,14 +77,15 @@ const Topsale = () => {
                   <Image
                     src={course.image}
                     alt={course.title}
-                    width={330}
-                    height={0}
+                    width={500}
+                    height={500}
                     priority
                     className="rounded-lg rounded-b-none  object-cover mb-4"
+                    style={{width:"100%" , height:"100%"}}
                   />
                 </div>
 
-                <div className="px-2 md:px-4 ">
+                <div className="px-2 md:px-4 mt-5 ">
                 <Typography className="text-lg font-semibold text-black ps-2">
                     {truncateText(course.title, 30)}
                   </Typography>

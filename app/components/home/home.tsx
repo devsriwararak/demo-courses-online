@@ -202,26 +202,23 @@ const HomePage: React.FC = () => {
             {recommendedCourses.map((course, index) => (
               <Card
                 key={index}
-                className="w-full mt-5  flex flex-col justify-between border border-gray-300"
-                // style={{
-                //   backgroundImage:
-                //     "linear-gradient(180.6deg,  rgba(228,107,232,1) 11.2%, rgba(87,27,226,1) 96.7% )",
-                // }}
+                className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
+                onClick={() => handleBuyNow(course)}
               >
                 <div>
                   <div className="flex w-full h-[200px]">
                     <Image
                       src={course.image}
                       alt={course.title}
-                      width={330}
-                      height={0}
+                      width={500}
+                      height={500}
                       priority
                       className="rounded-lg rounded-b-none object-cover mb-4"
-                      
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </div>
 
-                  <div className="px-2 md:px-4 ">
+                  <div className="px-2 md:px-4 mt-5 ">
                     <Typography className="text-lg font-semibold text-black ps-2">
                       {truncateText(course.title, 30)}
                     </Typography>
@@ -270,6 +267,37 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </div>
+        {/* <div className="flex flex-wrap mt-8 md:mt-4">
+          {Array.isArray(recommendedCourses) &&
+          recommendedCourses.length > 0 ? (
+            recommendedCourses.map((item, index) => (
+              <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-2 md:p-4">
+                <div onClick={() => handleBuyNow(item)}>
+                  <div className="bg-white shadow-lg rounded-lg  px-4 md:px-6 py-4 border-2 border-gray-200">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      width={500}
+                      height={500}
+                    />
+                    <h3 className="text-lg  text-black font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm">{item.dec}</p>
+                    <p className="mt-2 text-sm">{item?.price_sale > 0
+                        ? item?.price.toLocaleString()
+                        : ""}{" "}</p>
+                    <p className="mt-2 text-sm">{item?.price_sale > 0
+                        ? item?.price_sale.toLocaleString()
+                        : item?.price.toLocaleString()}{" "}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>ไม่มีข้อมูลให้แสดง</p> // ข้อความที่จะแสดงเมื่อไม่มีข้อมูล
+          )}
+        </div> */}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const Study = () => {
                 url="https://youtu.be/4_c5EBr0whM"
                 controls
                 width="100%"
-                height="400px"
+                // height="auto"
               />
             </div>
             <div className="flex flex-col gap-3">
@@ -52,7 +52,7 @@ const Study = () => {
                 <Typography className="font-bold">เหลือเวลา:</Typography>
                 <Typography>100 วัน</Typography>
               </div>
-              <div className="flex gap-2 ps-3">
+              <div className="flex gap-2 ps-3 mb-3">
                 <Typography className="font-bold">Dec:</Typography>
                 <Typography className="  pr-2">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio,
