@@ -117,6 +117,8 @@ const HomeWorkPage: React.FC = () => {
     | { type: "SET_SELECTED_COURSE_TITLE"; payload: string }
     | { type: "RESET_FORM" }
     | { type: "RESET_FORM1" }
+    | { type: "RESET_FORM_LIST" }
+    | { type: "RESET_FORM_DATA" }
     | { type: "RESET_STATUS_EDIT" }
     | { type: "RESET_SELECTED_COURSE_TITLE" };
 
@@ -144,6 +146,10 @@ const HomeWorkPage: React.FC = () => {
         return { ...state, formData: { ...state.formData, ...action.payload } };
       case "SET_FORM_LIST":
         return { ...state, formList: { ...state.formList, ...action.payload } };
+        case "RESET_FORM_LIST":
+        return { ...state,dataList: initialState.dataList,};
+        case "RESET_FORM_DATA":
+        return { ...state,formData: initialState.formData};
       case "SET_SELECTED_COURSE_TITLE":
         return { ...state, selectedCourseTitle: action.payload };
       case "RESET_SELECTED_COURSE_TITLE":
@@ -181,19 +187,6 @@ const HomeWorkPage: React.FC = () => {
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
-  // const handleSort = () => {
-  //   if (dragItem.current !== null && dragItemOver.current !== null) {
-  //     const _dataList = [...dataList.data];
-  //     const draggedItemContent = _dataList.splice(dragItem.current, 1)[0];
-  //     _dataList.splice(dragItemOver.current, 0, draggedItemContent);
-  //     dragItem.current = null;
-  //     dragItemOver.current = null;
-  //     dispatch({
-  //       type: "SET_DATA_LIST",
-  //       payload: { ...dataList, data: _dataList },
-  //     });
-  //   }
-  // };
 
   const handleSort = async () => {
     if (dragItem.current !== null && dragItemOver.current !== null) {
@@ -264,28 +257,12 @@ const HomeWorkPage: React.FC = () => {
       type: "SET_FORM_DATA",
       payload: { product_id: selectedOption?.value || 0 },
     });
+    dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+    dispatch({ type: "RESET_FORM_LIST" });
     fetchCheckNum(selectedOption?.value);
   };
 
-  // const fetchCheckNum = useCallback(async (id: number) => {
-  //   try {
-  //     const res = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
-  //       { ...HeaderAPI(localStorage.getItem("Token")) }
-  //     );
-  //     if (res.status === 200) {
-  //       dispatch({
-  //         type: "SET_FORM_DATA",
-  //         payload: { questNumber: res.data },
-  //       });
-  //     } else {
-  //       toast.error("Error fetching question number");
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     // handleAxiosError(err, "Form submission failed");
-  //   }
-  // }, []);
+
 
   const fetchCheckNum = useCallback(async (id: number | undefined) => {
     if (typeof id === 'undefined' || id === null) {
@@ -346,11 +323,15 @@ const HomeWorkPage: React.FC = () => {
       if (res.status === 200) {
         toast.success(res.data.message);
         if (statusEdit === 0) {
+          console.log('aaa')
           fetchQuestion();
           dispatch({ type: "RESET_FORM" });
           dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
         } else {
+          console.log('bbbb')
           fetchQuestion();
+          dispatch({ type: "RESET_FORM" });
+          dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
           fetchList(formData.product_id, searchList);
           dispatch({ type: "RESET_STATUS_EDIT" });
         }
