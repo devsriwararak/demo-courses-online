@@ -95,8 +95,20 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             text: "จัดการแอดมิน",
             icon: <FaClipboardList />,
             path: "/super",
-            hasDivider: true,
+            hasDivider: false,
           },
+          {
+            text: "รายงาน",
+            icon: <FaClipboardList />,
+            hasDivider: open["รายงาน"]  ? false : true , 
+            subItems: [
+              { text: "ยอดขายรวม", path: "/super/total", hasDivider: false },
+              { text: "ยอดขายดี", path: "/super/good", hasDivider: true },
+            ],
+          },
+          { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
+
+
           // {
           //   text: "Admin Menu",
           //   // icon: <FaClipboardList />,
@@ -155,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
       default:
         return [];
     }
-  }, [loginStatus]);
+  }, [loginStatus,open]);
 
   const handleNavigation = useCallback(
     (path: string) => {
@@ -215,8 +227,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     return (
                       <div key={subIndex}>
                         <div
-                          className={`flex items-center px-4 py-2 cursor-pointer pl-10 ${
-                            isSubItemActive ? "bg-red-200 text-blue-500" : ""
+                          className={`flex items-center px-2 mx-3 py-2 cursor-pointer pl-8  ${
+                            isSubItemActive ? "bg-gray-400 opacity-90 rounded-md mx-3 " : ""
                           }`}
                           onClick={() => handleNavigation(subItem.path)}
                         >

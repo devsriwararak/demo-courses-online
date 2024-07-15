@@ -20,6 +20,8 @@ export function middleware(request) {
       super: [
         "/super",
         "/super/test",
+        "/super/total",
+        "/super/good",
         "/admin",
         "/admin/learning",
         "/admin/pay",

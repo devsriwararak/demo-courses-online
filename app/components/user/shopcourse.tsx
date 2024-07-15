@@ -200,71 +200,69 @@ const ShopCourse: React.FC = () => {
         <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
           {recommendedCourses.map((course, index) => (
             <Card
-              key={index}
-              className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
-              onClick={() => handleBuyNow(course)}
-            >
-              <div >
-                <div className="flex w-full h-[200px]">
+            key={index}
+            className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
+            onClick={() => handleBuyNow(course)}
+          >
+            <div>
+              <div className="flex w-full h-[200px]">
                 <Image
-                      src={course.image}
-                      alt={course.title}
-                      width={500}
-                      height={500}
-                      priority
-                      className="rounded-lg rounded-b-none object-cover mb-4"
-                      style={{width:"100%" , height:"100%"}}
-                    />
-                </div>
+                  src={course.image}
+                  alt={course.title}
+                  width={500}
+                  height={500}
+                  priority
+                  className="rounded-lg rounded-b-none object-cover mb-4"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
 
-                <div className="px-2 md:px-4 mt-5 ">
+              <div className="px-2 md:px-4 mt-5 ">
                 <Typography className="text-lg font-semibold text-black ps-2">
-                    {truncateText(course.title, 30)}
-                  </Typography>
+                  {truncateText(course.title, 30)}
+                </Typography>
 
-                  <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                    {truncateText(course.dec, 90)}
-                  </Typography>
-
-                </div>
-            
+                <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
+                  {truncateText(course.dec, 90)}
+                </Typography>
               </div>
-              
-              <div className="flex flex-col mt-4 px-6 pb-5 ">
-                <div className="flex w-full text-wrap gap-3 items-center">
-                  <Typography
-                    className="text-sm  line-through  mb-2  pr-1"
-                  >
-                    {course?.price_sale > 0
-                      ? course?.price.toLocaleString()
-                      : ""}{" "}
-                      
-                  </Typography>
-                  <Typography
-                    className={`text-md ${
-                      course.price_sale > 0
-                        ? "text-red-500 font-semibold"
-                        : "text-black"
-                    }  mb-2  pr-1`}
-                  >
-                    {course?.price_sale > 0
-                      ? course?.price_sale.toLocaleString()
-                      : course?.price.toLocaleString()}{" "}
-                    บาท
-                    
-                  </Typography>
-                </div>
-                <Button
-                  className="w-full justify-center items-center text-base font-normal "
-                  variant="outlined"
-                  color="purple"
-                  size="sm"
-                  onClick={() => handleBuyNow(course)}              
+            </div>
+
+            <div className="flex flex-col mt-4 px-6 pb-5 ">
+              <div className="flex w-full text-wrap gap-3">
+                <Typography
+                  className={`text-xl ${
+                    course.price_sale > 0
+                      ? "text-red-500 font-semibold"
+                      : "text-red-500 font-semibold"
+                  }  mb-2  pr-1`}
                 >
-                  ซื้อตอนนี้
-                </Button>
+                  {course?.price_sale > 0
+                    ? course?.price_sale.toLocaleString()
+                    : course?.price.toLocaleString()}{" "}
+                  บาท
+                </Typography>
+                <Typography className="  line-through  mb-2  pr-1">
+                  {course?.price_sale > 0
+                    ? course?.price.toLocaleString()
+                    : ""}{" "}
+                </Typography>
               </div>
-            </Card>
+              <Button
+                className="w-full justify-center items-center text-base font-normal "
+                variant="outlined"
+                color="purple"
+                size="sm"
+                // style={{
+                //   backgroundImage:
+                //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                // }}
+                onClick={() => handleBuyNow(course)}
+              >
+                ซื้อตอนนี้
+              </Button>
+            </div>
+          </Card>
           ))}
           
         </div>
