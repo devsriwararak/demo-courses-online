@@ -1,33 +1,21 @@
 "use client";
 import { useRef } from "react";
-import { useRecoilValue } from "recoil";
-import { BuyCourseStore } from "@/store/store";
+
 import { Button, Card, Typography } from "@material-tailwind/react";
 import ReactPlayer from "react-player";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { useRouter } from "next/navigation";
 
-const MySwal = withReactContent(Swal);
 
 const Study = () => {
-  const buyData = useRecoilValue(BuyCourseStore);
+
   const videoRef = useRef<ReactPlayer>(null);
-  const router = useRouter();
+
 
   const seekTo = (seconds: number) => {
     if (videoRef.current) {
       videoRef.current.seekTo(seconds);
     }
-  };
-
-  const truncateText = (text: string, limit: number) => {
-    if (text.length > limit) {
-      return text.substring(0, limit) + "...";
-    }
-    return text;
   };
 
   return (
