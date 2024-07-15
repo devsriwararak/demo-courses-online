@@ -30,21 +30,21 @@ const topSale: Course[] = [
   {
     title: "Course 2",
     dec: "Description for course 2  sit amet consectetur adipisicing elit. Cupiditate placeat tempora suscipit ipsum, doloribus maiores in recusandae amet? Harum laboriosam facere, explicabo vero odit odio earum nulla consequatur similique magnam, eaque commodi id animi voluptatibus at. Exercitationem eligendi illo odit, recusandae esse, labore a incidunt hic nisi sit qui doloribus!",
-    image: "/pic4.jpg",
+    image: "/pic7.jpg",
     price: 2500,
     price_sale: 0,
   },
   {
     title: "Course 3",
     dec: "Description for course 3",
-    image: "/pic4.jpg",
+    image: "/pic12.jpg",
     price: 4200,
     price_sale: 250,
   },
   {
     title: "Course 4",
     dec: "Description for course 2",
-    image: "/pic4.jpg",
+    image: "/pic6.jpg",
     price: 3000,
     price_sale: 1500,
   },
@@ -80,7 +80,7 @@ const Topsale = () => {
                     width={500}
                     height={500}
                     priority
-                    className="rounded-lg rounded-b-none  object-cover mb-4"
+                    className=" object-cover "
                     style={{width:"100%" , height:"100%"}}
                   />
                 </div>
