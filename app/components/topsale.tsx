@@ -80,7 +80,7 @@ const Topsale = () => {
                     width={330}
                     height={0}
                     priority
-                    className="rounded-lg rounded-b-none object-cover mb-4"
+                    className="rounded-lg rounded-b-none  object-cover mb-4"
                   />
                 </div>
 
