@@ -41,7 +41,7 @@ interface Question {
 interface ListData {
   id: number;
   question: string;
-  index:number
+  index: number;
 }
 
 interface ResponseData {
@@ -144,10 +144,10 @@ const HomeWorkPage: React.FC = () => {
         return { ...state, formData: { ...state.formData, ...action.payload } };
       case "SET_FORM_LIST":
         return { ...state, formList: { ...state.formList, ...action.payload } };
-        case "SET_SELECTED_COURSE_TITLE":
-      return { ...state, selectedCourseTitle: action.payload };
+      case "SET_SELECTED_COURSE_TITLE":
+        return { ...state, selectedCourseTitle: action.payload };
       case "RESET_SELECTED_COURSE_TITLE":
-      return { ...state, selectedCourseTitle: "" };
+        return { ...state, selectedCourseTitle: "" };
       case "RESET_FORM":
         return {
           ...state,
@@ -206,22 +206,24 @@ const HomeWorkPage: React.FC = () => {
         type: "SET_DATA_LIST",
         payload: { ...dataList, data: _dataList },
       });
-  
+
       // ส่งข้อมูลไปยัง API หลังจากการเปลี่ยนตำแหน่ง
       try {
         const data = {
           arrData: _dataList,
           page: pageList,
-        }
-        console.log(data)
+        };
+        console.log(data);
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/question/list/change`,
           data,
           {
-            headers: { Authorization: `Bearer ${localStorage.getItem("Token")}` },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Token")}`,
+            },
           }
         );
-  
+
         if (res.status === 200) {
           toast.success(res.data.message);
           // dispatch({ type: "RESET_FORM" });
@@ -265,7 +267,31 @@ const HomeWorkPage: React.FC = () => {
     fetchCheckNum(selectedOption?.value);
   };
 
-  const fetchCheckNum = useCallback(async (id: number) => {
+  // const fetchCheckNum = useCallback(async (id: number) => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
+  //       { ...HeaderAPI(localStorage.getItem("Token")) }
+  //     );
+  //     if (res.status === 200) {
+  //       dispatch({
+  //         type: "SET_FORM_DATA",
+  //         payload: { questNumber: res.data },
+  //       });
+  //     } else {
+  //       toast.error("Error fetching question number");
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //     // handleAxiosError(err, "Form submission failed");
+  //   }
+  // }, []);
+
+  const fetchCheckNum = useCallback(async (id: number | undefined) => {
+    if (typeof id === 'undefined' || id === null) {
+      return;
+    }
+  
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
@@ -280,9 +306,11 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching question number");
       }
     } catch (err) {
-        handleAxiosError(err, "Form submission failed");
+      console.log(err);
+      handleAxiosError(err, "Form submission failed");
     }
   }, []);
+  
 
   const handleSubmit = async () => {
     const data = {
@@ -317,16 +345,20 @@ const HomeWorkPage: React.FC = () => {
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        fetchQuestion();
-        // dispatch({ type: "RESET_FORM" });
-        fetchList(formData.product_id, searchList);
-        dispatch({ type: "RESET_STATUS_EDIT" });
-        // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+        if (statusEdit === 0) {
+          fetchQuestion();
+          dispatch({ type: "RESET_FORM" });
+          dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+        } else {
+          fetchQuestion();
+          fetchList(formData.product_id, searchList);
+          dispatch({ type: "RESET_STATUS_EDIT" });
+        }
       } else {
         toast.error("Form submission failed!");
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       handleAxiosError(err, "Form submission failed");
     }
   };
@@ -406,7 +438,7 @@ const HomeWorkPage: React.FC = () => {
         id: data.id,
         question: data.question,
         product_id: formList.product_id,
-        questNumber: data.index, 
+        questNumber: data.index,
       },
     });
     dispatch({ type: "SET_STATUS_EDIT", payload: 1 });
@@ -469,7 +501,7 @@ const HomeWorkPage: React.FC = () => {
     });
   };
 
-  console.log(dataList)
+  console.log(dataList);
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
