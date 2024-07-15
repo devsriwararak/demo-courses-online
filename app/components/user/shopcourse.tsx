@@ -110,6 +110,8 @@ const ShopCourse: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>("ทั้งหมด");
   const router = useRouter();
 
+  const user = sessionStorage.getItem('login')
+
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
 
   const handleBuyNow = (course: Course) => {
@@ -141,7 +143,7 @@ const ShopCourse: React.FC = () => {
             <div className="flex flex-col gap-5  ">
               <div>
                 <Typography className=" txt-xl md:text-4xl   font-bold">
-                  คอร์สเทรดออนไลน์ (Profile)
+                  คอร์สเทรดออนไลน์ ({user})
                 </Typography>
            
               </div>

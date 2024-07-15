@@ -21,16 +21,17 @@ const navItems = [
   { href: '/home/activity', label: 'กิจกรรม' },
   { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
   { href: '/home/contact', label: 'ติดต่อเรา' },
+  { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
+  { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
 
 interface NavItemProps {
   href: string;
   label: string;
-  currentPath: string;
   onClick: (href: string) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) => (
+const NavItem: React.FC<NavItemProps> = ({ href, label,currentPath, onClick }) => (
   <Typography
     as="li"
     key={href}
@@ -46,10 +47,10 @@ const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) 
     </button>
   </Typography>
 );
-
 interface HeaderButtonProps {
   href: string;
   variant: ButtonProps["variant"];
+  currentPath: string;
   children: React.ReactNode;
 }
 
@@ -64,18 +65,21 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
       variant={variant}
       size="sm"
       color="purple"
-      className="hidden lg:inline-block"
-      onClick={() => router.push(href)}
+      className="hidden lg:inline-block "
+      onClick={()=> router.push(href)}
     >
       <span>{children}</span>
     </Button>
   );
 };
 
-export function HeaderHome() {
+export function UserHeader() {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
+
+  const login = sessionStorage.getItem("login");
+  console.log(login);
 
   useEffect(() => {
     const handleResize = () => {
@@ -114,21 +118,48 @@ export function HeaderHome() {
     [handleNavigation, currentPath]
   );
 
+  const handleLogout = () => {
+    router.push("/home");
+    localStorage.clear();
+  };
+
   return (
-    <div className="max-h-[768px]">
-      <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8">
+    <div className="max-h-[768px]  ">
+      <Navbar className=" !sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8  ">
         <div className="flex w-full items-center justify-between text-blue-gray-900">
-          <div className="flex items-center w-[150px] h-[40px]">
-            <Typography className="py-1.5 font-medium text-2xl whitespace-nowrap">
+          <div className=" flex items-center w-[150px] h-[40px] ">
+            {/* <Image
+              src="/logo1.png"
+              alt="logo"
+              onClick={() => router.push("/")}
+              width={70}
+              height={50}
+            //   style={{ width: "auto", height: "auto" }} // เพิ่มสไตล์เพื่อรักษาอัตราส่วน
+              className=" rounded-lg cursor-pointer  "
+            /> */}
+            <Typography className=" py-1.5 font-medium text-2xl  whitespace-nowrap">
               คอร์สออนไลน์
             </Typography>
           </div>
-          <div className="flex items-center gap-4 whitespace-nowrap">
-            <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex rounded-lg">
-              <HeaderButton href="/login" variant="gradient">
-                Log In
-              </HeaderButton>
+          <div className="flex items-center gap-4  whitespace-nowrap ">
+            <div className="mr-4 hidden lg:block ">{navList}</div>
+            <div className="flex ">
+              {/* <HeaderButton href="/register" variant="outlined">Register</HeaderButton> */}
+              {login ? (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  color="purple"
+                  className="hidden lg:inline-block "
+                  onClick={handleLogout}
+                >
+                  ออกจากระบบ
+                </Button>
+              ) : (
+                <HeaderButton href="/login" variant="gradient">
+                  Log In
+                </HeaderButton>
+              )}
             </div>
             <IconButton
               variant="text"
@@ -143,15 +174,18 @@ export function HeaderHome() {
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
+            {/* <Button fullWidth variant="outlined" size="sm" className="mb-3" onClick={() => router.push('/register')}>
+                            <span>Register</span>
+                        </Button> */}
             <Button
               fullWidth
               variant="outlined"
               color="purple"
               size="sm"
               className="mb-3"
-              onClick={() => router.push("/login")}
+              onClick={handleLogout}
             >
-              <span>Login</span>
+              <span>ออกจากระบบ</span>
             </Button>
           </div>
         </Collapse>
