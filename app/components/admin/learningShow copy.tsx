@@ -21,13 +21,16 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 
 interface Course {
-  category_id: number;
+  category_id: string;
   id: number;
   image: string;
   price: number;
   price_sale: number;
   title: string;
+  lesson:string
   video: string;
+  videoFile: File;
+  dec: string;
 }
 
 interface ResponseData {
@@ -59,7 +62,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
           ...HeaderAPI(localStorage.getItem("Token")),
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       if (res.status === 200) {
         setData(res.data);
       } else {
@@ -106,7 +109,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
               },
             }
           );
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             fetchCategory();
             Swal.fire({
@@ -155,7 +158,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
             <table className="w-full min-w-max ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -177,7 +180,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70 whitespace-nowrap"
+                      className="font-bold  text-start leading-none opacity-70 whitespace-nowrap"
                     >
                       หัวข้อ
                     </Typography>
@@ -214,7 +217,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
                               alt=""
                               width={40}
                               height={40}
-                              className=" rounded-full  "
+                              className=" rounded-full"
                             />
                           </div>
                         </div>
@@ -231,14 +234,15 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
                         </div>
                       </td>
                       <td>
-                        <div className="flex items-center justify-center">
+                        <div className="relative flex items-center justify-center tooltip">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal"
+                            className="font-normal ps-4   overflow-hidden text-ellipsis whitespace-nowrap  max-w-[250px]"
                           >
                             {item?.title}
                           </Typography>
+                          <div className="tooltip-text text-sm">{item?.title}</div>
                         </div>
                       </td>
                       <td>

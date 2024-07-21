@@ -42,7 +42,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
             "table",
             "help",
             "wordcount",
-            "advtable",
+            // "advtable",
           ],
           toolbar:
             " formatselect  bold italic underline strikethrough fontsizeinput  " +

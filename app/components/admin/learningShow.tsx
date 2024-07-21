@@ -27,6 +27,7 @@ interface Course {
   price: number;
   price_sale: number;
   title: string;
+  lesson:string
   video: string;
   videoFile: File;
   dec: string;
@@ -61,7 +62,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
           ...HeaderAPI(localStorage.getItem("Token")),
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       if (res.status === 200) {
         setData(res.data);
       } else {
@@ -108,7 +109,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
               },
             }
           );
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             fetchCategory();
             Swal.fire({
@@ -140,7 +141,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
   };
 
   return (
-    <div className="flex justify-center gap-3 ">
+    <div className="flex justify-center gap-3  ">
       <div className="w-full p-5 justify-center items-center">
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
           <div className="flex gap-3">
@@ -152,7 +153,7 @@ const LearningShow: React.FC<LearningShowProps> = ({ showToast, onEdit }) => {
             />
           </div>
         </div>
-        <div className="overflow-auto h-[100%]">
+        <div className="overflow-auto ">
           <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[63vh] overflow-auto mb-3 border-2 ">
             <table className="w-full min-w-max ">
               <thead>
