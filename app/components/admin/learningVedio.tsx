@@ -47,6 +47,7 @@ const LearningVedio: React.FC<LearningTitleProps> = ({
   dataTitle,
 }) => {
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [dataVedio, setDataVedio] = useState([]);
 
   const fetchTitle = useCallback(
     async (id: any) => {
@@ -236,14 +237,14 @@ const LearningVedio: React.FC<LearningTitleProps> = ({
               </tr>
             </thead>
             <tbody>
-              {dataTitle?.data?.length === 0 ? (
+              {dataVedio?.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center pt-5">
                     <Typography>...ไม่พบข้อมูล...</Typography>
                   </td>
                 </tr>
               ) : (
-                dataTitle?.data?.map((item, index) => (
+                dataVedio?.map((item, index) => (
                   <tr key={item.id} style={{ marginTop: "3px" }}>
                     <td className="py-2">
                       <div className="flex items-center justify-center">

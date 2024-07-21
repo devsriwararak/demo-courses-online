@@ -33,7 +33,7 @@ interface LearningTitleProps {
   >;
   pageTitle: number;
   setDataTitle: React.Dispatch<React.SetStateAction<any[]>>;
-  dataTitle: any[];
+  dataTitle: any ;
   setPageTitle: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -197,7 +197,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               </Button>
             </div>
           </div>
-          <div className="flex flex-grow">
+          <div >
           <table className="w-full  mt-3  ">
             <thead>
               <tr>
@@ -247,7 +247,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   </td>
                 </tr>
               ) : (
-                dataTitle?.data?.map((item, index) => (
+                dataTitle?.data?.map((item:any, index:number) => (
                   <tr key={item.id} style={{ marginTop: "3px" }}>
                     <td className="py-2">
                       <div className="flex items-center justify-center">
