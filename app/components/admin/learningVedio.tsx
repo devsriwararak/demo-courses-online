@@ -224,7 +224,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
 
   return (
     <div>
-      <Card className="flex  lg:h-[301px]  overflow-auto">
+      <Card className="flex  overflow-auto">
         <form
           className="flex flex-col w-full px-5 mt-3 gap-4"
           onSubmit={handleFormSubmit}

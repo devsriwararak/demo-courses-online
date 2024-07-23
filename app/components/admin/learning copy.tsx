@@ -286,24 +286,6 @@ const LearningPage: React.FC = () => {
 
   return (
     <ThemeProvider value={theme}>
-      {/* TEST NAII */}
-      <div className="flex flex-col md:flex-row gap-4 mx-5">
-        <div className="w-full md:w-2/3 bg-red-500 p-4 rounded-lg shadow-lg">
-          <div className="bg-white ">
-            11111
-          </div>
-        </div>
-        <div className="w-full md:w-1/3 bg-green-500 p-4 ">
-          <div className="bg-white rounded-lg shadow-lg">
-            <div>111</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg mt-4">
-            <div>111</div>
-          </div>
-
-        </div>
-      </div>
       
       <div className="flex flex-col xl:flex-row justify-center gap-2 overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
@@ -319,11 +301,8 @@ const LearningPage: React.FC = () => {
             </Card>
           </div>
         ) : (
-<>
 
-
-
-
+          // TEST NAII
           <div className="flex flex-col lg:flex-row w-full  gap-2">
             <div>
               <LearningADD
@@ -357,7 +336,6 @@ const LearningPage: React.FC = () => {
               />
             </div>
           </div>
-</>
         )}
       </div>
     </ThemeProvider>

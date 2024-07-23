@@ -199,7 +199,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   return (
     <div className="flex w-full   gap-3 shadow-lg">
       <div className="w-full overflow-auto  ">
-        <Card className="p-5 h-[300px]  overflow-auto border-2 ">
+        <Card className="p-5  overflow-auto border-2 ">
           <div className="flex gap-3 items-center">
             <Input
               label="หัวข้อ"

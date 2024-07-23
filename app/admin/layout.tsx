@@ -35,7 +35,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   }
   return (
 
-    <LayoutContent>{children}</LayoutContent>
+    <LayoutContent>
+      {children}
+      </LayoutContent>
 
   );
 };

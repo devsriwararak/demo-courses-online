@@ -91,7 +91,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
             onClick={()=>setLearningAdd(0)}
           >
-            ออก
+            ออก111
           </Button>
         </div>
         <form
