@@ -173,7 +173,7 @@ const LearningPage: React.FC = () => {
         toast.success(res.data.message);
         fetchTitle(res.data.id);
         setCourseSelect(res.data.id);
-        resetForm();
+        resetForm1();
         MySwal.close();
       } else {
         toast.error("Form submission failed!");
@@ -203,6 +203,40 @@ const LearningPage: React.FC = () => {
     setStatusEdit(0); // รีเซ็ตสถานะ
     fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
     setCourseSelect(undefined)
+    setTitleId(0)
+
+    // Reset file inputs
+    const imageInput = document.getElementById(
+      "imageInput"
+    ) as HTMLInputElement;
+    const videoInput = document.getElementById(
+      "videoInput"
+    ) as HTMLInputElement;
+
+    if (imageInput) {
+      imageInput.value = "";
+    }
+
+    if (videoInput) {
+      videoInput.value = "";
+    }
+  };
+
+  const resetForm1 = () => {
+    setFormData({
+      id: 0,
+      category_id: "",
+      image: null,
+      videoFile: null,
+      videoUrl: "",
+      dec: "",
+      title: "",
+      lesson: "",
+      regularPrice: 0,
+      discountPrice: 0,
+    });
+    setStatusEdit(0); // รีเซ็ตสถานะ
+    fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
     setTitleId(0)
 
     // Reset file inputs
