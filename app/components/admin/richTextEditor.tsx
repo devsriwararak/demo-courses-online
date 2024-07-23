@@ -21,7 +21,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         apiKey="7j5tfsxfycw1gz0z0cyp57b3s713xyy54zyr7qxg000qinu4"
         init={{
           menubar: false,
-          height: 330,
+          height: 300,
           //   autosave_ask_before_unload: false,
           //   powerpaste_allow_local_images: true,
           plugins: [

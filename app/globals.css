@@ -72,3 +72,10 @@
   opacity: 1;
 }
 
+.tooltip-text1 {
+  white-space: pre-wrap; /* สำหรับตัดคำและแสดงหลายบรรทัด */
+  word-break: break-word; /* สำหรับตัดคำเมื่อเกินขอบเขต */
+  max-height: 4rem; /* ความสูงสูงสุดของกล่องข้อความ */
+  overflow: hidden; /* ซ่อนข้อความที่เกินความสูง */
+}
+

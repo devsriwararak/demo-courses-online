@@ -1,231 +1,269 @@
-import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { HeaderAPI } from "@/headerApi";
-import { toast } from "react-toastify";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Card,
-  IconButton,
+  Button,
   Input,
   Typography,
-  Button,
+  IconButton,
 } from "@material-tailwind/react";
-import { MdDelete, MdEdit } from "react-icons/md";
-import { GrUploadOption } from "react-icons/gr";
+import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
-interface LearningTitleProps {
-  courseSelect: number | undefined;
-  formData: {
-    lesson: string;
-  };
-  setFormData: React.Dispatch<
-    React.SetStateAction<{
-      id: number;
-      category_id: string;
-      image: string | null;
-      videoFile: File | null;
-      videoUrl: string;
-      dec: string;
-      title: string;
-      lesson: string;
-      regularPrice: number;
-      discountPrice: number;
-    }>
-  >;
-  pageTitle: number;
-  setDataTitle: React.Dispatch<React.SetStateAction<any[]>>;
-  dataTitle: any[];
-  setPageTitle: React.Dispatch<React.SetStateAction<number>>;
+import Swal from "sweetalert2";
+
+import axios from "axios";
+import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
+
+const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
+import {
+  MdDelete,
+  MdEdit,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
+
+interface Course {
+  id: number;
+  video: File;
+
 }
 
-const LearningVedio: React.FC<LearningTitleProps> = ({
-  courseSelect,
-  formData,
-  setFormData,
-  pageTitle,
-  setPageTitle,
-  setDataTitle,
-  dataTitle,
+interface LearningVideoProps {
+  showToast: (message: string, type: "success" | "error") => void;
+  titleId: number;
+  pageVideo: number;
+  setPageVideo: React.Dispatch<React.SetStateAction<number>>;
+  setDataVideo: React.Dispatch<React.SetStateAction<any[]>>;
+  dataVideo: any;
+}
+
+const LearningVideo: React.FC<LearningVideoProps> = ({
+  titleId,
+  pageVideo,
+  setPageVideo,
+  setDataVideo,
+  dataVideo,
+  showToast,
 }) => {
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [dataVedio, setDataVedio] = useState([]);
+  const [formData, setFormData] = useState({
+    videoFile: null as File | null,
+  });
+  const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
+  const [videoId, setVideoId] = useState(0); 
 
-  const fetchTitle = useCallback(
-    async (id: any) => {
-      const data = {
-        products_id: id,
-        page: pageTitle,
-      };
-      try {
-        console.log(data)
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/product/title`,
-          data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
-        );
-        console.log(res);
-        if (res.status === 200) {
-          setDataTitle(res.data);
-        } else {
-          toast.error("error");
-        }
-      } catch (err) {
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
-    },
-    [pageTitle, setDataTitle]
-  );
-
-  useEffect(() => {
-    if (courseSelect) {
-      fetchTitle(courseSelect);
-    }
-  }, [courseSelect, fetchTitle, pageTitle]);
-
-  const handleAddOrEditTitle = useCallback(async () => {
-    if (!courseSelect) {
-      toast.error("Course not selected");
-      return;
-    }
-
-    if (editingId) {
-      // Edit existing title
-      const data = {
-        id: editingId,
-        products_id: courseSelect,
-        title: formData.lesson,
-      };
-      try {
-        const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/product/title`,
-          data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
-        );
-        if (res.status === 200) {
-          toast.success(res.data.message);
-          setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
-          setDataTitle(res.data);
-          fetchTitle(courseSelect);
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            lesson: "", // เคลียร์ค่า lesson หลังจากส่งข้อมูลสำเร็จ
-          }));
-          setEditingId(null); // Clear editing state
-        } else {
-          toast.error("error");
-        }
-      } catch (err) {
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
-    } else {
-      // Add new title
-      const data = {
-        products_id: courseSelect,
-        title: formData.lesson,
-      };
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/product/add/title`,
-          data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
-        );
-        if (res.status === 200) {
-          toast.success(res.data.message);
-          setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
-          setDataTitle(res.data);
-          fetchTitle(courseSelect);
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            lesson: "", // เคลียร์ค่า lesson หลังจากส่งข้อมูลสำเร็จ
-          }));
-        } else {
-          toast.error("error");
-        }
-      } catch (err) {
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
-    }
-  }, [courseSelect, formData.lesson, fetchTitle, setDataTitle, setFormData, setPageTitle, editingId]);
-
-  const handleDelete = async (item: any) => {
+  const fetchVideo = useCallback(async () => {
+    const data = {
+      products_title_id: titleId,
+      page: pageVideo,
+    };
     try {
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
+      console.log(data);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
+        data,
         { ...HeaderAPI(localStorage.getItem("Token")) }
       );
+      console.log(res.data);
       if (res.status === 200) {
-        toast.success(res.data.message);
-        setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
-        fetchTitle(courseSelect);
+        setDataVideo(res.data);
       } else {
-        toast.error("Delete failed");
+        toast.error("error");
       }
     } catch (err) {
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
+  }, [pageVideo, titleId, setDataVideo]);
+
+  useEffect(() => {
+    fetchVideo();
+  }, [fetchVideo, pageVideo, titleId]);
+
+  const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    // console.log(file);
+    if (file) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        videoFile: file,
+      }));
+    } else {
+      toast.error("Please upload a valid video file.");
+    }
   };
 
-  const handleEdit = (item: any) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      lesson: item.title,
-    }));
-    setEditingId(item.id);
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formDataToSubmit = new FormData();
+
+    formDataToSubmit.append("products_title_id", titleId.toLocaleString());
+    if (formData.videoFile) {
+      formDataToSubmit.append("video", formData.videoFile);
+    }
+    if(videoId != 0){
+      formDataToSubmit.append("id", videoId.toLocaleString());
+    }
+    try {
+      console.log(titleId);
+      console.log(formData.videoFile);
+      console.log(statusEdit);
+      console.log(videoId);
+
+      let res;
+      if (statusEdit === 0) {
+        console.log("aaa");
+        res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API}/api/product/add/videos`,
+          formDataToSubmit,
+          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        );
+      } else {
+        res = await axios.put(
+          `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
+          formDataToSubmit,
+          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        );
+      }
+
+      console.log(res);
+
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        fetchVideo();
+        resetForm();
+      } else {
+        toast.error("Form submission failed!");
+      }
+    } catch (err) {
+      console.log(err);
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      videoFile: null,
+    });
+
+    // Reset file inputs
+    const videoInput = document.getElementById(
+      "videoInput"
+    ) as HTMLInputElement;
+
+    if (videoInput) {
+      videoInput.value = "";
+    }
+  };
+
+  const handleEdit = (item:any) => {
+    console.log(item)
+    setStatusEdit(1)
+  }
+
+  const handleDelete = async (item: Course) => {
+    console.log(item.id);
+    Swal.fire({
+      title: "คุณแน่ใจหรือไม่ ?",
+      text: "คุณจะไม่สามารถย้อนกลับได้!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ใช่, ลบเลย!",
+      cancelButtonText: "ยกเลิก",
+      background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+      width: "350px", // ปรับขนาดความกว้าง
+      padding: "1em", // ปรับขนาดความสูง
+      backdrop: `
+        rgba(0,0,0,0.4)
+        url("/images/nyan-cat.gif")
+        left top
+        no-repeat
+      `, // ปรับแต่ง backdrop
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(
+            `${process.env.NEXT_PUBLIC_API}/api/product/videos/${item.id}`,
+            {
+              ...HeaderAPI(localStorage.getItem("Token")),
+            }
+          );
+          // console.log(res);
+          if (res.status === 200) {
+            fetchVideo();
+            Swal.fire({
+              // title: "ลบแล้ว !",
+              text: "ข้อมูลของคุณถูกลบแล้ว.",
+              icon: "success",
+              width: "400px", // ปรับขนาดความกว้าง
+              background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+              timer: 1000, // กำหนดเวลาให้ปิดเอง (2000 มิลลิวินาที = 2 วินาที)
+              timerProgressBar: true, // แสดงแถบความคืบหน้า
+              backdrop: `
+              rgba(0,0,0,0.4)
+              url("/images/nyan-cat.gif")
+              left top
+              no-repeat
+            `, // ปรับแต่ง backdrop
+            });
+          } else {
+            showToast("เกิดข้อผิดพลาด", "error");
+          }
+        } catch (err) {
+          console.log(err);
+          // const error = err as { response: { data: { message: string } } };
+          const error = err as { response: { data: string } };
+          showToast(error.response.data, "error");
+        }
+      }
+    });
   };
 
   return (
-    <div className="flex w-full xl:w-6/12 gap-3">
-      <div className="w-full overflow-auto ">
-        <Card className="p-5  overflow-auto border-2">
-          <div className="flex gap-3 items-center">
-          <Input
-                label="อัพโหลด วีดีโอ"
+    <div>
+      <Card className="flex  lg:h-[301px]  overflow-auto">
+        <form
+          className="flex flex-col w-full px-5 mt-3 gap-4"
+          onSubmit={handleFormSubmit}
+        >
+          <div className="flex flex-col gap-5 xl:flex-row">
+            <div className="w-full xl:w-[200px]">
+              <Input
+                label="Upload VDO"
                 type="file"
+                accept="video/*"
+                id="videoInput"
+                onChange={handleVideoUpload}
                 crossOrigin="anonymous"
-                // accept="image/*"
-                // id="imageInput"
-                // onChange={handleImageUpload}
               />
-            <div className="md:w-[100px]">
-              <Button color="blue"  className="w-full" onClick={handleAddOrEditTitle}>
-                {editingId ? "อัปเดต" : "บันทึก"}
-              </Button>
+            </div>
+            <div>
+              <div className="md:w-[100px]">
+                <Button color="blue" size="sm" className="w-full" type="submit" disabled={!!!titleId}>
+                  บันทึก
+                </Button>
+              </div>
             </div>
           </div>
-          <table className="w-full min-w-max mt-3 ">
+          <div></div>
+        </form>
+        <div>
+          <table className="w-full  mt-3  ">
             <thead>
               <tr>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                <th className="border-y flex justify-between px-5 border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-bold leading-none opacity-70"
                   >
-                    ลำดับ
+                    บทเรียน
                   </Typography>
                 </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
-                  >
-                    หัวข้อ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
-                  >
-                    อัพโหลด
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -236,48 +274,25 @@ const LearningVedio: React.FC<LearningTitleProps> = ({
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {dataVedio?.length === 0 ? (
+            <tbody className="justify-start items-start ">
+              {dataVideo?.data?.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center pt-5">
                     <Typography>...ไม่พบข้อมูล...</Typography>
                   </td>
                 </tr>
               ) : (
-                dataVedio?.map((item, index) => (
+                dataVideo?.data?.map((item: any, index: number) => (
                   <tr key={item.id} style={{ marginTop: "3px" }}>
-                    <td className="py-2">
+                    <td className="flex py-2 px-5 justify-between">
                       <div className="flex items-center justify-center">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {index + 1}
+                          {` บทเรียนที่ ${index + 1}`}
                         </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="relative flex items-center justify-center tooltip">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
-                        >
-                          {item.title}
-                        </Typography>
-                        <div className="tooltip-text text-sm">{item.title}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex  ps-6 gap-2 ">
-                        <IconButton
-                          size="sm"
-                          className="text-white max-w-7 max-h-7 bg-green-700"
-                        //   onClick={() => handleEdit(item)}
-                        >
-                          <GrUploadOption  className="h-5 w-5" />
-                        </IconButton>
                       </div>
                     </td>
                     <td>
@@ -285,7 +300,7 @@ const LearningVedio: React.FC<LearningTitleProps> = ({
                         <IconButton
                           size="sm"
                           className="text-white max-w-7 max-h-7 bg-yellow-700"
-                          onClick={() => handleEdit(item)}
+                          onClick={() => [handleEdit(item) , setVideoId(item.id)]}
                         >
                           <MdEdit className="h-5 w-5" />
                         </IconButton>
@@ -303,29 +318,43 @@ const LearningVedio: React.FC<LearningTitleProps> = ({
               )}
             </tbody>
           </table>
-          <div className="flex justify-end gap-5 mt-3 px-2 items-center">
-            <Button
-              className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-              disabled={pageTitle == 1}
-              onClick={() => setPageTitle((pageTitle) => Math.max(pageTitle - 1, 1))}
-            >
-              ก่อนหน้า
-            </Button>
-            <span style={{ whiteSpace: "nowrap" }}>
-              หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
-            </span>
-            <Button
-              className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-              disabled={Number(dataTitle?.totalPages) - Number(pageTitle) < 1}
-              onClick={() => setPageTitle((pageTitle) => pageTitle + 1)}
-            >
-              ถัดไป
-            </Button>
-          </div>
-        </Card>
-      </div>
+        </div>
+        <div className="flex justify-end gap-5 mt-3 px-2 items-center">
+          <button
+            className={` text-gray-400  text-3xl  whitespace-nowrap ${
+              pageVideo == 1 ? "" : "hover:text-black"
+            } `}
+            disabled={pageVideo == 1}
+            onClick={() =>
+              setPageVideo((pageVideo) => Math.max(pageVideo - 1, 1))
+            }
+          >
+            <MdOutlineKeyboardDoubleArrowLeft />
+          </button>
+          <span style={{ whiteSpace: "nowrap" }}>
+            หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
+          </span>
+          <button
+            className={`text-gray-400 text-3xl whitespace-nowrap ${
+              Number(dataVideo?.totalPages) - Number(pageVideo) < 1
+                ? true
+                : false
+                ? ""
+                : "hover:text-black"
+            }`}
+            disabled={
+              Number(dataVideo?.totalPages) - Number(pageVideo) < 1
+                ? true
+                : false
+            }
+            onClick={() => setPageVideo((pageVideo) => pageVideo + 1)}
+          >
+            <MdOutlineKeyboardDoubleArrowRight />
+          </button>
+        </div>
+      </Card>
     </div>
   );
 };
 
-export default LearningVedio;
+export default LearningVideo;

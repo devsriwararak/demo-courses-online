@@ -1,8 +1,5 @@
 "use client";
-import {
-  Card,
-  ThemeProvider,
-} from "@material-tailwind/react";
+import { Card, ThemeProvider } from "@material-tailwind/react";
 import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
@@ -55,8 +52,13 @@ const LearningPage: React.FC = () => {
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
   const [page, setPage] = useState<number>(0);
   const [pageTitle, setPageTitle] = useState<number>(1);
-  const [courseSelect, setCourseSelect] = useState<number | undefined>(undefined);
+  const [pageVideo, setPageVideo] = useState<number>(1);
+  const [courseSelect, setCourseSelect] = useState<number | undefined>(
+    undefined
+  );
   const [dataTitle, setDataTitle] = useState<any[]>([]);
+  const [titleId, setTitleId] = useState(0);
+  const [dataVideo, setDataVideo] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     id: 0,
     category_id: "",
@@ -70,15 +72,18 @@ const LearningPage: React.FC = () => {
     discountPrice: 0,
   });
 
+  const [learningAdd, setLearningAdd] = useState(0);
+
   const fetchCategory = useCallback(async () => {
     const requestData = { page, full: true };
     try {
-      console.log(requestData)
+      console.log(requestData);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/category`,
         requestData,
         { ...HeaderAPI(localStorage.getItem("Token")) }
       );
+      // console.log(res)
       if (res.status === 200) {
         setCategories(res.data.data);
       } else {
@@ -197,6 +202,8 @@ const LearningPage: React.FC = () => {
     });
     setStatusEdit(0); // รีเซ็ตสถานะ
     fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
+    setCourseSelect(undefined)
+    setTitleId(0)
 
     // Reset file inputs
     const imageInput = document.getElementById(
@@ -226,7 +233,7 @@ const LearningPage: React.FC = () => {
   const handleEdit = (data: Course) => {
     setFormData({
       id: data.id,
-      category_id: data?.category_id.toString() || '',
+      category_id: data?.category_id.toString() || "",
       image: data.image,
       videoFile: null,
       videoUrl: data.video,
@@ -236,6 +243,7 @@ const LearningPage: React.FC = () => {
       regularPrice: data.price,
       discountPrice: data.price_sale,
     });
+    setLearningAdd(1);
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
     setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
     fetchTitle(data.id); // เรียก fetchTitle เมื่อกดปุ่มแก้ไข
@@ -244,49 +252,54 @@ const LearningPage: React.FC = () => {
 
   return (
     <ThemeProvider value={theme}>
-      <div className="flex flex-col xl:flex-row justify-center gap-3 overflow-auto">
+      <div className="flex flex-col xl:flex-row justify-center gap-2 overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
-
-        {/* ฝั่งซ้าย */}
-        <div className="w-full xl:w-4/12">
-          <Card className="flex overflow-auto">
-            <LearningShow showToast={showToast} onEdit={handleEdit} />
-          </Card>
-        </div>
-
-        {/* ฝั่งขวา */}
-        <div className="flex flex-col w-full xl:w-8/12 gap-3">
-          <LearningADD
-            categories={categories}
-            onFormSubmit={handleFormSubmit}
-            onResetForm={resetForm}
-            formData={formData}
-            setFormData={setFormData}
-            statusEdit={statusEdit}
-          />
-          <div className="flex flex-col xl:flex-row gap-3">
-          <LearningTitle
-            courseSelect={courseSelect}
-            formData={formData}
-            setFormData={setFormData}
-            pageTitle={pageTitle}
-            setPageTitle={setPageTitle}
-            setDataTitle={setDataTitle}
-            dataTitle={dataTitle}
-          />
-          <LearningVedio
-            courseSelect={courseSelect}
-            formData={formData}
-            setFormData={setFormData}
-            pageTitle={pageTitle}
-            setPageTitle={setPageTitle}
-            setDataTitle={setDataTitle}
-            dataTitle={dataTitle}
-          />
-
-
+        {learningAdd === 0 ? (
+          <div className="w-full">
+            <Card className="flex overflow-auto">
+              <LearningShow
+                showToast={showToast}
+                onEdit={handleEdit}
+                setLearningAdd={setLearningAdd}
+                learningAdd={learningAdd}
+              />
+            </Card>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col lg:flex-row w-full  gap-2">
+            <div>
+              <LearningADD
+                categories={categories}
+                onFormSubmit={handleFormSubmit}
+                onResetForm={resetForm}
+                formData={formData}
+                setFormData={setFormData}
+                statusEdit={statusEdit}
+                setLearningAdd={setLearningAdd}
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <LearningTitle
+                courseSelect={courseSelect}
+                formData={formData}
+                setFormData={setFormData}
+                pageTitle={pageTitle}
+                setPageTitle={setPageTitle}
+                setDataTitle={setDataTitle}
+                setTitleId={setTitleId}
+                dataTitle={dataTitle}
+              />
+              <LearningVedio
+                showToast={showToast}
+                titleId={titleId}
+                pageVideo={pageVideo}
+                setPageVideo={setPageVideo}
+                setDataVideo={setDataVideo}
+                dataVideo={dataVideo}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </ThemeProvider>
   );

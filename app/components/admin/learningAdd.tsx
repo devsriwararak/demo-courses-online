@@ -31,6 +31,7 @@ interface LearningADDProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   statusEdit: number;
+  setLearningAdd: (value: number) => void;
 }
 
 const LearningADD: React.FC<LearningADDProps> = ({
@@ -40,6 +41,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
   formData,
   setFormData,
   statusEdit,
+  setLearningAdd,
 }) => {
   const handleCategoryChange = (selectedOption: any) => {
     setFormData((prevFormData) => ({
@@ -83,8 +85,19 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   return (
     <div>
-      <Card className="flex xl:h-[275px] overflow-auto">
-        <form className="flex flex-col w-full p-5 gap-4" onSubmit={handleSubmit}>
+      <Card className="flex lg:h-[613px]  overflow-auto">
+        <div className=" flex px-6 pt-5  justify-end">
+          <Button
+            className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
+            onClick={()=>setLearningAdd(0)}
+          >
+            ออก
+          </Button>
+        </div>
+        <form
+          className="flex flex-col w-full px-5 mt-3 gap-4"
+          onSubmit={handleSubmit}
+        >
           <div>
             <Input
               label="สร้างคอร์สเรียน"
@@ -105,7 +118,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="number"
                 min={0}
                 crossOrigin="anonymous"
-                value={formData?.regularPrice.toString()}
+                value={formData?.regularPrice?.toString()}
                 onChange={(e) =>
                   setFormData((prevFormData) => ({
                     ...prevFormData,
@@ -120,7 +133,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="number"
                 min={0}
                 crossOrigin="anonymous"
-                value={formData.discountPrice.toString()}
+                value={formData.discountPrice?.toString()}
                 onChange={(e) =>
                   setFormData((prevFormData) => ({
                     ...prevFormData,
@@ -132,14 +145,14 @@ const LearningADD: React.FC<LearningADDProps> = ({
             <div className="w-full xl:w-4/12 flex justify-center">
               <Select
                 options={categories.map((category) => ({
-                  value: category.id.toString(),
+                  value: category.id?.toString(),
                   label: category.name,
                 }))}
                 onChange={handleCategoryChange}
                 value={
                   categories
                     .map((category) => ({
-                      value: category.id.toString(),
+                      value: category.id?.toString(),
                       label: category.name,
                     }))
                     .find((option) => option.value === formData.category_id) ||
@@ -188,7 +201,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
               }
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row justify-end">
+          <div className="flex flex-col gap-5 md:flex-row  mt-5 justify-end">
             <div className="md:w-[100px]">
               <Button
                 color="green"

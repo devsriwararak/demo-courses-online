@@ -9,7 +9,12 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import {
+  MdDelete,
+  MdEdit,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 import { GrUploadOption } from "react-icons/gr";
 
 interface LearningTitleProps {
@@ -33,8 +38,9 @@ interface LearningTitleProps {
   >;
   pageTitle: number;
   setDataTitle: React.Dispatch<React.SetStateAction<any[]>>;
-  dataTitle: any ;
+  dataTitle: any;
   setPageTitle: React.Dispatch<React.SetStateAction<number>>;
+  setTitleId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const LearningTitle: React.FC<LearningTitleProps> = ({
@@ -45,6 +51,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   setPageTitle,
   setDataTitle,
   dataTitle,
+  setTitleId
 }) => {
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -55,7 +62,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         page: pageTitle,
       };
       try {
-        console.log(data)
+        console.log(data);
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
@@ -86,7 +93,6 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
       toast.error("Course not selected");
       return;
     }
-
     if (editingId) {
       // Edit existing title
       const data = {
@@ -146,7 +152,15 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         toast.error(error.response.data.message);
       }
     }
-  }, [courseSelect, formData.lesson, fetchTitle, setDataTitle, setFormData, setPageTitle, editingId]);
+  }, [
+    courseSelect,
+    formData.lesson,
+    fetchTitle,
+    setDataTitle,
+    setFormData,
+    setPageTitle,
+    editingId,
+  ]);
 
   const handleDelete = async (item: any) => {
     try {
@@ -168,6 +182,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   };
 
   const handleEdit = (item: any) => {
+    console.log(item)
     setFormData((prevFormData) => ({
       ...prevFormData,
       lesson: item.title,
@@ -175,10 +190,16 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
     setEditingId(item.id);
   };
 
+  const handleUpload = async (item:any) => {
+    // console.log(item)
+    setTitleId(item.id)
+
+  }
+
   return (
-    <div className="flex w-full xl:w-6/12 mb-1  gap-3 shadow-lg">
+    <div className="flex w-full   gap-3 shadow-lg">
       <div className="w-full overflow-auto  ">
-        <Card className="p-5   overflow-auto border-2 ">
+        <Card className="p-5 h-[300px]  overflow-auto border-2 ">
           <div className="flex gap-3 items-center">
             <Input
               label="หัวข้อ"
@@ -192,139 +213,156 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               }
             />
             <div className="md:w-[100px]">
-              <Button color="blue"  className="w-full" onClick={handleAddOrEditTitle}>
+              <Button
+                disabled={!!!courseSelect }
+                color="blue"
+                className="w-full"
+                onClick={handleAddOrEditTitle}
+              >
                 {editingId ? "อัปเดต" : "บันทึก"}
               </Button>
             </div>
           </div>
-          <div >
-          <table className="w-full  mt-3  ">
-            <thead>
-              <tr>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    ลำดับ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
-                  >
-                    หัวข้อ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
-                  >
-                    อัพโหลด
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    แก้ไข/ลบ
-                  </Typography>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="justify-start items-start ">
-              {dataTitle?.data?.length === 0 ? (
+          <div>
+            <table className="w-full  mt-3  ">
+              <thead>
                 <tr>
-                  <td colSpan={5} className="text-center pt-5">
-                    <Typography>...ไม่พบข้อมูล...</Typography>
-                  </td>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
+                    >
+                      หัวข้อ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
+                    >
+                      อัพโหลด
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      แก้ไข/ลบ
+                    </Typography>
+                  </th>
                 </tr>
-              ) : (
-                dataTitle?.data?.map((item:any, index:number) => (
-                  <tr key={item.id} style={{ marginTop: "3px" }}>
-                    <td className="py-2">
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {index + 1}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="relative flex items-center justify-center tooltip">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
-                        >
-                          {item.title}
-                        </Typography>
-                        <div className="tooltip-text text-sm">{item.title}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex  ps-6 gap-2 ">
-                        <IconButton
-                          size="sm"
-                          className="text-white max-w-7 max-h-7 bg-green-700"
-                        //   onClick={() => handleEdit(item)}
-                        >
-                          <GrUploadOption  className="h-5 w-5" />
-                        </IconButton>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex justify-center gap-2">
-                        <IconButton
-                          size="sm"
-                          className="text-white max-w-7 max-h-7 bg-yellow-700"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <MdEdit className="h-5 w-5" />
-                        </IconButton>
-                        <IconButton
-                          size="sm"
-                          className="bg-red-300 max-w-7 max-h-7"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <MdDelete className="h-5 w-5" />
-                        </IconButton>
-                      </div>
+              </thead>
+              <tbody className="justify-start items-start ">
+                {dataTitle?.data?.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-center pt-5">
+                      <Typography>...ไม่พบข้อมูล...</Typography>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  dataTitle?.data?.map((item: any, index: number) => (
+                    <tr key={item.id} style={{ marginTop: "3px" }}>
+                      <td className="py-2">
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {index + 1}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="relative flex items-center justify-center tooltip">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
+                          >
+                            {item.title}
+                          </Typography>
+                          <div className="tooltip-text text-sm">
+                            {item.title}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex  ps-6 gap-2 ">
+                          <IconButton
+                            size="sm"
+                            className="text-white max-w-7 max-h-7 bg-green-700"
+                              onClick={() => handleUpload(item)}
+                          >
+                            <GrUploadOption className="h-5 w-5" />
+                          </IconButton>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center gap-2">
+                          <IconButton
+                            size="sm"
+                            className="text-white max-w-7 max-h-7 bg-yellow-700"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <MdEdit className="h-5 w-5" />
+                          </IconButton>
+                          <IconButton
+                            size="sm"
+                            className="bg-red-300 max-w-7 max-h-7"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <MdDelete className="h-5 w-5" />
+                          </IconButton>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
           <div className="flex justify-end gap-5 mt-3 px-2 items-center">
-            <Button
-              className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
+            <button
+              className={` text-gray-400  text-3xl  whitespace-nowrap ${
+                pageTitle == 1 ? "" : "hover:text-black"
+              } `}
               disabled={pageTitle == 1}
               onClick={() => setPageTitle((pageTitle) => Math.max(pageTitle - 1, 1))}
             >
-              ก่อนหน้า
-            </Button>
+              <MdOutlineKeyboardDoubleArrowLeft />
+            </button>
             <span style={{ whiteSpace: "nowrap" }}>
               หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
             </span>
-            <Button
-              className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-              disabled={Number(dataTitle?.totalPages) - Number(pageTitle) < 1}
+            <button
+              className={`text-gray-400 text-3xl whitespace-nowrap ${
+                Number(dataTitle?.totalPages) - Number(pageTitle) < 1
+                  ? true
+                  : false
+                  ? ""
+                  : "hover:text-black"
+              }`}
+              disabled={
+                Number(dataTitle?.totalPages) - Number(pageTitle) < 1 ? true : false
+              }
               onClick={() => setPageTitle((pageTitle) => pageTitle + 1)}
             >
-              ถัดไป
-            </Button>
+              <MdOutlineKeyboardDoubleArrowRight />
+            </button>
           </div>
         </Card>
       </div>
