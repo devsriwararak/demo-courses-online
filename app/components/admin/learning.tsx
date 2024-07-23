@@ -171,9 +171,9 @@ const LearningPage: React.FC = () => {
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        fetchTitle(res.data.id);
         setCourseSelect(res.data.id);
         if(statusEdit === 0){
+          fetchTitle(res.data.id);
           resetForm1();
         }
         MySwal.close();
@@ -237,9 +237,9 @@ const LearningPage: React.FC = () => {
       regularPrice: 0,
       discountPrice: 0,
     });
-    setStatusEdit(0); // รีเซ็ตสถานะ
-    fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
-    setTitleId(0)
+    // setStatusEdit(0); // รีเซ็ตสถานะ
+    // fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
+    // setTitleId(0)
 
     // Reset file inputs
     const imageInput = document.getElementById(
