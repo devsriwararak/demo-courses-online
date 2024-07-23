@@ -51,12 +51,14 @@ interface LearningShowProps {
   onEdit: (data: Course) => void;
   setLearningAdd: (value: number) => void;
   learningAdd: number;
+  onResetForm: () => void;
 }
 
 const LearningShow: React.FC<LearningShowProps> = ({
   showToast,
   onEdit,
   setLearningAdd,
+  onResetForm,
   learningAdd,
 }) => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
@@ -154,6 +156,11 @@ const LearningShow: React.FC<LearningShowProps> = ({
       }
     });
   };
+
+  const handleAddNew = () =>{
+    setLearningAdd(1)
+    onResetForm()
+  }
   return (
     <div className="flex justify-center gap-3  ">
       <div className="w-full p-5 justify-center items-center">
@@ -168,7 +175,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
 
             <Button
               className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
-              onClick={() => setLearningAdd(1)}
+              onClick={() =>handleAddNew() }
             >
               เพิ่มข้อมูล
             </Button>

@@ -171,10 +171,10 @@ const LearningPage: React.FC = () => {
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        setCourseSelect(res.data.id);
         if(statusEdit === 0){
+          setCourseSelect(res.data.id);
           fetchTitle(res.data.id);
-          resetForm1();
+          // resetForm1();
         }
         MySwal.close();
       } else {
@@ -299,6 +299,7 @@ const LearningPage: React.FC = () => {
                 onEdit={handleEdit}
                 setLearningAdd={setLearningAdd}
                 learningAdd={learningAdd}
+                onResetForm={resetForm}
               />
             </Card>
           </div>
