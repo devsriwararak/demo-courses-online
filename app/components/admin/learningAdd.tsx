@@ -85,7 +85,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   return (
     <div>
-      <Card className="flex lg:h-[613px]  overflow-auto">
+      <Card className="flex  overflow-auto">
         <div className=" flex px-6 pt-5  justify-end">
           <Button
             className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
