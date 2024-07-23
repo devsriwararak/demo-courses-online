@@ -173,7 +173,9 @@ const LearningPage: React.FC = () => {
         toast.success(res.data.message);
         fetchTitle(res.data.id);
         setCourseSelect(res.data.id);
-        resetForm1();
+        if(statusEdit === 0){
+          resetForm1();
+        }
         MySwal.close();
       } else {
         toast.error("Form submission failed!");
@@ -290,7 +292,7 @@ const LearningPage: React.FC = () => {
       <div className="flex flex-col xl:flex-row justify-center gap-2 overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
-          <div className="w-full">
+          <div className="w-full ">
             <Card className="flex overflow-auto">
               <LearningShow
                 showToast={showToast}

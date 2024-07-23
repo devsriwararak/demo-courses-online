@@ -91,7 +91,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
             onClick={()=>setLearningAdd(0)}
           >
-            ออก111
+            ออก
           </Button>
         </div>
         <form
@@ -201,7 +201,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
               }
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row  mt-5 justify-end">
+          <div className="flex flex-col gap-5 md:flex-row  mb-3 justify-end">
             <div className="md:w-[100px]">
               <Button
                 color="green"

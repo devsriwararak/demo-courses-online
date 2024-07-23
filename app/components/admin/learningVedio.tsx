@@ -291,7 +291,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {` บทเรียนที่ ${index + 1}`}
+                          {` คลิปวิดีโอที่ ${index + 1}`}
                         </Typography>
                       </div>
                     </td>
