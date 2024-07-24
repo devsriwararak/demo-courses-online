@@ -20,7 +20,7 @@ h2 {
   margin-top: 4px;
 }
 
-.demo-editor .public-DraftStyleDefault-bold {
+.editorClassName .public-DraftStyleDefault-bold {
   font-weight: 700;
   color: green;
 }

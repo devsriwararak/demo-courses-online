@@ -38,7 +38,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
     editorState={editorState}
     toolbarClassName="toolbar-demo"
     wrapperClassName="demo-wrapper"
-    editorClassName="demo-editor"
+    editorClassName="editorClassName"
     editor-toolbarClassName="demo-editor-toolbar"
         onEditorStateChange={handleEditorChange}
         toolbar={{
@@ -70,27 +70,13 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
               "Normal",
               "H1",
               "H2",
-              "H3",
-              "H4",
-              "H5",
-              "H6",
-              "Blockquote",
-              "Code",
+              "H3"
             ],
           },
           fontSize: {
             options: [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 60, 72, 96],
           },
-          fontFamily: {
-            options: [
-              "Arial",
-              "Georgia",
-              "Impact",
-              "Tahoma",
-              "Times New Roman",
-              "Verdana",
-            ],
-          },
+      
           list: {
             inDropdown: true,
             options: ["unordered", "ordered", "indent", "outdent"],
@@ -104,8 +90,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             inDropdown: true,
           },
           embedded: {},
-          emoji: {},
-          image: {},
           remove: {},
           history: {},
         }}
