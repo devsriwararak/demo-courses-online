@@ -58,7 +58,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "history",
           ],
           inline: {
-            inDropdown: false,
+            inDropdown: true,
             // className: undefined,
             // component: undefined,
             // dropdownClassName: undefined,
