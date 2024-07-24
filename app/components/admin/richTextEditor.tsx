@@ -16,7 +16,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   );
 
   useEffect(() => {
-    if (value) {
+    if (value === '') {
+      setEditorState(EditorState.createEmpty());
+    } else {
       const blocksFromHtml = htmlToDraft(value);
       const { contentBlocks, entityMap } = blocksFromHtml;
       const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
@@ -33,9 +35,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   return (
     <div>
       <Editor
-        editorState={editorState}
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
+    editorState={editorState}
+    toolbarClassName="toolbar-demo"
+    wrapperClassName="demo-wrapper"
+    editorClassName="demo-editor"
+    editor-toolbarClassName="demo-editor-toolbar"
         onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
@@ -102,11 +106,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           remove: {},
           history: {},
         }}
-      />
-      <textarea
-        disabled
-        value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        style={{ width: "100%", height: "200px", marginTop: "20px" }}
       />
     </div>
   );
