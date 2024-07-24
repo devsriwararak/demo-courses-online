@@ -58,11 +58,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "history",
           ],
           inline: {
-            inDropdown: true,
-            // className: undefined,
-            // component: undefined,
-            // dropdownClassName: undefined,
-            // options: ["bold", "italic", "underline", "strikethrough", "monospace"],
+            inDropdown: false,
+            className: undefined,
+            component: undefined,
+            dropdownClassName: undefined,
+            options: ["bold", "italic", "underline", "strikethrough", "monospace"],
           },
           blockType: {
             inDropdown: true,
@@ -97,7 +97,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           },
           textAlign: {
             inDropdown: true,
-            // options: ["left", "center", "right", "justify"],
+            options: ["left", "center", "right", "justify"],
           },
           colorPicker: {},
           link: {
