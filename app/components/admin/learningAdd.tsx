@@ -4,7 +4,7 @@ import Select from "react-select";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 
-const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
+import RichTextEditor from "./richTextEditor";
 
 interface Category {
   id: number;
@@ -191,7 +191,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             </div>
           </div>
           <div>
-            <CustomEditor
+            {/* <CustomEditor
               value={formData.dec}
               onEditorChange={(data) =>
                 setFormData((prevFormData) => ({
@@ -199,7 +199,16 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   dec: data,
                 }))
               }
-            />
+            /> */}
+               <RichTextEditor
+        value={formData.dec}
+        onEditorChange={(data) =>
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            dec: data,
+          }))
+        }
+      />
           </div>
           <div className="flex flex-col gap-5 md:flex-row  mb-3 justify-end">
             <div className="md:w-[100px]">

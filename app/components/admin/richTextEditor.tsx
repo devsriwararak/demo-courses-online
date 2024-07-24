@@ -1,6 +1,8 @@
-// richTextEditor.tsx
-import React, { useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+// src/components/RichTextEditor.tsx
+import React, { useState, useEffect } from "react";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 interface RichTextEditorProps {
   value: string;
@@ -11,49 +13,62 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   value,
   onEditorChange,
 }) => {
-  const editorRef = useRef<any>(null);
+  const [editorState, setEditorState] = useState<EditorState>(
+    value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty()
+  );
+
+  useEffect(() => {
+    if (value) {
+      setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(value))));
+    }
+  }, [value]);
+
+  const handleEditorChange = (state: EditorState) => {
+    setEditorState(state);
+    const content = JSON.stringify(convertToRaw(state.getCurrentContent()));
+    onEditorChange(content);
+  };
 
   return (
     <div>
       <Editor
-        onInit={(evt, editor) => (editorRef.current = editor)}
-        value={value}
-        apiKey="7j5tfsxfycw1gz0z0cyp57b3s713xyy54zyr7qxg000qinu4"
-        init={{
-          menubar: false,
-          height: 300,
-          //   autosave_ask_before_unload: false,
-          //   powerpaste_allow_local_images: true,
-          plugins: [
-            "advlist",
-            "autolink",
-            "lists",
-            "link",
-            "image",
-            "charmap",
-            "preview",
-            "anchor",
-            "searchreplace",
-            "visualblocks",
-            "code",
-            "fullscreen",
-            "insertdatetime",
-            "media",
-            "table",
-            "help",
-            "wordcount",
-            // "advtable",
+        editorState={editorState}
+        wrapperClassName="demo-wrapper"
+        editorClassName="demo-editor"
+        onEditorStateChange={handleEditorChange}
+        toolbar={{
+          options: [
+            'inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 
+            'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'
           ],
-          toolbar:
-            " formatselect  bold italic underline strikethrough fontsizeinput  " +
-            "forecolor backcolor  alignleft aligncenter alignright alignjustify  " +
-            "bullist numlist outdent indent  superscript subscript charmap hr  " +
-            "removeformat  ",
-          toolbar_mode: "wrap",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
+          inline: {
+            inDropdown: false,
+            options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace'],
+          },
+          blockType: {
+            inDropdown: true,
+            options: ['Normal', 'H1', 'H2', 'H3', 'Blockquote', 'Code'],
+          },
+          fontSize: {},
+          fontFamily: {},
+          list: {
+            inDropdown: true,
+            options: ['unordered', 'ordered', 'indent', 'outdent'],
+          },
+          textAlign: {
+            inDropdown: true,
+            options: ['left', 'center', 'right', 'justify'],
+          },
+          colorPicker: {},
+          link: {
+            inDropdown: true,
+          },
+          embedded: {},
+          emoji: {},
+          image: {},
+          remove: {},
+          history: {},
         }}
-        onEditorChange={onEditorChange}
       />
     </div>
   );
