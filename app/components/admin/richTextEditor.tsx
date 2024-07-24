@@ -56,30 +56,50 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           inline: {
             inDropdown: false,
             options: ["bold", "italic", "underline", "strikethrough", "monospace"],
+            bold: { className: 'demo-option-custom' },
+            italic: { className: 'demo-option-custom' },
+            underline: { className: 'demo-option-custom' },
+            strikethrough: { className: 'demo-option-custom' },
+            monospace: { className: 'demo-option-custom' },
           },
           blockType: {
             inDropdown: true,
             options: ["Normal", "H1", "H2", "H3", "Blockquote", "Code"],
+            className: 'demo-option-custom-wide',
+            dropdownClassName: 'demo-dropdown-custom',
           },
-          fontSize: {},
-          fontFamily: {},
+          fontSize: { className: 'demo-option-custom-medium' },
+          fontFamily: { className: 'demo-option-custom-wide' },
           list: {
             inDropdown: true,
             options: ["unordered", "ordered", "indent", "outdent"],
+            unordered: { className: 'demo-option-custom' },
+            ordered: { className: 'demo-option-custom' },
+            indent: { className: 'demo-option-custom' },
+            outdent: { className: 'demo-option-custom' },
           },
           textAlign: {
             inDropdown: true,
             options: ["left", "center", "right", "justify"],
+            left: { className: 'demo-option-custom' },
+            center: { className: 'demo-option-custom' },
+            right: { className: 'demo-option-custom' },
+            justify: { className: 'demo-option-custom' },
           },
-          colorPicker: {},
+          colorPicker: {
+            className: 'demo-option-custom',
+            popupClassName: 'demo-popup-custom',
+          },
           link: {
             inDropdown: true,
+            className: 'demo-option-custom',
+            popupClassName: 'demo-popup-custom',
           },
-          embedded: {},
-          emoji: {},
-          image: {},
-          remove: {},
-          history: {},
+          embedded: { className: 'demo-option-custom', popupClassName: 'demo-popup-custom' },
+          emoji: { className: 'demo-option-custom' },
+          image: { className: 'demo-option-custom', popupClassName: 'demo-popup-custom' },
+          remove: { className: 'demo-option-custom' },
+          history: { className: 'demo-option-custom' },
         }}
       />
       <textarea
@@ -87,7 +107,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
         value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         style={{ width: "100%", height: "200px", marginTop: "20px" }}
       />
-      
     </div>
   );
 };
