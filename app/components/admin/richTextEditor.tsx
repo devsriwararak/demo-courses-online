@@ -4,6 +4,8 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import '@/app/customEditorStyles.css'; 
+
 
 interface RichTextEditorProps {
   value: string;
@@ -14,6 +16,17 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   const [editorState, setEditorState] = useState<EditorState>(
     value ? EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(value).contentBlocks)) : EditorState.createEmpty()
   );
+
+  const customStyleMap = {
+    'BOLD': {
+      fontWeight: 'bold',
+      color: 'red', // ปรับเป็นสีที่ต้องการ
+    },
+    'H2': {
+      fontSize: '20px',
+      color: 'green'
+    }
+  };
 
   useEffect(() => {
     if (value === '') {
@@ -36,10 +49,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
     <div>
       <Editor
     editorState={editorState}
-    toolbarClassName="toolbar-demo"
-    wrapperClassName="demo-wrapper"
-    editorClassName="editorClassName"
-    editor-toolbarClassName="demo-editor-toolbar"
+    customStyleMap={customStyleMap}
+    // toolbarClassName="toolbar-demo"
+    // wrapperClassName="demo-wrapper"
+    // editorClassName="editorClassName"
+    // editor-toolbarClassName="demo-editor-toolbar"
         onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
