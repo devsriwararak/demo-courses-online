@@ -87,6 +87,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
         value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         style={{ width: "100%", height: "200px", marginTop: "20px" }}
       />
+      
     </div>
   );
 };
