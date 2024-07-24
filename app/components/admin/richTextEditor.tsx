@@ -33,9 +33,15 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   return (
     <div>
       <Editor
+        wrapperClassName="wrapper-class"
+        editorClassName="editor-class"
+        toolbarClassName="toolbar-class"
+        // wrapperStyle={<wrapperStyleObject>}
+        // editorStyle={<editorStyleObject>}
+        // toolbarStyle={<toolbarStyleObject>}
         editorState={editorState}
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
+        // wrapperClassName="demo-wrapper"
+        // editorClassName="demo-editor"
         onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
