@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { EditorState, convertToRaw, convertFromRaw, ContentState } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-const RichTextEditor = ({ initialValue = "" }) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+interface RichTextEditorProps {
+  value: string;
+  onEditorChange: (content: string) => void;
+}
+
+const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }) => {
+  const [editorState, setEditorState] = useState<EditorState>(
+    value ? EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(value).contentBlocks)) : EditorState.createEmpty()
+  );
 
   useEffect(() => {
-    if (initialValue) {
-      const blocksFromHtml = htmlToDraft(initialValue);
+    if (value) {
+      const blocksFromHtml = htmlToDraft(value);
       const { contentBlocks, entityMap } = blocksFromHtml;
       const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-      const newEditorState = EditorState.createWithContent(contentState);
-      setEditorState(newEditorState);
+      setEditorState(EditorState.createWithContent(contentState));
     }
-  }, [initialValue]);
+  }, [value]);
 
-  const onEditorStateChange = (state) => {
+  const handleEditorChange = (state: EditorState) => {
     setEditorState(state);
+    const content = draftToHtml(convertToRaw(state.getCurrentContent()));
+    onEditorChange(content);
   };
 
   return (
@@ -28,7 +36,7 @@ const RichTextEditor = ({ initialValue = "" }) => {
         editorState={editorState}
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
-        onEditorStateChange={onEditorStateChange}
+        onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
             "inline",

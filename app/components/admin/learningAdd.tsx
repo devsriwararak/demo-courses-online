@@ -89,7 +89,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
         <div className=" flex px-6 pt-5  justify-end">
           <Button
             className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
-            onClick={()=>setLearningAdd(0)}
+            onClick={() => setLearningAdd(0)}
           >
             ออก
           </Button>
@@ -200,15 +200,15 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }))
               }
             /> */}
-               <RichTextEditor
-        value={formData.dec}
-        onEditorChange={(data) =>
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            dec: data,
-          }))
-        }
-      />
+            <RichTextEditor
+              value={formData.dec}
+              onEditorChange={(data) =>
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  dec: data,
+                }))
+              }
+            />
           </div>
           <div className="flex flex-col gap-5 md:flex-row  mb-3 justify-end">
             <div className="md:w-[100px]">
