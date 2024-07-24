@@ -33,15 +33,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   return (
     <div>
       <Editor
-        wrapperClassName="wrapper-class"
-        editorClassName="editor-class"
-        toolbarClassName="toolbar-class"
-        // wrapperStyle={<wrapperStyleObject>}
-        // editorStyle={<editorStyleObject>}
-        // toolbarStyle={<toolbarStyleObject>}
         editorState={editorState}
-        // wrapperClassName="demo-wrapper"
-        // editorClassName="demo-editor"
+        wrapperClassName="demo-wrapper"
+        editorClassName="demo-editor"
         onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
@@ -52,75 +46,68 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "list",
             "textAlign",
             "colorPicker",
+            "link",
+            "embedded",
+            "emoji",
+            "image",
             "remove",
             "history",
           ],
           inline: {
             inDropdown: false,
-            className: undefined,
-            component: undefined,
-            dropdownClassName: undefined,
-            options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace', 'superscript', 'subscript'],
-            bold: { className: undefined },
-            italic: { className: undefined },
-            underline: { className: undefined },
-            strikethrough: { className: undefined },
-            monospace: {  className: undefined },
-            superscript: {  className: undefined },
-            subscript: {  className: undefined },
+            options: ["bold", "italic", "underline", "strikethrough", "monospace"],
           },
-          // blockType: {
-          //   inDropdown: true,
-          //   options: ["Normal", "H1", "H2", "H3", "Blockquote", "Code"],
-          //   className: 'demo-option-custom-wide',
-          //   dropdownClassName: 'demo-dropdown-custom',
-          // },
           blockType: {
             inDropdown: true,
-            options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote', 'Code'],
-            className: undefined,
-            component: undefined,
-            dropdownClassName: undefined,
+            options: [
+              "Normal",
+              "H1",
+              "H2",
+              "H3",
+              "H4",
+              "H5",
+              "H6",
+              "Blockquote",
+              "Code",
+            ],
           },
-          fontSize: { className: 'demo-option-custom-medium' },
-          fontFamily: { className: 'demo-option-custom-wide' },
+          fontSize: {
+            options: [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 60, 72, 96],
+          },
+          fontFamily: {
+            options: [
+              "Arial",
+              "Georgia",
+              "Impact",
+              "Tahoma",
+              "Times New Roman",
+              "Verdana",
+            ],
+          },
           list: {
             inDropdown: true,
             options: ["unordered", "ordered", "indent", "outdent"],
-            unordered: { className: 'demo-option-custom' },
-            ordered: { className: 'demo-option-custom' },
-            indent: { className: 'demo-option-custom' },
-            outdent: { className: 'demo-option-custom' },
           },
           textAlign: {
             inDropdown: true,
             options: ["left", "center", "right", "justify"],
-            left: { className: 'demo-option-custom' },
-            center: { className: 'demo-option-custom' },
-            right: { className: 'demo-option-custom' },
-            justify: { className: 'demo-option-custom' },
           },
-          colorPicker: {
-            className: 'demo-option-custom',
-            popupClassName: 'demo-popup-custom',
-          },
+          colorPicker: {},
           link: {
             inDropdown: true,
-            className: 'demo-option-custom',
-            popupClassName: 'demo-popup-custom',
           },
-          embedded: { className: 'demo-option-custom', popupClassName: 'demo-popup-custom' },
-          emoji: { className: 'demo-option-custom' },
-          image: { className: 'demo-option-custom', popupClassName: 'demo-popup-custom' },
-          remove: { className: 'demo-option-custom' },
-          history: { className: 'demo-option-custom' },
+          embedded: {},
+          emoji: {},
+          image: {},
+          remove: {},
+          history: {},
         }}
       />
-      {/* <textarea
+      <textarea
         disabled
         value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         style={{ width: "100%", height: "200px", marginTop: "20px" }}
-      /> */}
+      />
     </div>
   );
 };
