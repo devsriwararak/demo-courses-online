@@ -13,6 +13,13 @@
   font-style: normal;
 }
 
+h2 {
+  font-size: 50px;
+  font-weight: 700;
+  color: red;
+  margin-top: 4px;
+}
+
 
 
 .swal2-icon.swal2-warning.swal2-icon-show {

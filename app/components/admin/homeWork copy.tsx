@@ -38,11 +38,6 @@ interface Question {
   count: string;
 }
 
-interface Chapter {
-  id: number;
-  title: string;
-}
-
 interface ListData {
   id: number;
   question: string;
@@ -83,7 +78,6 @@ const handleAxiosError = (error: unknown, defaultMessage: string) => {
 const HomeWorkPage: React.FC = () => {
   const initialState = {
     products: [] as Product[],
-    chapters: [] as Chapter[],
     statusEdit: 0,
     data: { data: [], totalPages: 1 } as ResponseData,
     dataList: { data: [], totalPages: 1 } as ResponseData1,
@@ -96,10 +90,7 @@ const HomeWorkPage: React.FC = () => {
       id: 0,
       product_id: 0,
       questNumber: 0,
-      products_title_id: 0,
       question: "",
-      questionImage: null as File | null,
-      solutionImage: null as File | null,
     },
     formList: {
       product_id: 0,
@@ -113,7 +104,6 @@ const HomeWorkPage: React.FC = () => {
 
   type Action =
     | { type: "SET_PRODUCTS"; payload: Product[] }
-    | { type: "SET_CHAPTERS"; payload: Chapter[] }
     | { type: "SET_STATUS_EDIT"; payload: number }
     | { type: "SET_DATA"; payload: ResponseData }
     | { type: "SET_DATA_LIST"; payload: ResponseData1 }
@@ -136,8 +126,6 @@ const HomeWorkPage: React.FC = () => {
     switch (action.type) {
       case "SET_PRODUCTS":
         return { ...state, products: action.payload };
-      case "SET_CHAPTERS":
-        return { ...state, chapters: action.payload };
       case "SET_STATUS_EDIT":
         return { ...state, statusEdit: action.payload };
       case "SET_DATA":
@@ -158,10 +146,10 @@ const HomeWorkPage: React.FC = () => {
         return { ...state, formData: { ...state.formData, ...action.payload } };
       case "SET_FORM_LIST":
         return { ...state, formList: { ...state.formList, ...action.payload } };
-      case "RESET_FORM_LIST":
-        return { ...state, dataList: initialState.dataList };
-      case "RESET_FORM_DATA":
-        return { ...state, formData: initialState.formData };
+        case "RESET_FORM_LIST":
+        return { ...state,dataList: initialState.dataList,};
+        case "RESET_FORM_DATA":
+        return { ...state,formData: initialState.formData};
       case "SET_SELECTED_COURSE_TITLE":
         return { ...state, selectedCourseTitle: action.payload };
       case "RESET_SELECTED_COURSE_TITLE":
@@ -184,7 +172,6 @@ const HomeWorkPage: React.FC = () => {
 
   const {
     products,
-    chapters,
     statusEdit,
     data,
     dataList,
@@ -200,7 +187,6 @@ const HomeWorkPage: React.FC = () => {
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
-  console.log(dataList)
 
   const handleSort = async () => {
     if (dragItem.current !== null && dragItemOver.current !== null) {
@@ -262,88 +248,28 @@ const HomeWorkPage: React.FC = () => {
     }
   }, []);
 
-  const fetchChapters = useCallback(async (id: number) => {
-    try {
-      console.log(id)
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/question/select/courses/${id}`,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
-      );
-      console.log(res)
-      if (res.status === 200) {
-        dispatch({ type: "SET_CHAPTERS", payload: res.data.data });
-      } else {
-        toast.error("Error fetching chapters");
-      }
-    } catch (err) {
-      handleAxiosError(err, "Failed to fetch chapters");
-    }
-  }, []);
-
   useEffect(() => {
     fetchProduct();
   }, [fetchProduct]);
 
   const handleCategoryChange = (selectedOption: any) => {
-    const selectedProductId = selectedOption?.value || 0;
     dispatch({
       type: "SET_FORM_DATA",
-      payload: { product_id: selectedProductId },
+      payload: { product_id: selectedOption?.value || 0 },
     });
     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
     dispatch({ type: "RESET_FORM_LIST" });
-    fetchCheckNum(selectedProductId);
-    fetchChapters(selectedProductId);
+    fetchCheckNum(selectedOption?.value);
   };
-
-//   const handleCategoryChange = (selectedOption: any) => {
-//     const selectedProductId = selectedOption?.value || 0;
-//     const selectedProductTitleId = selectedOption?.products_title_id || 0; // assuming products_title_id is part of the selectedOption
-//     dispatch({
-//         type: "SET_FORM_DATA",
-//         payload: {
-//             product_id: selectedProductId,
-//             products_title_id: selectedProductTitleId,
-//         },
-//     });
-//     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
-//     dispatch({ type: "RESET_FORM_LIST" });
-//     fetchCheckNum(selectedProductId);
-//     fetchChapters(selectedProductId);
-// };
-
-const handleChapterChange = (selectedOption: any) => {
-  dispatch({
-    type: "SET_FORM_DATA",
-    payload: { products_title_id: selectedOption?.value || 0 },
-  });
-};
-
-
-
-
-const convertFileToBase64 = (file: File | null): Promise<string> => {
-  return new Promise((resolve, reject) => {
-      if (!file) {
-          resolve("");
-          return;
-      }
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-  });
-};
 
 
 
   const fetchCheckNum = useCallback(async (id: number | undefined) => {
-    if (typeof id === "undefined" || id === null) {
+    if (typeof id === 'undefined' || id === null) {
       return;
     }
-
+  
     try {
-      console.log(id)
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
         { ...HeaderAPI(localStorage.getItem("Token")) }
@@ -361,33 +287,18 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
       handleAxiosError(err, "Form submission failed");
     }
   }, []);
+  
 
   const handleSubmit = async () => {
-    const questionImageBase64 = await convertFileToBase64(formData.questionImage);
-    const solutionImageBase64 = await convertFileToBase64(formData.solutionImage);
-
-    console.log(solutionImageBase64)
-
-
-    // const data = {
-    //   products_id: formData.product_id,
-    //   question: formData.question,
-    //   ...(statusEdit === 0
-    //     ? { index: formData.questNumber }
-    //     : { id: formData.id }),
-    // };
-
     const data = {
       products_id: formData.product_id,
-      products_title_id: formData.products_title_id, 
-      index: formData.questNumber,
       question: formData.question,
-      image_question: questionImageBase64 || "",
-      image_answer: solutionImageBase64,
-  };
+      ...(statusEdit === 0
+        ? { index: formData.questNumber }
+        : { id: formData.id }),
+    };
 
     try {
-      console.log(data)
       const res =
         statusEdit === 0
           ? await axios.post(
@@ -412,12 +323,12 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
       if (res.status === 200) {
         toast.success(res.data.message);
         if (statusEdit === 0) {
-          console.log("aaa");
+          console.log('aaa')
           fetchQuestion();
           dispatch({ type: "RESET_FORM" });
           dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
         } else {
-          console.log("bbbb");
+          console.log('bbbb')
           fetchQuestion();
           dispatch({ type: "RESET_FORM" });
           dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
@@ -567,7 +478,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
     });
   };
 
-  console.log(chapters);
+  console.log(dataList);
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
@@ -626,7 +537,6 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                       }}
                     />
                   </div>
-            
                   <div>
                     <Input
                       label="หัวข้อที่"
@@ -637,45 +547,6 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                     />
                   </div>
                 </div>
-         
-                <div >
-                  <Select
-                    options={chapters?.map((chapter) => ({
-                      value: chapter.id,
-                      label: chapter.title,
-                    }))}
-                    onChange={handleChapterChange}
-                    placeholder="เลือกบทที่"
-                    isClearable
-                    styles={{
-                      control: (provided) => ({
-                        ...provided,
-                        borderRadius: "8px",
-                      }),
-                      menu: (provided) => ({
-                        ...provided,
-                        borderRadius: "8px",
-                      }),
-                      menuList: (provided) => ({
-                        ...provided,
-                        maxHeight:
-                          window.innerWidth < 1524
-                            ? "150px"
-                            : window.innerWidth < 1650
-                            ? "165px"
-                            : "150px",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        borderRadius: state.isFocused ? "8px" : "0px",
-                      }),
-                    }}
-                  />
-                </div>
-                
                 <div className="w-full gap-3">
                   <Textarea
                     label="สร้างคำถาม"
@@ -689,34 +560,6 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                     }
                   />
                 </div>
-                <div className="w-full gap-3">
-                  <Input
-                    type="file"
-                    label="รูปคำถาม"
-                    onChange={(e) =>
-                      dispatch({
-                        type: "SET_FORM_DATA",
-                        payload: { questionImage: e.target.files?.[0] || null },
-                      })
-                    }
-                    crossOrigin
-                  />
-                </div>
-                <div className="w-full gap-3">
-                  <Input
-                    type="file"
-                    label="รูปเฉลย"
-                    onChange={(e) =>
-                      dispatch({
-                        type: "SET_FORM_DATA",
-                        payload: { solutionImage: e.target.files?.[0] || null },
-                      })
-                    }
-                    crossOrigin
-                  />
-                </div>
-
-
                 <div className="w-full flex flex-col sm:flex-row justify-end gap-3">
                   <div className="md:w-[100px]">
                     <Button
@@ -881,7 +724,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
           <Card className="flex h-[88vh] overflow-auto">
             <div className="w-full justify-center items-center p-3">
               <div className="flex flex-col  gap-3">
-                <div className="flex gap-3">
+                <div className="flex gap-3 ">
                   <Input
                     label="ค้นหาคำถาม"
                     crossOrigin="anonymous"
@@ -954,7 +797,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                             onDragStart={() => (dragItem.current = index)}
                             onDragEnter={() => (dragItemOver.current = index)}
                             onDragEnd={handleSort}
-                            onDragOver={(e) => e.preventDefault()}
+                            onDragOver={(e) => e.preventDefault}
                           >
                             <td className="py-2">
                               <div className="flex items-center justify-center">
