@@ -59,7 +59,10 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           ],
           inline: {
             inDropdown: false,
-            options: ["bold", "italic", "underline", "strikethrough", "monospace"],
+            // className: undefined,
+            // component: undefined,
+            // dropdownClassName: undefined,
+            // options: ["bold", "italic", "underline", "strikethrough", "monospace"],
           },
           blockType: {
             inDropdown: true,
@@ -94,7 +97,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           },
           textAlign: {
             inDropdown: true,
-            options: ["left", "center", "right", "justify"],
+            // options: ["left", "center", "right", "justify"],
           },
           colorPicker: {},
           link: {
