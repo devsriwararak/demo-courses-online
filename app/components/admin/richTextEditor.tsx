@@ -110,11 +110,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           history: { className: 'demo-option-custom' },
         }}
       />
-      <textarea
+      {/* <textarea
         disabled
         value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         style={{ width: "100%", height: "200px", marginTop: "20px" }}
-      />
+      /> */}
     </div>
   );
 };
