@@ -1,32 +1,25 @@
-// src/components/RichTextEditor.tsx
 import React, { useState, useEffect } from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-interface RichTextEditorProps {
-  value: string;
-  onEditorChange: (content: string) => void;
-}
-
-const RichTextEditor: React.FC<RichTextEditorProps> = ({
-  value,
-  onEditorChange,
-}) => {
-  const [editorState, setEditorState] = useState<EditorState>(
-    value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty()
-  );
+const RichTextEditor = ({ initialValue = "" }) => {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
-    if (value) {
-      setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(value))));
+    if (initialValue) {
+      const blocksFromHtml = htmlToDraft(initialValue);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      const newEditorState = EditorState.createWithContent(contentState);
+      setEditorState(newEditorState);
     }
-  }, [value]);
+  }, [initialValue]);
 
-  const handleEditorChange = (state: EditorState) => {
+  const onEditorStateChange = (state) => {
     setEditorState(state);
-    const content = JSON.stringify(convertToRaw(state.getCurrentContent()));
-    onEditorChange(content);
   };
 
   return (
@@ -35,29 +28,40 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         editorState={editorState}
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
-        onEditorStateChange={handleEditorChange}
+        onEditorStateChange={onEditorStateChange}
         toolbar={{
           options: [
-            'inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 
-            'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'
+            "inline",
+            "blockType",
+            "fontSize",
+            "fontFamily",
+            "list",
+            "textAlign",
+            "colorPicker",
+            "link",
+            "embedded",
+            "emoji",
+            "image",
+            "remove",
+            "history",
           ],
           inline: {
             inDropdown: false,
-            options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace'],
+            options: ["bold", "italic", "underline", "strikethrough", "monospace"],
           },
           blockType: {
             inDropdown: true,
-            options: ['Normal', 'H1', 'H2', 'H3', 'Blockquote', 'Code'],
+            options: ["Normal", "H1", "H2", "H3", "Blockquote", "Code"],
           },
           fontSize: {},
           fontFamily: {},
           list: {
             inDropdown: true,
-            options: ['unordered', 'ordered', 'indent', 'outdent'],
+            options: ["unordered", "ordered", "indent", "outdent"],
           },
           textAlign: {
             inDropdown: true,
-            options: ['left', 'center', 'right', 'justify'],
+            options: ["left", "center", "right", "justify"],
           },
           colorPicker: {},
           link: {
@@ -69,6 +73,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           remove: {},
           history: {},
         }}
+      />
+      <textarea
+        disabled
+        value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+        style={{ width: "100%", height: "200px", marginTop: "20px" }}
       />
     </div>
   );
