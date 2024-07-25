@@ -13,23 +13,30 @@
   font-style: normal;
 }
 
-.wysiwyg-editor .public-DraftStyleDefault-bold {
-  font-weight: 800;
-  color: red;
-}
 
-h2 {
-  font-size: 50px;
+
+
+
+h1 {
+  font-size: 21px;
   font-weight: 700;
-  color: red;
-  margin-top: 4px;
+}
+h2 {
+  font-size: 17px;
+  font-weight: 700;
+}
+h3 {
+  font-size: 14px;
+  font-weight: 700;
+}
+h4 {
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .right-align-editor .public-DraftEditor-content {
   text-align: right;
 }
-
-
 
 
 
