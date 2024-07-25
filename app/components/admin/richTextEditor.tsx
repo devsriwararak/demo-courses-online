@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "./RichTextEditor.css"; // เพิ่มไฟล์ CSS สำหรับ custom styles
 
 interface RichTextEditorProps {
   value: string;
@@ -16,16 +17,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
       : EditorState.createEmpty()
   );
 
-  const customStyleMap = {
-    'BOLD': {
-      fontWeight: "bold",
-      color:'red'
-    },
-    'H2': {
-      fontSize: '20px',
-      color: 'green'
-    }
-  };
+  // const customStyleMap = {
+  //   'BOLD': {
+  //     fontWeight: "bold",
+  //     color: 'red',
+  //   },
+  // };
 
   useEffect(() => {
     if (value === "") {
@@ -44,9 +41,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
   };
 
   return (
-    <div className="">
+    <div>
       <Editor
-      customStyleMap={customStyleMap}
+        // customStyleMap={customStyleMap}
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         toolbar={{
@@ -62,7 +59,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "history",
           ],
           inline: {
-            options: ["bold", "italic", "underline", "strikethrough", "monospace"],
+            inDropdown: false,
+            options: ["bold", "italic", "underline"],
+            bold: { className: "custom-bold" },
+            italic: { className: undefined },
+            underline: { className: undefined },
           },
           blockType: {
             inDropdown: true,
