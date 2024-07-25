@@ -20,18 +20,16 @@ h2 {
   margin-top: 4px;
 }
 
-.editorClassName .public-DraftStyleDefault-bold {
-  font-weight: 700;
-  color: green;
+.right-align-editor .public-DraftEditor-content {
+  text-align: right;
 }
 
 
 
 
 
-
 .swal2-icon.swal2-warning.swal2-icon-show {
-  margin: 0px auto; /* ตัวอย่างการปรับแต่ง margin */
+  margin: 0px auto; 
 }
 .swal2-icon.swal2-warning.swal2-icon-show {
   width: 50px;

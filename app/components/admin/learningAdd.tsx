@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Card, Button, Input } from "@material-tailwind/react";
 import Select from "react-select";
-import dynamic from "next/dynamic";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import { toast } from "react-toastify";
-
 import RichTextEditor from "./richTextEditor";
 
 interface Category {
@@ -43,6 +43,8 @@ const LearningADD: React.FC<LearningADDProps> = ({
   statusEdit,
   setLearningAdd,
 }) => {
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+
   const handleCategoryChange = (selectedOption: any) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -80,7 +82,8 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onFormSubmit(formData, statusEdit);
+    const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    onFormSubmit({ ...formData, dec: content }, statusEdit);
   };
 
   return (
@@ -190,24 +193,10 @@ const LearningADD: React.FC<LearningADDProps> = ({
               />
             </div>
           </div>
-          <div>
-            {/* <CustomEditor
-              value={formData.dec}
-              onEditorChange={(data) =>
-                setFormData((prevFormData) => ({
-                  ...prevFormData,
-                  dec: data,
-                }))
-              }
-            /> */}
+          <div className=" relative z-10">
             <RichTextEditor
               value={formData.dec}
-              onEditorChange={(data) =>
-                setFormData((prevFormData) => ({
-                  ...prevFormData,
-                  dec: data,
-                }))
-              }
+              onEditorChange={setEditorState}
             />
           </div>
           <div className="flex flex-col gap-5 md:flex-row  mb-3 justify-end">
