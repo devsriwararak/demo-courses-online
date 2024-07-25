@@ -17,12 +17,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
       : EditorState.createEmpty()
   );
 
-  // const customStyleMap = {
-  //   'BOLD': {
-  //     fontWeight: "bold",
-  //     color: 'red',
-  //   },
-  // };
+  const customStyleMap = {
+    'BOLD': {
+      fontWeight: "bold",
+      color: 'red',
+    },
+  };
 
   useEffect(() => {
     if (value === "") {
@@ -42,43 +42,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
 
   return (
     <div>
-      <Editor
-        // customStyleMap={customStyleMap}
-        editorState={editorState}
-        onEditorStateChange={handleEditorChange}
-        toolbar={{
-          options: [
-            "inline",
-            "blockType",
-            "fontSize",
-            "fontFamily",
-            "list",
-            "textAlign",
-            "colorPicker",
-            "remove",
-            "history",
-          ],
-          inline: {
-            inDropdown: false,
-            options: ["bold", "italic", "underline"],
-            bold: { className: "custom-bold" },
-            italic: { className: undefined },
-            underline: { className: undefined },
-          },
-          blockType: {
-            inDropdown: true,
-            options: ["Normal", "H1", "H2", "H3"],
-          },
-          list: {
-            inDropdown: true,
-            options: ["unordered", "ordered", "indent", "outdent"],
-          },
-          textAlign: {
-            inDropdown: true,
-            options: ["left", "center", "right", "justify"],
-          },
-        }}
-      />
+        <Editor
+      editorState={editorState}
+      onEditorStateChange={setEditorState}
+      customStyleMap={customStyleMap}
+    />
     </div>
   );
 };
