@@ -58,13 +58,13 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "remove",
             "history",
           ],
-          inline: {
-            inDropdown: false,
-            options: ["bold", "italic", "underline"],
-            bold: { className: 'toolbar-bold' },
-            italic: { className: 'toolbar-italic' },
-            underline: { className: 'toolbar-underline' },
-          },
+          // inline: {
+          //   inDropdown: false,
+          //   options: ["bold", "italic", "underline"],
+          //   // bold: { className: 'toolbar-bold' },
+          //   // italic: { className: 'toolbar-italic' },
+          //   underline: { className: 'toolbar-underline' },
+          // },
           blockType: {
             inDropdown: true,
             options: ["Normal", "H1", "H2", "H3"],
