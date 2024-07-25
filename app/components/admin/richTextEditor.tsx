@@ -4,7 +4,7 @@ import { Editor } from "react-draft-wysiwyg";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@/app/globals.css"; // Include your Tailwind CSS file
-import "./richTextEditor.css"; // Include your Tailwind CSS file
+import "./richTextEditor.css"; // Include your CSS file
 
 interface RichTextEditorProps {
   value: string;
@@ -18,20 +18,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
       : EditorState.createEmpty()
   );
 
-  const customStyleMap = {
-    'BOLD': {
-      fontWeight: 'bold', // ใช้ 'bold' เพื่อความเข้ากันได้
-      color: 'red', // ปรับเป็นสีที่ต้องการ
-    },
-    'ITALIC': {
-      fontStyle: 'italic', // ใช้ 'italic' เพื่อความเข้ากันได้
-      color: 'blue', // ปรับเป็นสีที่ต้องการ
-    },
-    'H2': {
-      fontSize: '20px',
-      color: 'green'
-    }
-  };
+  // const customStyleMap = {
+  //   BOLD: {
+  //     fontWeight: '800', // ใช้ camelCase ใน JavaScript
+  //     color: 'red', // ปรับเป็นสีที่ต้องการ
+  //   },
+  // };
 
   useEffect(() => {
     if (value === "") {
@@ -53,7 +45,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
     <div>
       <Editor
         editorState={editorState}
-        customStyleMap={customStyleMap}
+        // customStyleMap={customStyleMap}
         onEditorStateChange={handleEditorChange}
         toolbar={{
           options: [
@@ -74,6 +66,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           inline: {
             inDropdown: false,
             options: ["bold", "italic", "underline"],
+            bold: { className: 'toolbar-bold' },
+            italic: { className: 'toolbar-italic' },
+            underline: { className: 'toolbar-underline' },
           },
           blockType: {
             inDropdown: true,
@@ -88,7 +83,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             options: ["left", "center", "right", "justify"],
           },
         }}
-        editorClassName="min-h-48 border border-gray-300 p-2 rounded"
+        editorClassName="wysiwyg-editor"
       />
     </div>
   );

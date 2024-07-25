@@ -13,8 +13,9 @@
   font-style: normal;
 }
 
-.bold {
-  font-weight: 700;
+.wysiwyg-editor .public-DraftStyleDefault-bold {
+  font-weight: 800;
+  color: red;
 }
 
 h2 {
