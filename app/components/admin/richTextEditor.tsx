@@ -3,8 +3,7 @@ import { EditorState, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import htmlToDraft from "html-to-draftjs";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "@/app/globals.css"; // Include your Tailwind CSS file
-import "./richTextEditor.css"; // Include your CSS file
+
 
 interface RichTextEditorProps {
   value: string;
@@ -56,10 +55,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "list",
             "textAlign",
             "colorPicker",
-            "link",
-            "embedded",
-            "emoji",
-            "image",
             "remove",
             "history",
           ],
@@ -72,7 +67,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
           },
           blockType: {
             inDropdown: true,
-            options: ["Normal", "H1", "H2", "H3", "Blockquote"],
+            options: ["Normal", "H1", "H2", "H3"],
           },
           list: {
             inDropdown: true,
