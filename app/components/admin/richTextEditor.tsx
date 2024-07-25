@@ -51,20 +51,21 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             "inline",
             "blockType",
             "fontSize",
-            "fontFamily",
+            // "fontFamily",
             "list",
             "textAlign",
             "colorPicker",
             "remove",
             "history",
           ],
-          // inline: {
-          //   inDropdown: false,
-          //   options: ["bold", "italic", "underline"],
-          //   // bold: { className: 'toolbar-bold' },
-          //   // italic: { className: 'toolbar-italic' },
-          //   underline: { className: 'toolbar-underline' },
-          // },
+          inline: {
+            inDropdown: false,
+            className: undefined,
+            component: undefined,
+            dropdownClassName: undefined,
+            // options: ["bold", "italic", "underline", "strikethrough", "monospace"],
+            options: ["underline", "strikethrough", "monospace"],
+          },
           blockType: {
             inDropdown: true,
             options: ["Normal", "H1", "H2", "H3"],
@@ -78,7 +79,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             options: ["left", "center", "right", "justify"],
           },
         }}
-        editorClassName="wysiwyg-editor"
+        // editorClassName="wysiwyg-editor"
       />
     </div>
   );
