@@ -305,6 +305,9 @@ const HomeWorkPage: React.FC = () => {
     });
     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
     dispatch({ type: "RESET_FORM_LIST" });
+    dispatch({ type: "RESET_SELECTED_CHAPTER" });
+    setSelect1(null)
+    setSelect2(null)
     fetchCheckNum(selectedProductId);
     fetchChapters(selectedProductId);
     // setSelect1(selectedProductId);
@@ -510,10 +513,10 @@ const HomeWorkPage: React.FC = () => {
   }, [pageList, select1, select2,searchList]);
 
   useEffect(() => {
-    if (select2) {
+    if (select1 && select2) {
       fetchList1();
     }
-  }, [pageList, fetchList1,select2,searchList]);
+  }, [pageList, fetchList1,select1,select2,searchList]);
 
   const handleSendList = async () => {
     dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: select1 });
