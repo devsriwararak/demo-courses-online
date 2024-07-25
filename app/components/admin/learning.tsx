@@ -289,7 +289,7 @@ const LearningPage: React.FC = () => {
   return (
     <ThemeProvider value={theme}>
       
-      <div className="flex flex-col xl:flex-row justify-center gap-2 overflow-auto">
+      <div className="flex flex-col xl:flex-row justify-center gap-3 overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
           <div className="w-full ">
@@ -304,7 +304,7 @@ const LearningPage: React.FC = () => {
             </Card>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row w-full  gap-2">
+          <div className="flex flex-col lg:flex-row w-full  gap-3">
             <div className="w-full lg:w-2/3">
               <LearningADD
                 categories={categories}

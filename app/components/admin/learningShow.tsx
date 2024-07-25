@@ -174,7 +174,8 @@ const LearningShow: React.FC<LearningShowProps> = ({
             />
 
             <Button
-              className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
+            size="sm"
+              className="bg-blue-500 text-white text-sm hover:bg-blue-700 whitespace-nowrap"
               onClick={() =>handleAddNew() }
             >
               เพิ่มข้อมูล
@@ -305,9 +306,9 @@ const LearningShow: React.FC<LearningShowProps> = ({
             </Card>
           </div>
 
-          <div className="flex justify-end gap-5 mt-3 px-2 items-center ">
+          <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
             <button
-              className={` text-gray-400  text-3xl  whitespace-nowrap ${
+              className={` text-gray-400  text-xl  whitespace-nowrap ${
                 page == 1 ? "" : "hover:text-black"
               } `}
               disabled={page == 1}
@@ -315,11 +316,11 @@ const LearningShow: React.FC<LearningShowProps> = ({
             >
               <MdOutlineKeyboardDoubleArrowLeft />
             </button>
-            <span style={{ whiteSpace: "nowrap" }}>
+            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
               หน้าที่ {page} / {data?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-3xl whitespace-nowrap ${
+              className={`text-gray-400 text-xl whitespace-nowrap ${
                 Number(data?.totalPages) - Number(page) < 1
                   ? true
                   : false

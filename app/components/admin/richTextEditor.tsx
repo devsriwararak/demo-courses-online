@@ -79,7 +79,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             options: ["left", "center", "right", "justify"],
           },
         }}
-        // editorClassName="wysiwyg-editor"
+        editorClassName=" min-h-32 lg:min-h-64 border border-gray-300 p-2 rounded"
       />
     </div>
   );

@@ -88,10 +88,11 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   return (
     <div>
-      <Card className="flex  overflow-auto">
+      <Card className="flex xl:h-[88vh] overflow-auto">
         <div className=" flex px-6 pt-5  justify-end">
           <Button
-            className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
+          size="sm"
+            className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
             onClick={() => setLearningAdd(0)}
           >
             ออก
@@ -205,14 +206,14 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 color="green"
                 variant="outlined"
                 size="sm"
-                className="w-full"
+                className="w-full text-sm"
                 onClick={onResetForm}
               >
                 สร้างใหม่
               </Button>
             </div>
             <div className="md:w-[100px]">
-              <Button color="blue" size="sm" className="w-full" type="submit">
+              <Button color="blue" size="sm" className="w-full text-sm" type="submit">
                 บันทึก
               </Button>
             </div>

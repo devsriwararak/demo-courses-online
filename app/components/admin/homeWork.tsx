@@ -16,8 +16,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect, useCallback, useRef, useReducer } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { MdDelete, MdEdit } from "react-icons/md";
-// import dynamic from "next/dynamic";
+import {
+  MdDelete,
+  MdEdit,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 
 const MySwal = withReactContent(Swal);
 
@@ -26,9 +30,8 @@ interface Product {
   title: string;
 }
 
-interface List {
-  product_id: number;
-  count: string;
+interface Chapter {
+  id: number;
   title: string;
 }
 
@@ -36,11 +39,6 @@ interface Question {
   products_id: number;
   title: string;
   count: string;
-}
-
-interface Chapter {
-  id: number;
-  title: string;
 }
 
 interface ListData {
@@ -57,6 +55,11 @@ interface ResponseData {
 interface ResponseData1 {
   data: ListData[];
   totalPages: number;
+}
+
+interface ChapterOption extends Chapter {
+  value: number;
+  label: string;
 }
 
 const theme = {
@@ -107,6 +110,7 @@ const HomeWorkPage: React.FC = () => {
       title: "",
     },
     selectedCourseTitle: "",
+    selectedChapter: null as number | null, // เพิ่ม selectedChapter ที่นี่
   };
 
   type State = typeof initialState;
@@ -130,7 +134,9 @@ const HomeWorkPage: React.FC = () => {
     | { type: "RESET_FORM_LIST" }
     | { type: "RESET_FORM_DATA" }
     | { type: "RESET_STATUS_EDIT" }
-    | { type: "RESET_SELECTED_COURSE_TITLE" };
+    | { type: "RESET_SELECTED_COURSE_TITLE" }
+    | { type: "SET_SELECTED_CHAPTER"; payload: number | null } // เพิ่ม action สำหรับ selectedChapter
+    | { type: "RESET_SELECTED_CHAPTER" }; // เพิ่ม action สำหรับรีเซ็ต selectedChapter
 
   const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -166,12 +172,17 @@ const HomeWorkPage: React.FC = () => {
         return { ...state, selectedCourseTitle: action.payload };
       case "RESET_SELECTED_COURSE_TITLE":
         return { ...state, selectedCourseTitle: "" };
+      case "SET_SELECTED_CHAPTER":
+        return { ...state, selectedChapter: action.payload }; // เพิ่ม case สำหรับ selectedChapter
+      case "RESET_SELECTED_CHAPTER":
+        return { ...state, selectedChapter: null }; // เพิ่ม case สำหรับรีเซ็ต selectedChapter
       case "RESET_FORM":
         return {
           ...state,
           formData: initialState.formData,
           hideSearch: true,
           dataList: initialState.dataList,
+          selectedChapter: null, // รีเซ็ต selectedChapter ใน RESET_FORM
         };
       case "RESET_STATUS_EDIT":
         return { ...state, statusEdit: 0 };
@@ -181,6 +192,7 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     products,
@@ -200,7 +212,7 @@ const HomeWorkPage: React.FC = () => {
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
-  console.log(dataList)
+  console.log(dataList);
 
   const handleSort = async () => {
     if (dragItem.current !== null && dragItemOver.current !== null) {
@@ -233,9 +245,6 @@ const HomeWorkPage: React.FC = () => {
 
         if (res.status === 200) {
           toast.success(res.data.message);
-          // dispatch({ type: "RESET_FORM" });
-          // dispatch({ type: "RESET_STATUS_EDIT" });
-          // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
         } else {
           toast.error("Failed to update data");
         }
@@ -252,6 +261,7 @@ const HomeWorkPage: React.FC = () => {
         { full: true },
         { ...HeaderAPI(localStorage.getItem("Token")) }
       );
+      console.log(res.data);
       if (res.status === 200) {
         dispatch({ type: "SET_PRODUCTS", payload: res.data.data });
       } else {
@@ -264,12 +274,12 @@ const HomeWorkPage: React.FC = () => {
 
   const fetchChapters = useCallback(async (id: number) => {
     try {
-      console.log(id)
+      console.log(id);
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/select/courses/${id}`,
         { ...HeaderAPI(localStorage.getItem("Token")) }
       );
-      console.log(res)
+      console.log(res);
       if (res.status === 200) {
         dispatch({ type: "SET_CHAPTERS", payload: res.data.data });
       } else {
@@ -284,6 +294,9 @@ const HomeWorkPage: React.FC = () => {
     fetchProduct();
   }, [fetchProduct]);
 
+  const [select1, setSelect1] = useState<any>(null);
+
+
   const handleCategoryChange = (selectedOption: any) => {
     const selectedProductId = selectedOption?.value || 0;
     dispatch({
@@ -294,48 +307,39 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_FORM_LIST" });
     fetchCheckNum(selectedProductId);
     fetchChapters(selectedProductId);
+    // setSelect1(selectedProductId);
+    setSelect1(selectedOption); // เก็บตัวเลือกทั้งหมดใน select1
   };
 
-//   const handleCategoryChange = (selectedOption: any) => {
-//     const selectedProductId = selectedOption?.value || 0;
-//     const selectedProductTitleId = selectedOption?.products_title_id || 0; // assuming products_title_id is part of the selectedOption
-//     dispatch({
-//         type: "SET_FORM_DATA",
-//         payload: {
-//             product_id: selectedProductId,
-//             products_title_id: selectedProductTitleId,
-//         },
-//     });
-//     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
-//     dispatch({ type: "RESET_FORM_LIST" });
-//     fetchCheckNum(selectedProductId);
-//     fetchChapters(selectedProductId);
-// };
+  const [select2, setSelect2] = useState<any>(null);
 
-const handleChapterChange = (selectedOption: any) => {
-  dispatch({
-    type: "SET_FORM_DATA",
-    payload: { products_title_id: selectedOption?.value || 0 },
-  });
-};
+  const handleChapterChange = (selectedOption: any) => {
+    console.log(selectedOption)
+    const selectedChapterId = selectedOption?.value || null;
+    dispatch({
+      type: "SET_SELECTED_CHAPTER",
+      payload: selectedChapterId,
+    });
+    dispatch({
+      type: "SET_FORM_DATA",
+      payload: { products_title_id: selectedChapterId },
+    });
+    setSelect2(selectedOption);
+    handleSendList();
+  };
 
-
-
-
-const convertFileToBase64 = (file: File | null): Promise<string> => {
-  return new Promise((resolve, reject) => {
+  const convertFileToBase64 = (file: File | null): Promise<string> => {
+    return new Promise((resolve, reject) => {
       if (!file) {
-          resolve("");
-          return;
+        resolve("");
+        return;
       }
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
-  });
-};
-
-
+    });
+  };
 
   const fetchCheckNum = useCallback(async (id: number | undefined) => {
     if (typeof id === "undefined" || id === null) {
@@ -343,7 +347,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
     }
 
     try {
-      console.log(id)
+      console.log(id);
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
         { ...HeaderAPI(localStorage.getItem("Token")) }
@@ -363,31 +367,26 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
   }, []);
 
   const handleSubmit = async () => {
-    const questionImageBase64 = await convertFileToBase64(formData.questionImage);
-    const solutionImageBase64 = await convertFileToBase64(formData.solutionImage);
+    const questionImageBase64 = await convertFileToBase64(
+      formData.questionImage
+    );
+    const solutionImageBase64 = await convertFileToBase64(
+      formData.solutionImage
+    );
 
-    console.log(solutionImageBase64)
-
-
-    // const data = {
-    //   products_id: formData.product_id,
-    //   question: formData.question,
-    //   ...(statusEdit === 0
-    //     ? { index: formData.questNumber }
-    //     : { id: formData.id }),
-    // };
+    console.log(solutionImageBase64);
 
     const data = {
       products_id: formData.product_id,
-      products_title_id: formData.products_title_id, 
+      products_title_id: formData.products_title_id,
       index: formData.questNumber,
       question: formData.question,
-      image_question: questionImageBase64 || "",
+      image_question: questionImageBase64 ,
       image_answer: solutionImageBase64,
-  };
+    };
 
     try {
-      console.log(data)
+      console.log(data);
       const res =
         statusEdit === 0
           ? await axios.post(
@@ -479,22 +478,56 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
     [pageList]
   );
 
-  useEffect(() => {
-    if (formList.product_id) {
-      fetchList(formList.product_id, searchList);
-    }
-  }, [pageList, formList.product_id, searchList, fetchList]);
 
-  const handleSendList = async (item: any) => {
-    dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: item.title });
-    dispatch({ type: "SET_PAGE_LIST", payload: 1 }); // ตั้งค่า pageList เป็น 1
-    await fetchList(item.products_id, "");
+  const fetchList1 = useCallback(async () => {
+    const requestData = {
+      products_id: select1?.value, 
+      products_title_id: select2?.value,
+      page: pageList,
+      search:searchList,
+      full: false,
+    };
+    console.log(requestData);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/question/list`,
+        requestData,
+        {
+          ...HeaderAPI(localStorage.getItem("Token")),
+        }
+      );
+      console.log(res.data);
+      if (res.status === 200) {
+        dispatch({ type: "SET_DATA_LIST", payload: res.data });
+        dispatch({ type: "SET_HIDE_SEARCH", payload: false });
+      } else {
+        toast.error("error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("error");
+    }
+  }, [pageList, select1, select2,searchList]);
+
+  useEffect(() => {
+    if (select2) {
+      fetchList1();
+    }
+  }, [pageList, fetchList1,select2,searchList]);
+
+  const handleSendList = async () => {
+    dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: select1 });
+    dispatch({ type: "SET_PAGE_LIST", payload: 1 });
+    await fetchList1();
   };
 
   const resetForm = () => {
     dispatch({ type: "RESET_FORM" });
     dispatch({ type: "RESET_STATUS_EDIT" });
     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+    dispatch({ type: "RESET_SELECTED_CHAPTER" });
+    setSelect1(null)
+    setSelect2(null)
   };
 
   const handleEdit = (data: any) => {
@@ -541,7 +574,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
             }
           );
           if (res.status === 200) {
-            fetchList(formList.product_id, searchList);
+            // fetchList(formList.product_id, searchList);
             resetForm();
             Swal.fire({
               text: "ข้อมูลของคุณถูกลบแล้ว.",
@@ -567,17 +600,16 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
     });
   };
 
-  console.log(chapters);
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
         <div className="w-full lg:w-5/12">
-          <div className="flex flex-col h-[88vh] gap-3">
-            <Card className="flex shadow-none overflow-auto h-[40%] p-3">
-              <div className="flex flex-col gap-3 w-full justify-center lg:justify-start">
-                <div className="flex w-full flex-col justify-between lg:flex-row gap-3">
-                  <div>
+          <div className="flex flex-col gap-3">
+            <Card className="flex shadow-none overflow-auto p-3">
+              <div className="flex flex-col gap-3 py-5 w-full justify-center lg:justify-start">
+                <div className="flex w-full flex-col justify-between sm:flex-row gap-3">
+                  <div className="w-full sm:w-2/3">
                     <Select
                       options={products.map((product) => ({
                         value: product.id,
@@ -597,7 +629,6 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                       placeholder="เลือกคอร์ดเรียน"
                       isClearable
                       isDisabled={statusEdit === 1}
-                      className="w-full xl:w-[300px]"
                       styles={{
                         control: (provided) => ({
                           ...provided,
@@ -626,27 +657,39 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                       }}
                     />
                   </div>
-            
-                  <div>
+
+                  <div className="w-full sm:w-1/4">
                     <Input
                       label="หัวข้อที่"
                       type="text"
-                      crossOrigin="anonymous"
+                        crossOrigin="anonymous"
                       value={formData.questNumber}
                       readOnly
                     />
                   </div>
                 </div>
-         
-                <div >
+
+                <div>
                   <Select
                     options={chapters?.map((chapter) => ({
                       value: chapter.id,
                       label: chapter.title,
                     }))}
                     onChange={handleChapterChange}
+                    value={
+                      chapters
+                        ?.map((chapter) => ({
+                          value: chapter.id,
+                          label: chapter.title,
+                        }))
+                        .find(
+                          (option) =>
+                            option.value === state.selectedChapter
+                        ) || null
+                    }
                     placeholder="เลือกบทที่"
                     isClearable
+                    isDisabled={statusEdit === 1}
                     styles={{
                       control: (provided) => ({
                         ...provided,
@@ -675,7 +718,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                     }}
                   />
                 </div>
-                
+
                 <div className="w-full gap-3">
                   <Textarea
                     label="สร้างคำถาม"
@@ -699,7 +742,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                         payload: { questionImage: e.target.files?.[0] || null },
                       })
                     }
-                    crossOrigin
+                     crossOrigin="anonymous"
                   />
                 </div>
                 <div className="w-full gap-3">
@@ -712,10 +755,9 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                         payload: { solutionImage: e.target.files?.[0] || null },
                       })
                     }
-                    crossOrigin
+                     crossOrigin="anonymous"
                   />
                 </div>
-
 
                 <div className="w-full flex flex-col sm:flex-row justify-end gap-3">
                   <div className="md:w-[100px]">
@@ -742,149 +784,16 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                 </div>
               </div>
             </Card>
-            <Card className="flex z-10 shadow-none overflow-auto h-[60%] p-3">
-              <div className="w-full justify-center items-center">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="flex gap-3">
-                    <Input
-                      label="ค้นหาคอร์ดเรียน"
-                      crossOrigin="anonymous"
-                      onChange={(e) =>
-                        dispatch({
-                          type: "SET_SEARCH_QUERY",
-                          payload: e.target.value,
-                        })
-                      }
-                      onClick={() => dispatch({ type: "SET_PAGE", payload: 1 })}
-                    />
-                  </div>
-                </div>
-                <div className="overflow-auto lg:h-[90%]">
-                  <Card className="mt-5 h-[32vh] overflow-auto mb-3 border-2">
-                    <table className="w-full min-w-max">
-                      <thead>
-                        <tr>
-                          <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-bold leading-none opacity-70"
-                            >
-                              ลำดับ
-                            </Typography>
-                          </th>
-                          <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-bold leading-none opacity-70"
-                            >
-                              ชื่อคอร์ด
-                            </Typography>
-                          </th>
-                          <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-bold leading-none opacity-70"
-                            >
-                              เลือก
-                            </Typography>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data.data.length === 0 ? (
-                          <tr>
-                            <td colSpan={3} className="text-center pt-5">
-                              <Typography>...ไม่พบข้อมูล...</Typography>
-                            </td>
-                          </tr>
-                        ) : (
-                          data.data.map((item, index) => (
-                            <tr key={index} style={{ marginTop: "3px" }}>
-                              <td className="py-2">
-                                <div className="flex items-center justify-center">
-                                  <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="font-normal"
-                                  >
-                                    {index + 1}
-                                  </Typography>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="relative flex items-center justify-center tooltip">
-                                  <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[190px]"
-                                  >
-                                    {item.title}
-                                  </Typography>
-                                  <div className="tooltip-text text-sm">
-                                    {item.title}
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="flex justify-center">
-                                  <Button
-                                    color="green"
-                                    size="sm"
-                                    className="w-full p-1 m-1"
-                                    onClick={() => handleSendList(item)}
-                                  >
-                                    เลือก
-                                  </Button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
-                  </Card>
-                  <div className="flex justify-end gap-5 mt-3 px-2 items-center">
-                    <Button
-                      className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                      disabled={page === 1}
-                      onClick={() =>
-                        dispatch({
-                          type: "SET_PAGE",
-                          payload: Math.max(page - 1, 1),
-                        })
-                      }
-                    >
-                      ก่อนหน้า
-                    </Button>
-                    <span style={{ whiteSpace: "nowrap" }}>
-                      หน้าที่ {page} / {data.totalPages || 1}
-                    </span>
-                    <Button
-                      className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                      disabled={page >= (data.totalPages || 1)}
-                      onClick={() =>
-                        dispatch({ type: "SET_PAGE", payload: page + 1 })
-                      }
-                    >
-                      ถัดไป
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
           </div>
         </div>
         <div className="w-full lg:w-7/12">
-          <Card className="flex h-[88vh] overflow-auto">
-            <div className="w-full justify-center items-center p-3">
-              <div className="flex flex-col  gap-3">
+          <Card className="flex overflow-auto">
+            <div className="w-full justify-center py-5 items-center p-3">
+              <div className="flex flex-col gap-3">
                 <div className="flex gap-3">
                   <Input
                     label="ค้นหาคำถาม"
-                    crossOrigin="anonymous"
+                      crossOrigin="anonymous"
                     disabled={hideSearch}
                     onChange={(e) =>
                       dispatch({
@@ -897,10 +806,17 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                     }
                   />
                 </div>
-                <div className="flex gap-3 ps-5">
-                  <Typography>
-                    คอร์สเรียน: <span>{state?.selectedCourseTitle}</span>
+                <div className="flex flex-col gap-1 ps-5">
+                  <div>
+                  <Typography className="font-bold">
+                    คอร์สเรียน: <span>{select1?.label}</span>
                   </Typography>
+                  </div>
+                  <div>
+                  <Typography className="font-bold">
+                    บทเรียน: <span>{select2?.label}</span>
+                  </Typography>
+                  </div>
                 </div>
               </div>
 
@@ -1006,7 +922,7 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                   </table>
                 </Card>
                 <div className="flex justify-end gap-5 mt-3 px-2 items-center">
-                  <Button
+                  <button
                     className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
                     disabled={pageList === 1}
                     onClick={() =>
@@ -1016,20 +932,20 @@ const convertFileToBase64 = (file: File | null): Promise<string> => {
                       })
                     }
                   >
-                    ก่อนหน้า
-                  </Button>
+                    <MdOutlineKeyboardDoubleArrowLeft />
+                  </button>
                   <span style={{ whiteSpace: "nowrap" }}>
                     หน้าที่ {pageList} / {dataList.totalPages || 1}
                   </span>
-                  <Button
+                  <button
                     className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
                     disabled={pageList >= (dataList.totalPages || 1)}
                     onClick={() =>
                       dispatch({ type: "SET_PAGE_LIST", payload: pageList + 1 })
                     }
                   >
-                    ถัดไป
-                  </Button>
+                    <MdOutlineKeyboardDoubleArrowRight />
+                  </button>
                 </div>
               </div>
             </div>

@@ -50,7 +50,7 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
 
       <div className="flex-1 flex flex-col  ">
 
-        <div className="mr-3 mt-[70px] overflow-auto ">
+        <div className="mr-3 mt-[64px] overflow-auto ">
           {children}
         </div>
       </div>

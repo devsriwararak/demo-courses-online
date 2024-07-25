@@ -14,7 +14,12 @@ import { HeaderAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { MdDelete, MdEdit } from "react-icons/md";
+import {
+  MdDelete,
+  MdEdit,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 
 import { useState, useEffect, useCallback } from "react";
 import AddEditModal from "./addEditModal";
@@ -238,7 +243,8 @@ const AdminPage: React.FC = () => {
             </div>
             <div>
               <Button
-                className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
+              size="sm"
+                className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
                 onClick={handleModalAdd}
               >
                 เพิ่มข้อมูล
@@ -341,28 +347,35 @@ const AdminPage: React.FC = () => {
                 </tbody>
               </table>
             </Card>
-            <div className="flex justify-end gap-5 mt-3 px-2 items-center ">
-              <Button
-                className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                disabled={page == 1}
-                onClick={() => setPage((page) => Math.max(page - 1, 1))}
-              >
-                ก่อนหน้า
-                {/* <IoIosArrowBack /> */}
-              </Button>
-              <span style={{ whiteSpace: "nowrap" }}>
-                หน้าที่ {page} / {data?.totalPages || 1}{" "}
-              </span>
-              <Button
-                className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                disabled={
-                  Number(data?.totalPages) - Number(page) < 1 ? true : false
-                }
-                onClick={() => setPage((page) => page + 1)}
-              >
-                ถัดไป
-              </Button>
-            </div>
+            <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
+            <button
+              className={` text-gray-400  text-xl  whitespace-nowrap ${
+                page == 1 ? "" : "hover:text-black"
+              } `}
+              disabled={page == 1}
+              onClick={() => setPage((page) => Math.max(page - 1, 1))}
+            >
+              <MdOutlineKeyboardDoubleArrowLeft />
+            </button>
+            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+              หน้าที่ {page} / {data?.totalPages || 1}{" "}
+            </span>
+            <button
+              className={`text-gray-400 text-xl whitespace-nowrap ${
+                Number(data?.totalPages) - Number(page) < 1
+                  ? true
+                  : false
+                  ? ""
+                  : "hover:text-black"
+              }`}
+              disabled={
+                Number(data?.totalPages) - Number(page) < 1 ? true : false
+              }
+              onClick={() => setPage((page) => page + 1)}
+            >
+              <MdOutlineKeyboardDoubleArrowRight />
+            </button>
+          </div>
           </div>
         </div>
       </Card>

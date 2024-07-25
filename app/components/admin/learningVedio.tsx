@@ -224,9 +224,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
 
   return (
     <div>
-      <Card className="flex  overflow-auto">
+      <Card className="flex p-5  overflow-auto">
         <form
-          className="flex flex-col w-full px-5 mt-3 gap-4"
+          className="flex flex-col w-full  gap-4"
           onSubmit={handleFormSubmit}
         >
           <div className="flex flex-col gap-5 xl:flex-row">
@@ -242,7 +242,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             </div>
             <div>
               <div className="md:w-[100px]">
-                <Button color="blue" size="sm" className="w-full" type="submit" disabled={!!!titleId}>
+                <Button color="blue" size="sm" className="w-full text-sm" type="submit" disabled={!!!titleId}>
                   บันทึก
                 </Button>
               </div>
@@ -319,9 +319,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end gap-5 mt-3 px-2 items-center">
+        <div className="flex justify-end gap-2 mt-3 px-2 items-center">
           <button
-            className={` text-gray-400  text-3xl  whitespace-nowrap ${
+            className={` text-gray-400  text-xl  whitespace-nowrap ${
               pageVideo == 1 ? "" : "hover:text-black"
             } `}
             disabled={pageVideo == 1}
@@ -331,11 +331,11 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           >
             <MdOutlineKeyboardDoubleArrowLeft />
           </button>
-          <span style={{ whiteSpace: "nowrap" }}>
+          <span style={{ whiteSpace: "nowrap" }} className="text-xs">
             หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-3xl whitespace-nowrap ${
+            className={`text-gray-400 text-xl whitespace-nowrap ${
               Number(dataVideo?.totalPages) - Number(pageVideo) < 1
                 ? true
                 : false

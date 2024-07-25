@@ -214,9 +214,10 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
             />
             <div className="md:w-[100px]">
               <Button
+              size="sm"
                 disabled={!!!courseSelect }
                 color="blue"
-                className="w-full"
+                className="w-full text-sm"
                 onClick={handleAddOrEditTitle}
               >
                 {editingId ? "อัปเดต" : "บันทึก"}
@@ -335,9 +336,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               </tbody>
             </table>
           </div>
-          <div className="flex justify-end gap-5 mt-3 px-2 items-center">
+          <div className="flex justify-end gap-2 mt-3 px-2 items-center">
             <button
-              className={` text-gray-400  text-3xl  whitespace-nowrap ${
+              className={` text-gray-400  text-xl  whitespace-nowrap ${
                 pageTitle == 1 ? "" : "hover:text-black"
               } `}
               disabled={pageTitle == 1}
@@ -345,11 +346,11 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
             >
               <MdOutlineKeyboardDoubleArrowLeft />
             </button>
-            <span style={{ whiteSpace: "nowrap" }}>
+            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
               หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-3xl whitespace-nowrap ${
+              className={`text-gray-400 text-xl whitespace-nowrap ${
                 Number(dataTitle?.totalPages) - Number(pageTitle) < 1
                   ? true
                   : false
