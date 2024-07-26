@@ -7,6 +7,9 @@ import {
   Textarea,
   Typography,
   IconButton,
+  Dialog,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
 import Select from "react-select";
 import axios from "axios";
@@ -21,7 +24,9 @@ import {
   MdEdit,
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
+  MdOutlineContentPasteSearch,
 } from "react-icons/md";
+import Image from "next/image";
 
 const MySwal = withReactContent(Swal);
 
@@ -45,6 +50,16 @@ interface ListData {
   id: number;
   question: string;
   index: number;
+}
+
+interface ListData1 {
+  id: number;
+  image_answer: string;
+  image_question: string;
+  index: number;
+  products_id: number;
+  products_title_id: number;
+  question: string;
 }
 
 interface ResponseData {
@@ -103,6 +118,8 @@ const HomeWorkPage: React.FC = () => {
       question: "",
       questionImage: null as File | null,
       solutionImage: null as File | null,
+      questionImageName: "",
+      solutionImageName: "",
     },
     formList: {
       product_id: 0,
@@ -110,7 +127,7 @@ const HomeWorkPage: React.FC = () => {
       title: "",
     },
     selectedCourseTitle: "",
-    selectedChapter: null as number | null, // เพิ่ม selectedChapter ที่นี่
+    selectedChapter: null as number | null,
   };
 
   type State = typeof initialState;
@@ -135,8 +152,8 @@ const HomeWorkPage: React.FC = () => {
     | { type: "RESET_FORM_DATA" }
     | { type: "RESET_STATUS_EDIT" }
     | { type: "RESET_SELECTED_COURSE_TITLE" }
-    | { type: "SET_SELECTED_CHAPTER"; payload: number | null } // เพิ่ม action สำหรับ selectedChapter
-    | { type: "RESET_SELECTED_CHAPTER" }; // เพิ่ม action สำหรับรีเซ็ต selectedChapter
+    | { type: "SET_SELECTED_CHAPTER"; payload: number | null }
+    | { type: "RESET_SELECTED_CHAPTER" };
 
   const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -173,16 +190,16 @@ const HomeWorkPage: React.FC = () => {
       case "RESET_SELECTED_COURSE_TITLE":
         return { ...state, selectedCourseTitle: "" };
       case "SET_SELECTED_CHAPTER":
-        return { ...state, selectedChapter: action.payload }; // เพิ่ม case สำหรับ selectedChapter
+        return { ...state, selectedChapter: action.payload };
       case "RESET_SELECTED_CHAPTER":
-        return { ...state, selectedChapter: null }; // เพิ่ม case สำหรับรีเซ็ต selectedChapter
+        return { ...state, selectedChapter: null };
       case "RESET_FORM":
         return {
           ...state,
           formData: initialState.formData,
           hideSearch: true,
           dataList: initialState.dataList,
-          selectedChapter: null, // รีเซ็ต selectedChapter ใน RESET_FORM
+          selectedChapter: null,
         };
       case "RESET_STATUS_EDIT":
         return { ...state, statusEdit: 0 };
@@ -193,6 +210,7 @@ const HomeWorkPage: React.FC = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ListData1 | null>(null);
 
   const {
     products,
@@ -212,8 +230,6 @@ const HomeWorkPage: React.FC = () => {
   const dragItem = useRef<number | null>(null);
   const dragItemOver = useRef<number | null>(null);
 
-  console.log(dataList);
-
   const handleSort = async () => {
     if (dragItem.current !== null && dragItemOver.current !== null) {
       const _dataList = [...dataList.data];
@@ -226,7 +242,6 @@ const HomeWorkPage: React.FC = () => {
         payload: { ...dataList, data: _dataList },
       });
 
-      // ส่งข้อมูลไปยัง API หลังจากการเปลี่ยนตำแหน่ง
       try {
         const data = {
           arrData: _dataList,
@@ -296,7 +311,6 @@ const HomeWorkPage: React.FC = () => {
 
   const [select1, setSelect1] = useState<any>(null);
 
-
   const handleCategoryChange = (selectedOption: any) => {
     const selectedProductId = selectedOption?.value || 0;
     dispatch({
@@ -306,18 +320,17 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
     dispatch({ type: "RESET_FORM_LIST" });
     dispatch({ type: "RESET_SELECTED_CHAPTER" });
-    setSelect1(null)
-    setSelect2(null)
+    setSelect1(null);
+    setSelect2(null);
     fetchCheckNum(selectedProductId);
     fetchChapters(selectedProductId);
-    // setSelect1(selectedProductId);
-    setSelect1(selectedOption); // เก็บตัวเลือกทั้งหมดใน select1
+    setSelect1(selectedOption);
   };
 
   const [select2, setSelect2] = useState<any>(null);
 
   const handleChapterChange = (selectedOption: any) => {
-    console.log(selectedOption)
+    console.log(selectedOption);
     const selectedChapterId = selectedOption?.value || null;
     dispatch({
       type: "SET_SELECTED_CHAPTER",
@@ -370,21 +383,20 @@ const HomeWorkPage: React.FC = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const questionImageBase64 = await convertFileToBase64(
-      formData.questionImage
-    );
-    const solutionImageBase64 = await convertFileToBase64(
-      formData.solutionImage
-    );
-
-    console.log(solutionImageBase64);
+    const questionImageBase64 = formData.questionImage
+      ? await convertFileToBase64(formData.questionImage)
+      : formData.questionImageName;
+    const solutionImageBase64 = formData.solutionImage
+      ? await convertFileToBase64(formData.solutionImage)
+      : formData.solutionImageName;
 
     const data = {
+      id: formData.id,
+      index: formData?.questNumber,
       products_id: formData.product_id,
       products_title_id: formData.products_title_id,
-      index: formData.questNumber,
       question: formData.question,
-      image_question: questionImageBase64 ,
+      image_question: questionImageBase64,
       image_answer: solutionImageBase64,
     };
 
@@ -410,21 +422,34 @@ const HomeWorkPage: React.FC = () => {
                 },
               }
             );
-
+      console.log(res.data);
       if (res.status === 200) {
         toast.success(res.data.message);
         if (statusEdit === 0) {
-          console.log("aaa");
           fetchQuestion();
-          dispatch({ type: "RESET_FORM" });
-          dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+          fetchList(formData.product_id, searchList);
+          // dispatch({ type: "RESET_FORM" });
+          // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
         } else {
-          console.log("bbbb");
           fetchQuestion();
           dispatch({ type: "RESET_FORM" });
           dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
           fetchList(formData.product_id, searchList);
           dispatch({ type: "RESET_STATUS_EDIT" });
+          const questionImage = document.getElementById(
+            "questionImage"
+          ) as HTMLInputElement;
+          const solutionImage = document.getElementById(
+            "solutionImage"
+          ) as HTMLInputElement;
+
+          if (questionImage) {
+            questionImage.value = "";
+          }
+
+          if (solutionImage) {
+            solutionImage.value = "";
+          }
         }
       } else {
         toast.error("Form submission failed!");
@@ -481,13 +506,12 @@ const HomeWorkPage: React.FC = () => {
     [pageList]
   );
 
-
   const fetchList1 = useCallback(async () => {
     const requestData = {
-      products_id: select1?.value, 
+      products_id: select1?.value,
       products_title_id: select2?.value,
       page: pageList,
-      search:searchList,
+      search: searchList,
       full: false,
     };
     console.log(requestData);
@@ -510,13 +534,13 @@ const HomeWorkPage: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  }, [pageList, select1, select2,searchList]);
+  }, [pageList, select1, select2, searchList]);
 
   useEffect(() => {
     if (select1 && select2) {
       fetchList1();
     }
-  }, [pageList, fetchList1,select1,select2,searchList]);
+  }, [pageList, fetchList1, select1, select2, searchList]);
 
   const handleSendList = async () => {
     dispatch({ type: "SET_SELECTED_COURSE_TITLE", payload: select1 });
@@ -529,8 +553,23 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_STATUS_EDIT" });
     dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
     dispatch({ type: "RESET_SELECTED_CHAPTER" });
-    setSelect1(null)
-    setSelect2(null)
+    setSelect1(null);
+    setSelect2(null);
+
+    const questionImage = document.getElementById(
+      "questionImage"
+    ) as HTMLInputElement;
+    const solutionImage = document.getElementById(
+      "solutionImage"
+    ) as HTMLInputElement;
+
+    if (questionImage) {
+      questionImage.value = "";
+    }
+
+    if (solutionImage) {
+      solutionImage.value = "";
+    }
   };
 
   const handleEdit = (data: any) => {
@@ -539,8 +578,12 @@ const HomeWorkPage: React.FC = () => {
       payload: {
         id: data.id,
         question: data.question,
-        product_id: formList.product_id,
-        questNumber: data.index,
+        product_id: select1?.value,
+        products_title_id: select2?.value,
+        questionImage: null,
+        solutionImage: null,
+        questionImageName: data.image_question,
+        solutionImageName: data.image_answer,
       },
     });
     dispatch({ type: "SET_STATUS_EDIT", payload: 1 });
@@ -568,6 +611,7 @@ const HomeWorkPage: React.FC = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          console.log(id);
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/question/list/${id}`,
             {
@@ -577,8 +621,7 @@ const HomeWorkPage: React.FC = () => {
             }
           );
           if (res.status === 200) {
-            // fetchList(formList.product_id, searchList);
-            resetForm();
+            fetchList1();
             Swal.fire({
               text: "ข้อมูลของคุณถูกลบแล้ว.",
               icon: "success",
@@ -597,12 +640,18 @@ const HomeWorkPage: React.FC = () => {
             toast.error("เกิดข้อผิดพลาด");
           }
         } catch (err) {
-          handleAxiosError(err, "Form submission failed");
+          console.log(err);
         }
       }
     });
   };
 
+  const handleModal = (item: ListData1) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  console.log(selectedItem);
   return (
     <ThemeProvider value={theme}>
       <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
@@ -665,7 +714,7 @@ const HomeWorkPage: React.FC = () => {
                     <Input
                       label="หัวข้อที่"
                       type="text"
-                        crossOrigin="anonymous"
+                      crossOrigin="anonymous"
                       value={formData.questNumber}
                       readOnly
                     />
@@ -686,8 +735,7 @@ const HomeWorkPage: React.FC = () => {
                           label: chapter.title,
                         }))
                         .find(
-                          (option) =>
-                            option.value === state.selectedChapter
+                          (option) => option.value === state.selectedChapter
                         ) || null
                     }
                     placeholder="เลือกบทที่"
@@ -739,26 +787,28 @@ const HomeWorkPage: React.FC = () => {
                   <Input
                     type="file"
                     label="รูปคำถาม"
+                    id="questionImage"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
                         payload: { questionImage: e.target.files?.[0] || null },
                       })
                     }
-                     crossOrigin="anonymous"
+                    crossOrigin="anonymous"
                   />
                 </div>
                 <div className="w-full gap-3">
                   <Input
                     type="file"
                     label="รูปเฉลย"
+                    id="solutionImage"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
                         payload: { solutionImage: e.target.files?.[0] || null },
                       })
                     }
-                     crossOrigin="anonymous"
+                    crossOrigin="anonymous"
                   />
                 </div>
 
@@ -796,7 +846,7 @@ const HomeWorkPage: React.FC = () => {
                 <div className="flex gap-3">
                   <Input
                     label="ค้นหาคำถาม"
-                      crossOrigin="anonymous"
+                    crossOrigin="anonymous"
                     disabled={hideSearch}
                     onChange={(e) =>
                       dispatch({
@@ -811,14 +861,14 @@ const HomeWorkPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-1 ps-5">
                   <div>
-                  <Typography className="font-bold">
-                    คอร์สเรียน: <span>{select1?.label}</span>
-                  </Typography>
+                    <Typography className="font-bold">
+                      คอร์สเรียน: <span>{select1?.label}</span>
+                    </Typography>
                   </div>
                   <div>
-                  <Typography className="font-bold">
-                    บทเรียน: <span>{select2?.label}</span>
-                  </Typography>
+                    <Typography className="font-bold">
+                      บทเรียน: <span>{select2?.label}</span>
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -852,7 +902,7 @@ const HomeWorkPage: React.FC = () => {
                             color="blue-gray"
                             className="font-bold leading-none opacity-70"
                           >
-                            แก้ไข/ลบ
+                            ดู/แก้ไข/ลบ
                           </Typography>
                         </th>
                       </tr>
@@ -902,6 +952,13 @@ const HomeWorkPage: React.FC = () => {
                             </td>
                             <td>
                               <div className="flex justify-center mt-2 gap-2">
+                                <IconButton
+                                  size="sm"
+                                  className="text-white max-w-7 max-h-7 bg-blue-700"
+                                  onClick={() => handleModal(item)}
+                                >
+                                  <MdOutlineContentPasteSearch className="h-5 w-5" />
+                                </IconButton>
                                 <IconButton
                                   size="sm"
                                   className="text-white max-w-7 max-h-7 bg-yellow-700"
@@ -954,6 +1011,62 @@ const HomeWorkPage: React.FC = () => {
             </div>
           </Card>
         </div>
+
+        <Dialog
+          open={isModalOpen}
+          handler={setIsModalOpen}
+          className="bg-gray-200"
+        >
+          <DialogBody divider>
+            <div className="flex w-full h-[400px]  gap-3">
+              <div className="w-1/2">
+                <Card className="p-4 w-full h-full items-center overflow-auto">
+                  <Typography>คำถาม</Typography>
+                  <div className="flex w-full h-auto mt-2 ">
+                    {selectedItem?.image_question &&
+                      selectedItem.image_question !== "" && (
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${selectedItem.image_question}`}
+                          alt="Question"
+                          width={500}
+                          height={500}
+                          className="flex w-full object-cover"
+                        />
+                      )}
+                  </div>
+                </Card>
+              </div>
+              <div className="w-1/2">
+                <Card className="p-4 w-full h-full items-center overflow-auto">
+                  <Typography>เฉลย</Typography>
+                  <div className="flex w-full h-auto mt-2 ">
+                    {selectedItem?.image_answer &&
+                      selectedItem.image_answer !== "" && (
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${selectedItem.image_answer}`}
+                          alt="Answer"
+                          width={500}
+                          height={500}
+                          className="flex w-full object-cover"
+                        />
+                      )}
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              // variant="text"
+              size="sm"
+              color="red"
+              onClick={() => setIsModalOpen(false)}
+              className="mr-1 text-sm"
+            >
+              <span>ปิด</span>
+            </Button>
+          </DialogFooter>
+        </Dialog>
       </div>
     </ThemeProvider>
   );
