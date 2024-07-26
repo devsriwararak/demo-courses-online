@@ -661,7 +661,7 @@ const HomeWorkPage: React.FC = () => {
             <Card className="flex shadow-none overflow-auto p-3">
               <div className="flex flex-col gap-3 py-5 w-full justify-center lg:justify-start">
                 <div className="flex w-full flex-col justify-between sm:flex-row gap-3">
-                  <div className="w-full sm:w-2/3">
+                  <div className="w-full">
                     <Select
                       options={products.map((product) => ({
                         value: product.id,
@@ -710,15 +710,7 @@ const HomeWorkPage: React.FC = () => {
                     />
                   </div>
 
-                  <div className="w-full sm:w-1/4">
-                    <Input
-                      label="หัวข้อที่"
-                      type="text"
-                      crossOrigin="anonymous"
-                      value={formData.questNumber}
-                      readOnly
-                    />
-                  </div>
+        
                 </div>
 
                 <div>
@@ -768,6 +760,24 @@ const HomeWorkPage: React.FC = () => {
                       }),
                     }}
                   />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center  justify-between">
+                <div className=" whitespace-nowrap text-center sm:w-1/2">
+                    <Typography  className={`font-semibold ${statusEdit === 0 ? "text-green-500" : "text-yellow-800"}`}>
+                    {statusEdit === 0 ? "โหมดเพิ่มข้อมูล" : "โหมดแก้ไขข้อมูล"}
+                    </Typography>
+                </div>
+
+                <div className="w-full sm:w-1/4  ">
+                    <Input
+                      label="หัวข้อที่"
+                      type="text"
+                      crossOrigin="anonymous"
+                      value={formData.questNumber}
+                      readOnly
+                    />
+                  </div>
+
                 </div>
 
                 <div className="w-full gap-3">
@@ -831,7 +841,7 @@ const HomeWorkPage: React.FC = () => {
                       className="w-full"
                       onClick={handleSubmit}
                     >
-                      บันทึก
+                      {statusEdit === 0 ? "บันทึก" : "อัพเดท"}
                     </Button>
                   </div>
                 </div>
