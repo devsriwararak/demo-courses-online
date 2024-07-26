@@ -68,7 +68,7 @@ interface ResponseData {
 }
 
 interface ResponseData1 {
-  data: ListData[];
+  data: ListData1[];
   totalPages: number;
 }
 
@@ -647,6 +647,7 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const handleModal = (item: ListData1) => {
+    console.log(item)
     setSelectedItem(item);
     setIsModalOpen(true);
   };
