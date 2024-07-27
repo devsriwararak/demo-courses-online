@@ -70,6 +70,7 @@ interface ResponseData {
 interface ResponseData1 {
   data: ListData1[];
   totalPages: number;
+  index:Number
 }
 
 interface ChapterOption extends Chapter {
@@ -104,7 +105,7 @@ const HomeWorkPage: React.FC = () => {
     chapters: [] as Chapter[],
     statusEdit: 0,
     data: { data: [], totalPages: 1 } as ResponseData,
-    dataList: { data: [], totalPages: 1 } as ResponseData1,
+    dataList: { data: [], totalPages: 1 ,index:0} as ResponseData1,
     searchQuery: "",
     searchList: "",
     hideSearch: true,
@@ -150,6 +151,7 @@ const HomeWorkPage: React.FC = () => {
     | { type: "RESET_FORM1" }
     | { type: "RESET_FORM_LIST" }
     | { type: "RESET_FORM_DATA" }
+    | { type: "RESET_QUESTION" }
     | { type: "RESET_STATUS_EDIT" }
     | { type: "RESET_SELECTED_COURSE_TITLE" }
     | { type: "SET_SELECTED_CHAPTER"; payload: number | null }
@@ -201,6 +203,14 @@ const HomeWorkPage: React.FC = () => {
           dataList: initialState.dataList,
           selectedChapter: null,
         };
+        case "RESET_QUESTION":
+          return {
+            ...state,
+            formData: {
+              ...state.formData,
+              question: initialState.formData.question,
+            },
+          };
       case "RESET_STATUS_EDIT":
         return { ...state, statusEdit: 0 };
       default:
@@ -211,6 +221,7 @@ const HomeWorkPage: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ListData1 | null>(null);
+  const [indexQuestion, setIndexQuestion] = useState(0);
 
   const {
     products,
@@ -322,7 +333,7 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_SELECTED_CHAPTER" });
     setSelect1(null);
     setSelect2(null);
-    fetchCheckNum(selectedProductId);
+    // fetchCheckNum(selectedProductId);
     fetchChapters(selectedProductId);
     setSelect1(selectedOption);
   };
@@ -342,6 +353,7 @@ const HomeWorkPage: React.FC = () => {
     });
     setSelect2(selectedOption);
     handleSendList();
+    
   };
 
   const convertFileToBase64 = (file: File | null): Promise<string> => {
@@ -357,30 +369,6 @@ const HomeWorkPage: React.FC = () => {
     });
   };
 
-  const fetchCheckNum = useCallback(async (id: number | undefined) => {
-    if (typeof id === "undefined" || id === null) {
-      return;
-    }
-
-    try {
-      console.log(id);
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/question/check_index/${id}`,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
-      );
-      if (res.status === 200) {
-        dispatch({
-          type: "SET_FORM_DATA",
-          payload: { questNumber: res.data },
-        });
-      } else {
-        toast.error("Error fetching question number");
-      }
-    } catch (err) {
-      console.log(err);
-      handleAxiosError(err, "Form submission failed");
-    }
-  }, []);
 
   const handleSubmit = async () => {
     const questionImageBase64 = formData.questionImage
@@ -392,7 +380,7 @@ const HomeWorkPage: React.FC = () => {
 
     const data = {
       id: formData.id,
-      index: formData?.questNumber,
+      index: dataList?.index ||formData?.questNumber,
       products_id: formData.product_id,
       products_title_id: formData.products_title_id,
       question: formData.question,
@@ -426,16 +414,33 @@ const HomeWorkPage: React.FC = () => {
       if (res.status === 200) {
         toast.success(res.data.message);
         if (statusEdit === 0) {
+          // โหมดสร้างใหม่
           fetchQuestion();
-          fetchList(formData.product_id, searchList);
+          fetchList1();
+          dispatch({ type: "RESET_QUESTION" });
           // dispatch({ type: "RESET_FORM" });
           // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+          const questionImage = document.getElementById(
+            "questionImage"
+          ) as HTMLInputElement;
+          const solutionImage = document.getElementById(
+            "solutionImage"
+          ) as HTMLInputElement;
+
+          if (questionImage) {
+            questionImage.value = "";
+          }
+
+          if (solutionImage) {
+            solutionImage.value = "";
+          }
         } else {
+          // โหมดแก้ไข
           fetchQuestion();
-          dispatch({ type: "RESET_FORM" });
-          dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
-          fetchList(formData.product_id, searchList);
-          dispatch({ type: "RESET_STATUS_EDIT" });
+          // dispatch({ type: "RESET_FORM" });
+          // dispatch({ type: "RESET_SELECTED_COURSE_TITLE" });
+          fetchList1();
+          // dispatch({ type: "RESET_STATUS_EDIT" });
           const questionImage = document.getElementById(
             "questionImage"
           ) as HTMLInputElement;
@@ -481,30 +486,6 @@ const HomeWorkPage: React.FC = () => {
     fetchQuestion();
   }, [fetchQuestion, page]);
 
-  const fetchList = useCallback(
-    async (products_id: number, value: string) => {
-      dispatch({
-        type: "SET_FORM_LIST",
-        payload: { product_id: products_id, count: "", title: "" },
-      });
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/question/list`,
-          { products_id, search: value || "", page: pageList, full: false },
-          { ...HeaderAPI(localStorage.getItem("Token")) }
-        );
-        if (res.status === 200) {
-          dispatch({ type: "SET_DATA_LIST", payload: res.data });
-          dispatch({ type: "SET_HIDE_SEARCH", payload: false });
-        } else {
-          toast.error("Error fetching list");
-        }
-      } catch (err) {
-        handleAxiosError(err, "Form submission failed");
-      }
-    },
-    [pageList]
-  );
 
   const fetchList1 = useCallback(async () => {
     const requestData = {
@@ -514,7 +495,7 @@ const HomeWorkPage: React.FC = () => {
       search: searchList,
       full: false,
     };
-    console.log(requestData);
+    // console.log(requestData);
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/question/list`,
@@ -536,6 +517,8 @@ const HomeWorkPage: React.FC = () => {
     }
   }, [pageList, select1, select2, searchList]);
 
+
+
   useEffect(() => {
     if (select1 && select2) {
       fetchList1();
@@ -555,6 +538,7 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_SELECTED_CHAPTER" });
     setSelect1(null);
     setSelect2(null);
+    setIndexQuestion(0)
 
     const questionImage = document.getElementById(
       "questionImage"
@@ -573,6 +557,7 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const handleEdit = (data: any) => {
+    setIndexQuestion(data?.index)
     dispatch({
       type: "SET_FORM_DATA",
       payload: {
@@ -762,8 +747,8 @@ const HomeWorkPage: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center  justify-between">
-                <div className=" whitespace-nowrap text-center sm:w-1/2">
+                <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center justify-center">
+                <div className=" whitespace-nowrap text-center ">
                     <Typography  className={`font-semibold ${statusEdit === 0 ? "text-green-500" : "text-yellow-800"}`}>
                     {statusEdit === 0 ? "โหมดเพิ่มข้อมูล" : "โหมดแก้ไขข้อมูล"}
                     </Typography>
@@ -774,7 +759,7 @@ const HomeWorkPage: React.FC = () => {
                       label="หัวข้อที่"
                       type="text"
                       crossOrigin="anonymous"
-                      value={formData.questNumber}
+                      value={indexQuestion || dataList?.index.toLocaleString()}
                       readOnly
                     />
                   </div>
@@ -885,7 +870,7 @@ const HomeWorkPage: React.FC = () => {
               </div>
 
               <div className="overflow-auto lg:h-[90%]">
-                <Card className="mt-5 h-[32vh] overflow-auto mb-3 border-2">
+                <Card className="mt-5 h-[55vh] overflow-auto mb-3 border-2">
                   <table className="w-full min-w-max">
                     <thead>
                       <tr>
