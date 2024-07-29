@@ -148,12 +148,12 @@ const ManageReviews: React.FC = () => {
   };
 
   const handleAddReview = async () => {
-    const logFormData = (formData) => {
-      console.log("FormData contents:");
-      formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
-    };
+    const logFormData = (formData: FormData) => {
+        console.log("FormData contents:");
+        formData.forEach((value, key) => {
+          console.log(`${key}:`, value);
+        });
+      };
   
     if (dataEdit) {
       const updateData = new FormData();
