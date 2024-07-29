@@ -10,7 +10,14 @@ export function middleware(request) {
   if (pathname.startsWith("/admin")) {
     permition = "admin";
     allowedPaths = {
-      admin: ["/admin", "/admin/learning", "/admin/pay", "/admin/homework"],
+      admin: [
+        "/admin",
+        "/admin/learning",
+        "/admin/pay",
+        "/admin/homework",
+        "/admin/manageebook",
+        "/admin/managereviews",
+      ],
     };
   }
   // ตรวจสอบสิทธิ์การเข้าถึงเส้นทาง '/super'
@@ -26,6 +33,8 @@ export function middleware(request) {
         "/admin/learning",
         "/admin/pay",
         "/admin/homework",
+        "/admin/manageebook",
+        "/admin/managereviews",
       ],
     };
   }
@@ -33,7 +42,14 @@ export function middleware(request) {
   if (pathname.startsWith("/user")) {
     permition = "user";
     allowedPaths = {
-      user: ["/user", "/user/manageprofile","/user/shopcourse" , "/user/buycourse" ,"/user/mycourse", "/user/study"],
+      user: [
+        "/user",
+        "/user/manageprofile",
+        "/user/shopcourse",
+        "/user/buycourse",
+        "/user/mycourse",
+        "/user/study",
+      ],
     };
   }
 

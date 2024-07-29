@@ -7,8 +7,17 @@ import {
   FaChevronDown,
   FaBookReader,
   FaCcAmazonPay,
+  FaBriefcase,
+  FaAward,
+  FaDollarSign,
+  FaMoneyBillWave,
+  FaThumbsUp,
+  FaCashRegister ,
+  FaChalkboardTeacher 
 } from "react-icons/fa";
 import { FaClipboardQuestion } from "react-icons/fa6";
+import { VscNotebook } from "react-icons/vsc";
+import { CgWebsite } from "react-icons/cg";
 import { Typography } from "@material-tailwind/react";
 
 interface MenuItem {
@@ -21,6 +30,7 @@ interface MenuItem {
 
 interface SubMenuItem {
   text: string;
+  icon?: React.ReactNode;
   path: string;
   hasDivider?: boolean;
 }
@@ -55,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         return [
           {
             text: "จัดการคอร์สเรียน",
-            icon: <FaClipboardList />,
+            icon: <FaChalkboardTeacher  />,
             path: "/admin",
             hasDivider: false,
           },
@@ -77,16 +87,25 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/admin/homework",
             hasDivider: false,
           },
-
-          // {
-          //   text: "Users",
-          //   icon: <FaClipboardList />,
-          //   subItems: [
-          //     { text: "Add User", path: "/admin/add", hasDivider: false },
-          //     { text: "Manage Users", path: "/admin/manage", hasDivider: true },
-          //   ],
-          //   hasDivider: false
-          // },
+          {
+            text: "ข้อมูลเว็ปไซด์",
+            icon: <CgWebsite />,
+            subItems: [
+              {
+                text: "Ebook",
+                icon: <VscNotebook />,
+                path: "/admin/manageebook",
+                hasDivider: false,
+              },
+              {
+                text: "ผลงาน",
+                icon: <FaAward />,
+                path: "/admin/managereviews",
+                hasDivider: true,
+              },
+            ],
+            hasDivider: false,
+          },
           // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings", hasDivider: true },
         ];
       case "2":
@@ -99,25 +118,26 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           },
           {
             text: "รายงาน",
-            icon: <FaClipboardList />,
-            hasDivider: open["รายงาน"]  ? false : true , 
+            icon: <FaCashRegister  />,
+            hasDivider: open["รายงาน"] ? false : true,
             subItems: [
-              { text: "ยอดขายรวม", path: "/super/total", hasDivider: false },
-              { text: "ยอดขายดี", path: "/super/good", hasDivider: true },
+              {
+                text: "ยอดขายรวม",
+                icon: <FaChartLine />,
+                path: "/super/total",
+                hasDivider: false,
+              },
+              {
+                text: "ยอดขายดี",
+                icon: <FaThumbsUp />,
+                path: "/super/good",
+                hasDivider: true,
+              },
             ],
           },
-          { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
-
-
-          // {
-          //   text: "Admin Menu",
-          //   // icon: <FaClipboardList />,
-          //   // path: "/admin",
-          //   // hasDivider: false,
-          // },
           {
             text: "จัดการคอร์สเรียน",
-            icon: <FaClipboardList />,
+            icon: <FaChalkboardTeacher  />,
             path: "/admin",
             hasDivider: false,
           },
@@ -167,7 +187,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
       default:
         return [];
     }
-  }, [loginStatus,open]);
+  }, [loginStatus, open]);
 
   const handleNavigation = useCallback(
     (path: string) => {
@@ -228,10 +248,19 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                       <div key={subIndex}>
                         <div
                           className={`flex items-center px-2 mx-3 py-2 cursor-pointer pl-8  ${
-                            isSubItemActive ? "bg-gray-400 opacity-90 rounded-md mx-3 " : ""
+                            isSubItemActive
+                              ? "bg-gray-400 opacity-90 rounded-md mx-3 "
+                              : ""
                           }`}
                           onClick={() => handleNavigation(subItem.path)}
                         >
+                          <div
+                            className={`mr-2 ${
+                              isSubItemActive ? "text-xl" : ""
+                            }`}
+                          >
+                            {subItem?.icon}
+                          </div>
                           {subItem.text}
                         </div>
                         <div>
