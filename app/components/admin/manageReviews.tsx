@@ -167,12 +167,6 @@ const ManageReviews: React.FC = () => {
       for (let i = 0; i < albumFiles.length; i++) {
         updateData.append("album", albumFiles[i]);
       }
-      // Add deleted image IDs to the FormData
-    //   deletedImageIds.forEach((id) => {
-    //     if (id !== undefined && id !== null) {
-    //       updateData.append("deletedImageIds[]", id.toString());
-    //     }
-    //   });
 
     if (deletedImageIds.length > 0) {
         updateData.append("deletedImageIds", JSON.stringify(deletedImageIds));
