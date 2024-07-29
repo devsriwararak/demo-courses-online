@@ -70,7 +70,7 @@ interface ResponseData {
 interface ResponseData1 {
   data: ListData1[];
   totalPages: number;
-  index:Number
+  index: Number;
 }
 
 interface ChapterOption extends Chapter {
@@ -105,7 +105,7 @@ const HomeWorkPage: React.FC = () => {
     chapters: [] as Chapter[],
     statusEdit: 0,
     data: { data: [], totalPages: 1 } as ResponseData,
-    dataList: { data: [], totalPages: 1 ,index:0} as ResponseData1,
+    dataList: { data: [], totalPages: 1, index: 0 } as ResponseData1,
     searchQuery: "",
     searchList: "",
     hideSearch: true,
@@ -155,7 +155,8 @@ const HomeWorkPage: React.FC = () => {
     | { type: "RESET_STATUS_EDIT" }
     | { type: "RESET_SELECTED_COURSE_TITLE" }
     | { type: "SET_SELECTED_CHAPTER"; payload: number | null }
-    | { type: "RESET_SELECTED_CHAPTER" };
+    | { type: "RESET_SELECTED_CHAPTER" }
+    | { type: "RESET_IMAGES" };
 
   const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -203,16 +204,25 @@ const HomeWorkPage: React.FC = () => {
           dataList: initialState.dataList,
           selectedChapter: null,
         };
-        case "RESET_QUESTION":
-          return {
-            ...state,
-            formData: {
-              ...state.formData,
-              question: initialState.formData.question,
-            },
-          };
+      case "RESET_QUESTION":
+        return {
+          ...state,
+          formData: {
+            ...state.formData,
+            question: initialState.formData.question,
+          },
+        };
       case "RESET_STATUS_EDIT":
         return { ...state, statusEdit: 0 };
+      case "RESET_IMAGES":
+        return {
+          ...state,
+          formData: {
+            ...state.formData,
+            questionImage: initialState.formData.questionImage,
+            solutionImage: initialState.formData.solutionImage,
+          },
+        };
       default:
         return state;
     }
@@ -271,11 +281,13 @@ const HomeWorkPage: React.FC = () => {
 
         if (res.status === 200) {
           toast.success(res.data.message);
+          fetchList1();
         } else {
           toast.error("Failed to update data");
         }
       } catch (err) {
-        handleAxiosError(err, "Failed to update data");
+        const error = err as { response: { data: { message: string } } };
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -294,7 +306,8 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching products");
       }
     } catch (err) {
-      handleAxiosError(err, "Form submission failed");
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
     }
   }, []);
 
@@ -312,7 +325,8 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Error fetching chapters");
       }
     } catch (err) {
-      handleAxiosError(err, "Failed to fetch chapters");
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
     }
   }, []);
 
@@ -353,7 +367,6 @@ const HomeWorkPage: React.FC = () => {
     });
     setSelect2(selectedOption);
     handleSendList();
-    
   };
 
   const convertFileToBase64 = (file: File | null): Promise<string> => {
@@ -369,7 +382,6 @@ const HomeWorkPage: React.FC = () => {
     });
   };
 
-
   const handleSubmit = async () => {
     const questionImageBase64 = formData.questionImage
       ? await convertFileToBase64(formData.questionImage)
@@ -380,7 +392,7 @@ const HomeWorkPage: React.FC = () => {
 
     const data = {
       id: formData.id,
-      index: dataList?.index ||formData?.questNumber,
+      index: dataList?.index || formData?.questNumber,
       products_id: formData.product_id,
       products_title_id: formData.products_title_id,
       question: formData.question,
@@ -434,6 +446,7 @@ const HomeWorkPage: React.FC = () => {
           if (solutionImage) {
             solutionImage.value = "";
           }
+          dispatch({ type: "RESET_IMAGES" }); // รีเซ็ตค่า questionImage และ solutionImage
         } else {
           // โหมดแก้ไข
           fetchQuestion();
@@ -460,8 +473,9 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Form submission failed!");
       }
     } catch (err) {
-      console.log(err);
-      handleAxiosError(err, "Form submission failed");
+      console.log(err)
+      const error = err as { response: { data: string  } };
+      toast.error(error?.response?.data);
     }
   };
 
@@ -485,7 +499,6 @@ const HomeWorkPage: React.FC = () => {
   useEffect(() => {
     fetchQuestion();
   }, [fetchQuestion, page]);
-
 
   const fetchList1 = useCallback(async () => {
     const requestData = {
@@ -517,8 +530,6 @@ const HomeWorkPage: React.FC = () => {
     }
   }, [pageList, select1, select2, searchList]);
 
-
-
   useEffect(() => {
     if (select1 && select2) {
       fetchList1();
@@ -538,7 +549,7 @@ const HomeWorkPage: React.FC = () => {
     dispatch({ type: "RESET_SELECTED_CHAPTER" });
     setSelect1(null);
     setSelect2(null);
-    setIndexQuestion(0)
+    setIndexQuestion(0);
 
     const questionImage = document.getElementById(
       "questionImage"
@@ -557,7 +568,7 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const handleEdit = (data: any) => {
-    setIndexQuestion(data?.index)
+    setIndexQuestion(data?.index);
     dispatch({
       type: "SET_FORM_DATA",
       payload: {
@@ -632,7 +643,7 @@ const HomeWorkPage: React.FC = () => {
   };
 
   const handleModal = (item: ListData1) => {
-    console.log(item)
+    console.log(item);
     setSelectedItem(item);
     setIsModalOpen(true);
   };
@@ -695,8 +706,6 @@ const HomeWorkPage: React.FC = () => {
                       }}
                     />
                   </div>
-
-        
                 </div>
 
                 <div>
@@ -748,13 +757,17 @@ const HomeWorkPage: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center justify-center">
-                <div className=" whitespace-nowrap text-center ">
-                    <Typography  className={`font-semibold ${statusEdit === 0 ? "text-green-500" : "text-yellow-800"}`}>
-                    {statusEdit === 0 ? "โหมดเพิ่มข้อมูล" : "โหมดแก้ไขข้อมูล"}
+                  <div className=" whitespace-nowrap text-center ">
+                    <Typography
+                      className={`font-semibold ${
+                        statusEdit === 0 ? "text-green-500" : "text-yellow-800"
+                      }`}
+                    >
+                      {statusEdit === 0 ? "โหมดเพิ่มข้อมูล" : "โหมดแก้ไขข้อมูล"}
                     </Typography>
-                </div>
+                  </div>
 
-                <div className="w-full sm:w-1/4  ">
+                  <div className="w-full sm:w-1/4  ">
                     <Input
                       label="หัวข้อที่"
                       type="text"
@@ -763,7 +776,6 @@ const HomeWorkPage: React.FC = () => {
                       readOnly
                     />
                   </div>
-
                 </div>
 
                 <div className="w-full gap-3">
@@ -883,6 +895,15 @@ const HomeWorkPage: React.FC = () => {
                             ลำดับ
                           </Typography>
                         </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold leading-none opacity-70"
+                          >
+                            id
+                          </Typography>
+                        </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
                           <Typography
                             variant="small"
@@ -929,6 +950,17 @@ const HomeWorkPage: React.FC = () => {
                                   className="font-normal"
                                 >
                                   ข้อที่ {item?.index}
+                                </Typography>
+                              </div>
+                            </td>
+                            <td className="py-2">
+                              <div className="flex items-center justify-center">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {item?.id}
                                 </Typography>
                               </div>
                             </td>
