@@ -36,17 +36,16 @@ interface AddEditModalReviewProps {
   open: boolean;
   handleModalAdd: () => void;
   formData: ReviewFormData;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   handleAddReview: () => void;
   dataEdit: ReviewFormData | null;
   setFormData: React.Dispatch<React.SetStateAction<ReviewFormData>>;
   setCoverFile: React.Dispatch<React.SetStateAction<File | null>>;
   coverFile: File | null;
   setAlbumFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  albumFiles: File[]; // เพิ่มพร็อพเพอร์ตี้นี้
   initialReviewImages: ReviewImage[];
-  handleRemoveImage: (index: number, imageId: number | null) => void; // Add this prop
+  handleRemoveImage: (index: number, imageId: number | null) => void; // เพิ่มพร็อพเพอร์ตี้นี้
 }
 
 const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
