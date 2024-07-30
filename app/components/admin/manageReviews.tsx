@@ -341,7 +341,7 @@ const ManageReviews: React.FC = () => {
             <div>
             <Select
               label="ค้นหาประเภท"
-              onChange={(e) => setSearchType(e)}
+              onChange={(e) => setSearchType(e || "")}
             >
               <Option value="">ทั้งหมด</Option>
               <Option value="1">รีวิว</Option>
