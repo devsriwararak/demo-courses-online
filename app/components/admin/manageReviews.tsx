@@ -6,6 +6,8 @@ import {
   Input,
   Typography,
   IconButton,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
@@ -31,6 +33,11 @@ interface ReviewFormData {
   type: number;
 }
 
+interface ReviewImage {
+  id: number;
+  image: string;
+}
+
 interface ResponseData {
   data: ReviewFormData[];
   totalPages: number;
@@ -39,6 +46,7 @@ interface ResponseData {
 const ManageReviews: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState("");
   const [page, setPage] = useState(1);
   const [formData, setFormData] = useState<ReviewFormData>({
     id: 0,
@@ -55,13 +63,14 @@ const ManageReviews: React.FC = () => {
   const [dataEdit, setDataEdit] = useState<ReviewFormData | null>(null);
   const [openModalView, setOpenModalView] = useState(false);
   const [dataView, setDataView] = useState<ReviewFormData | null>(null);
-  const [reviewImages, setReviewImages] = useState([]);
-  const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
+  const [reviewImages, setReviewImages] = useState<ReviewImage[]>([]);
+  const [deletedImages, setDeletedImages] = useState<{id: number, image: string}[]>([]);
 
   const fetchReviews = useCallback(async () => {
     const requestData = {
       page,
       search: searchQuery,
+      type: searchType
     };
     try {
       const res = await axios.post(
@@ -71,6 +80,7 @@ const ManageReviews: React.FC = () => {
           ...HeaderAPI(localStorage.getItem("Token")),
         }
       );
+      console.log(res.data)
       if (res.status === 200) {
         setData(res.data);
       } else {
@@ -80,21 +90,29 @@ const ManageReviews: React.FC = () => {
       console.error(error);
       toast.error("Error");
     }
-  }, [page, searchQuery]);
+  }, [page, searchQuery, searchType]);
 
   useEffect(() => {
     fetchReviews();
-  }, [page, searchQuery, fetchReviews]);
+  }, [page, searchQuery, searchType, fetchReviews]);
 
   const openAddModal = () => {
     resetFormData();
     setReviewImages([]);
     setAlbumFiles([]);
     setOpenModalAdd(true);
+    
   };
 
   const openEditModal = async (item: ReviewFormData) => {
     setDataEdit(item);
+    console.log(item)
+    fetchImage(item)
+    setOpenModalAdd(true);
+  };
+
+  const fetchImage = async (item:any) => {
+    console.log(item)
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/reviews/images/${item.id}`,
@@ -108,14 +126,14 @@ const ManageReviews: React.FC = () => {
       if (res.status === 200) {
         setReviewImages(res.data);
       } else {
-        toast.error("Error fetching images");
+        // toast.error("Error fetching images");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error fetching images");
+      // toast.error("Error fetching images");
     }
-    setOpenModalAdd(true);
-  };
+   
+  }
 
   const handleModalAdd = () => {
     setOpenModalAdd(!openModalAdd);
@@ -134,7 +152,7 @@ const ManageReviews: React.FC = () => {
       type: 0,
     });
     setReviewImages([]);
-    setDeletedImageIds([]);
+    setDeletedImages([]);
   };
 
   const handleChange = (
@@ -149,52 +167,57 @@ const ManageReviews: React.FC = () => {
 
   const handleAddReview = async () => {
     const logFormData = (formData: FormData) => {
-        console.log("FormData contents:");
-        formData.forEach((value, key) => {
-          console.log(`${key}:`, value);
-        });
-      };
-  
+      console.log("FormData contents:");
+      formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+      });
+    };
+
     if (dataEdit) {
       const updateData = new FormData();
       updateData.append("id", dataEdit.id ? dataEdit.id.toString() : "");
       updateData.append("title", formData.title || "");
       updateData.append("dec", formData.dec || "");
       updateData.append("type", formData.type !== undefined ? formData.type.toString() : "0");
+
+      console.log(dataEdit)
       if (coverFile) {
         updateData.append("cover", coverFile);
       }
+      // updateData.append("cover", coverFile? coverFile : dataEdit?.image_title  );
+      
+      // for (let i = 0; i < albumFiles.length; i++) {
+      //   updateData.append("album", albumFiles[i]);
+      // }
+
       for (let i = 0; i < albumFiles.length; i++) {
         updateData.append("album", albumFiles[i]);
       }
 
-    if (deletedImageIds.length > 0) {
-        updateData.append("deletedImageIds", JSON.stringify(deletedImageIds));
+
+      if (deletedImages.length > 0) {
+        updateData.append("delete_image", JSON.stringify(deletedImages));
       }
-  
-      // Log FormData before sending
+
       logFormData(updateData);
-  
+
       try {
         const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/reviews/${dataEdit.id}`,
+          `${process.env.NEXT_PUBLIC_API}/api/reviews`,
           updateData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
         );
+        console.log(res)
         if (res.status === 200) {
           fetchReviews();
           toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
+          fetchImage(dataEdit)
           handleModalAdd();
         } else {
           toast.error("เกิดข้อผิดพลาด");
         }
       } catch (err) {
-        handleModalAdd();
+        console.log(err);
         const error = err as { response: { data: { message: string } } };
         toast.error(error.response.data.message);
       }
@@ -209,10 +232,9 @@ const ManageReviews: React.FC = () => {
       for (let i = 0; i < albumFiles.length; i++) {
         data.append("album", albumFiles[i]);
       }
-  
-      // Log FormData before sending
+
       logFormData(data);
-  
+
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/reviews/add`,
@@ -233,17 +255,15 @@ const ManageReviews: React.FC = () => {
       }
     }
   };
-  
-  
 
-  const handleRemoveImage = (index: number, imageId: number | null) => {
+  const handleRemoveImage = (index: number, imageId: number | null, imageName: string | null) => {
     const updatedImages = reviewImages.filter((_, i) => i !== index);
     setReviewImages(updatedImages);
     const updatedFiles = albumFiles.filter((_, i) => i !== index);
     setAlbumFiles(updatedFiles);
 
-    if (imageId !== null) {
-      setDeletedImageIds((prevIds) => [...prevIds, imageId]);
+    if (imageId !== null && imageName !== null) {
+      setDeletedImages((prevImages) => [...prevImages, { id: imageId, image: imageName }]);
     }
   };
 
@@ -306,11 +326,11 @@ const ManageReviews: React.FC = () => {
 
   return (
     <div className="flex justify-center gap-3">
-      <ToastContainer autoClose={2000} theme="colored" />
+      <ToastContainer autoClose={2000} theme="colored"  />
       <Card className="flex w-full h-[85vh]">
-        <div className="w-full p-5 justify-center items-center">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center">
-            <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div>
               <Input
                 label="ค้นหาผู้ใช้"
                 crossOrigin="anonymous"
@@ -319,9 +339,31 @@ const ManageReviews: React.FC = () => {
               />
             </div>
             <div>
+            <Select
+              label="ค้นหาประเภท"
+              onChange={(e) => setSearchType(e)}
+            >
+              <Option value="">ทั้งหมด</Option>
+              <Option value="1">รีวิว</Option>
+              <Option value="0">สัมมนา</Option>
+            </Select>
+            </div>
+            <div>
+            <Button
+                size="sm"
+                className="bg-blue-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
+                onClick={()=> [setSearchQuery("") , setSearchType("")]}
+              >
+                รีเซท
+              </Button>
+            </div>
+
+            </div>
+      
+            <div>
               <Button
                 size="sm"
-                className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+                className="w-full bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
                 onClick={openAddModal}
               >
                 เพิ่มข้อมูล
@@ -506,7 +548,7 @@ const ManageReviews: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+       
       </Card>
 
       <AddEditModalReview

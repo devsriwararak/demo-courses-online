@@ -43,9 +43,9 @@ interface AddEditModalReviewProps {
   setCoverFile: React.Dispatch<React.SetStateAction<File | null>>;
   coverFile: File | null;
   setAlbumFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  albumFiles: File[]; // เพิ่มพร็อพเพอร์ตี้นี้
+  albumFiles: File[]; 
   initialReviewImages: ReviewImage[];
-  handleRemoveImage: (index: number, imageId: number | null) => void; // เพิ่มพร็อพเพอร์ตี้นี้
+  handleRemoveImage: (index: number, imageId: number | null, imageName: string | null) => void; 
 }
 
 const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
@@ -64,6 +64,20 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
   const [reviewImages, setReviewImages] = useState<ReviewImage[]>(initialReviewImages);
 
   useEffect(() => {
+    // รีเซ็ตค่าของ formData, coverFile, และ albumFiles ก่อน
+    setFormData({
+      id: 0,
+      title: "",
+      image_title: "",
+      dec: "",
+      coverFile: null,
+      albumFiles: [],
+      type: 0,
+    });
+    setCoverFile(null);
+    setAlbumFiles([]);
+    setReviewImages([]);
+
     if (dataEdit) {
       setFormData({
         id: dataEdit.id,
@@ -76,7 +90,7 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
       });
       setReviewImages(initialReviewImages);
     }
-  }, [dataEdit, setFormData, initialReviewImages]);
+  }, [dataEdit, setFormData, setCoverFile, setAlbumFiles, initialReviewImages]);
 
   const handleSelectChange = (name: string, value: string | undefined) => {
     if (value !== undefined) {
@@ -105,8 +119,10 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
   };
 
   const handleRemoveImageWrapper = (index: number) => {
-    const imageId = reviewImages[index].id;
-    handleRemoveImage(index, imageId !== 0 ? imageId : null);
+    const image = reviewImages[index];
+    const imageId = image.id;
+    const imageName = image.image; // Assuming 'image' is the name here
+    handleRemoveImage(index, imageId !== 0 ? imageId : null, imageName);
   };
 
   const handleSave = async () => {
