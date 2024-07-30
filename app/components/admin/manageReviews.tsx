@@ -327,7 +327,7 @@ const ManageReviews: React.FC = () => {
   return (
     <div className="flex justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored"  />
-      <Card className="flex w-full h-[85vh]">
+      <Card className="flex w-full px-5 h-[85vh]">
           <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div>
