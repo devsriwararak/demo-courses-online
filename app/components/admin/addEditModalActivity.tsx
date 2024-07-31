@@ -48,7 +48,7 @@ interface AddEditModalReviewProps {
   handleRemoveImage: (index: number, imageId: number | null, imageName: string | null) => void; 
 }
 
-const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
+const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
   open,
   handleModalAdd,
   formData,
@@ -164,15 +164,6 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
               label="รายละเอียด"
               crossOrigin
             />
-            <Select
-              name="type"
-              label="เลือกประเภท"
-              value={formData.type?.toString() || "0"}
-              onChange={(value) => handleSelectChange("type", value)}
-            >
-              <Option value="0">สัมมนา</Option>
-              <Option value="1">รีวิว</Option>
-            </Select>
             <Input
               type="file"
               onChange={handleCoverChange}
@@ -190,7 +181,7 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
           {dataEdit && (
             <div className="w-full lg:w-8/12 h-[400px] flex flex-col gap-4 overflow-auto p-4 border border-gray-300 rounded-md shadow-sm">
               <Typography variant="h6" className="text-center">
-              {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" || ''}
+                ภาพกิจกรรม
               </Typography>
               <div className="grid grid-cols-2 gap-4">
                 {reviewImages?.map((imageObj, index) => (
@@ -247,4 +238,4 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
   );
 };
 
-export default AddEditModalReview;
+export default AddEditModalActivity;

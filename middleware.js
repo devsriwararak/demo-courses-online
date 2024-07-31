@@ -17,6 +17,7 @@ export function middleware(request) {
         "/admin/homework",
         "/admin/manageebook",
         "/admin/managereviews",
+        "/admin/manageactivity",
       ],
     };
   }
@@ -35,6 +36,7 @@ export function middleware(request) {
         "/admin/homework",
         "/admin/manageebook",
         "/admin/managereviews",
+        "/admin/manageactivity",
       ],
     };
   }

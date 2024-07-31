@@ -21,7 +21,7 @@ import {
 } from "react-icons/md";
 import Swal from "sweetalert2";
 import Image from "next/image";
-import AddEditModalReview from "./addEditModalReview";
+import AddEditModalActivity from "./addEditModalActivity";
 
 interface ReviewFormData {
   id: number;
@@ -43,7 +43,7 @@ interface ResponseData {
   totalPages: number;
 }
 
-const ManageReviews: React.FC = () => {
+const ManageActivity: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState("");
@@ -74,7 +74,7 @@ const ManageReviews: React.FC = () => {
     };
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/reviews`,
+        `${process.env.NEXT_PUBLIC_API}/api/activity`,
         requestData,
         {
           ...HeaderAPI(localStorage.getItem("Token")),
@@ -115,7 +115,8 @@ const ManageReviews: React.FC = () => {
     console.log(item)
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/reviews/images/${item.id}`,
+        `${process.env.NEXT_PUBLIC_API}/api/activity/image/${item.id}`,
+        // `${process.env.NEXT_PUBLIC_API}/api/activity/images/4`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -203,7 +204,7 @@ const ManageReviews: React.FC = () => {
 
       try {
         const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/reviews`,
+          `${process.env.NEXT_PUBLIC_API}/api/activity`,
           updateData,
           { ...HeaderMultiAPI(localStorage.getItem("Token")) }
         );
@@ -237,7 +238,7 @@ const ManageReviews: React.FC = () => {
 
       try {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/reviews/add`,
+          `${process.env.NEXT_PUBLIC_API}/api/activity/add`,
           data,
           { ...HeaderMultiAPI(localStorage.getItem("Token")) }
         );
@@ -290,7 +291,7 @@ const ManageReviews: React.FC = () => {
       if (result.isConfirmed) {
         try {
           const res = await axios.delete(
-            `${process.env.NEXT_PUBLIC_API}/api/reviews/${customer.id}`,
+            `${process.env.NEXT_PUBLIC_API}/api/activity/${customer.id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -332,32 +333,12 @@ const ManageReviews: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div>
               <Input
-                label="ค้นหาผลงาน"
+                label="ค้นหากิจกรรม"
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
               />
             </div>
-            <div>
-            <Select
-              label="ค้นหาประเภท"
-              onChange={(e) => setSearchType(e || "")}
-            >
-              <Option value="">ทั้งหมด</Option>
-              <Option value="1">รีวิว</Option>
-              <Option value="0">สัมมนา</Option>
-            </Select>
-            </div>
-            <div>
-            <Button
-                size="sm"
-                className="bg-blue-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={()=> [setSearchQuery("") , setSearchType("")]}
-              >
-                รีเซท
-              </Button>
-            </div>
-
             </div>
       
             <div>
@@ -391,15 +372,6 @@ const ManageReviews: React.FC = () => {
                         className="font-bold leading-none opacity-70"
                       >
                         ปก
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ประเภท
                       </Typography>
                     </th>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
@@ -461,17 +433,6 @@ const ManageReviews: React.FC = () => {
                               height={40}
                               className="rounded-full"
                             />
-                          </div>
-                        </td>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.type === 0 ? "สัมมนา" : "รีวิว"}{" "}
-                            </Typography>
                           </div>
                         </td>
                         <td>
@@ -551,7 +512,7 @@ const ManageReviews: React.FC = () => {
        
       </Card>
 
-      <AddEditModalReview
+      <AddEditModalActivity
         open={openModalAdd}
         handleModalAdd={handleModalAdd}
         formData={formData}
@@ -570,4 +531,4 @@ const ManageReviews: React.FC = () => {
   );
 };
 
-export default ManageReviews;
+export default ManageActivity;

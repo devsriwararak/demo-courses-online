@@ -16,6 +16,7 @@ import {
   FaChalkboardTeacher 
 } from "react-icons/fa";
 import { FaClipboardQuestion } from "react-icons/fa6";
+import { IoAccessibility } from "react-icons/io5";
 import { VscNotebook } from "react-icons/vsc";
 import { CgWebsite } from "react-icons/cg";
 import { Typography } from "@material-tailwind/react";
@@ -101,6 +102,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                 text: "ผลงาน",
                 icon: <FaAward />,
                 path: "/admin/managereviews",
+                hasDivider: false,
+              },
+              {
+                text: "กิจกรรม",
+                icon: <IoAccessibility />,
+                path: "/admin/manageactivity",
                 hasDivider: true,
               },
             ],
