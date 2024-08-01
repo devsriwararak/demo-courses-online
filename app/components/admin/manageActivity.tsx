@@ -115,7 +115,7 @@ const ManageActivity: React.FC = () => {
     console.log(item)
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/activity/image/${item.id}`,
+        `${process.env.NEXT_PUBLIC_API}/api/activity/images/${item.id}`,
         // `${process.env.NEXT_PUBLIC_API}/api/activity/images/4`,
         {
           headers: {
