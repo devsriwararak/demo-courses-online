@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname; // กำหนดค่า pathname จาก request.nextUrl
+
+  
   let permition = "";
   let allowedPaths = {};
 

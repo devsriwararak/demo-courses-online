@@ -1,5 +1,5 @@
-// Super.tsx
 "use client";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Card,
   Button,
@@ -7,34 +7,36 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
-
 import axios from "axios";
-import { HeaderAPI } from "@/headerApi";
-
+import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   MdDelete,
   MdEdit,
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
-
-import { useState, useEffect, useCallback } from "react";
-import AddEditModal from "./addEditModal";
-
+import { FaRegSave } from "react-icons/fa";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
-interface Customer {
+interface ReviewFormData {
   id: number;
-  username: string;
-  name: string;
-  address: string;
+  title: string;
+  image_title: string;
+  dec: string;
+  coverFile: File | null;
+  link: string;
+}
+
+interface ReviewImage {
+  id: number;
+  image: string;
 }
 
 interface ResponseData {
-  data: Customer[];
+  data: ReviewFormData[];
   totalPages: number;
 }
 
@@ -42,22 +44,25 @@ const ManageEbook: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
-
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    name: "",
+  const [formData, setFormData] = useState<ReviewFormData>({
+    id: 0,
+    title: "",
+    image_title: "",
+    dec: "",
+    coverFile: null,
+    link: "",
   });
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [dataEdit, setDataEdit] = useState<ReviewFormData | null>(null);
 
-  const fetchCategory = useCallback(async () => {
+  const fetchEbook = useCallback(async () => {
     const requestData = {
-      page: page,
+      page,
       search: searchQuery,
     };
-    // console.log(requestData)
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/category`,
+        `${process.env.NEXT_PUBLIC_API}/api/ebook`,
         requestData,
         {
           ...HeaderAPI(localStorage.getItem("Token")),
@@ -67,149 +72,164 @@ const ManageEbook: React.FC = () => {
       if (res.status === 200) {
         setData(res.data);
       } else {
-        toast.error("error");
+        toast.error("Error");
       }
     } catch (error) {
       console.error(error);
-      toast.error("error");
+      toast.error("Error");
     }
   }, [page, searchQuery]);
 
   useEffect(() => {
-    fetchCategory();
-  }, [fetchCategory, page]);
+    fetchEbook();
+  }, [page, searchQuery, fetchEbook]);
 
-  console.log(searchQuery);
+  useEffect(() => {
+    if (dataEdit) {
+      setFormData(dataEdit);
+      setCoverFile(null); // Reset cover file
+    } else {
+      resetFormData();
+    }
+  }, [dataEdit]);
 
-  //------------- modal Add Product -----------------------//
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [dataEdit, setDataEdit] = useState<Customer | null>(null);
+  const resetFormData = () => {
+    setFormData({
+      id: 0,
+      title: "",
+      image_title: "",
+      dec: "",
+      coverFile: null,
+      link: "",
+    });
 
-  const handleModalAdd = () => {
-    setOpenModalAdd(!openModalAdd);
-    if (!openModalAdd) {
-      setFormData({
-        username: "",
-        password: "",
-        name: "",
-      });
-      setDataEdit(null);
+    // Reset file inputs
+    const imageInput = document.getElementById(
+      "imageInput"
+    ) as HTMLInputElement;
+
+    if (imageInput) {
+      imageInput.value = "";
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleAddCategory = async () => {
-    if (dataEdit) {
-      const updateData = { ...formData, id: dataEdit.id };
-      try {
-        const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/category`,
-          updateData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
-        if (res.status === 200) {
-          fetchCategory();
-          toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
-          handleModalAdd();
-        } else {
-          toast.error("เกิดข้อผิดพลาด");
-        }
-      } catch (err) {
-        handleModalAdd();
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
+    if (name === "coverFile") {
+      const fileInput = e.target as HTMLInputElement;
+      if (fileInput.files && fileInput.files[0]) {
+        setCoverFile(fileInput.files[0]);
       }
     } else {
-      const data = {
-        name: formData.name,
-      };
-
-      console.log(data);
-
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/category/add`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
-        console.log(res);
-        if (res.status === 200) {
-          fetchCategory();
-          toast.success(res.data.message);
-          setFormData({ username: "", password: "", name: "" });
-          handleModalAdd();
-        } else {
-          toast.error("เกิดข้อผิดพลาด");
-        }
-      } catch (err) {
-        handleModalAdd();
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     }
   };
 
-  const handleDelete = async (customer: Customer) => {
+  const handleAddEbook = async () => {
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("dec", formData.dec);
+    formDataToSend.append("link", formData.link);
+    if (coverFile) {
+      formDataToSend.append("cover", coverFile);
+    }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/ebook/add`,
+        formDataToSend,
+        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+      );
+      if (res.status === 200) {
+        fetchEbook();
+        toast.success("เพิ่มข้อมูลเรียบร้อยแล้ว");
+        resetFormData();
+      } else {
+        toast.error("เกิดข้อผิดพลาด");
+      }
+    } catch (err) {
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleEditEbook = async () => {
+    const logFormData = (formData: FormData) => {
+      console.log("FormData contents:");
+      formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+      });
+    };
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("id", formData.id.toString());
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("dec", formData.dec);
+    formDataToSend.append("link", formData.link);
+    if (coverFile) {
+      formDataToSend.append("cover", coverFile);
+    } else {
+      formDataToSend.append("cover", "");
+      formDataToSend.append("old_image", formData.image_title);
+    }
+    try {
+      logFormData(formDataToSend);
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API}/api/ebook`,
+        formDataToSend,
+        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+      );
+      if (res.status === 200) {
+        fetchEbook();
+        toast.success("แก้ไขข้อมูลเรียบร้อยแล้ว");
+        resetFormData();
+        setDataEdit(null);
+      } else {
+        toast.error("เกิดข้อผิดพลาด");
+      }
+    } catch (err) {
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleDelete = async (item: ReviewFormData) => {
     Swal.fire({
-      title: "คุณแน่ใจหรือไม่ ?",
+      title: "คุณแน่ใจหรือไม่?",
       text: "คุณจะไม่สามารถย้อนกลับได้!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
-      background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
-      width: "350px", // ปรับขนาดความกว้าง
-      padding: "1em", // ปรับขนาดความสูง
-      backdrop: `
-        rgba(0,0,0,0.4)
-        url("/images/nyan-cat.gif")
-        left top
-        no-repeat
-      `, // ปรับแต่ง backdrop
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const res = await axios.delete(
-            `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              },
-            }
+            `${process.env.NEXT_PUBLIC_API}/api/ebook/${item.id}`,
+            { ...HeaderMultiAPI(localStorage.getItem("Token")) }
           );
           if (res.status === 200) {
-            fetchCategory();
+            fetchEbook();
             Swal.fire({
-              // title: "ลบแล้ว !",
               text: "ข้อมูลของคุณถูกลบแล้ว.",
               icon: "success",
-              width: "400px", // ปรับขนาดความกว้าง
-              background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
-              timer: 1000, // กำหนดเวลาให้ปิดเอง (2000 มิลลิวินาที = 2 วินาที)
-              timerProgressBar: true, // แสดงแถบความคืบหน้า
-              // willClose: () => {
-              //   console.log("Alert is closed"); // คุณสามารถเพิ่มการทำงานเพิ่มเติมได้ที่นี่
-              // },
+              width: "400px",
+              background: "#f9f9f9",
+              timer: 1000,
+              timerProgressBar: true,
               backdrop: `
               rgba(0,0,0,0.4)
               url("/images/nyan-cat.gif")
               left top
               no-repeat
-            `, // ปรับแต่ง backdrop
+            `,
             });
           } else {
             toast.error("เกิดข้อผิดพลาด");
@@ -222,45 +242,92 @@ const ManageEbook: React.FC = () => {
     });
   };
 
-  console.log(dataEdit);
-
   return (
-    <div className="flex justify-center gap-3 ">
+    <div className="flex flex-col lg:flex-row justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored" />
-      <Card className="flex w-full h-[85vh]">
-        <div className="w-full p-5 justify-center items-center">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
-            <div className="flex gap-3">
-              <Input
-                label="ค้นหาผู้ใช้"
-                crossOrigin="anonymous"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClick={() => setPage(1)}
-              />
-              {/* <Button className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap">
-                ล้างค้นหา
-              </Button> */}
-            </div>
-            <div>
-              <Button
+      <div className="w-full lg:w-4/12">
+        <Card className="flex gap-5 w-full px-5 pt-3 h-[85vh]">
+          <div className="flex flex-col gap-4">
+            <Input
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              label="หัวข้อ"
+              crossOrigin
+            />
+            <Input
+              name="dec"
+              value={formData.dec}
+              onChange={handleChange}
+              label="รายละเอียด"
+              crossOrigin
+            />
+            <Input
+              type="file"
+              name="coverFile"
+              label="เลือกรูปปก"
+              id="imageInput"
+              onChange={(e) => handleChange(e)}
+              crossOrigin
+            />
+            <Input
+              name="link"
+              value={formData.link}
+              onChange={handleChange}
+              label="ลิ้งค์"
+              crossOrigin
+            />
+          </div>
+          <div className="flex flex-col lg:flex-row w-full justify-end gap-2">
+            <Button
               size="sm"
-                className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={handleModalAdd}
-              >
-                เพิ่มข้อมูล
-              </Button>
+              variant="outlined"
+              color="blue-gray"
+              onClick={resetFormData}
+              className="flex text-base mr-1"
+            >
+              <span className="mr-2 text-xl">{/* <MdDelete /> */}</span>
+              เคลียร์ค่า
+            </Button>
+            <Button
+              size="sm"
+              variant="gradient"
+              color="green"
+              onClick={dataEdit ? handleEditEbook : handleAddEbook}
+              className="flex text-base mr-1"
+            >
+              <span className="mr-2 text-xl">
+                <FaRegSave />
+              </span>
+              {dataEdit ? "บันทึกการแก้ไข" : "บันทึก"}
+            </Button>
+          </div>
+        </Card>
+      </div>
+      <div className="w-full lg:w-8/12">
+        <Card className="flex w-full px-5 h-[85vh]">
+          <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div>
+                <Input
+                  label="ค้นหากิจกรรม"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClick={() => setPage(1)}
+                  crossOrigin
+                />
+              </div>
             </div>
           </div>
-          <div className="overflow-auto  lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
-              <table className="w-full min-w-max ">
+          <div className="overflow-auto lg:h-[100%]">
+            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
+              <table className="w-full min-w-max">
                 <thead>
                   <tr>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70 "
+                        className="font-bold leading-none opacity-70"
                       >
                         ลำดับ
                       </Typography>
@@ -271,7 +338,34 @@ const ManageEbook: React.FC = () => {
                         color="blue-gray"
                         className="font-bold leading-none opacity-70"
                       >
+                        ปก
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70"
+                      >
                         ชื่อ
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70"
+                      >
+                        รายละเอียด
+                      </Typography>
+                    </th>
+                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-bold leading-none opacity-70"
+                      >
+                        ลิ้งค์
                       </Typography>
                     </th>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
@@ -288,7 +382,7 @@ const ManageEbook: React.FC = () => {
                 <tbody>
                   {data?.data?.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="text-center pt-5">
+                      <td colSpan={6} className="text-center pt-5">
                         <Typography>...ไม่พบข้อมูล...</Typography>
                       </td>
                     </tr>
@@ -306,6 +400,17 @@ const ManageEbook: React.FC = () => {
                             </Typography>
                           </div>
                         </td>
+                        <td className="py-2 flex justify-center">
+                          <div className="flex w-8 h-8 justify-stretch">
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                              alt=""
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                          </div>
+                        </td>
                         <td>
                           <div className="flex items-center justify-center">
                             <Typography
@@ -313,31 +418,54 @@ const ManageEbook: React.FC = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {item?.name}
+                              {item?.title}
                             </Typography>
                           </div>
                         </td>
-
                         <td>
-                          <div className="flex justify-center gap-2  ">
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {item?.dec}
+                            </Typography>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center justify-center">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 "
+                              >
+                                {item.link}
+                              </a>
+                            </Typography>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex justify-center gap-2">
                             <IconButton
                               size="sm"
-                              className=" text-white max-w-7 max-h-7 bg-yellow-700  "
-                              onClick={(e) => [
-                                handleModalAdd(),
-                                setDataEdit(item),
-                              ]}
+                              className="text-white max-w-7 max-h-7 bg-yellow-700"
+                              onClick={() => setDataEdit(item)}
                             >
-                              <MdEdit className="h-5 w-5   " />
+                              <MdEdit className="h-5 w-5" />
                             </IconButton>
                             <IconButton
                               size="sm"
-                              className=" bg-red-300 max-w-7 max-h-7 "
-                              onClick={() => {
-                                handleDelete(item);
-                              }}
+                              className="bg-red-300 max-w-7 max-h-7"
+                              onClick={() => handleDelete(item)}
                             >
-                              <MdDelete className="h-5 w-5   " />
+                              <MdDelete className="h-5 w-5" />
                             </IconButton>
                           </div>
                         </td>
@@ -347,49 +475,36 @@ const ManageEbook: React.FC = () => {
                 </tbody>
               </table>
             </Card>
-            <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
-            <button
-              className={` text-gray-400  text-xl  whitespace-nowrap ${
-                page == 1 ? "" : "hover:text-black"
-              } `}
-              disabled={page == 1}
-              onClick={() => setPage((page) => Math.max(page - 1, 1))}
-            >
-              <MdOutlineKeyboardDoubleArrowLeft />
-            </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
-              หน้าที่ {page} / {data?.totalPages || 1}{" "}
-            </span>
-            <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
-                Number(data?.totalPages) - Number(page) < 1
-                  ? true
-                  : false
-                  ? ""
-                  : "hover:text-black"
-              }`}
-              disabled={
-                Number(data?.totalPages) - Number(page) < 1 ? true : false
-              }
-              onClick={() => setPage((page) => page + 1)}
-            >
-              <MdOutlineKeyboardDoubleArrowRight />
-            </button>
+            <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+              <button
+                className={`text-gray-400 text-xl whitespace-nowrap ${
+                  page == 1 ? "" : "hover:text-black"
+                }`}
+                disabled={page == 1}
+                onClick={() => setPage((page) => Math.max(page - 1, 1))}
+              >
+                <MdOutlineKeyboardDoubleArrowLeft />
+              </button>
+              <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+                หน้าที่ {page} / {data?.totalPages || 1}{" "}
+              </span>
+              <button
+                className={`text-gray-400 text-xl whitespace-nowrap ${
+                  Number(data?.totalPages) - Number(page) < 1
+                    ? true
+                    : false
+                    ? ""
+                    : "hover:text-black"
+                }`}
+                disabled={Number(data?.totalPages) - Number(page) < 1}
+                onClick={() => setPage((page) => page + 1)}
+              >
+                <MdOutlineKeyboardDoubleArrowRight />
+              </button>
+            </div>
           </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* modal Add and Edit  */}
-      <AddEditModal
-        open={openModalAdd}
-        handleModalAdd={handleModalAdd}
-        formData={formData}
-        setFormData={setFormData}
-        handleChange={handleChange}
-        handleAddCategory={handleAddCategory}
-        dataEdit={dataEdit}
-      />
+        </Card>
+      </div>
     </div>
   );
 };
