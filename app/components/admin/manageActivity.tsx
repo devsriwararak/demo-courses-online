@@ -333,7 +333,7 @@ const ManageActivity: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div>
               <Input
-                label="ค้นหาEbook"
+                label="ค้นหากิจกรรม"
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
