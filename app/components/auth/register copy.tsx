@@ -51,26 +51,20 @@ const Register = () => {
     };
 
     return (
-      <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
-      
-      <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row  lg:h-[89%]   ">
-        <div className="  w-full md:w-2/4 bg-purple-50 rounded-lg shadow-lg hidden  md:flex flex-col justify-center items-center ">
-        <h1 className="text-xl">xxxxxxxxxxx</h1>
-        <img src="/login1.webp" alt=""  />
-        <small>xxxxxxxx</small>
-        </div>
-
-        <div className="w-full md:w-3/4     ">
-        <div className="flex flex-col w-full items-center gap-3  justify-end py-4 px-8">
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <ToastContainer autoClose={2000} theme="colored" />
+      <div className="flex items-stretch ">
+        <Card className="p-4  w-[300px] rounded-r-none">
+          <div className="flex flex-col items-center gap-5">
             <div className="flex flex-col w-full justify-center items-center">
               <div>
-                <Typography className=" font-medium ">
+                <Typography className="text-purple-500 font-medium ">
                   ลงทะเบียนผู้ใช้
                 </Typography>
               </div>
-              <div className=" w-[90%] h-[1px] mt-2 bg-gray-300">{""}</div>
+              <div className=" w-[90%] h-[1px] mt-2 bg-purple-300">{""}</div>
               <div>
-                <Typography className="text-gray-600 mt-3 font-medium">
+                <Typography className="text-purple-500 mt-3 font-medium">
                   ระบบห้องเรียน Online
                 </Typography>
               </div>
@@ -129,7 +123,7 @@ const Register = () => {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       type="submit"
-                      className="w-full rounded-full"
+                      className="w-full"
                       color="purple"
                       style={{
                         backgroundImage:
@@ -140,35 +134,53 @@ const Register = () => {
                     </Button>
                     <Button
                       variant="outlined"
-                      className="w-full rounded-full"
+                      className="w-full"
                       color="purple"
                       onClick={() => router.push("/")}
                     >
                       ยกเลิก
                     </Button>
                   </div>
-                  <div className="flex justify-between px-1 mt-3">
+                  <div className="flex justify-between px-1">
                     <div
                       className="mt-3 underline  justify-end cursor-pointer"
                       onClick={() => router.push("/login")}
                     >
-                      <Typography  className="text-purple-500 font-semibold text-xs">
+                      <Typography  className="text-purple-500 font-semibold">
                         เข้าสู่ระบบ
                       </Typography>
                     </div>
                     <div className="mt-3 underline justify-end cursor-pointer">
-                      <Typography className='text-xs'>ลืมรหัสผ่าน</Typography>
+                      <Typography>ลืมรหัสผ่าน</Typography>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-
-
-        </div>
-
+        </Card>
+        <Card
+          className="pt-5 w-[180px] rounded-l-none hidden lg:block"
+          style={{
+            backgroundImage:
+              "linear-gradient(125deg, #6d28d9, #7c3aed, #8b5cf6)",
+          }}
+        >
+          <Typography className="text-white text-center whitespace-nowrap  text-xl  font-semibold">
+            ลงทะเบียน
+          </Typography>
+          <div className="px-3 mt-1">
+            <hr />
+          </div>
+          <Typography className="text-white  px-2 mt-5 text-sm  text-justify ">
+            สมัครสมาชิกกับเราตอนนี้ รับข้อเสนอพิเศษ และส่วนลด ต่าง ๆ มากมาย
+          </Typography>
+          <Typography className="text-white  px-2 mt-3 text-sm  text-justify ">
+            เรารวมบทเรียนที่มีคุณภาพ หลากหลายหมวดหมู่ เนื้อหาครบถ้วนง่ายต่อการทำความเข้าใจ ทำให้เราเป็นที่นิยมต่อผู้ใช้งานมากมาย 
+          </Typography>
+        </Card>
       </div>
+
       
     </div>
     );
