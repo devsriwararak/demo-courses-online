@@ -20,6 +20,9 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
+import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
+import { FaSearch, FaBookReader } from "react-icons/fa";
+
 import { useState, useEffect, useCallback } from "react";
 
 import { htmlToText } from "html-to-text";
@@ -157,26 +160,33 @@ const LearningShow: React.FC<LearningShowProps> = ({
     });
   };
 
-  const handleAddNew = () =>{
-    setLearningAdd(1)
-    onResetForm()
-  }
+  const handleAddNew = () => {
+    setLearningAdd(1);
+    onResetForm();
+  };
   return (
     <div className="flex justify-center gap-3  ">
-      <div className="w-full p-5 justify-center items-center">
+      <div className="w-full p-5 px-7 justify-center items-center">
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
-          <div className="flex w-full gap-3 flex-col sm:flex-row justify-between">
+          <div className="flex w-full gap-8 items-center flex-col sm:flex-row justify-start">
+            <div className="flex gap-2 items-center text-xl ">
+              <FaBookReader />
+              <Typography className="font-bold ">
+                จัดการข้อมูลคอร์สเรียน
+              </Typography>
+            </div>
             <Input
               label="ค้นหาคอร์สเรียน"
               crossOrigin="anonymous"
               onChange={(e) => setSearchQuery(e.target.value)}
               onClick={() => setPage(1)}
+              icon={<FaSearch className=" text-gray-500" />}
             />
 
             <Button
-            size="sm"
-              className="bg-blue-500 text-white text-sm hover:bg-blue-700 whitespace-nowrap"
-              onClick={() =>handleAddNew() }
+              size="sm"
+              className="bg-indigo-500 text-white text-sm hover:bg-blue-700 whitespace-nowrap"
+              onClick={() => handleAddNew()}
             >
               เพิ่มข้อมูล
             </Button>
@@ -186,7 +196,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
           <div className="overflow-auto">
             <Card className="mt-5 h-full  md:h-[58vh] lg:h-[63vh]  mb-3 border-2">
               <ul className="list-none p-0 overflow-auto">
-                <li className="flex bg-blue-gray-50/50 border-b border-blue-gray-100 p-4 gap-5">
+                <li className="flex bg-blue-gray-50/50 border-b border-blue-gray-100 p-2 gap-5">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -218,6 +228,13 @@ const LearningShow: React.FC<LearningShowProps> = ({
                   <Typography
                     variant="small"
                     color="blue-gray"
+                    className="font-bold leading-none opacity-70 w-2/12 text-center whitespace-nowrap "
+                  >
+                    สถานะ
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
                     className="font-bold leading-none opacity-70 w-1/12 text-center whitespace-nowrap "
                   >
                     แก้ไข/ลบ
@@ -231,7 +248,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                   data?.data?.map((item, index) => (
                     <li
                       key={item.id}
-                      className="flex border-b border-blue-gray-100 p-4   items-center gap-5"
+                      className="flex border-b border-blue-gray-100 p-1   items-center gap-5"
                     >
                       <div className="flex font-bold  ps-1  leading-none  w-1/12 ">
                         <div className="flex    w-8 h-8 justify-stretch">
@@ -240,7 +257,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                             alt=""
                             width={40}
                             height={40}
-                            className="rounded-full"
+                            className="rounded-md"
                           />
                         </div>
                       </div>
@@ -281,7 +298,16 @@ const LearningShow: React.FC<LearningShowProps> = ({
                           </span>
                         </Typography>
                       </div>
-                      <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
+                      <div className="w-2/12 flex justify-center items-center whitespace-nowrap ">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal text-green-500 bg-green-300 bg-opacity-25 px-2   overflow-hidden text-ellipsis whitespace-nowrap"
+                        >
+                          ตรวจแล้ว
+                        </Typography>
+                      </div>
+                      {/* <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
                         <IconButton
                           size="sm"
                           className="text-white max-w-7 max-h-7 bg-yellow-700"
@@ -298,6 +324,19 @@ const LearningShow: React.FC<LearningShowProps> = ({
                         >
                           <MdDelete className="h-5 w-5" />
                         </IconButton>
+                      </div> */}
+                      <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
+                        <MdEdit
+                          className="h-5 w-5 text-purple-500"
+                          onClick={() => [onEdit(item)]}
+                        />
+
+                        <MdDelete
+                          className="h-5 w-5 text-purple-500"
+                          onClick={() => {
+                            handleDelete(item);
+                          }}
+                        />
                       </div>
                     </li>
                   ))
@@ -314,7 +353,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
               disabled={page == 1}
               onClick={() => setPage((page) => Math.max(page - 1, 1))}
             >
-              <MdOutlineKeyboardDoubleArrowLeft />
+              <LuArrowLeftSquare  />
             </button>
             <span style={{ whiteSpace: "nowrap" }} className="text-xs">
               หน้าที่ {page} / {data?.totalPages || 1}{" "}
@@ -332,7 +371,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
               }
               onClick={() => setPage((page) => page + 1)}
             >
-              <MdOutlineKeyboardDoubleArrowRight />
+              <LuArrowRightSquare />
             </button>
           </div>
         </div>

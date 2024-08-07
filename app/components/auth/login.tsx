@@ -48,7 +48,9 @@ const LoginPage: React.FC = () => {
           } else if (decoded.status === 0) {
             redirectPath = "/user/shopcourse";
           }
-          router.push(redirectPath);
+          setTimeout(() => {
+            router.push(redirectPath);
+          }, 1500);
         } else {
           toast.error("Error: Token not found");
         }
@@ -62,59 +64,44 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
-      
-      <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row  ">
-        <div className="  w-full md:w-2/4 bg-purple-50 rounded-lg shadow-lg hidden  md:flex flex-col justify-center items-center ">
-        <h1 className="text-xl">xxxxxxxxxxx</h1>
-        <img src="/login1.webp" alt=""  />
-        <small>xxxxxxxx</small>
+      <ToastContainer autoClose={3000} theme="colored" />
+      <div className="bg-white rounded-3xl shadow-xl  flex flex-col lg:flex-row  ">
+        <div className="  w-full lg:w-2/4 bg-gradient-to-b from-indigo-400 to-purple-300 rounded-3xl shadow-lg hidden  lg:flex flex-col justify-end items-center py-10 ">
+          <h1 className="text-3xl text-center text-white">คอร์สเรียนออนไลน์</h1>
+          <h1 className="text-2xl text-white">แบบฉบับมืออาชีพ</h1>
+          <small className="text-gray-200 mt-3">อัพเดทเนื้อหาใหม่ 2024</small>
+
+          <img src="/login1.webp" alt="" />
         </div>
 
-        <div className="w-full md:w-3/4 ">
-
-        <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
-          <p className="text-gray-600">xxxxxxxx</p>
+        <div className="w-full lg:w-3/4 ">
+          <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
+            <p className="text-gray-600 text-xs">
+              สมัครสมาชิกเพื่อซื้อคอร์สเรียน
+            </p>
             <button
-            className=" text-[10px]  border border-gray-500 px-4 py-2 rounded-full"
+              className=" text-[10px]  border border-gray-500 px-4 py-2 rounded-full"
               onClick={() => router.push("/register")}
-            > สมัครสมาชิก</button>
-            </div>
+            >
+              {" "}
+              สมัครสมาชิก
+            </button>
+          </div>
 
-        <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
-          
+          <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
             <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  Welcome to course 
+                  DEV SRIWARARAK
                 </Typography>
               </div>
-              <div className=" w-[90%] h-[1px] mt-2 bg-gray-300">{""}</div>
               <div>
-                <Typography className=" mt-3 font-medium text-gray-600">
+                <Typography className=" mt-3 text-sm font-medium text-gray-500">
                   ระบบห้องเรียน Online
                 </Typography>
               </div>
             </div>
-            <div className="flex w-full md:w-60 flex-row  gap-3 justify-start items-start   ">
-              <Button
-                variant={pathname === "/login" ? "gradient" : "outlined"}
-                color="deep-purple"
-                className="w-full  rounded-full whitespace-nowrap "
-                size="sm"
-                onClick={() => router.push("/login")}
-              >
-                User Login
-              </Button>
-              <Button
-                variant="outlined"
-                size="sm"
-                color="purple"
-                className="w-full rounded-full  whitespace-nowrap "
-                onClick={() => router.push("/loginopt")}
-              >
-                OTP Login
-              </Button>
-            </div>
+
             <form onSubmit={handleLogin} className="w-full">
               <div className="flex flex-col gap-6">
                 <div>
@@ -157,34 +144,43 @@ const LoginPage: React.FC = () => {
                     </Button>
                     <Button
                       variant="outlined"
-                     className="w-full rounded-full"
+                      className="w-full rounded-full"
                       color="deep-purple"
                       onClick={() => router.push("/")}
                     >
                       ยกเลิก
                     </Button>
                   </div>
-                  <div className="flex justify-end px-1">
-                    {/* <div
-                      className="mt-3 underline  justify-end cursor-pointer"
-                      onClick={() => router.push("/register")}
-                    >
-                      <Typography className="text-purple-500 font-semibold">
-                        ลงทะเบียน
-                      </Typography>
-                    </div> */}
-                    <div className="mt-5 underline text-gray-700   cursor-pointer">
-                      <Typography className="text-xs">ลืมรหัสผ่าน</Typography>
+
+                  <div className="flex flex-row items-center justify-center gap-4">
+                    <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-700"></hr>
+                    <p className="text-gray-600 text-sm">ตัวเลือกอื่น</p>
+                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
+                  </div>
+
+                  <div className="flex w-full  flex-row  gap-2 justify-center items-center   ">
+                    <div className="w-full ">
+                      <p
+                        className=" text-right text-purple-300 hover:bg-purple-50 px-2  py-1 cursor-pointer "
+                        onClick={() => router.push("/loginopt")}
+                      >
+                        เข้าสู่ระบบ OTP
+                      </p>
+                    </div>
+
+                    <div className="w-full ">
+                      <p className=" text-left text-purple-300 hover:bg-purple-50 px-2 py-1  cursor-pointer ">
+                        ลืมรหัสผ่าน{" "}
+                      </p>
                     </div>
                   </div>
+                  <div className="flex justify-end px-1"></div>
                 </div>
               </div>
             </form>
           </div>
         </div>
-
       </div>
-      
     </div>
   );
 };

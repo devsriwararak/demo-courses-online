@@ -211,12 +211,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
 
   return (
     <div
-      className={`h-full flex flex-col bg-white ${
+      className={`h-full flex flex-col bg-indigo-400 ${
         loginStatus === "1" ? " w-[200px]" : " w-[210px]"
       }`}
     >
-      <div className="flex items-center justify-center h-[52px] bg-blue-600 text-white">
-        <Typography className="text-lg">Admin Panel</Typography>
+      <div className="flex pt-1 items-center justify-center h-[52px] bg-indigo-400 text-white">
+        <Typography className="text-lg">ระบบคอร์สเรียน</Typography>
+        {/* <Typography className="">หลังบ้าน</Typography> */}
       </div>
       <div className="flex-1 mt-5 overflow-y-auto">
         {menuItems.map((item, index) => {
@@ -224,8 +225,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           return (
             <div key={index}>
               <div
-                className={`flex items-center px-2 mx-3 py-2 cursor-pointer  ${
-                  isActive ? "bg-gray-400 opacity-90 rounded-md mx-3 " : ""
+                className={`flex items-center px-2  py-3 cursor-pointer text-sm text-gray-300   ${
+                  isActive ? "bg-indigo-300  border-l-4 border-white  text-white   " : ""
                 }`}
                 onClick={() =>
                   item.path
@@ -233,19 +234,19 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     : toggleSubMenu(item.text)
                 }
               >
-                <div className={`mr-2 ${isActive ? "text-xl" : ""}`}>
+                <div className={`mr-2 text-white ${isActive ? "text-xl" : ""}`}>
                   {item.icon}
                 </div>
-                <div className="flex-1  text-nowrap ">{item.text}</div>
+                <div className="flex-1   text-nowrap ">{item.text}</div>
 
                 {item.subItems && (
-                  <div>
+                  <div className="text-white">
                     {open[item.text] ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
                 )}
               </div>
               {item.hasDivider && (
-                <div className=" bg-gray-500  h-[2px] mx-3 mt-1 mb-1 ">.</div>
+                <div className=" bg-gray-500  h-[2px] mx-3 mt-1 mb-1  ">.</div>
               )}
               {item.subItems && open[item.text] && (
                 <div>
@@ -254,9 +255,9 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     return (
                       <div key={subIndex}>
                         <div
-                          className={`flex items-center px-2 mx-3 py-2 cursor-pointer pl-8  ${
+                          className={`flex items-center  px-2  py-2 cursor-pointer pl-8 text-sm  text-gray-300 ${
                             isSubItemActive
-                              ? "bg-gray-400 opacity-90 rounded-md mx-3 "
+                              ? "bg-indigo-300  border-l-4 border-white  text-white  "
                               : ""
                           }`}
                           onClick={() => handleNavigation(subItem.path)}

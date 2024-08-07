@@ -15,7 +15,11 @@ import {
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
+
+import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
 import { GrUploadOption } from "react-icons/gr";
+
+import { FaSearch } from "react-icons/fa";
 
 interface LearningTitleProps {
   courseSelect: number | undefined;
@@ -51,7 +55,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   setPageTitle,
   setDataTitle,
   dataTitle,
-  setTitleId
+  setTitleId,
 }) => {
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -182,7 +186,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   };
 
   const handleEdit = (item: any) => {
-    console.log(item)
+    console.log(item);
     setFormData((prevFormData) => ({
       ...prevFormData,
       lesson: item.title,
@@ -190,11 +194,10 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
     setEditingId(item.id);
   };
 
-  const handleUpload = async (item:any) => {
+  const handleUpload = async (item: any) => {
     // console.log(item)
-    setTitleId(item.id)
-
-  }
+    setTitleId(item.id);
+  };
 
   return (
     <div className="flex w-full   gap-3 shadow-lg">
@@ -202,7 +205,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         <Card className="p-5  overflow-auto border-2 ">
           <div className="flex gap-3 items-center">
             <Input
-              label="หัวข้อ"
+              label="ค้นหาหัวข้อ"
               crossOrigin="anonymous"
               value={formData.lesson}
               onChange={(e) =>
@@ -211,12 +214,13 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   lesson: e.target.value,
                 }))
               }
+              icon={<FaSearch className=" text-gray-500" />}
             />
             <div className="md:w-[100px]">
               <Button
-              size="sm"
-                disabled={!!!courseSelect }
-                color="blue"
+                size="sm"
+                disabled={!!!courseSelect}
+                color="purple"
                 className="w-full text-sm"
                 onClick={handleAddOrEditTitle}
               >
@@ -225,14 +229,14 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
             </div>
           </div>
           <div>
-            <table className="w-full  mt-3  ">
+            <table className="w-full  mt-5  ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                  <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="font-bold text-start leading-none opacity-70"
                     >
                       ลำดับ
                     </Typography>
@@ -241,16 +245,16 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
+                      className="font-bold text-start leading-none opacity-70  whitespace-nowrap"
                     >
                       หัวข้อ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1   whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold text-start leading-none opacity-70 whitespace-nowrap"
+                      className="font-bold text-end leading-none opacity-70 whitespace-nowrap "
                     >
                       อัพโหลด
                     </Typography>
@@ -276,12 +280,12 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                 ) : (
                   dataTitle?.data?.map((item: any, index: number) => (
                     <tr key={item.id} style={{ marginTop: "3px" }}>
-                      <td className="py-2">
-                        <div className="flex items-center justify-center">
+                      <td className="py-1">
+                        <div className="flex items-center ps-4 ">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal"
+                            className="font-normal text-sm"
                           >
                             {index + 1}
                           </Typography>
@@ -292,7 +296,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
+                            className="font-normal ps-1  text-sm overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
                           >
                             {item.title}
                           </Typography>
@@ -302,32 +306,21 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                         </div>
                       </td>
                       <td>
-                        <div className="flex  ps-6 gap-2 ">
-                          <IconButton
-                            size="sm"
-                            className="text-white max-w-7 max-h-7 bg-green-700"
-                              onClick={() => handleUpload(item)}
-                          >
-                            <GrUploadOption className="h-5 w-5" />
-                          </IconButton>
+                        <div className="flex  justify-end pr-5  ">
+                            <GrUploadOption className="h-5 w-5 text-green-500" onClick={() => handleUpload(item)} />
                         </div>
                       </td>
                       <td>
                         <div className="flex justify-center gap-2">
-                          <IconButton
-                            size="sm"
-                            className="text-white max-w-7 max-h-7 bg-yellow-700"
+                          <MdEdit
+                            className="h-5 w-5 text-purple-500"
                             onClick={() => handleEdit(item)}
-                          >
-                            <MdEdit className="h-5 w-5" />
-                          </IconButton>
-                          <IconButton
-                            size="sm"
-                            className="bg-red-300 max-w-7 max-h-7"
+                          />
+
+                          <MdDelete
+                            className="h-5 w-5 text-purple-500"
                             onClick={() => handleDelete(item)}
-                          >
-                            <MdDelete className="h-5 w-5" />
-                          </IconButton>
+                          />
                         </div>
                       </td>
                     </tr>
@@ -342,9 +335,11 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                 pageTitle == 1 ? "" : "hover:text-black"
               } `}
               disabled={pageTitle == 1}
-              onClick={() => setPageTitle((pageTitle) => Math.max(pageTitle - 1, 1))}
+              onClick={() =>
+                setPageTitle((pageTitle) => Math.max(pageTitle - 1, 1))
+              }
             >
-              <MdOutlineKeyboardDoubleArrowLeft />
+              <LuArrowLeftSquare />
             </button>
             <span style={{ whiteSpace: "nowrap" }} className="text-xs">
               หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
@@ -358,11 +353,13 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   : "hover:text-black"
               }`}
               disabled={
-                Number(dataTitle?.totalPages) - Number(pageTitle) < 1 ? true : false
+                Number(dataTitle?.totalPages) - Number(pageTitle) < 1
+                  ? true
+                  : false
               }
               onClick={() => setPageTitle((pageTitle) => pageTitle + 1)}
             >
-              <MdOutlineKeyboardDoubleArrowRight />
+              <LuArrowRightSquare />
             </button>
           </div>
         </Card>

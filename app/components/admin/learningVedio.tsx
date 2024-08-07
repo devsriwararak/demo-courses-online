@@ -22,10 +22,11 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
+import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+
 interface Course {
   id: number;
   video: File;
-
 }
 
 interface LearningVideoProps {
@@ -49,7 +50,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
     videoFile: null as File | null,
   });
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
-  const [videoId, setVideoId] = useState(0); 
+  const [videoId, setVideoId] = useState(0);
 
   const fetchVideo = useCallback(async () => {
     const data = {
@@ -101,7 +102,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
     if (formData.videoFile) {
       formDataToSubmit.append("video", formData.videoFile);
     }
-    if(videoId != 0){
+    if (videoId != 0) {
       formDataToSubmit.append("id", videoId.toLocaleString());
     }
     try {
@@ -157,10 +158,10 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
     }
   };
 
-  const handleEdit = (item:any) => {
-    console.log(item)
-    setStatusEdit(1)
-  }
+  const handleEdit = (item: any) => {
+    console.log(item);
+    setStatusEdit(1);
+  };
 
   const handleDelete = async (item: Course) => {
     console.log(item.id);
@@ -242,7 +243,13 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             </div>
             <div>
               <div className="md:w-[100px]">
-                <Button color="blue" size="sm" className="w-full text-sm" type="submit" disabled={!!!titleId}>
+                <Button
+                  color="purple"
+                  size="sm"
+                  className="w-full text-sm"
+                  type="submit"
+                  disabled={!!!titleId}
+                >
                   บันทึก
                 </Button>
               </div>
@@ -251,7 +258,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           <div></div>
         </form>
         <div>
-          <table className="w-full  mt-3  ">
+          <table className="w-full   ">
             <thead>
               <tr>
                 <th className="border-y flex justify-between px-5 border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
@@ -284,7 +291,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
               ) : (
                 dataVideo?.data?.map((item: any, index: number) => (
                   <tr key={item.id} style={{ marginTop: "3px" }}>
-                    <td className="flex py-2 px-5 justify-between">
+                    <td className="flex py-1 px-5 justify-between">
                       <div className="flex items-center justify-center">
                         <Typography
                           variant="small"
@@ -297,20 +304,18 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                     </td>
                     <td>
                       <div className="flex justify-center gap-2">
-                        <IconButton
-                          size="sm"
-                          className="text-white max-w-7 max-h-7 bg-yellow-700"
-                          onClick={() => [handleEdit(item) , setVideoId(item.id)]}
-                        >
-                          <MdEdit className="h-5 w-5" />
-                        </IconButton>
-                        <IconButton
-                          size="sm"
-                          className="bg-red-300 max-w-7 max-h-7"
+                        <MdEdit
+                          className="h-5 w-5 text-purple-500"
+                          onClick={() => [
+                            handleEdit(item),
+                            setVideoId(item.id),
+                          ]}
+                        />
+
+                        <MdDelete
+                          className="h-5 w-5 text-purple-500"
                           onClick={() => handleDelete(item)}
-                        >
-                          <MdDelete className="h-5 w-5" />
-                        </IconButton>
+                        />
                       </div>
                     </td>
                   </tr>
@@ -329,7 +334,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
               setPageVideo((pageVideo) => Math.max(pageVideo - 1, 1))
             }
           >
-            <MdOutlineKeyboardDoubleArrowLeft />
+            <LuArrowLeftSquare />
           </button>
           <span style={{ whiteSpace: "nowrap" }} className="text-xs">
             หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
@@ -349,7 +354,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             }
             onClick={() => setPageVideo((pageVideo) => pageVideo + 1)}
           >
-            <MdOutlineKeyboardDoubleArrowRight />
+            <LuArrowRightSquare />
           </button>
         </div>
       </Card>

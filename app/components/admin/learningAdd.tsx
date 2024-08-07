@@ -88,18 +88,10 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   return (
     <div>
-      <Card className="flex xl:h-[88vh] overflow-auto">
-        <div className=" flex px-6 pt-5  justify-end">
-          <Button
-          size="sm"
-            className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
-            onClick={() => setLearningAdd(0)}
-          >
-            ออก
-          </Button>
-        </div>
+      <Card className="flex xl:h-[85vh] overflow-auto">
+
         <form
-          className="flex flex-col w-full px-5 mt-3 gap-4"
+          className="flex flex-col w-full px-5 mt-5 gap-4"
           onSubmit={handleSubmit}
         >
           <div>
@@ -115,8 +107,8 @@ const LearningADD: React.FC<LearningADDProps> = ({
               }
             />
           </div>
-          <div className="flex flex-col gap-5 xl:flex-row md:justify-between">
-            <div className="w-full xl:w-4/12">
+          <div className="flex flex-col gap-2 xl:flex-row md:justify-between">
+            <div className="w-full xl:w-3/12">
               <Input
                 label="ราคาปกติ"
                 type="number"
@@ -131,7 +123,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }
               />
             </div>
-            <div className="w-full xl:w-4/12">
+            <div className="w-full xl:w-3/12">
               <Input
                 label="ราคาลดแล้ว"
                 type="number"
@@ -146,7 +138,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }
               />
             </div>
-            <div className="w-full xl:w-4/12 flex justify-center">
+            <div className="w-full xl:w-3/12 flex  justify-center">
               <Select
                 options={categories.map((category) => ({
                   value: category.id?.toString(),
@@ -164,7 +156,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }
                 placeholder="เลือกหมวดหมู่"
                 isClearable
-                className="z-20 w-full xl:w-[200px]"
+                className="z-20 w-full "
                 styles={{
                   control: (provided) => ({
                     ...provided,
@@ -181,8 +173,6 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }}
               />
             </div>
-          </div>
-          <div className="flex flex-col gap-5 xl:flex-row">
             <div className="w-full xl:w-[200px]">
               <Input
                 label="Uploadรูปหน้าปก"
@@ -194,16 +184,26 @@ const LearningADD: React.FC<LearningADDProps> = ({
               />
             </div>
           </div>
+
           <div className=" relative z-10">
             <RichTextEditor
               value={formData.dec}
               onEditorChange={setEditorState}
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row  mb-3 justify-end">
+          <div className="flex flex-col gap-3 md:flex-row  mb-3 justify-end">
+          <div className="md:w-[100px]" >
+          <Button
+          size="sm"
+            className="bg-gray-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
+            onClick={() => setLearningAdd(0)}
+          >
+            ออก
+          </Button>
+        </div>
             <div className="md:w-[100px]">
               <Button
-                color="green"
+                color="purple"
                 variant="outlined"
                 size="sm"
                 className="w-full text-sm"
@@ -213,7 +213,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
               </Button>
             </div>
             <div className="md:w-[100px]">
-              <Button color="blue" size="sm" className="w-full text-sm" type="submit">
+              <Button color="purple" size="sm" className="w-full text-sm" type="submit">
                 บันทึก
               </Button>
             </div>

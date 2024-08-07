@@ -21,6 +21,8 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
+import { FaSearch } from "react-icons/fa"; 
+
 import { useState, useEffect, useCallback } from "react";
 import AddEditModal from "./addEditModal";
 
@@ -226,7 +228,7 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="flex justify-center gap-3 ">
-      <ToastContainer autoClose={2000} theme="colored" />
+      <ToastContainer autoClose={3000} theme="colored" />
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
@@ -236,6 +238,7 @@ const AdminPage: React.FC = () => {
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
+                icon={<FaSearch className=" text-gray-500" />}
               />
               {/* <Button className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap">
                 ล้างค้นหา
@@ -244,7 +247,7 @@ const AdminPage: React.FC = () => {
             <div>
               <Button
               size="sm"
-                className="bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+                className="bg-indigo-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
                 onClick={handleModalAdd}
               >
                 เพิ่มข้อมูล

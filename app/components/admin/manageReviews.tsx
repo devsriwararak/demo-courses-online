@@ -19,6 +19,8 @@ import {
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
+
+import { LuArrowRightSquare } from "react-icons/lu";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import AddEditModalReview from "./addEditModalReview";

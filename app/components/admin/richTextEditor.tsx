@@ -79,7 +79,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             options: ["left", "center", "right", "justify"],
           },
         }}
-        editorClassName=" min-h-32 lg:min-h-64 border border-gray-300 p-2 rounded"
+        editorClassName=" min-h-32 lg:min-h-[340px] border border-gray-300 p-2 rounded"
       />
     </div>
   );

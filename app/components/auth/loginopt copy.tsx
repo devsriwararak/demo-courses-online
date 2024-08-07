@@ -106,19 +106,30 @@ const LoginOTPPage: React.FC = () => {
 
   return (
     <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
-      <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row lg:h-[89%]  ">
-        <div className="  w-full md:w-2/4 bg-purple-50 rounded-lg shadow-lg hidden  md:flex flex-col justify-center items-center ">
+      <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row   ">
+        <div className="  w-full md:w-2/4 bg-purple-500 rounded-lg shadow-lg hidden  md:flex flex-col justify-center items-center ">
           <h1 className="text-xl">xxxxxxxxxxx</h1>
           <img src="/login1.webp" alt="" />
           <small>xxxxxxxx</small>
         </div>
 
-        <div className="w-full md:w-3/4     ">
-          <div className="flex flex-col w-full items-center gap-3  justify-end py-4 px-8">
-          <div className="flex flex-col w-full  ">
+        <div className="w-full md:w-3/4 ">
+          <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
+            <p className="text-gray-600">xxxxxxxx</p>
+            <button
+              className=" text-[10px]  border border-gray-500 px-4 py-2 rounded-full"
+              onClick={() => router.push("/register")}
+            >
+              {" "}
+              สมัครสมาชิก
+            </button>
+          </div>
+
+          <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
+            <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  Welcome to course 
+                  Welcome to course
                 </Typography>
               </div>
               <div className=" w-[90%] h-[1px] mt-2 bg-gray-300">{""}</div>
@@ -139,9 +150,9 @@ const LoginOTPPage: React.FC = () => {
                 User Login
               </Button>
               <Button
-                variant="outlined"
+                variant={pathname === "/loginopt" ? "gradient" : "outlined"}
                 size="sm"
-                color="purple"
+                color="deep-purple"
                 className="w-full rounded-full  whitespace-nowrap "
                 onClick={() => router.push("/loginopt")}
               >
@@ -149,8 +160,8 @@ const LoginOTPPage: React.FC = () => {
               </Button>
             </div>
             <form onSubmit={handleLogin} className="w-full">
-              <div className="flex flex-col gap-5">
-                <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6">
                   {otpActive === 0 ? (
                     <div>
                       <Input
@@ -182,7 +193,7 @@ const LoginOTPPage: React.FC = () => {
                     {" "}
                     <Button
                       type="submit"
-                      className=" w-full whitespace-nowrap"
+                      className=" w-full whitespace-nowrap rounded-full"
                       color="purple"
                       style={{
                         backgroundImage:
@@ -199,7 +210,7 @@ const LoginOTPPage: React.FC = () => {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       type="submit"
-                      className="w-full"
+                      className="w-full rounded-full"
                       color="purple"
                       style={{
                         backgroundImage:
@@ -210,24 +221,24 @@ const LoginOTPPage: React.FC = () => {
                     </Button>
                     <Button
                       variant="outlined"
-                      className="w-full"
+                      className="w-full rounded-full"
                       color="purple"
                       onClick={() => router.push("/")}
                     >
                       ยกเลิก
                     </Button>
                   </div>
-                  <div className="flex justify-between px-1">
-                    <div
+                  <div className="flex justify-end px-1 mt-2">
+                    {/* <div
                       className="mt-3 underline  justify-end cursor-pointer"
                       onClick={() => router.push("/register")}
                     >
-                      <Typography className="text-purple-500 font-semibold">
+                      <Typography className="text-purple-500 font-semibold text-xs">
                         ลงทะเบียน
                       </Typography>
-                    </div>
-                    <div className="mt-3 underline justify-end cursor-pointer">
-                      <Typography>ลืมรหัสผ่าน</Typography>
+                    </div> */}
+                    <div className="mt-3 underline cursor-pointer">
+                      <Typography className="text-xs">ลืมรหัสผ่าน</Typography>
                     </div>
                   </div>
                 </div>
