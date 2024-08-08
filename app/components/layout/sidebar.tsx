@@ -65,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
       case "1":
         return [
           {
-            text: "จัดการคอร์สเรียน",
+            text: "หมวดหมู่",
             icon: <FaChalkboardTeacher  />,
             path: "/admin",
             hasDivider: false,

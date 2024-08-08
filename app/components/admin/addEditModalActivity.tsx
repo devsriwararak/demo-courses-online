@@ -224,7 +224,7 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
         <Button
           size="sm"
           variant="gradient"
-          color="green"
+          color="purple"
           onClick={handleSave}
           className="flex text-base mr-1"
         >

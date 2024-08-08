@@ -205,7 +205,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         <Card className="p-5  overflow-auto border-2 ">
           <div className="flex gap-3 items-center">
             <Input
-              label="ค้นหาหัวข้อ"
+              label="สร้างบทเรียน"
               crossOrigin="anonymous"
               value={formData.lesson}
               onChange={(e) =>
@@ -214,7 +214,6 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   lesson: e.target.value,
                 }))
               }
-              icon={<FaSearch className=" text-gray-500" />}
             />
             <div className="md:w-[100px]">
               <Button
@@ -313,12 +312,12 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                       <td>
                         <div className="flex justify-center gap-2">
                           <MdEdit
-                            className="h-5 w-5 text-purple-500"
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
                             onClick={() => handleEdit(item)}
                           />
 
                           <MdDelete
-                            className="h-5 w-5 text-purple-500"
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
                             onClick={() => handleDelete(item)}
                           />
                         </div>

@@ -10,6 +10,7 @@ import {
 
 import axios from "axios";
 import { HeaderAPI } from "@/headerApi";
+import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,7 +22,7 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-import { FaSearch } from "react-icons/fa"; 
+import { FaSearch, FaChalkboardTeacher } from "react-icons/fa";
 
 import { useState, useEffect, useCallback } from "react";
 import AddEditModal from "./addEditModal";
@@ -167,7 +168,7 @@ const AdminPage: React.FC = () => {
     Swal.fire({
       title: "คุณแน่ใจหรือไม่ ?",
       text: "คุณจะไม่สามารถย้อนกลับได้!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -232,26 +233,32 @@ const AdminPage: React.FC = () => {
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
-            <div className="flex gap-3">
-              <Input
-                label="ค้นหาผู้ใช้"
-                crossOrigin="anonymous"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClick={() => setPage(1)}
-                icon={<FaSearch className=" text-gray-500" />}
-              />
+            <div className="flex gap-5  whitespace-nowrap items-center">
+              <div className="flex gap-2 items-center text-xl  ">
+                <FaChalkboardTeacher />
+                <Typography className="font-bold ">จัดการหมวดหมู่</Typography>
+              </div>
+              <div>
+                <Input
+                  label="ค้นหาผู้ใช้"
+                  crossOrigin="anonymous"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClick={() => setPage(1)}
+                  icon={<FaSearch className=" text-gray-500" />}
+                />
+              </div>
+              <div>
+                <Button
+                  size="sm"
+                  className="bg-indigo-500  text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+                  onClick={handleModalAdd}
+                >
+                  เพิ่มข้อมูล
+                </Button>
+              </div>
               {/* <Button className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap">
                 ล้างค้นหา
               </Button> */}
-            </div>
-            <div>
-              <Button
-              size="sm"
-                className="bg-indigo-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={handleModalAdd}
-              >
-                เพิ่มข้อมูล
-              </Button>
             </div>
           </div>
           <div className="overflow-auto  lg:h-[100%]">
@@ -323,25 +330,20 @@ const AdminPage: React.FC = () => {
 
                         <td>
                           <div className="flex justify-center gap-2  ">
-                            <IconButton
-                              size="sm"
-                              className=" text-white max-w-7 max-h-7 bg-yellow-700  "
+                            <MdEdit
+                              className="h-5 w-5 text-purple-500 cursor-pointer "
                               onClick={(e) => [
                                 handleModalAdd(),
                                 setDataEdit(item),
                               ]}
-                            >
-                              <MdEdit className="h-5 w-5   " />
-                            </IconButton>
-                            <IconButton
-                              size="sm"
-                              className=" bg-red-300 max-w-7 max-h-7 "
+                            />
+
+                            <MdDelete
+                              className="h-5 w-5 text-purple-500 cursor-pointer "
                               onClick={() => {
                                 handleDelete(item);
                               }}
-                            >
-                              <MdDelete className="h-5 w-5   " />
-                            </IconButton>
+                            />
                           </div>
                         </td>
                       </tr>
@@ -351,34 +353,34 @@ const AdminPage: React.FC = () => {
               </table>
             </Card>
             <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
-            <button
-              className={` text-gray-400  text-xl  whitespace-nowrap ${
-                page == 1 ? "" : "hover:text-black"
-              } `}
-              disabled={page == 1}
-              onClick={() => setPage((page) => Math.max(page - 1, 1))}
-            >
-              <MdOutlineKeyboardDoubleArrowLeft />
-            </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
-              หน้าที่ {page} / {data?.totalPages || 1}{" "}
-            </span>
-            <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
-                Number(data?.totalPages) - Number(page) < 1
-                  ? true
-                  : false
-                  ? ""
-                  : "hover:text-black"
-              }`}
-              disabled={
-                Number(data?.totalPages) - Number(page) < 1 ? true : false
-              }
-              onClick={() => setPage((page) => page + 1)}
-            >
-              <MdOutlineKeyboardDoubleArrowRight />
-            </button>
-          </div>
+              <button
+                className={` text-gray-400  text-xl  whitespace-nowrap ${
+                  page == 1 ? "" : "hover:text-black"
+                } `}
+                disabled={page == 1}
+                onClick={() => setPage((page) => Math.max(page - 1, 1))}
+              >
+                <LuArrowLeftSquare />
+              </button>
+              <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+                หน้าที่ {page} / {data?.totalPages || 1}{" "}
+              </span>
+              <button
+                className={`text-gray-400 text-xl whitespace-nowrap ${
+                  Number(data?.totalPages) - Number(page) < 1
+                    ? true
+                    : false
+                    ? ""
+                    : "hover:text-black"
+                }`}
+                disabled={
+                  Number(data?.totalPages) - Number(page) < 1 ? true : false
+                }
+                onClick={() => setPage((page) => page + 1)}
+              >
+                <LuArrowRightSquare />
+              </button>
+            </div>
           </div>
         </div>
       </Card>

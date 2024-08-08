@@ -99,7 +99,7 @@ const AddEditModal: React.FC<AddCustomerModalProps> = ({
         <Button
           size="sm"
           variant="gradient"
-          color="green"
+          color="purple"
           onClick={handleAddCategory}
           className="flex text-base mr-1"
         >

@@ -26,6 +26,10 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineContentPasteSearch,
 } from "react-icons/md";
+
+import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { FaClipboardQuestion } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 
 const MySwal = withReactContent(Swal);
@@ -473,8 +477,8 @@ const HomeWorkPage: React.FC = () => {
         toast.error("Form submission failed!");
       }
     } catch (err) {
-      console.log(err)
-      const error = err as { response: { data: string  } };
+      console.log(err);
+      const error = err as { response: { data: string } };
       toast.error(error?.response?.data);
     }
   };
@@ -656,10 +660,27 @@ const HomeWorkPage: React.FC = () => {
         <div className="w-full lg:w-5/12">
           <div className="flex flex-col gap-3">
             <Card className="flex shadow-none overflow-auto p-3">
-              <div className="flex flex-col gap-3 py-5 w-full justify-center lg:justify-start">
-                <div className="flex w-full flex-col justify-between sm:flex-row gap-3">
-                  <div className="w-full">
-                    <Select
+              <div className="flex flex-col gap-5  w-full justify-center lg:justify-start">
+                <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center justify-center">
+                  <div className="flex items-center gap-3 whitespace-nowrap text-center ">
+                    <div className="text-xl">
+                      <FaClipboardQuestion />
+                    </div>
+                    <Typography className="font-semibold">
+                      {statusEdit === 0 ? "สร้างการบ้านใหม่" : "แก้ไขการบ้าน"}
+                    </Typography>
+                  </div>
+
+                  <div className="w-full ">
+                    <Typography className="font-semibold">
+                      หัวข้อที่ :{" "}
+                      {indexQuestion || dataList?.index.toLocaleString()}
+                    </Typography>
+                  </div>
+                </div>
+                <div className="flex w-full flex-col justify-between sm:flex-row gap-3 ">
+                  <div className="w-full lg:w-6/12 ">
+                    {/* <Select
                       options={products.map((product) => ({
                         value: product.id,
                         label: product.title,
@@ -686,6 +707,7 @@ const HomeWorkPage: React.FC = () => {
                         menu: (provided) => ({
                           ...provided,
                           borderRadius: "8px",
+                          zIndex: 9999, // เพิ่ม zIndex ให้กับเมนู
                         }),
                         menuList: (provided) => ({
                           ...provided,
@@ -704,93 +726,117 @@ const HomeWorkPage: React.FC = () => {
                           borderRadius: state.isFocused ? "8px" : "0px",
                         }),
                       }}
+                    /> */}
+                    <Select
+                      options={products.map((product) => ({
+                        value: product.id,
+                        label: product.title,
+                      }))}
+                      onChange={handleCategoryChange}
+                      value={
+                        products
+                          .map((product) => ({
+                            value: product.id,
+                            label: product.title,
+                          }))
+                          .find(
+                            (option) => option.value === formData.product_id
+                          ) || null
+                      }
+                      placeholder="เลือกคอร์ดเรียน"
+                      isClearable
+                      isDisabled={statusEdit === 1}
+                      menuPortalTarget={document.body} // เพิ่มบรรทัดนี้
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          borderRadius: "8px",
+                        }),
+                        menu: (provided) => ({
+                          ...provided,
+                          borderRadius: "8px",
+                        }),
+                        menuList: (provided) => ({
+                          ...provided,
+                          maxHeight:
+                            window.innerWidth < 1524
+                              ? "150px"
+                              : window.innerWidth < 1650
+                              ? "165px"
+                              : "150px",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          borderRadius: state.isFocused ? "8px" : "0px",
+                        }),
+                        menuPortal: (provided) => ({
+                          ...provided,
+                          zIndex: 9999, // เพิ่ม zIndex ให้กับ menuPortal
+                        }),
+                      }}
+                    />
+                  </div>
+                  <div className="w-full lg:w-6/12">
+                    <Select
+                      options={chapters?.map((chapter) => ({
+                        value: chapter.id,
+                        label: chapter.title,
+                      }))}
+                      onChange={handleChapterChange}
+                      value={
+                        chapters
+                          ?.map((chapter) => ({
+                            value: chapter.id,
+                            label: chapter.title,
+                          }))
+                          .find(
+                            (option) => option.value === state.selectedChapter
+                          ) || null
+                      }
+                      placeholder="เลือกบทที่"
+                      isClearable
+                      isDisabled={statusEdit === 1}
+                      menuPortalTarget={document.body}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          borderRadius: "8px",
+                        }),
+                        menu: (provided) => ({
+                          ...provided,
+                          borderRadius: "8px",
+                        }),
+                        menuList: (provided) => ({
+                          ...provided,
+                          maxHeight:
+                            window.innerWidth < 1524
+                              ? "150px"
+                              : window.innerWidth < 1650
+                              ? "165px"
+                              : "150px",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          borderRadius: state.isFocused ? "8px" : "0px",
+                        }),
+                        menuPortal: (provided) => ({
+                          ...provided,
+                          zIndex: 9999, // เพิ่ม zIndex ให้กับ menuPortal
+                        }),
+                      }}
                     />
                   </div>
                 </div>
-
-                <div>
-                  <Select
-                    options={chapters?.map((chapter) => ({
-                      value: chapter.id,
-                      label: chapter.title,
-                    }))}
-                    onChange={handleChapterChange}
-                    value={
-                      chapters
-                        ?.map((chapter) => ({
-                          value: chapter.id,
-                          label: chapter.title,
-                        }))
-                        .find(
-                          (option) => option.value === state.selectedChapter
-                        ) || null
-                    }
-                    placeholder="เลือกบทที่"
-                    isClearable
-                    isDisabled={statusEdit === 1}
-                    styles={{
-                      control: (provided) => ({
-                        ...provided,
-                        borderRadius: "8px",
-                      }),
-                      menu: (provided) => ({
-                        ...provided,
-                        borderRadius: "8px",
-                      }),
-                      menuList: (provided) => ({
-                        ...provided,
-                        maxHeight:
-                          window.innerWidth < 1524
-                            ? "150px"
-                            : window.innerWidth < 1650
-                            ? "165px"
-                            : "150px",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        borderRadius: state.isFocused ? "8px" : "0px",
-                      }),
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-5 lg:gap-20 items-center justify-center">
-                  <div className=" whitespace-nowrap text-center ">
-                    <Typography
-                      className={`font-semibold ${
-                        statusEdit === 0 ? "text-green-500" : "text-yellow-800"
-                      }`}
-                    >
-                      {statusEdit === 0 ? "โหมดเพิ่มข้อมูล" : "โหมดแก้ไขข้อมูล"}
-                    </Typography>
-                  </div>
-
-                  <div className="w-full sm:w-1/4  ">
-                    <Input
-                      label="หัวข้อที่"
-                      type="text"
-                      crossOrigin="anonymous"
-                      value={indexQuestion || dataList?.index.toLocaleString()}
-                      readOnly
-                    />
-                  </div>
-                </div>
-
-                <div className="w-full gap-3">
-                  <Textarea
-                    label="สร้างคำถาม"
-                    className="h-[110px]"
-                    value={formData.question}
-                    onChange={(e) =>
-                      dispatch({
-                        type: "SET_FORM_DATA",
-                        payload: { question: e.target.value },
-                      })
-                    }
-                  />
-                </div>
+              </div>
+            </Card>
+            <Card className="flex shadow-none overflow-auto p-3 py-5">
+              <div className="flex flex-col gap-5  w-full justify-center lg:justify-start">
                 <div className="w-full gap-3">
                   <Input
                     type="file"
@@ -819,11 +865,24 @@ const HomeWorkPage: React.FC = () => {
                     crossOrigin="anonymous"
                   />
                 </div>
+                <div className="w-full gap-3">
+                  <Textarea
+                    label="สร้างคำถาม"
+                    className="h-[247px]"
+                    value={formData.question}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "SET_FORM_DATA",
+                        payload: { question: e.target.value },
+                      })
+                    }
+                  />
+                </div>
 
                 <div className="w-full flex flex-col sm:flex-row justify-end gap-3">
                   <div className="md:w-[100px]">
                     <Button
-                      color="green"
+                      color="purple"
                       variant="outlined"
                       size="sm"
                       className="w-full"
@@ -834,7 +893,7 @@ const HomeWorkPage: React.FC = () => {
                   </div>
                   <div className="md:w-[100px]">
                     <Button
-                      color="blue"
+                      color="purple"
                       size="sm"
                       className="w-full"
                       onClick={handleSubmit}
@@ -856,6 +915,7 @@ const HomeWorkPage: React.FC = () => {
                     label="ค้นหาคำถาม"
                     crossOrigin="anonymous"
                     disabled={hideSearch}
+                    icon={<FaSearch className=" text-gray-500" />}
                     onChange={(e) =>
                       dispatch({
                         type: "SET_SEARCH_LIST",
@@ -870,12 +930,12 @@ const HomeWorkPage: React.FC = () => {
                 <div className="flex flex-col gap-1 ps-5">
                   <div>
                     <Typography className="font-bold">
-                      คอร์สเรียน: <span>{select1?.label}</span>
+                      คอร์สเรียน : <span>{select1?.label}</span>
                     </Typography>
                   </div>
                   <div>
                     <Typography className="font-bold">
-                      บทเรียน: <span>{select2?.label}</span>
+                      บทเรียน : <span>{select2?.label}</span>
                     </Typography>
                   </div>
                 </div>
@@ -980,27 +1040,20 @@ const HomeWorkPage: React.FC = () => {
                             </td>
                             <td>
                               <div className="flex justify-center mt-2 gap-2">
-                                <IconButton
-                                  size="sm"
-                                  className="text-white max-w-7 max-h-7 bg-blue-700"
+                                <MdOutlineContentPasteSearch
+                                  className="h-5 w-5 text-purple-500 cursor-pointer"
                                   onClick={() => handleModal(item)}
-                                >
-                                  <MdOutlineContentPasteSearch className="h-5 w-5" />
-                                </IconButton>
-                                <IconButton
-                                  size="sm"
-                                  className="text-white max-w-7 max-h-7 bg-yellow-700"
+                                />
+
+                                <MdEdit
+                                  className="h-5 w-5 text-purple-500 cursor-pointer"
                                   onClick={() => handleEdit(item)}
-                                >
-                                  <MdEdit className="h-5 w-5" />
-                                </IconButton>
-                                <IconButton
-                                  size="sm"
-                                  className="bg-red-300 max-w-7 max-h-7"
+                                />
+
+                                <MdDelete
+                                  className="h-5 w-5 text-purple-500 last:cursor-pointer"
                                   onClick={() => handleDelete(item.id)}
-                                >
-                                  <MdDelete className="h-5 w-5" />
-                                </IconButton>
+                                />
                               </div>
                             </td>
                           </tr>
@@ -1009,31 +1062,46 @@ const HomeWorkPage: React.FC = () => {
                     </tbody>
                   </table>
                 </Card>
-                <div className="flex justify-end gap-5 mt-3 px-2 items-center">
-                  <button
-                    className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                    disabled={pageList === 1}
-                    onClick={() =>
-                      dispatch({
-                        type: "SET_PAGE_LIST",
-                        payload: Math.max(pageList - 1, 1),
-                      })
-                    }
-                  >
-                    <MdOutlineKeyboardDoubleArrowLeft />
-                  </button>
-                  <span style={{ whiteSpace: "nowrap" }}>
-                    หน้าที่ {pageList} / {dataList.totalPages || 1}
-                  </span>
-                  <button
-                    className="bg-gray-400 text-white whitespace-nowrap hover:bg-gray-600"
-                    disabled={pageList >= (dataList.totalPages || 1)}
-                    onClick={() =>
-                      dispatch({ type: "SET_PAGE_LIST", payload: pageList + 1 })
-                    }
-                  >
-                    <MdOutlineKeyboardDoubleArrowRight />
-                  </button>
+
+                <div className="flex justify-between gap-2 mt-3 px-2 items-center ">
+                  <Typography className="text-red-800 ">หมายเหตุ</Typography>
+                  <div className="flex items-center gap-2">
+                    <button
+                      className={` text-gray-400  text-xl  whitespace-nowrap ${
+                        page == 1 ? "" : "hover:text-black"
+                      } `}
+                      disabled={pageList === 1}
+                      onClick={() =>
+                        dispatch({
+                          type: "SET_PAGE_LIST",
+                          payload: Math.max(pageList - 1, 1),
+                        })
+                      }
+                    >
+                      <LuArrowLeftSquare />
+                    </button>
+                    <span style={{ whiteSpace: "nowrap" }}>
+                      หน้าที่ {pageList} / {dataList.totalPages || 1}
+                    </span>
+                    <button
+                      className={`text-gray-400 text-xl whitespace-nowrap ${
+                        Number(data?.totalPages) - Number(page) < 1
+                          ? true
+                          : false
+                          ? ""
+                          : "hover:text-black"
+                      }`}
+                      disabled={pageList >= (dataList.totalPages || 1)}
+                      onClick={() =>
+                        dispatch({
+                          type: "SET_PAGE_LIST",
+                          payload: pageList + 1,
+                        })
+                      }
+                    >
+                      <LuArrowRightSquare />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

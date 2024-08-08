@@ -305,7 +305,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                     <td>
                       <div className="flex justify-center gap-2">
                         <MdEdit
-                          className="h-5 w-5 text-purple-500"
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
                           onClick={() => [
                             handleEdit(item),
                             setVideoId(item.id),
@@ -313,7 +313,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                         />
 
                         <MdDelete
-                          className="h-5 w-5 text-purple-500"
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
                           onClick={() => handleDelete(item)}
                         />
                       </div>

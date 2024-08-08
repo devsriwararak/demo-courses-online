@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Card,
@@ -20,7 +20,8 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-import { LuArrowRightSquare } from "react-icons/lu";
+import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { FaAward, FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import AddEditModalReview from "./addEditModalReview";
@@ -66,13 +67,15 @@ const ManageReviews: React.FC = () => {
   const [openModalView, setOpenModalView] = useState(false);
   const [dataView, setDataView] = useState<ReviewFormData | null>(null);
   const [reviewImages, setReviewImages] = useState<ReviewImage[]>([]);
-  const [deletedImages, setDeletedImages] = useState<{id: number, image: string}[]>([]);
+  const [deletedImages, setDeletedImages] = useState<
+    { id: number; image: string }[]
+  >([]);
 
   const fetchReviews = useCallback(async () => {
     const requestData = {
       page,
       search: searchQuery,
-      type: searchType
+      type: searchType,
     };
     try {
       const res = await axios.post(
@@ -82,7 +85,7 @@ const ManageReviews: React.FC = () => {
           ...HeaderAPI(localStorage.getItem("Token")),
         }
       );
-      console.log(res.data)
+      console.log(res.data);
       if (res.status === 200) {
         setData(res.data);
       } else {
@@ -103,18 +106,17 @@ const ManageReviews: React.FC = () => {
     setReviewImages([]);
     setAlbumFiles([]);
     setOpenModalAdd(true);
-    
   };
 
   const openEditModal = async (item: ReviewFormData) => {
     setDataEdit(item);
-    console.log(item)
-    fetchImage(item)
+    console.log(item);
+    fetchImage(item);
     setOpenModalAdd(true);
   };
 
-  const fetchImage = async (item:any) => {
-    console.log(item)
+  const fetchImage = async (item: any) => {
+    console.log(item);
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/reviews/images/${item.id}`,
@@ -134,8 +136,7 @@ const ManageReviews: React.FC = () => {
       console.error(error);
       // toast.error("Error fetching images");
     }
-   
-  }
+  };
 
   const handleModalAdd = () => {
     setOpenModalAdd(!openModalAdd);
@@ -180,14 +181,17 @@ const ManageReviews: React.FC = () => {
       updateData.append("id", dataEdit.id ? dataEdit.id.toString() : "");
       updateData.append("title", formData.title || "");
       updateData.append("dec", formData.dec || "");
-      updateData.append("type", formData.type !== undefined ? formData.type.toString() : "0");
+      updateData.append(
+        "type",
+        formData.type !== undefined ? formData.type.toString() : "0"
+      );
 
-      console.log(dataEdit)
+      console.log(dataEdit);
       if (coverFile) {
         updateData.append("cover", coverFile);
       }
       // updateData.append("cover", coverFile? coverFile : dataEdit?.image_title  );
-      
+
       // for (let i = 0; i < albumFiles.length; i++) {
       //   updateData.append("album", albumFiles[i]);
       // }
@@ -195,7 +199,6 @@ const ManageReviews: React.FC = () => {
       for (let i = 0; i < albumFiles.length; i++) {
         updateData.append("album", albumFiles[i]);
       }
-
 
       if (deletedImages.length > 0) {
         updateData.append("delete_image", JSON.stringify(deletedImages));
@@ -209,11 +212,11 @@ const ManageReviews: React.FC = () => {
           updateData,
           { ...HeaderMultiAPI(localStorage.getItem("Token")) }
         );
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
           fetchReviews();
           toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
-          fetchImage(dataEdit)
+          fetchImage(dataEdit);
           handleModalAdd();
         } else {
           toast.error("เกิดข้อผิดพลาด");
@@ -227,7 +230,10 @@ const ManageReviews: React.FC = () => {
       const data = new FormData();
       data.append("title", formData.title || "");
       data.append("dec", formData.dec || "");
-      data.append("type", formData.type !== undefined ? formData.type.toString() : "0");
+      data.append(
+        "type",
+        formData.type !== undefined ? formData.type.toString() : "0"
+      );
       if (coverFile) {
         data.append("cover", coverFile);
       }
@@ -258,14 +264,21 @@ const ManageReviews: React.FC = () => {
     }
   };
 
-  const handleRemoveImage = (index: number, imageId: number | null, imageName: string | null) => {
+  const handleRemoveImage = (
+    index: number,
+    imageId: number | null,
+    imageName: string | null
+  ) => {
     const updatedImages = reviewImages.filter((_, i) => i !== index);
     setReviewImages(updatedImages);
     const updatedFiles = albumFiles.filter((_, i) => i !== index);
     setAlbumFiles(updatedFiles);
 
     if (imageId !== null && imageName !== null) {
-      setDeletedImages((prevImages) => [...prevImages, { id: imageId, image: imageName }]);
+      setDeletedImages((prevImages) => [
+        ...prevImages,
+        { id: imageId, image: imageName },
+      ]);
     }
   };
 
@@ -328,229 +341,228 @@ const ManageReviews: React.FC = () => {
 
   return (
     <div className="flex justify-center gap-3">
-      <ToastContainer autoClose={2000} theme="colored"  />
+      <ToastContainer autoClose={2000} theme="colored" />
       <Card className="flex w-full px-5 h-[85vh]">
-          <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex items-center gap-2 ">
+              <FaAward className="text-xl" />
+              <Typography className="font-semibold">
+                จัดการข้อมูลผลงาน
+              </Typography>
+            </div>
             <div>
               <Input
                 label="ค้นหาผลงาน"
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
+                icon={<FaSearch className=" text-gray-500" />}
               />
             </div>
             <div>
-            <Select
-              label="ค้นหาประเภท"
-              onChange={(e) => setSearchType(e || "")}
-            >
-              <Option value="">ทั้งหมด</Option>
-              <Option value="1">รีวิว</Option>
-              <Option value="0">สัมมนา</Option>
-            </Select>
+              <Select
+                label="ค้นหาประเภท"
+                onChange={(e) => setSearchType(e || "")}
+              >
+                <Option value="">ทั้งหมด</Option>
+                <Option value="1">รีวิว</Option>
+                <Option value="0">สัมมนา</Option>
+              </Select>
             </div>
             <div>
-            <Button
+              <Button
                 size="sm"
-                className="bg-blue-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={()=> [setSearchQuery("") , setSearchType("")]}
+                className="bg-indigo-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
+                onClick={() => [setSearchQuery(""), setSearchType("")]}
               >
                 รีเซท
               </Button>
             </div>
-
-            </div>
-      
-            <div>
-              <Button
-                size="sm"
-                className="w-full bg-blue-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={openAddModal}
-              >
-                เพิ่มข้อมูล
-              </Button>
-            </div>
           </div>
-          <div className="overflow-auto lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
-              <table className="w-full min-w-max">
-                <thead>
+          <div>
+            <Button
+              size="sm"
+              className="w-full bg-indigo-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+              onClick={openAddModal}
+            >
+              เพิ่มข้อมูล
+            </Button>
+          </div>
+        </div>
+        <div className="overflow-auto lg:h-[100%]">
+          <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
+            <table className="w-full min-w-max">
+              <thead>
+                <tr>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ปก
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ประเภท
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ชื่อ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      รายละเอียด
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      แก้ไข/ลบ
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.data?.length === 0 ? (
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ลำดับ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ปก
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ประเภท
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ชื่อ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        รายละเอียด
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        แก้ไข/ลบ
-                      </Typography>
-                    </th>
+                    <td colSpan={6} className="text-center pt-5">
+                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {data?.data?.length === 0 ? (
-                    <tr>
-                      <td colSpan={6} className="text-center pt-5">
-                        <Typography>...ไม่พบข้อมูล...</Typography>
+                ) : (
+                  data?.data?.map((item, index) => (
+                    <tr key={item.id} style={{ marginTop: "3px" }}>
+                      <td className="py-2">
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {index + 1}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className="py-2 flex justify-center">
+                        <div className="flex w-8 h-8 justify-stretch">
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                            alt=""
+                            width={40}
+                            height={40}
+                            className="rounded-md"
+                          />
+                        </div>
+                      </td>
+                      <td className="py-2">
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item?.type === 0 ? "สัมมนา" : "รีวิว"}{" "}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item?.title}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item?.dec}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center gap-2">
+                          <MdEdit
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
+                            onClick={() => openEditModal(item)}
+                          />
+
+                          <MdDelete
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
+                            onClick={() => handleDelete(item)}
+                          />
+                        </div>
                       </td>
                     </tr>
-                  ) : (
-                    data?.data?.map((item, index) => (
-                      <tr key={item.id} style={{ marginTop: "3px" }}>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {index + 1}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className="py-2 flex justify-center">
-                          <div className="flex w-8 h-8 justify-stretch">
-                            <Image
-                              src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
-                              alt=""
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                          </div>
-                        </td>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.type === 0 ? "สัมมนา" : "รีวิว"}{" "}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.title}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.dec}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex justify-center gap-2">
-                            <IconButton
-                              size="sm"
-                              className="text-white max-w-7 max-h-7 bg-yellow-700"
-                              onClick={() => openEditModal(item)}
-                            >
-                              <MdEdit className="h-5 w-5" />
-                            </IconButton>
-                            <IconButton
-                              size="sm"
-                              className="bg-red-300 max-w-7 max-h-7"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <MdDelete className="h-5 w-5" />
-                            </IconButton>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </Card>
-            <div className="flex justify-end gap-2 mt-3 px-2 items-center">
-              <button
-                className={`text-gray-400 text-xl whitespace-nowrap ${
-                  page == 1 ? "" : "hover:text-black"
-                }`}
-                disabled={page == 1}
-                onClick={() => setPage((page) => Math.max(page - 1, 1))}
-              >
-                <MdOutlineKeyboardDoubleArrowLeft />
-              </button>
-              <span style={{ whiteSpace: "nowrap" }} className="text-xs">
-                หน้าที่ {page} / {data?.totalPages || 1}{" "}
-              </span>
-              <button
-                className={`text-gray-400 text-xl whitespace-nowrap ${
-                  Number(data?.totalPages) - Number(page) < 1
-                    ? true
-                    : false
-                    ? ""
-                    : "hover:text-black"
-                }`}
-                disabled={Number(data?.totalPages) - Number(page) < 1}
-                onClick={() => setPage((page) => page + 1)}
-              >
-                <MdOutlineKeyboardDoubleArrowRight />
-              </button>
-            </div>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </Card>
+          <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+            <button
+              className={`text-gray-400 text-xl whitespace-nowrap ${
+                page == 1 ? "" : "hover:text-black"
+              }`}
+              disabled={page == 1}
+              onClick={() => setPage((page) => Math.max(page - 1, 1))}
+            >
+              <LuArrowLeftSquare />
+            </button>
+            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+              หน้าที่ {page} / {data?.totalPages || 1}{" "}
+            </span>
+            <button
+              className={`text-gray-400 text-xl whitespace-nowrap ${
+                Number(data?.totalPages) - Number(page) < 1
+                  ? true
+                  : false
+                  ? ""
+                  : "hover:text-black"
+              }`}
+              disabled={Number(data?.totalPages) - Number(page) < 1}
+              onClick={() => setPage((page) => page + 1)}
+            >
+              <LuArrowRightSquare />
+            </button>
           </div>
-       
+        </div>
       </Card>
 
       <AddEditModalReview

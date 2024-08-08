@@ -17,7 +17,10 @@ import {
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import { FaRegSave } from "react-icons/fa";
+
+import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
+import { FaRegSave, FaSearch } from "react-icons/fa";
+import { VscNotebook } from "react-icons/vsc";
 import Swal from "sweetalert2";
 import Image from "next/image";
 
@@ -94,6 +97,7 @@ const ManageEbook: React.FC = () => {
   }, [dataEdit]);
 
   const resetFormData = () => {
+    setDataEdit(null)
     setFormData({
       id: 0,
       title: "",
@@ -247,7 +251,11 @@ const ManageEbook: React.FC = () => {
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="w-full lg:w-4/12">
         <Card className="flex gap-5 w-full px-5 pt-3 h-[85vh]">
-          <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 ">
+            <VscNotebook className="text-xl"/>
+            <Typography className="font-semibold">จัดการข้อมูล Ebook</Typography>
+          </div>
+          <div className="flex flex-col gap-5">
             <Input
               name="title"
               value={formData.title}
@@ -282,7 +290,7 @@ const ManageEbook: React.FC = () => {
             <Button
               size="sm"
               variant="outlined"
-              color="blue-gray"
+              color="purple"
               onClick={resetFormData}
               className="flex text-base mr-1"
             >
@@ -292,7 +300,7 @@ const ManageEbook: React.FC = () => {
             <Button
               size="sm"
               variant="gradient"
-              color="green"
+              color="purple"
               onClick={dataEdit ? handleEditEbook : handleAddEbook}
               className="flex text-base mr-1"
             >
@@ -314,6 +322,7 @@ const ManageEbook: React.FC = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onClick={() => setPage(1)}
                   crossOrigin
+                  icon={<FaSearch className=" text-gray-500" />}
                 />
               </div>
             </div>
@@ -407,7 +416,7 @@ const ManageEbook: React.FC = () => {
                               alt=""
                               width={40}
                               height={40}
-                              className="rounded-full"
+                              className="rounded-md"
                             />
                           </div>
                         </td>
@@ -453,20 +462,14 @@ const ManageEbook: React.FC = () => {
                         </td>
                         <td>
                           <div className="flex justify-center gap-2">
-                            <IconButton
-                              size="sm"
-                              className="text-white max-w-7 max-h-7 bg-yellow-700"
+                            <MdEdit
+                              className="h-5 w-5 text-purple-500 cursor-pointer"
                               onClick={() => setDataEdit(item)}
-                            >
-                              <MdEdit className="h-5 w-5" />
-                            </IconButton>
-                            <IconButton
-                              size="sm"
-                              className="bg-red-300 max-w-7 max-h-7"
+                            />
+                            <MdDelete
+                              className="h-5 w-5 text-purple-500 cursor-pointer"
                               onClick={() => handleDelete(item)}
-                            >
-                              <MdDelete className="h-5 w-5" />
-                            </IconButton>
+                            />
                           </div>
                         </td>
                       </tr>
@@ -483,7 +486,7 @@ const ManageEbook: React.FC = () => {
                 disabled={page == 1}
                 onClick={() => setPage((page) => Math.max(page - 1, 1))}
               >
-                <MdOutlineKeyboardDoubleArrowLeft />
+                <LuArrowLeftSquare />
               </button>
               <span style={{ whiteSpace: "nowrap" }} className="text-xs">
                 หน้าที่ {page} / {data?.totalPages || 1}{" "}
@@ -499,7 +502,7 @@ const ManageEbook: React.FC = () => {
                 disabled={Number(data?.totalPages) - Number(page) < 1}
                 onClick={() => setPage((page) => page + 1)}
               >
-                <MdOutlineKeyboardDoubleArrowRight />
+                <LuArrowRightSquare />
               </button>
             </div>
           </div>

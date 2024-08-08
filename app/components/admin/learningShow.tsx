@@ -16,8 +16,6 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
 import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
@@ -327,12 +325,12 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       </div> */}
                       <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
                         <MdEdit
-                          className="h-5 w-5 text-purple-500"
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
                           onClick={() => [onEdit(item)]}
                         />
 
                         <MdDelete
-                          className="h-5 w-5 text-purple-500"
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
                           onClick={() => {
                             handleDelete(item);
                           }}
