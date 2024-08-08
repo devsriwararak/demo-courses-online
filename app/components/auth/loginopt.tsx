@@ -222,9 +222,9 @@ const LoginOTPPage: React.FC = () => {
                     <div className="w-full ">
                       <p
                         className=" text-right text-purple-300 hover:bg-purple-50 px-2  py-1 cursor-pointer "
-                        onClick={() => router.push("/loginopt")}
+                        onClick={() => router.push("/login")}
                       >
-                        เข้าสู่ระบบ OTP
+                        เข้าสู่ระบบ user/password
                       </p>
                     </div>
 
@@ -235,11 +235,6 @@ const LoginOTPPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-end px-1"></div>
-                  <div className="flex justify-end px-1 mt-2">
-                    <div className="mt-3 underline cursor-pointer">
-                      <Typography className="text-xs">ลืมรหัสผ่าน</Typography>
-                    </div>
-                  </div>
                 </div>
               </div>
             </form>

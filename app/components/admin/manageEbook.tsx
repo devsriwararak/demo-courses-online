@@ -250,7 +250,7 @@ const ManageEbook: React.FC = () => {
     <div className="flex flex-col lg:flex-row justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="w-full lg:w-4/12">
-        <Card className="flex gap-5 w-full px-5 pt-3 h-[85vh]">
+        <Card className="flex gap-5 w-full px-5  py-5">
           <div className="flex items-center gap-2 ">
             <VscNotebook className="text-xl"/>
             <Typography className="font-semibold">จัดการข้อมูล Ebook</Typography>
@@ -292,9 +292,8 @@ const ManageEbook: React.FC = () => {
               variant="outlined"
               color="purple"
               onClick={resetFormData}
-              className="flex text-base mr-1"
+              className="flex text-sm mr-1"
             >
-              <span className="mr-2 text-xl">{/* <MdDelete /> */}</span>
               เคลียร์ค่า
             </Button>
             <Button
@@ -302,11 +301,8 @@ const ManageEbook: React.FC = () => {
               variant="gradient"
               color="purple"
               onClick={dataEdit ? handleEditEbook : handleAddEbook}
-              className="flex text-base mr-1"
+              className="flex text-sm mr-1"
             >
-              <span className="mr-2 text-xl">
-                <FaRegSave />
-              </span>
               {dataEdit ? "บันทึกการแก้ไข" : "บันทึก"}
             </Button>
           </div>
@@ -328,7 +324,8 @@ const ManageEbook: React.FC = () => {
             </div>
           </div>
           <div className="overflow-auto lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
+            <Card className="mt-5  overflow-auto mb-3 border-2">
+            {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
               <table className="w-full min-w-max">
                 <thead>
                   <tr>

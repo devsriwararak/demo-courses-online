@@ -136,7 +136,7 @@ const Register = () => {
                           "linear-gradient(75deg, #6d28d9, #7c3aed, #8b5cf6)",
                       }}
                     >
-                      เข้าสู่ระบบ
+                      ลงทะเบียน
                     </Button>
                     <Button
                       variant="outlined"
@@ -153,12 +153,12 @@ const Register = () => {
                       onClick={() => router.push("/login")}
                     >
                       <Typography  className="text-purple-500 font-semibold text-xs">
-                        เข้าสู่ระบบ
+                        กลับไปหน้า login
                       </Typography>
                     </div>
-                    <div className="mt-3 underline justify-end cursor-pointer">
+                    {/* <div className="mt-3 underline justify-end cursor-pointer">
                       <Typography className='text-xs'>ลืมรหัสผ่าน</Typography>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
