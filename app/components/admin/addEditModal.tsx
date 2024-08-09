@@ -59,8 +59,8 @@ const AddEditModal: React.FC<AddCustomerModalProps> = ({
           label={field}
           name={field.toLowerCase()}
           maxLength={50}
-          color="blue-gray"
-          style={{ backgroundColor: "#F4F4F4" }}
+          color="deep-purple"
+          style={{ backgroundColor: "#f4f2ff" }}
           crossOrigin="anonymous"
           value={
             formData[field.toLowerCase() as "username" | "password" | "name"]
@@ -73,7 +73,10 @@ const AddEditModal: React.FC<AddCustomerModalProps> = ({
 
   return (
     <Dialog open={open} size="xs" handler={handleModalAdd}>
-      <DialogHeader className="bg-blue-700 py-3 px-3 justify-center text-lg text-white opacity-80">
+      <DialogHeader
+        className="py-3 px-3 justify-center text-lg  opacity-80"
+        style={{ backgroundColor: "#f4f2ff" }}
+      >
         <Typography variant="h5">
           {dataEdit ? "แก้ไขข้อมูล" : "เพิ่มข้อมูล"}
         </Typography>
@@ -89,23 +92,19 @@ const AddEditModal: React.FC<AddCustomerModalProps> = ({
           color="red"
           size="sm"
           onClick={handleModalAdd}
-          className="flex mr-1 text-base"
+          className="flex mr-1 text-sm"
         >
-          <span className="text-xl mr-2">
+          <span  className="text-lg mr-2">
             <AiOutlineStop />
           </span>
           ยกเลิก
         </Button>
         <Button
           size="sm"
-          variant="gradient"
-          color="purple"
           onClick={handleAddCategory}
-          className="flex text-base mr-1"
+          className="text-sm md:w-[100px]"
+          style={{ backgroundColor: "#8d80d0" }}
         >
-          <span className="mr-2 text-xl">
-            <FaRegSave />
-          </span>
           บันทึก
         </Button>
       </DialogFooter>

@@ -12,8 +12,8 @@ import {
   FaDollarSign,
   FaMoneyBillWave,
   FaThumbsUp,
-  FaCashRegister ,
-  FaChalkboardTeacher 
+  FaCashRegister,
+  FaChalkboardTeacher,
 } from "react-icons/fa";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import { IoAccessibility } from "react-icons/io5";
@@ -66,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         return [
           {
             text: "หมวดหมู่",
-            icon: <FaChalkboardTeacher  />,
+            icon: <FaChalkboardTeacher />,
             path: "/admin",
             hasDivider: false,
           },
@@ -125,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           },
           {
             text: "รายงาน",
-            icon: <FaCashRegister  />,
+            icon: <FaCashRegister />,
             hasDivider: open["รายงาน"] ? false : true,
             subItems: [
               {
@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           },
           {
             text: "จัดการคอร์สเรียน",
-            icon: <FaChalkboardTeacher  />,
+            icon: <FaChalkboardTeacher />,
             path: "/admin",
             hasDivider: false,
           },
@@ -211,42 +211,60 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
 
   return (
     <div
-      className={`h-full flex flex-col bg-indigo-400 ${
+      className={`h-full flex flex-col bg-white ${
         loginStatus === "1" ? " w-[200px]" : " w-[210px]"
       }`}
     >
-      <div className="flex pt-1 items-center justify-center h-[52px] bg-indigo-400 text-white">
+      <div className="flex pt-1 items-center justify-center h-[52px]  ">
         <Typography className="text-lg">ระบบคอร์สเรียน</Typography>
         {/* <Typography className="">หลังบ้าน</Typography> */}
       </div>
-      <div className="flex-1 mt-5 overflow-y-auto">
+      <div className="flex-1 mt-5 px-2 overflow-y-auto">
         {menuItems.map((item, index) => {
           const isActive = activePath === item.path;
           return (
             <div key={index}>
               <div
-                className={`flex items-center px-2  py-3 cursor-pointer text-sm text-gray-300   ${
-                  isActive ? "bg-indigo-300  border-l-4 border-white  text-white   " : ""
+                className={`flex items-center   py-1 cursor-pointer text-sm    ${
+                  isActive
+                    ? "  bg-opacity-70 rounded-lg py-1 border-white  text-white   "
+                    : ""
                 }`}
+                // style={isActive ? { backgroundColor: "#8d80d0" } : {}}
                 onClick={() =>
                   item.path
                     ? handleNavigation(item.path)
                     : toggleSubMenu(item.text)
                 }
               >
-                <div className={`mr-2 text-white ${isActive ? "text-xl" : ""}`}>
-                  {item.icon}
+                <div
+                  className="flex w-full p-2 rounded-lg "
+                  style={isActive ? { backgroundColor: "#8d80d0" } : {}}
+                >
+                  <div
+                    className={`mr-2 text-lg text-gray-800 ${
+                      isActive ? "text-xl text-white" : ""
+                    }`}
+                  >
+                    {item.icon}
+                  </div>
+                  <div
+                    className={`flex-1 text-gray-600  text-nowrap ${
+                      isActive ? " text-white" : ""
+                    } `}
+                  >
+                    {item.text}
+                  </div>
                 </div>
-                <div className="flex-1   text-nowrap ">{item.text}</div>
 
                 {item.subItems && (
-                  <div className="text-white">
+                  <div className="text-[#a8a4bc]">
                     {open[item.text] ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
                 )}
               </div>
               {item.hasDivider && (
-                <div className=" bg-gray-500  h-[2px] mx-3 mt-1 mb-1  ">.</div>
+                <div className=" bg-[#f4f2ff]  h-[1px] mx-3 mt-1 mb-1  ">.</div>
               )}
               {item.subItems && open[item.text] && (
                 <div>
@@ -255,25 +273,34 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     return (
                       <div key={subIndex}>
                         <div
-                          className={`flex items-center  px-2  py-2 cursor-pointer pl-8 text-sm  text-gray-300 ${
+                          className={`flex items-center text-gray-600 py-1  cursor-pointer  text-sm   ${
                             isSubItemActive
-                              ? "bg-indigo-300  border-l-4 border-white  text-white  "
+                              ? "text-white  border-white rounded-lg    "
                               : ""
                           }`}
                           onClick={() => handleNavigation(subItem.path)}
                         >
                           <div
-                            className={`mr-2 ${
-                              isSubItemActive ? "text-xl" : ""
-                            }`}
+                          className="flex w-full p-1.5 pl-4 rounded-lg "
+                            style={
+                              isSubItemActive
+                                ? { backgroundColor: "#8d80d0" }
+                                : {}
+                            }
                           >
-                            {subItem?.icon}
+                            <div
+                              className={`mr-2  ${
+                                isSubItemActive ? "text-xl " : ""
+                              }`}
+                            >
+                              {/* {subItem?.icon} */}
+                            </div>
+                            {subItem.text}
                           </div>
-                          {subItem.text}
                         </div>
                         <div>
                           {subItem.hasDivider && (
-                            <div className=" bg-gray-500   h-[2px] mx-3 mt-1 mb-1 ">
+                            <div className=" bg-[#f4f2ff]  h-[2px] mx-3 mt-1 mb-1 ">
                               .
                             </div>
                           )}

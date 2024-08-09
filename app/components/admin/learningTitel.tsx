@@ -12,14 +12,13 @@ import {
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
+import Swal from "sweetalert2";
+
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { GrUploadOption } from "react-icons/gr";
 
-import { FaSearch } from "react-icons/fa";
 
 interface LearningTitleProps {
   courseSelect: number | undefined;
@@ -166,23 +165,86 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
     editingId,
   ]);
 
+  // const handleDelete = async (item: any) => {
+  //   try {
+  //     const res = await axios.delete(
+  //       `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
+  //       { ...HeaderAPI(localStorage.getItem("Token")) }
+  //     );
+  //     if (res.status === 200) {
+  //       toast.success(res.data.message);
+  //       setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
+  //       fetchTitle(courseSelect);
+  //     } else {
+  //       toast.error("Delete failed");
+  //     }
+  //   } catch (err) {
+  //     const error = err as { response: { data: { message: string } } };
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
+
   const handleDelete = async (item: any) => {
-    try {
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
-      );
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
-        fetchTitle(courseSelect);
-      } else {
-        toast.error("Delete failed");
+    Swal.fire({
+      title: "คุณแน่ใจหรือไม่ ?",
+      text: "คุณจะไม่สามารถย้อนกลับได้!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#8d80d0",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ใช่, ลบเลย!",
+      cancelButtonText: "ยกเลิก",
+      background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+      width: "350px", // ปรับขนาดความกว้าง
+      padding: "1em", // ปรับขนาดความสูง
+      backdrop: `
+        rgba(0,0,0,0.4)
+        url("/images/nyan-cat.gif")
+        left top
+        no-repeat
+      `, // ปรับแต่ง backdrop
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(
+            `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("Token")}`,
+              },
+            }
+          );
+          if (res.status === 200) {
+            setPageTitle(1); // ตั้งหน้าเป็นหน้า 1 เสมอ
+            fetchTitle(courseSelect);
+            clearForm()
+            Swal.fire({
+              // title: "ลบแล้ว !",
+              text: "ข้อมูลของคุณถูกลบแล้ว.",
+              icon: "success",
+              width: "400px", // ปรับขนาดความกว้าง
+              background: "#f9f9f9", // สีพื้นหลังของกรอบข้อความ
+              timer: 1000, // กำหนดเวลาให้ปิดเอง (2000 มิลลิวินาที = 2 วินาที)
+              timerProgressBar: true, // แสดงแถบความคืบหน้า
+              // willClose: () => {
+              //   console.log("Alert is closed"); // คุณสามารถเพิ่มการทำงานเพิ่มเติมได้ที่นี่
+              // },
+              backdrop: `
+              rgba(0,0,0,0.4)
+              url("/images/nyan-cat.gif")
+              left top
+              no-repeat
+            `, // ปรับแต่ง backdrop
+            });
+          } else {
+            toast.error("เกิดข้อผิดพลาด");
+          }
+        } catch (err) {
+          const error = err as { response: { data: { message: string } } };
+          toast.error(error.response.data.message);
+        }
       }
-    } catch (err) {
-      const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
-    }
+    });
   };
 
   const handleEdit = (item: any) => {
@@ -199,6 +261,14 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
     setTitleId(item.id);
   };
 
+  const clearForm = () => {
+    setEditingId(null)
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      lesson: "", // เคลียร์ค่า lesson หลังจากส่งข้อมูลสำเร็จ
+    }));
+  }
+
   return (
     <div className="flex w-full   gap-3 shadow-lg">
       <div className="w-full overflow-auto  ">
@@ -208,27 +278,29 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               label="สร้างบทเรียน"
               crossOrigin="anonymous"
               value={formData.lesson}
+               color="deep-purple"
               onChange={(e) =>
                 setFormData((prevFormData) => ({
                   ...prevFormData,
                   lesson: e.target.value,
                 }))
               }
+              style={{backgroundColor:"#f4f2ff"}}
             />
             <div className="md:w-[100px]">
               <Button
                 size="sm"
                 disabled={!!!courseSelect}
-                color="purple"
-                className="w-full text-sm"
+                className="w-full text-sm rounded-lg"
                 onClick={handleAddOrEditTitle}
+                style={{backgroundColor:"#8d80d0"}}
               >
                 {editingId ? "อัปเดต" : "บันทึก"}
               </Button>
             </div>
           </div>
           <div>
-            <table className="w-full  mt-5  ">
+            <table className="w-full  mt-5  overflow-auto ">
               <thead>
                 <tr>
                   <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
@@ -306,7 +378,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                       </td>
                       <td>
                         <div className="flex  justify-end pr-5  ">
-                            <GrUploadOption className="h-5 w-5 text-green-500" onClick={() => handleUpload(item)} />
+                            <GrUploadOption className="h-5 w-5 text-green-500" onClick={() => [handleUpload(item) , clearForm()] }/>
                         </div>
                       </td>
                       <td>
@@ -328,9 +400,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               </tbody>
             </table>
           </div>
-          <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+          <div className="flex justify-end gap-2 mt-5 px-2 items-center">
             <button
-              className={` text-gray-400  text-xl  whitespace-nowrap ${
+              className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
                 pageTitle == 1 ? "" : "hover:text-black"
               } `}
               disabled={pageTitle == 1}
@@ -338,13 +410,13 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                 setPageTitle((pageTitle) => Math.max(pageTitle - 1, 1))
               }
             >
-              <LuArrowLeftSquare />
+              <IoIosArrowBack />
             </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
               หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
                 Number(dataTitle?.totalPages) - Number(pageTitle) < 1
                   ? true
                   : false
@@ -358,7 +430,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               }
               onClick={() => setPageTitle((pageTitle) => pageTitle + 1)}
             >
-              <LuArrowRightSquare />
+              <IoIosArrowForward />
             </button>
           </div>
         </Card>

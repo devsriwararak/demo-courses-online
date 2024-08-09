@@ -15,14 +15,9 @@ import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 
 const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
-import {
-  MdDelete,
-  MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-} from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 
-import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 interface Course {
   id: number;
@@ -132,6 +127,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       if (res.status === 200) {
         toast.success(res.data.message);
         fetchVideo();
+        setStatusEdit(0)
         resetForm();
       } else {
         toast.error("Form submission failed!");
@@ -170,7 +166,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -195,6 +191,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           // console.log(res);
           if (res.status === 200) {
             fetchVideo();
+            setStatusEdit(0)
             Swal.fire({
               // title: "ลบแล้ว !",
               text: "ข้อมูลของคุณถูกลบแล้ว.",
@@ -225,7 +222,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
 
   return (
     <div>
-      <Card className="flex p-5  overflow-auto">
+      <Card className="flex px-5 py-3 mb-2  overflow-auto">
         <form
           className="flex flex-col w-full  gap-4"
           onSubmit={handleFormSubmit}
@@ -236,21 +233,23 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                 label="Upload VDO"
                 type="file"
                 accept="video/*"
+                color="deep-purple"
                 id="videoInput"
                 onChange={handleVideoUpload}
                 crossOrigin="anonymous"
+                style={{ backgroundColor: "#f4f2ff" }}
               />
             </div>
             <div>
               <div className="md:w-[100px]">
                 <Button
-                  color="purple"
                   size="sm"
-                  className="w-full text-sm"
+                  className="w-full text-sm rounded-lg"
                   type="submit"
                   disabled={!!!titleId}
+                  style={{ backgroundColor: "#8d80d0" }}
                 >
-                  บันทึก
+                  {statusEdit == 1 ? "อัปเดต" : "บันทึก"}
                 </Button>
               </div>
             </div>
@@ -258,14 +257,14 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           <div></div>
         </form>
         <div>
-          <table className="w-full   ">
+          <table className="w-full  overflow-auto  ">
             <thead>
               <tr>
-                <th className="border-y flex justify-between px-5 border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                <th className="border-y  px-5 border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-bold leading-none opacity-70"
+                    className="font-bold leading-none opacity-70 text-start"
                   >
                     บทเรียน
                   </Typography>
@@ -324,9 +323,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+        <div className="flex justify-end gap-2 mt-5 px-2 items-center">
           <button
-            className={` text-gray-400  text-xl  whitespace-nowrap ${
+            className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
               pageVideo == 1 ? "" : "hover:text-black"
             } `}
             disabled={pageVideo == 1}
@@ -334,13 +333,13 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
               setPageVideo((pageVideo) => Math.max(pageVideo - 1, 1))
             }
           >
-            <LuArrowLeftSquare />
+            <IoIosArrowBack />
           </button>
-          <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+          <span style={{ whiteSpace: "nowrap" }} className="text-sm">
             หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-xl whitespace-nowrap ${
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
               Number(dataVideo?.totalPages) - Number(pageVideo) < 1
                 ? true
                 : false
@@ -354,7 +353,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             }
             onClick={() => setPageVideo((pageVideo) => pageVideo + 1)}
           >
-            <LuArrowRightSquare />
+            <IoIosArrowForward />
           </button>
         </div>
       </Card>

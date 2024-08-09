@@ -16,11 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { FaAward, FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
@@ -288,7 +286,7 @@ const ManageReviews: React.FC = () => {
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -357,23 +355,28 @@ const ManageReviews: React.FC = () => {
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
+                color="deep-purple"
+                style={{ backgroundColor: "#f4f2ff" }}
                 icon={<FaSearch className=" text-gray-500" />}
               />
             </div>
             <div>
               <Select
+                color="deep-purple"
+                style={{ backgroundColor: "#f4f2ff" }}
                 label="ค้นหาประเภท"
                 onChange={(e) => setSearchType(e || "")}
               >
-                <Option value="">ทั้งหมด</Option>
-                <Option value="1">รีวิว</Option>
-                <Option value="0">สัมมนา</Option>
+                <Option value="" className="custom-option">ทั้งหมด</Option>
+                <Option value="1"className="custom-option">รีวิว</Option>
+                <Option value="0"className="custom-option">สัมมนา</Option>
               </Select>
             </div>
             <div>
               <Button
                 size="sm"
-                className="bg-indigo-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
+                className="text-sm  rounded-lg md:w-[100px]"
+                style={{ backgroundColor: "#8d80d0" }}
                 onClick={() => [setSearchQuery(""), setSearchType("")]}
               >
                 รีเซท
@@ -383,173 +386,173 @@ const ManageReviews: React.FC = () => {
           <div>
             <Button
               size="sm"
-              className="w-full bg-indigo-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+              className="text-sm  rounded-lg md:w-[100px]"
+              style={{ backgroundColor: "#8d80d0" }}
               onClick={openAddModal}
             >
               เพิ่มข้อมูล
             </Button>
           </div>
         </div>
-        <div className="overflow-auto lg:h-[100%]">
-          <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
-            <table className="w-full min-w-max">
-              <thead>
+        <div className="overflow-auto">
+          <table className="w-full min-w-max mt-5 overflow-auto">
+            <thead>
+              <tr>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ลำดับ
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ปก
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ประเภท
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ชื่อ
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    รายละเอียด
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    แก้ไข/ลบ
+                  </Typography>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.data?.length === 0 ? (
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ลำดับ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ปก
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ประเภท
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ชื่อ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      รายละเอียด
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      แก้ไข/ลบ
-                    </Typography>
-                  </th>
+                  <td colSpan={6} className="text-center pt-5">
+                    <Typography>...ไม่พบข้อมูล...</Typography>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {data?.data?.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="text-center pt-5">
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+              ) : (
+                data?.data?.map((item, index) => (
+                  <tr key={item.id} style={{ marginTop: "3px" }}>
+                    <td className="py-2">
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {index + 1}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-2 flex justify-center">
+                      <div className="flex w-8 h-8 justify-stretch">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                          alt=""
+                          width={40}
+                          height={40}
+                          className="rounded-md"
+                        />
+                      </div>
+                    </td>
+                    <td className="py-2">
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item?.type === 0 ? "สัมมนา" : "รีวิว"}{" "}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item?.title}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item?.dec}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex justify-center gap-2">
+                        <MdEdit
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
+                          onClick={() => openEditModal(item)}
+                        />
+
+                        <MdDelete
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
+                          onClick={() => handleDelete(item)}
+                        />
+                      </div>
                     </td>
                   </tr>
-                ) : (
-                  data?.data?.map((item, index) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}>
-                      <td className="py-2">
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {index + 1}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className="py-2 flex justify-center">
-                        <div className="flex w-8 h-8 justify-stretch">
-                          <Image
-                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
-                            alt=""
-                            width={40}
-                            height={40}
-                            className="rounded-md"
-                          />
-                        </div>
-                      </td>
-                      <td className="py-2">
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {item?.type === 0 ? "สัมมนา" : "รีวิว"}{" "}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {item?.title}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {item?.dec}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex justify-center gap-2">
-                          <MdEdit
-                            className="h-5 w-5 text-purple-500 cursor-pointer"
-                            onClick={() => openEditModal(item)}
-                          />
+                ))
+              )}
+            </tbody>
+          </table>
 
-                          <MdDelete
-                            className="h-5 w-5 text-purple-500 cursor-pointer"
-                            onClick={() => handleDelete(item)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </Card>
-          <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+          <div className="flex justify-end gap-2 mt-5 px-2 items-center">
             <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
                 page == 1 ? "" : "hover:text-black"
               }`}
               disabled={page == 1}
               onClick={() => setPage((page) => Math.max(page - 1, 1))}
             >
-              <LuArrowLeftSquare />
+              <IoIosArrowBack />
             </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
               หน้าที่ {page} / {data?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
                 Number(data?.totalPages) - Number(page) < 1
                   ? true
                   : false
@@ -559,7 +562,7 @@ const ManageReviews: React.FC = () => {
               disabled={Number(data?.totalPages) - Number(page) < 1}
               onClick={() => setPage((page) => page + 1)}
             >
-              <LuArrowRightSquare />
+              <IoIosArrowForward />
             </button>
           </div>
         </div>

@@ -100,3 +100,18 @@ h4 {
   overflow: hidden; /* ซ่อนข้อความที่เกินความสูง */
 }
 
+.custom-toolbar {
+  /* background-color: #f4f2ff !important;  */
+  border-radius: 8px !important;
+  border: 2px solid #e0e0e0 !important;
+}
+
+.custom-option:hover {
+  background-color: #f4f2ff !important; /* สีม่วงที่ต้องการเมื่อ hover */
+  color: white; /* สีของข้อความเมื่อ hover */
+}
+.custom-option[data-selected="true"] {
+  background-color: #8d80d0 !important; /* สีม่วงที่ต้องการสำหรับตัวเลือกที่ถูกเลือก */
+  color: white !important; /* สีของข้อความสำหรับตัวเลือกที่ถูกเลือก */
+}
+

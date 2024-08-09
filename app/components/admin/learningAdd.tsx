@@ -43,7 +43,9 @@ const LearningADD: React.FC<LearningADDProps> = ({
   statusEdit,
   setLearningAdd,
 }) => {
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<EditorState>(
+    EditorState.createEmpty()
+  );
 
   const handleCategoryChange = (selectedOption: any) => {
     setFormData((prevFormData) => ({
@@ -88,8 +90,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
 
   return (
     <div>
-      <Card className="flex xl:h-[85vh] overflow-auto">
-
+      <Card className="flex overflow-auto">
         <form
           className="flex flex-col w-full px-5 mt-5 gap-4"
           onSubmit={handleSubmit}
@@ -98,6 +99,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             <Input
               label="สร้างคอร์สเรียน"
               crossOrigin="anonymous"
+              color="deep-purple"
               value={formData.title}
               onChange={(e) =>
                 setFormData((prevFormData) => ({
@@ -105,6 +107,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   title: e.target.value,
                 }))
               }
+              style={{ backgroundColor: "#f4f2ff" }}
             />
           </div>
           <div className="flex flex-col gap-2 xl:flex-row md:justify-between">
@@ -114,6 +117,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="number"
                 min={0}
                 crossOrigin="anonymous"
+                color="deep-purple"
                 value={formData?.regularPrice?.toString()}
                 onChange={(e) =>
                   setFormData((prevFormData) => ({
@@ -121,6 +125,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     regularPrice: parseFloat(e.target.value),
                   }))
                 }
+                style={{ backgroundColor: "#f4f2ff" }}
               />
             </div>
             <div className="w-full xl:w-3/12">
@@ -128,6 +133,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 label="ราคาลดแล้ว"
                 type="number"
                 min={0}
+                color="deep-purple"
                 crossOrigin="anonymous"
                 value={formData.discountPrice?.toString()}
                 onChange={(e) =>
@@ -136,6 +142,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     discountPrice: parseFloat(e.target.value),
                   }))
                 }
+                style={{ backgroundColor: "#f4f2ff" }}
               />
             </div>
             <div className="w-full xl:w-3/12 flex  justify-center">
@@ -156,11 +163,24 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 }
                 placeholder="เลือกหมวดหมู่"
                 isClearable
-                className="z-20 w-full "
+                className="z-20 w-full"
                 styles={{
-                  control: (provided) => ({
+                  control: (provided, state) => ({
                     ...provided,
                     borderRadius: "8px", // ปรับความมนของกรอบ
+                    borderWidth: state.isFocused ? "2px" : "1px",
+                    backgroundColor: "#f4f2ff",
+                    borderColor: state.isFocused
+                      ? "#673AB7"
+                      : provided.borderColor, // เปลี่ยนสีขอบเมื่อถูกเลือก
+                    boxShadow: state.isFocused
+                      ? "0 0 0 1px ##673AB7"
+                      : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
+                    "&:hover": {
+                      borderColor: state.isFocused
+                        ? "#673AB7"
+                        : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
+                    },
                   }),
                   menu: (provided) => ({
                     ...provided,
@@ -168,7 +188,16 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   }),
                   option: (provided, state) => ({
                     ...provided,
-                    borderRadius: state.isFocused ? "8px" : "0px", // ปรับความมนของ option เมื่อ focus
+                    backgroundColor: state.isSelected
+                      ? "#8d80d0"
+                      : state.isFocused
+                      ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
+                      : "#ffffff", // สีพื้นหลังปกติ
+                    color: state.isSelected ? "#ffffff" : provided.color,
+                    "&:hover": {
+                      backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
+                      color: "#000000", // สีข้อความเมื่อ hover
+                    },
                   }),
                 }}
               />
@@ -179,8 +208,10 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="file"
                 crossOrigin="anonymous"
                 accept="image/*"
+                 color="deep-purple"
                 id="imageInput"
                 onChange={handleImageUpload}
+                style={{ backgroundColor: "#f4f2ff" }}
               />
             </div>
           </div>
@@ -192,28 +223,33 @@ const LearningADD: React.FC<LearningADDProps> = ({
             />
           </div>
           <div className="flex flex-col gap-3 md:flex-row  mb-3 justify-end">
-          <div className="md:w-[100px]" >
-          <Button
-          size="sm"
-            className="bg-gray-500 text-sm w-full text-white hover:bg-blue-700 whitespace-nowrap"
-            onClick={() => setLearningAdd(0)}
-          >
-            ออก
-          </Button>
-        </div>
+            <div className="md:w-[100px]">
+              <Button
+                size="sm"
+                className="bg-gray-500 text-sm w-full rounded-lg text-white hover:bg-gray-700 whitespace-nowrap"
+                onClick={() => setLearningAdd(0)}
+              >
+                ออก
+              </Button>
+            </div>
             <div className="md:w-[100px]">
               <Button
                 color="purple"
                 variant="outlined"
                 size="sm"
-                className="w-full text-sm"
+                className="w-full text-sm rounded-lg"
                 onClick={onResetForm}
               >
                 สร้างใหม่
               </Button>
             </div>
             <div className="md:w-[100px]">
-              <Button color="purple" size="sm" className="w-full text-sm" type="submit">
+              <Button
+                size="sm"
+                className="w-full text-sm rounded-lg"
+                type="submit"
+                style={{ backgroundColor: "#8d80d0" }}
+              >
                 บันทึก
               </Button>
             </div>

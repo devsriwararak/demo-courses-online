@@ -289,11 +289,11 @@ const LearningPage: React.FC = () => {
   return (
     <ThemeProvider value={theme}>
       
-      <div className="flex flex-col xl:flex-row justify-center gap-3 overflow-auto">
+      <div className="flex flex-col xl:flex-row justify-center gap-3  overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
           <div className="w-full ">
-            <Card className="flex overflow-auto">
+            <Card className="flex overflow-auto mb-2">
               <LearningShow
                 showToast={showToast}
                 onEdit={handleEdit}

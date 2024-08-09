@@ -10,7 +10,7 @@ import {
 
 import axios from "axios";
 import { HeaderAPI } from "@/headerApi";
-import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -170,7 +170,7 @@ const AdminPage: React.FC = () => {
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -230,28 +230,31 @@ const AdminPage: React.FC = () => {
   return (
     <div className="flex justify-center gap-3 ">
       <ToastContainer autoClose={3000} theme="colored" />
-      <Card className="flex w-full h-[85vh]">
+      <Card className="flex w-full h-[85vh] mb-2">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
             <div className="flex gap-5  whitespace-nowrap items-center">
               <div className="flex gap-2 items-center text-xl  ">
-                <FaChalkboardTeacher />
-                <Typography className="font-bold ">จัดการหมวดหมู่</Typography>
+                <FaChalkboardTeacher  />
+                <Typography className="font-bold">จัดการหมวดหมู่</Typography>
               </div>
               <div>
                 <Input
-                  label="ค้นหาผู้ใช้"
+                  label="ค้นหา"
+                  color="deep-purple"
                   crossOrigin="anonymous"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onClick={() => setPage(1)}
                   icon={<FaSearch className=" text-gray-500" />}
+                  style={{backgroundColor:"#f4f2ff"}}
                 />
               </div>
               <div>
                 <Button
                   size="sm"
-                  className="bg-indigo-500  text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+                  className=" text-xs w-full lg:w-[100px] text-white rounded-lg whitespace-nowrap custom-hover"
                   onClick={handleModalAdd}
+                  style={{backgroundColor:"#8d80d0"}}
                 >
                   เพิ่มข้อมูล
                 </Button>
@@ -262,8 +265,8 @@ const AdminPage: React.FC = () => {
             </div>
           </div>
           <div className="overflow-auto  lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
-              <table className="w-full min-w-max ">
+            {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 "> */}           
+              <table className="w-full min-w-max  mt-5">
                 <thead>
                   <tr>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
@@ -351,22 +354,22 @@ const AdminPage: React.FC = () => {
                   )}
                 </tbody>
               </table>
-            </Card>
-            <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
+          
+            <div className="flex justify-end gap-2 mt-7 px-2 items-center ">
               <button
-                className={` text-gray-400  text-xl  whitespace-nowrap ${
+                className={` text-gray-400  text-2xl  whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
                   page == 1 ? "" : "hover:text-black"
                 } `}
                 disabled={page == 1}
                 onClick={() => setPage((page) => Math.max(page - 1, 1))}
               >
-                <LuArrowLeftSquare />
+                <IoIosArrowBack />
               </button>
-              <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+              <span style={{ whiteSpace: "nowrap" }} className="text-sm">
                 หน้าที่ {page} / {data?.totalPages || 1}{" "}
               </span>
               <button
-                className={`text-gray-400 text-xl whitespace-nowrap ${
+                className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
                   Number(data?.totalPages) - Number(page) < 1
                     ? true
                     : false
@@ -378,7 +381,7 @@ const AdminPage: React.FC = () => {
                 }
                 onClick={() => setPage((page) => page + 1)}
               >
-                <LuArrowRightSquare />
+                <IoIosArrowForward />
               </button>
             </div>
           </div>

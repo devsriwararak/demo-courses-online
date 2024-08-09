@@ -36,16 +36,22 @@ interface AddEditModalReviewProps {
   open: boolean;
   handleModalAdd: () => void;
   formData: ReviewFormData;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleAddReview: () => void;
   dataEdit: ReviewFormData | null;
   setFormData: React.Dispatch<React.SetStateAction<ReviewFormData>>;
   setCoverFile: React.Dispatch<React.SetStateAction<File | null>>;
   coverFile: File | null;
   setAlbumFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  albumFiles: File[]; 
+  albumFiles: File[];
   initialReviewImages: ReviewImage[];
-  handleRemoveImage: (index: number, imageId: number | null, imageName: string | null) => void; 
+  handleRemoveImage: (
+    index: number,
+    imageId: number | null,
+    imageName: string | null
+  ) => void;
 }
 
 const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
@@ -61,7 +67,8 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
   initialReviewImages,
   handleRemoveImage,
 }) => {
-  const [reviewImages, setReviewImages] = useState<ReviewImage[]>(initialReviewImages);
+  const [reviewImages, setReviewImages] =
+    useState<ReviewImage[]>(initialReviewImages);
 
   useEffect(() => {
     // รีเซ็ตค่าของ formData, coverFile, และ albumFiles ก่อน
@@ -113,7 +120,10 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       setAlbumFiles((prevFiles) => [...prevFiles, ...newFiles]);
-      const newImages = newFiles.map((file) => ({ id: 0, image: URL.createObjectURL(file) }));
+      const newImages = newFiles.map((file) => ({
+        id: 0,
+        image: URL.createObjectURL(file),
+      }));
       setReviewImages((prevImages) => [...prevImages, ...newImages]);
     }
   };
@@ -138,7 +148,10 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
       handler={handleModalAdd}
       className="h-auto"
     >
-      <DialogHeader className="bg-blue-700 py-3 px-3 justify-center text-lg text-white opacity-80">
+      <DialogHeader
+        className="py-3 px-3 justify-center text-lg  opacity-80"
+        style={{ backgroundColor: "#f4f2ff" }}
+      >
         <Typography variant="h5">
           {dataEdit ? "แก้ไขข้อมูล" : "เพิ่มข้อมูล"}
         </Typography>
@@ -155,6 +168,8 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
               value={formData?.title}
               onChange={handleChange}
               label="หัวข้อ"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
@@ -162,27 +177,35 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
               value={formData.dec}
               onChange={handleChange}
               label="รายละเอียด"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Select
               name="type"
               label="เลือกประเภท"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               value={formData.type?.toString() || "0"}
               onChange={(value) => handleSelectChange("type", value)}
             >
-              <Option value="0">สัมมนา</Option>
-              <Option value="1">รีวิว</Option>
+              <Option value="0"  className="custom-option">สัมมนา</Option>
+              <Option value="1"  className="custom-option">รีวิว</Option>
             </Select>
             <Input
               type="file"
               onChange={handleCoverChange}
               label="เลือกรูปปก"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
               type="file"
               multiple
               label="เลือกอัลบั้ม"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               onChange={handleAlbumChange}
               crossOrigin
             />
@@ -190,7 +213,7 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
           {dataEdit && (
             <div className="w-full lg:w-8/12 h-[400px] flex flex-col gap-4 overflow-auto p-4 border border-gray-300 rounded-md shadow-sm">
               <Typography variant="h6" className="text-center">
-              {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" || ''}
+                {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" || ""}
               </Typography>
               <div className="grid grid-cols-2 gap-4">
                 {reviewImages?.map((imageObj, index) => (
@@ -223,23 +246,20 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
           color="red"
           size="sm"
           onClick={handleModalAdd}
-          className="flex mr-1 text-base"
+          className="flex mr-1 text-sm"
         >
-          <span className="text-xl mr-2">
+          <span className="text-lg mr-2">
             <AiOutlineStop />
           </span>
           ยกเลิก
         </Button>
         <Button
           size="sm"
-          variant="gradient"
-          color="purple"
           onClick={handleSave}
-          className="flex text-base mr-1"
+          className="text-sm  md:w-[100px]"
+          style={{ backgroundColor: "#8d80d0" }}
         >
-          <span className="mr-2 text-xl">
-            <FaRegSave />
-          </span>
+
           บันทึก
         </Button>
       </DialogFooter>

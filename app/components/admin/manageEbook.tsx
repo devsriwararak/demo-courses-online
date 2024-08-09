@@ -14,11 +14,10 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
+
 } from "react-icons/md";
 
-import { LuArrowRightSquare,LuArrowLeftSquare  } from "react-icons/lu";
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { FaRegSave, FaSearch } from "react-icons/fa";
 import { VscNotebook } from "react-icons/vsc";
 import Swal from "sweetalert2";
@@ -97,7 +96,7 @@ const ManageEbook: React.FC = () => {
   }, [dataEdit]);
 
   const resetFormData = () => {
-    setDataEdit(null)
+    setDataEdit(null);
     setFormData({
       id: 0,
       title: "",
@@ -208,7 +207,7 @@ const ManageEbook: React.FC = () => {
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -252,22 +251,28 @@ const ManageEbook: React.FC = () => {
       <div className="w-full lg:w-4/12">
         <Card className="flex gap-5 w-full px-5  py-5">
           <div className="flex items-center gap-2 ">
-            <VscNotebook className="text-xl"/>
-            <Typography className="font-semibold">จัดการข้อมูล Ebook</Typography>
+            <VscNotebook className="text-xl" />
+            <Typography className="font-semibold">
+              จัดการข้อมูล Ebook
+            </Typography>
           </div>
           <div className="flex flex-col gap-5">
             <Input
               name="title"
               value={formData.title}
               onChange={handleChange}
+              color="deep-purple"
               label="หัวข้อ"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
               name="dec"
               value={formData.dec}
               onChange={handleChange}
+              color="deep-purple"
               label="รายละเอียด"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
@@ -275,11 +280,15 @@ const ManageEbook: React.FC = () => {
               name="coverFile"
               label="เลือกรูปปก"
               id="imageInput"
+              color="deep-purple"
               onChange={(e) => handleChange(e)}
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
               name="link"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               value={formData.link}
               onChange={handleChange}
               label="ลิ้งค์"
@@ -298,12 +307,11 @@ const ManageEbook: React.FC = () => {
             </Button>
             <Button
               size="sm"
-              variant="gradient"
-              color="purple"
               onClick={dataEdit ? handleEditEbook : handleAddEbook}
-              className="flex text-sm mr-1"
+              className="text-sm  rounded-lg md:w-[100px] "
+              style={{ backgroundColor: "#8d80d0" }}
             >
-              {dataEdit ? "บันทึกการแก้ไข" : "บันทึก"}
+              {dataEdit ? "อัพเดท" : "บันทึก"}
             </Button>
           </div>
         </Card>
@@ -317,6 +325,8 @@ const ManageEbook: React.FC = () => {
                   label="ค้นหา Ebook"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onClick={() => setPage(1)}
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
                   crossOrigin
                   icon={<FaSearch className=" text-gray-500" />}
                 />
@@ -324,9 +334,8 @@ const ManageEbook: React.FC = () => {
             </div>
           </div>
           <div className="overflow-auto lg:h-[100%]">
-            <Card className="mt-5  overflow-auto mb-3 border-2">
-            {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
-              <table className="w-full min-w-max">
+              {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
+              <table className="w-full min-w-max mt-5 overflow-auto">
                 <thead>
                   <tr>
                     <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
@@ -474,32 +483,30 @@ const ManageEbook: React.FC = () => {
                   )}
                 </tbody>
               </table>
-            </Card>
+      
             <div className="flex justify-end gap-2 mt-3 px-2 items-center">
               <button
-                className={`text-gray-400 text-xl whitespace-nowrap ${
+                className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
                   page == 1 ? "" : "hover:text-black"
                 }`}
                 disabled={page == 1}
                 onClick={() => setPage((page) => Math.max(page - 1, 1))}
               >
-                <LuArrowLeftSquare />
+                <IoIosArrowBack />
               </button>
-              <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+              <span style={{ whiteSpace: "nowrap" }} className="text-sm">
                 หน้าที่ {page} / {data?.totalPages || 1}{" "}
               </span>
               <button
-                className={`text-gray-400 text-xl whitespace-nowrap ${
-                  Number(data?.totalPages) - Number(page) < 1
-                    ? true
-                    : false
-                    ? ""
-                    : "hover:text-black"
+                className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md
+                  ${
+                  Number(data?.totalPages) - Number(page) < 1  ? "" : 'hover:text-black'
+                 
                 }`}
                 disabled={Number(data?.totalPages) - Number(page) < 1}
                 onClick={() => setPage((page) => page + 1)}
               >
-                <LuArrowRightSquare />
+                <IoIosArrowForward />
               </button>
             </div>
           </div>

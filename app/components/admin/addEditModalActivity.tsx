@@ -138,7 +138,8 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
       handler={handleModalAdd}
       className="h-auto"
     >
-      <DialogHeader className="bg-blue-700 py-3 px-3 justify-center text-lg text-white opacity-80">
+      <DialogHeader   className="py-3 px-3 justify-center text-lg  opacity-80"
+        style={{ backgroundColor: "#f4f2ff" }}>
         <Typography variant="h5">
           {dataEdit ? "แก้ไขข้อมูล" : "เพิ่มข้อมูล"}
         </Typography>
@@ -155,6 +156,8 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
               value={formData?.title}
               onChange={handleChange}
               label="หัวข้อ"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
@@ -162,12 +165,16 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
               value={formData.dec}
               onChange={handleChange}
               label="รายละเอียด"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
               type="file"
               onChange={handleCoverChange}
               label="เลือกรูปปก"
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
             <Input
@@ -175,6 +182,8 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
               multiple
               label="เลือกอัลบั้ม"
               onChange={handleAlbumChange}
+              color="deep-purple"
+              style={{ backgroundColor: "#f4f2ff" }}
               crossOrigin
             />
           </div>
@@ -214,23 +223,19 @@ const AddEditModalActivity: React.FC<AddEditModalReviewProps> = ({
           color="red"
           size="sm"
           onClick={handleModalAdd}
-          className="flex mr-1 text-base"
+          className="flex mr-1 text-sm"
         >
-          <span className="text-xl mr-2">
+          <span className="text-lg mr-2">
             <AiOutlineStop />
           </span>
           ยกเลิก
         </Button>
         <Button
           size="sm"
-          variant="gradient"
-          color="purple"
           onClick={handleSave}
-          className="flex text-base mr-1"
+          className="text-sm  md:w-[100px]"
+          style={{ backgroundColor: "#8d80d0" }}
         >
-          <span className="mr-2 text-xl">
-            <FaRegSave />
-          </span>
           บันทึก
         </Button>
       </DialogFooter>

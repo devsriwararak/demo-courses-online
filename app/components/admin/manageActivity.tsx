@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 
-import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
@@ -285,7 +285,7 @@ const ManageActivity: React.FC = () => {
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -354,6 +354,8 @@ const ManageActivity: React.FC = () => {
                 crossOrigin="anonymous"
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onClick={() => setPage(1)}
+                color="deep-purple"
+                style={{ backgroundColor: "#f4f2ff" }}
                 icon={<FaSearch className=" text-gray-500" />}
               />
             </div>
@@ -362,7 +364,8 @@ const ManageActivity: React.FC = () => {
           <div>
             <Button
               size="sm"
-              className="w-full bg-indigo-500 text-sm text-white hover:bg-blue-700 whitespace-nowrap"
+              className="text-sm  rounded-lg md:w-[100px]"
+              style={{ backgroundColor: "#8d80d0" }}
               onClick={openAddModal}
             >
               เพิ่มข้อมูล
@@ -370,8 +373,7 @@ const ManageActivity: React.FC = () => {
           </div>
         </div>
         <div className="overflow-auto lg:h-[100%]">
-          <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2">
-            <table className="w-full min-w-max">
+            <table className="w-full min-w-max mt-5 overflow-auto">
               <thead>
                 <tr>
                   <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
@@ -493,22 +495,22 @@ const ManageActivity: React.FC = () => {
                 )}
               </tbody>
             </table>
-          </Card>
-          <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+        
+          <div className="flex justify-end gap-2 mt-7 px-2 items-center">
             <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
                 page == 1 ? "" : "hover:text-black"
               }`}
               disabled={page == 1}
               onClick={() => setPage((page) => Math.max(page - 1, 1))}
             >
-              <LuArrowLeftSquare />
+              <IoIosArrowBack />
             </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
+            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
               หน้าที่ {page} / {data?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
                 Number(data?.totalPages) - Number(page) < 1
                   ? true
                   : false
@@ -518,7 +520,7 @@ const ManageActivity: React.FC = () => {
               disabled={Number(data?.totalPages) - Number(page) < 1}
               onClick={() => setPage((page) => page + 1)}
             >
-              <LuArrowRightSquare />
+              <IoIosArrowForward />
             </button>
           </div>
         </div>

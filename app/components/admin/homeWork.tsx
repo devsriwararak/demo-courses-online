@@ -22,12 +22,10 @@ import withReactContent from "sweetalert2-react-content";
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
   MdOutlineContentPasteSearch,
 } from "react-icons/md";
 
-import { LuArrowRightSquare, LuArrowLeftSquare } from "react-icons/lu";
+import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
@@ -595,7 +593,7 @@ const HomeWorkPage: React.FC = () => {
       text: "คุณจะไม่สามารถย้อนกลับได้!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#8d80d0",
       cancelButtonColor: "#d33",
       confirmButtonText: "ใช่, ลบเลย!",
       cancelButtonText: "ยกเลิก",
@@ -748,33 +746,39 @@ const HomeWorkPage: React.FC = () => {
                       isDisabled={statusEdit === 1}
                       menuPortalTarget={document.body} // เพิ่มบรรทัดนี้
                       styles={{
-                        control: (provided) => ({
+                        control: (provided, state) => ({
                           ...provided,
-                          borderRadius: "8px",
+                          borderRadius: "8px", // ปรับความมนของกรอบ
+                          borderWidth: state.isFocused ? "2px" : "1px",
+                          backgroundColor: "#f4f2ff",
+                          borderColor: state.isFocused
+                            ? "#673AB7"
+                            : provided.borderColor, // เปลี่ยนสีขอบเมื่อถูกเลือก
+                          boxShadow: state.isFocused
+                            ? "0 0 0 1px ##673AB7"
+                            : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
+                          "&:hover": {
+                            borderColor: state.isFocused
+                              ? "#673AB7"
+                              : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
+                          },
                         }),
                         menu: (provided) => ({
                           ...provided,
-                          borderRadius: "8px",
-                        }),
-                        menuList: (provided) => ({
-                          ...provided,
-                          maxHeight:
-                            window.innerWidth < 1524
-                              ? "150px"
-                              : window.innerWidth < 1650
-                              ? "165px"
-                              : "150px",
+                          borderRadius: "8px", // ปรับความมนของเมนู dropdown
                         }),
                         option: (provided, state) => ({
                           ...provided,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          borderRadius: state.isFocused ? "8px" : "0px",
-                        }),
-                        menuPortal: (provided) => ({
-                          ...provided,
-                          zIndex: 9999, // เพิ่ม zIndex ให้กับ menuPortal
+                          backgroundColor: state.isSelected
+                            ? "#8d80d0"
+                            : state.isFocused
+                            ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
+                            : "#ffffff", // สีพื้นหลังปกติ
+                          color: state.isSelected ? "#ffffff" : provided.color,
+                          "&:hover": {
+                            backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
+                            color: "#000000", // สีข้อความเมื่อ hover
+                          },
                         }),
                       }}
                     />
@@ -801,33 +805,39 @@ const HomeWorkPage: React.FC = () => {
                       isDisabled={statusEdit === 1}
                       menuPortalTarget={document.body}
                       styles={{
-                        control: (provided) => ({
+                        control: (provided, state) => ({
                           ...provided,
-                          borderRadius: "8px",
+                          borderRadius: "8px", // ปรับความมนของกรอบ
+                          borderWidth: state.isFocused ? "2px" : "1px",
+                          backgroundColor: "#f4f2ff",
+                          borderColor: state.isFocused
+                            ? "#673AB7"
+                            : provided.borderColor, // เปลี่ยนสีขอบเมื่อถูกเลือก
+                          boxShadow: state.isFocused
+                            ? "0 0 0 1px ##673AB7"
+                            : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
+                          "&:hover": {
+                            borderColor: state.isFocused
+                              ? "#673AB7"
+                              : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
+                          },
                         }),
                         menu: (provided) => ({
                           ...provided,
-                          borderRadius: "8px",
-                        }),
-                        menuList: (provided) => ({
-                          ...provided,
-                          maxHeight:
-                            window.innerWidth < 1524
-                              ? "150px"
-                              : window.innerWidth < 1650
-                              ? "165px"
-                              : "150px",
+                          borderRadius: "8px", // ปรับความมนของเมนู dropdown
                         }),
                         option: (provided, state) => ({
                           ...provided,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          borderRadius: state.isFocused ? "8px" : "0px",
-                        }),
-                        menuPortal: (provided) => ({
-                          ...provided,
-                          zIndex: 9999, // เพิ่ม zIndex ให้กับ menuPortal
+                          backgroundColor: state.isSelected
+                            ? "#8d80d0"
+                            : state.isFocused
+                            ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
+                            : "#ffffff", // สีพื้นหลังปกติ
+                          color: state.isSelected ? "#ffffff" : provided.color,
+                          "&:hover": {
+                            backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
+                            color: "#000000", // สีข้อความเมื่อ hover
+                          },
                         }),
                       }}
                     />
@@ -837,11 +847,13 @@ const HomeWorkPage: React.FC = () => {
             </Card>
             <Card className="flex shadow-none overflow-auto p-3 py-5">
               <div className="flex flex-col gap-5  w-full justify-center lg:justify-start">
-                <div className="w-full gap-3">
+                <div className="flex gap-4">
+                <div className="w-full ">
                   <Input
                     type="file"
                     label="รูปคำถาม"
                     id="questionImage"
+                    color="deep-purple"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
@@ -849,13 +861,15 @@ const HomeWorkPage: React.FC = () => {
                       })
                     }
                     crossOrigin="anonymous"
+                    style={{backgroundColor:"#f4f2ff"}}
                   />
                 </div>
-                <div className="w-full gap-3">
+                <div className="w-full ">
                   <Input
                     type="file"
                     label="รูปเฉลย"
                     id="solutionImage"
+                    color="deep-purple"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
@@ -863,12 +877,15 @@ const HomeWorkPage: React.FC = () => {
                       })
                     }
                     crossOrigin="anonymous"
+                    style={{backgroundColor:"#f4f2ff"}}
                   />
+                </div>
                 </div>
                 <div className="w-full gap-3">
                   <Textarea
                     label="สร้างคำถาม"
-                    className="h-[247px]"
+                    color="gray"
+                    className="h-[305px]"
                     value={formData.question}
                     onChange={(e) =>
                       dispatch({
@@ -876,6 +893,7 @@ const HomeWorkPage: React.FC = () => {
                         payload: { question: e.target.value },
                       })
                     }
+                    style={{backgroundColor:"#f5f5f5"}}
                   />
                 </div>
 
@@ -897,6 +915,7 @@ const HomeWorkPage: React.FC = () => {
                       size="sm"
                       className="w-full"
                       onClick={handleSubmit}
+                      style={{backgroundColor:"#8d80d0"}}
                     >
                       {statusEdit === 0 ? "บันทึก" : "อัพเดท"}
                     </Button>
@@ -925,6 +944,7 @@ const HomeWorkPage: React.FC = () => {
                     onClick={() =>
                       dispatch({ type: "SET_PAGE_LIST", payload: 1 })
                     }
+                    style={{backgroundColor:"#f4f2ff"}}
                   />
                 </div>
                 <div className="flex flex-col gap-1 ps-5">
@@ -941,9 +961,8 @@ const HomeWorkPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="overflow-auto lg:h-[90%]">
-                <Card className="mt-5 h-[55vh] overflow-auto mb-3 border-2">
-                  <table className="w-full min-w-max">
+              <div className="overflow-auto lg:h-[100%]">
+                  <table className="w-full min-w-max mt-5">
                     <thead>
                       <tr>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
@@ -1061,14 +1080,14 @@ const HomeWorkPage: React.FC = () => {
                       )}
                     </tbody>
                   </table>
-                </Card>
+             
 
                 <div className="flex justify-between gap-2 mt-3 px-2 items-center ">
                   <Typography className="text-red-800 ">หมายเหตุ</Typography>
                   <div className="flex items-center gap-2">
                     <button
-                      className={` text-gray-400  text-xl  whitespace-nowrap ${
-                        page == 1 ? "" : "hover:text-black"
+                      className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+                        pageList == 1 ? "" : "hover:text-black"
                       } `}
                       disabled={pageList === 1}
                       onClick={() =>
@@ -1078,18 +1097,15 @@ const HomeWorkPage: React.FC = () => {
                         })
                       }
                     >
-                      <LuArrowLeftSquare />
+                      <IoIosArrowBack />
                     </button>
-                    <span style={{ whiteSpace: "nowrap" }}>
+                    <span style={{ whiteSpace: "nowrap" }} className="text-sm">
                       หน้าที่ {pageList} / {dataList.totalPages || 1}
                     </span>
                     <button
-                      className={`text-gray-400 text-xl whitespace-nowrap ${
-                        Number(data?.totalPages) - Number(page) < 1
-                          ? true
-                          : false
-                          ? ""
-                          : "hover:text-black"
+                      className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+                        Number(data?.totalPages) - Number(pageList) < 0  ? "" : "hover:text-black"
+              
                       }`}
                       disabled={pageList >= (dataList.totalPages || 1)}
                       onClick={() =>
@@ -1099,7 +1115,7 @@ const HomeWorkPage: React.FC = () => {
                         })
                       }
                     >
-                      <LuArrowRightSquare />
+                      <IoIosArrowForward />
                     </button>
                   </div>
                 </div>

@@ -44,9 +44,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
     <div>
       <Editor
         editorState={editorState}
-        // customStyleMap={customStyleMap}
         onEditorStateChange={handleEditorChange}
-        toolbar={{
+        toolbar={{  
           options: [
             "inline",
             "blockType",
@@ -79,7 +78,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ value, onEditorChange }
             options: ["left", "center", "right", "justify"],
           },
         }}
-        editorClassName=" min-h-32 lg:min-h-[340px] border border-gray-300 p-2 rounded"
+        toolbarClassName="custom-toolbar " // เปลี่ยนสีพื้นหลังของ toolbar
+        editorClassName=" min-h-32 lg:min-h-[340px] border bg-gray-100  border-gray-300 p-2 rounded"
       />
     </div>
   );
