@@ -61,8 +61,9 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
           <div className=" hidden md:flex">
             <Input
               label="ค้นหาผู้ใช้"
+              color="deep-purple"
               crossOrigin="anonymous"
-              icon={<FaSearch className=" text-gray-500" />}
+              icon={<FaSearch className=" text-deep-purple-300" />}
               style={{ backgroundColor: "#f4f2ff" }}
 
             />

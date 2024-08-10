@@ -15,18 +15,18 @@ import LearningVedio from "./learningVedio";
 
 const MySwal = withReactContent(Swal);
 
-const theme = {
-  input: {
-    styles: {
-      base: {
-        container: {
-          width: "w-auto",
-          minWidth: "min-w-[100px]",
-        },
-      },
-    },
-  },
-};
+// const theme = {
+//   input: {
+//     styles: {
+//       base: {
+//         container: {
+//           width: "w-auto",
+//           minWidth: "min-w-[100px]",
+//         },
+//       },
+//     },
+//   },
+// };
 
 interface Category {
   id: number;
@@ -287,7 +287,7 @@ const LearningPage: React.FC = () => {
   };
 
   return (
-    <ThemeProvider value={theme}>
+   
       
       <div className="flex flex-col xl:flex-row justify-center gap-3  overflow-auto">
         <ToastContainer autoClose={2000} theme="colored" />
@@ -339,7 +339,7 @@ const LearningPage: React.FC = () => {
           </div>
         )}
       </div>
-    </ThemeProvider>
+
   );
 };
 

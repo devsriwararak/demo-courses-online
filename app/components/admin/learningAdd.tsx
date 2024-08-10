@@ -168,13 +168,13 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   control: (provided, state) => ({
                     ...provided,
                     borderRadius: "8px", // ปรับความมนของกรอบ
-                    borderWidth: state.isFocused ? "2px" : "1px",
+                    borderWidth: state.isFocused ? "" : "1px",
                     backgroundColor: "#f4f2ff",
                     borderColor: state.isFocused
                       ? "#673AB7"
-                      : provided.borderColor, // เปลี่ยนสีขอบเมื่อถูกเลือก
+                      : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
                     boxShadow: state.isFocused
-                      ? "0 0 0 1px ##673AB7"
+                      ? "0 0 0 1px #673AB7"
                       : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
                     "&:hover": {
                       borderColor: state.isFocused
@@ -182,9 +182,19 @@ const LearningADD: React.FC<LearningADDProps> = ({
                         : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
                     },
                   }),
+                  placeholder: (provided ) => ({
+                    ...provided,
+                    color: "#673AB7" , // เปลี่ยนสีของ placeholder เป็นสีม่วง
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: "#673AB7", // เปลี่ยนสีของตัวเลือกที่ถูกเลือกเป็นสีม่วง
+                  }),
                   menu: (provided) => ({
                     ...provided,
                     borderRadius: "8px", // ปรับความมนของเมนู dropdown
+                     color: "#673AB7"
+                    
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -196,7 +206,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     color: state.isSelected ? "#ffffff" : provided.color,
                     "&:hover": {
                       backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
-                      color: "#000000", // สีข้อความเมื่อ hover
+                      color: "#673AB7" // สีข้อความเมื่อ hover
                     },
                   }),
                 }}

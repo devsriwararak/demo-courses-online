@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 
+
 import axios from "axios";
 import { HeaderAPI } from "@/headerApi";
 import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
@@ -40,6 +41,8 @@ interface ResponseData {
   data: Customer[];
   totalPages: number;
 }
+
+
 
 const AdminPage: React.FC = () => {
   const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
@@ -228,6 +231,7 @@ const AdminPage: React.FC = () => {
   console.log(dataEdit);
 
   return (
+   
     <div className="flex justify-center gap-3 ">
       <ToastContainer autoClose={3000} theme="colored" />
       <Card className="flex w-full h-[85vh] mb-2">
@@ -245,8 +249,8 @@ const AdminPage: React.FC = () => {
                   crossOrigin="anonymous"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onClick={() => setPage(1)}
-                  icon={<FaSearch className=" text-gray-500" />}
-                  style={{backgroundColor:"#f4f2ff"}}
+                  icon={<FaSearch className=" text-deep-purple-300 " />}
+                  style={{ backgroundColor: "#f4f2ff"}}
                 />
               </div>
               <div>

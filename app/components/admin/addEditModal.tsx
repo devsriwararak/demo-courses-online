@@ -66,6 +66,7 @@ const AddEditModal: React.FC<AddCustomerModalProps> = ({
             formData[field.toLowerCase() as "username" | "password" | "name"]
           }
           onChange={handleChange}
+          className="text-purple-800"
         />
       )),
     [formData, handleChange]

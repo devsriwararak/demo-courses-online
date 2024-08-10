@@ -1,11 +1,9 @@
 // Super.tsx
 "use client";
 import {
-  Card,
   Button,
   Input,
   Typography,
-  IconButton,
 } from "@material-tailwind/react";
 
 import axios from "axios";
@@ -15,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { MdDelete, MdEdit } from "react-icons/md";
 
-import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaSearch, FaBookReader } from "react-icons/fa";
 
 import { useState, useEffect, useCallback } from "react";
@@ -169,16 +167,17 @@ const LearningShow: React.FC<LearningShowProps> = ({
               จัดการข้อมูลคอร์สเรียน
             </Typography>
           </div>
+          <div>
           <Input
             label="ค้นหาคอร์สเรียน"
+            color="deep-purple"
             crossOrigin="anonymous"
             onChange={(e) => setSearchQuery(e.target.value)}
             onClick={() => setPage(1)}
-            icon={<FaSearch className=" text-gray-500" />}
-            color="deep-purple"
+            icon={<FaSearch className=" text-deep-purple-300" />}
             style={{ backgroundColor: "#f4f2ff" }}
           />
-
+          </div>
           <Button
             size="sm"
             className=" text-white rounded-xs text-xs lg:w-[100px]  rounded-lg  whitespace-nowrap"
