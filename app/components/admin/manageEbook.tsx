@@ -6,18 +6,15 @@ import {
   Input,
   Typography,
   IconButton,
+  Textarea,
 } from "@material-tailwind/react";
 import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  MdDelete,
-  MdEdit,
+import { MdDelete, MdEdit } from "react-icons/md";
 
-} from "react-icons/md";
-
-import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaRegSave, FaSearch } from "react-icons/fa";
 import { VscNotebook } from "react-icons/vsc";
 import Swal from "sweetalert2";
@@ -116,8 +113,27 @@ const ManageEbook: React.FC = () => {
     }
   };
 
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   if (name === "coverFile") {
+  //     const fileInput = e.target as HTMLInputElement;
+  //     if (fileInput.files && fileInput.files[0]) {
+  //       setCoverFile(fileInput.files[0]);
+  //     }
+  //   } else {
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     if (name === "coverFile") {
@@ -248,7 +264,7 @@ const ManageEbook: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="w-full lg:w-4/12">
+      <div className="w-full lg:w-7/12 2xl:w-5/12 ">
         <Card className="flex gap-5 w-full px-5  py-5">
           <div className="flex items-center gap-2 ">
             <VscNotebook className="text-xl" />
@@ -256,44 +272,51 @@ const ManageEbook: React.FC = () => {
               จัดการข้อมูล Ebook
             </Typography>
           </div>
-          <div className="flex flex-col gap-5">
-            <Input
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              color="deep-purple"
-              label="หัวข้อ"
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Input
-              name="dec"
-              value={formData.dec}
-              onChange={handleChange}
-              color="deep-purple"
-              label="รายละเอียด"
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Input
-              type="file"
-              name="coverFile"
-              label="เลือกรูปปก"
-              id="imageInput"
-              color="deep-purple"
-              onChange={(e) => handleChange(e)}
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Input
-              name="link"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              value={formData.link}
-              onChange={handleChange}
-              label="ลิ้งค์"
-              crossOrigin
-            />
+          <div className="flex w-full flex-col gap-5 ">
+            <div>
+              <Input
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                color="deep-purple"
+                label="หัวข้อ"
+                style={{ backgroundColor: "#f4f2ff" }}
+                crossOrigin
+              />
+            </div>
+            <div className="flex  flex-col lg:flex-row gap-3">
+              <Input
+                type="file"
+                name="coverFile"
+                label="เลือกรูปปก"
+                id="imageInput"
+                color="deep-purple"
+                onChange={(e) => handleChange(e)}
+                style={{ backgroundColor: "#f4f2ff" }}
+                crossOrigin
+              />
+
+              <Input
+                name="link"
+                color="deep-purple"
+                style={{ backgroundColor: "#f4f2ff" }}
+                value={formData.link}
+                onChange={handleChange}
+                label="ลิ้งค์"
+                crossOrigin
+              />
+            </div>
+            <div>
+              <Textarea
+                name="dec"
+                value={formData.dec}
+                onChange={handleChange}
+                color="deep-purple"
+                className="h-[317px]"
+                label="รายละเอียด"
+                style={{ backgroundColor: "#f5f5f5" }}
+              />
+            </div>
           </div>
           <div className="flex flex-col lg:flex-row w-full justify-end gap-2">
             <Button
@@ -316,7 +339,7 @@ const ManageEbook: React.FC = () => {
           </div>
         </Card>
       </div>
-      <div className="w-full lg:w-8/12">
+      <div className="w-full lg:w-7/12 mb-2">
         <Card className="flex w-full px-5 h-[85vh]">
           <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -334,156 +357,156 @@ const ManageEbook: React.FC = () => {
             </div>
           </div>
           <div className="overflow-auto lg:h-[100%]">
-              {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
-              <table className="w-full min-w-max mt-5 overflow-auto">
-                <thead>
+            {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
+            <table className="w-full min-w-max mt-5 overflow-auto">
+              <thead>
+                <tr>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลำดับ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ปก
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ชื่อ
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      รายละเอียด
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      ลิ้งค์
+                    </Typography>
+                  </th>
+                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-bold leading-none opacity-70"
+                    >
+                      แก้ไข/ลบ
+                    </Typography>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.data?.length === 0 ? (
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ลำดับ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ปก
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ชื่อ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        รายละเอียด
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ลิ้งค์
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        แก้ไข/ลบ
-                      </Typography>
-                    </th>
+                    <td colSpan={6} className="text-center pt-5">
+                      <Typography>...ไม่พบข้อมูล...</Typography>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {data?.data?.length === 0 ? (
-                    <tr>
-                      <td colSpan={6} className="text-center pt-5">
-                        <Typography>...ไม่พบข้อมูล...</Typography>
+                ) : (
+                  data?.data?.map((item, index) => (
+                    <tr key={item.id} style={{ marginTop: "3px" }}>
+                      <td className="py-2">
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {index + 1}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className="py-2 flex justify-center">
+                        <div className="flex w-8 h-8 justify-stretch">
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                            alt=""
+                            width={40}
+                            height={40}
+                            className="rounded-md"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item?.title}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item?.dec}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center justify-center">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-400 "
+                            >
+                              {item.link}
+                            </a>
+                          </Typography>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center gap-2">
+                          <MdEdit
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
+                            onClick={() => setDataEdit(item)}
+                          />
+                          <MdDelete
+                            className="h-5 w-5 text-purple-500 cursor-pointer"
+                            onClick={() => handleDelete(item)}
+                          />
+                        </div>
                       </td>
                     </tr>
-                  ) : (
-                    data?.data?.map((item, index) => (
-                      <tr key={item.id} style={{ marginTop: "3px" }}>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {index + 1}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className="py-2 flex justify-center">
-                          <div className="flex w-8 h-8 justify-stretch">
-                            <Image
-                              src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
-                              alt=""
-                              width={40}
-                              height={40}
-                              className="rounded-md"
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.title}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.dec}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-400 "
-                              >
-                                {item.link}
-                              </a>
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex justify-center gap-2">
-                            <MdEdit
-                              className="h-5 w-5 text-purple-500 cursor-pointer"
-                              onClick={() => setDataEdit(item)}
-                            />
-                            <MdDelete
-                              className="h-5 w-5 text-purple-500 cursor-pointer"
-                              onClick={() => handleDelete(item)}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-      
+                  ))
+                )}
+              </tbody>
+            </table>
+
             <div className="flex justify-end gap-2 mt-3 px-2 items-center">
               <button
                 className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
@@ -500,9 +523,10 @@ const ManageEbook: React.FC = () => {
               <button
                 className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md
                   ${
-                  Number(data?.totalPages) - Number(page) < 1  ? "" : 'hover:text-black'
-                 
-                }`}
+                    Number(data?.totalPages) - Number(page) < 1
+                      ? ""
+                      : "hover:text-black"
+                  }`}
                 disabled={Number(data?.totalPages) - Number(page) < 1}
                 onClick={() => setPage((page) => page + 1)}
               >

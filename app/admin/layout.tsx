@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import LayoutContent from "@/app/components/layout/layoutContent";
 import { ThemeProvider } from "@material-tailwind/react";
 
+
 const theme = {
   input: {
     styles: {
@@ -34,7 +35,34 @@ const theme = {
       },
     },
   },
+  textarea: {
+    styles: {
+      variants: {
+        outlined: {
+          base: {
+            textarea: {
+              "deep-purple": {
+                color: "text-deep-purple-500",
+                borderColor: "placeholder-shown:border-t-deep-purple-500 placeholder-shown:border-deep-purple-500 ",
+                borderColorFocused: "focus:border-deep-purple-700",
+              },
+            },
+            label: {
+              "deep-purple": {
+                color: "!text-deep-purple-500 peer-focus:text-deep-purple-700",
+                before:
+                  "before:border-deep-purple-500 peer-focus:before:border-deep-purple-700",
+                after:
+                  "after:border-deep-purple-500 peer-focus:after:border-deep-purple-700",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
+
 
 interface AdminLayoutProps {
   children: ReactNode;

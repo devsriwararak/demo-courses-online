@@ -733,9 +733,7 @@ const HomeWorkPage: React.FC = () => {
                         borderRadius: "8px", // ปรับความมนของกรอบ
                         borderWidth: state.isFocused ? "" : "1px",
                         backgroundColor: "#f4f2ff",
-                        borderColor: state.isFocused
-                          ? "#673AB7"
-                          : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
+                        borderColor: state.isFocused ? "#673AB7" : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
                         boxShadow: state.isFocused
                           ? "0 0 0 1px #673AB7"
                           : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
@@ -745,9 +743,9 @@ const HomeWorkPage: React.FC = () => {
                             : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
                         },
                       }),
-                      placeholder: (provided ) => ({
+                      placeholder: (provided) => ({
                         ...provided,
-                        color: "#673AB7" , // เปลี่ยนสีของ placeholder เป็นสีม่วง
+                        color: "#673AB7", // เปลี่ยนสีของ placeholder เป็นสีม่วง
                       }),
                       singleValue: (provided) => ({
                         ...provided,
@@ -756,8 +754,7 @@ const HomeWorkPage: React.FC = () => {
                       menu: (provided) => ({
                         ...provided,
                         borderRadius: "8px", // ปรับความมนของเมนู dropdown
-                         color: "#673AB7"
-                        
+                        color: "#673AB7",
                       }),
                       option: (provided, state) => ({
                         ...provided,
@@ -769,7 +766,7 @@ const HomeWorkPage: React.FC = () => {
                         color: state.isSelected ? "#ffffff" : provided.color,
                         "&:hover": {
                           backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
-                          color: "#673AB7" // สีข้อความเมื่อ hover
+                          color: "#673AB7", // สีข้อความเมื่อ hover
                         },
                       }),
                     }}
@@ -802,9 +799,7 @@ const HomeWorkPage: React.FC = () => {
                         borderRadius: "8px", // ปรับความมนของกรอบ
                         borderWidth: state.isFocused ? "" : "1px",
                         backgroundColor: "#f4f2ff",
-                        borderColor: state.isFocused
-                          ? "#673AB7"
-                          : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
+                        borderColor: state.isFocused ? "#673AB7" : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
                         boxShadow: state.isFocused
                           ? "0 0 0 1px #673AB7"
                           : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
@@ -814,9 +809,9 @@ const HomeWorkPage: React.FC = () => {
                             : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
                         },
                       }),
-                      placeholder: (provided ) => ({
+                      placeholder: (provided) => ({
                         ...provided,
-                        color: "#673AB7" , // เปลี่ยนสีของ placeholder เป็นสีม่วง
+                        color: "#673AB7", // เปลี่ยนสีของ placeholder เป็นสีม่วง
                       }),
                       singleValue: (provided) => ({
                         ...provided,
@@ -825,8 +820,7 @@ const HomeWorkPage: React.FC = () => {
                       menu: (provided) => ({
                         ...provided,
                         borderRadius: "8px", // ปรับความมนของเมนู dropdown
-                         color: "#673AB7"
-                        
+                        color: "#673AB7",
                       }),
                       option: (provided, state) => ({
                         ...provided,
@@ -838,7 +832,7 @@ const HomeWorkPage: React.FC = () => {
                         color: state.isSelected ? "#ffffff" : provided.color,
                         "&:hover": {
                           backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
-                          color: "#673AB7" // สีข้อความเมื่อ hover
+                          color: "#673AB7", // สีข้อความเมื่อ hover
                         },
                       }),
                     }}
@@ -886,8 +880,8 @@ const HomeWorkPage: React.FC = () => {
               <div className="w-full gap-3">
                 <Textarea
                   label="สร้างคำถาม"
-                  color="gray"
-                  className="h-[305px]"
+                  color="deep-purple"
+                  className="h-[306px]"
                   value={formData.question}
                   onChange={(e) =>
                     dispatch({
