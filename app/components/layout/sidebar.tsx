@@ -166,15 +166,31 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/admin/homework",
             hasDivider: false,
           },
-          // {
-          //   text: "Users",
-          //   icon: <FaClipboardList />,
-          //   subItems: [
-          //     { text: "Add User", path: "/admin/add" },
-          //     { text: "Manage Users", path: "/admin/manage" },
-          //   ],
-          // },
-          // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings" },
+          {
+            text: "ข้อมูลเว็ปไซด์",
+            icon: <CgWebsite />,
+            subItems: [
+              {
+                text: "Ebook",
+                icon: <VscNotebook />,
+                path: "/admin/manageebook",
+                hasDivider: false,
+              },
+              {
+                text: "ผลงาน",
+                icon: <FaAward />,
+                path: "/admin/managereviews",
+                hasDivider: false,
+              },
+              {
+                text: "กิจกรรม",
+                icon: <IoAccessibility />,
+                path: "/admin/manageactivity",
+                hasDivider: true,
+              },
+            ],
+            hasDivider: false,
+          },
         ];
       case "0":
         return [

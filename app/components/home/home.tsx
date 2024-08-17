@@ -130,13 +130,6 @@ const HomePage: React.FC = () => {
       <div className="p-1  ">
         <div
           className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-6 sm:px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
-          // style={{
-          //   backgroundColor:"#F3CEFF"
-          // }}
-          // style={{
-          //   backgroundImage:
-          //     "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-          // }}
         >
           <div className="w-full lg:w-5/12 pt-4 px-5 lg:ps-4   ">
             <div className="flex flex-col gap-5  ">
