@@ -13,7 +13,7 @@ interface ProjectDetail {
   title: string;
   dec: string;
   image_title: string;
-  link: string[];
+  link: string;
 }
 
 export default function ProjectDetailPage() {
