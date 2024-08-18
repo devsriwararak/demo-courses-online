@@ -341,14 +341,15 @@ const ManageReviews: React.FC = () => {
     <div className="flex justify-center gap-3">
       <ToastContainer autoClose={2000} theme="colored" />
       <Card className="flex w-full px-5 h-[85vh]">
-        <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex flex-col lg:flex-row mt-3 sm:justify-between gap-3 sm:items-center">
+          <div className="flex flex-col  md:flex-row sm:items-center gap-3">
             <div className="flex items-center gap-2 ">
               <FaAward className="text-xl" />
               <Typography className="font-semibold">
                 จัดการข้อมูลผลงาน
               </Typography>
             </div>
+            <div className="flex flex-col sm:flex-row gap-3 ">
             <div>
               <Input
                 label="ค้นหาผลงาน"
@@ -371,6 +372,7 @@ const ManageReviews: React.FC = () => {
                 <Option value="1"className="custom-option">รีวิว</Option>
                 <Option value="0"className="custom-option">สัมมนา</Option>
               </Select>
+            </div>
             </div>
             <div>
               <Button
@@ -537,7 +539,7 @@ const ManageReviews: React.FC = () => {
               )}
             </tbody>
           </table>
-
+        </div>
           <div className="flex justify-end gap-2 mt-5 px-2 items-center">
             <button
               className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
@@ -565,7 +567,6 @@ const ManageReviews: React.FC = () => {
               <IoIosArrowForward />
             </button>
           </div>
-        </div>
       </Card>
 
       <AddEditModalReview

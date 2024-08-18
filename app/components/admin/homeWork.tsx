@@ -843,13 +843,13 @@ const HomeWorkPage: React.FC = () => {
           </Card>
           <Card className="flex shadow-none overflow-auto p-3 py-5">
             <div className="flex flex-col gap-5  w-full justify-center lg:justify-start">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <div className="w-full ">
                   <Input
                     type="file"
                     label="รูปคำถาม"
                     id="questionImage"
-                    color="deep-purple"
+                    color="gray"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
@@ -857,7 +857,7 @@ const HomeWorkPage: React.FC = () => {
                       })
                     }
                     crossOrigin="anonymous"
-                    style={{ backgroundColor: "#f4f2ff" }}
+                    style={{ backgroundColor: "#f5f5f5" }}
                   />
                 </div>
                 <div className="w-full ">
@@ -865,7 +865,7 @@ const HomeWorkPage: React.FC = () => {
                     type="file"
                     label="รูปเฉลย"
                     id="solutionImage"
-                    color="deep-purple"
+                    color="gray"
                     onChange={(e) =>
                       dispatch({
                         type: "SET_FORM_DATA",
@@ -873,14 +873,14 @@ const HomeWorkPage: React.FC = () => {
                       })
                     }
                     crossOrigin="anonymous"
-                    style={{ backgroundColor: "#f4f2ff" }}
+                    style={{ backgroundColor: "#f5f5f5" }}
                   />
                 </div>
               </div>
               <div className="w-full gap-3">
                 <Textarea
                   label="สร้างคำถาม"
-                  color="deep-purple"
+                  color="gray"
                   className="h-[306px]"
                   value={formData.question}
                   onChange={(e) =>
@@ -929,7 +929,7 @@ const HomeWorkPage: React.FC = () => {
                 <Input
                   label="ค้นหาคำถาม"
                   crossOrigin="anonymous"
-                  color="deep-purple"
+                  color="gray"
                   disabled={hideSearch}
                   icon={<FaSearch className=" text-deep-purple-300" />}
                   onChange={(e) =>
@@ -941,7 +941,7 @@ const HomeWorkPage: React.FC = () => {
                   onClick={() =>
                     dispatch({ type: "SET_PAGE_LIST", payload: 1 })
                   }
-                  style={{ backgroundColor: "#f4f2ff" }}
+                  style={{ backgroundColor: "#f5f5f5" }}
                 />
               </div>
               <div className="flex flex-col gap-1 ps-5">
@@ -959,41 +959,41 @@ const HomeWorkPage: React.FC = () => {
             </div>
 
             <div className="overflow-auto lg:h-[100%]">
-              <table className="w-full min-w-max mt-5">
+              <table className="w-full min-w-max mt-2 ">
                 <thead>
                   <tr>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <th className="border-b   p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70"
+                        className=" text-sm leading-none opacity-70 "
                       >
                         ลำดับ
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <th className="border-b  p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70"
+                        className=" text-sm leading-none opacity-70 "
                       >
                         id
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                    <th className="border-b  p-4 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70"
+                        className=" leading-none opacity-70 text-sm"
                       >
                         คำถาม
                       </Typography>
                     </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                    <th className="border-b  p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-bold leading-none opacity-70"
+                        className=" leading-none opacity-70"
                       >
                         ดู/แก้ไข/ลบ
                       </Typography>
@@ -1017,35 +1017,36 @@ const HomeWorkPage: React.FC = () => {
                         onDragEnter={() => (dragItemOver.current = index)}
                         onDragEnd={handleSort}
                         onDragOver={(e) => e.preventDefault()}
+                        className="hover:bg-purple-100/20"
                       >
-                        <td className="py-2">
+                        <td className="py-2 border-b">
                           <div className="flex items-center justify-center">
                             <Typography
                               variant="small"
                               color="blue-gray"
-                              className="font-normal"
+                              className=" text-xs "
                             >
                               ข้อที่ {item?.index}
                             </Typography>
                           </div>
                         </td>
-                        <td className="py-2">
+                        <td className="py-2 border-b">
                           <div className="flex items-center justify-center">
                             <Typography
                               variant="small"
                               color="blue-gray"
-                              className="font-normal"
+                              className=" text-xs"
                             >
                               {item?.id}
                             </Typography>
                           </div>
                         </td>
-                        <td>
+                        <td className="border-b">
                           <div className="relative flex items-center justify-center mt-2 tooltip">
                             <Typography
                               variant="small"
                               color="blue-gray"
-                              className="font-normal ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[190px]"
+                              className=" text-xs ps-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-[190px]"
                             >
                               {item.question}
                             </Typography>
@@ -1054,7 +1055,7 @@ const HomeWorkPage: React.FC = () => {
                             </div>
                           </div>
                         </td>
-                        <td>
+                        <td className="border-b">
                           <div className="flex justify-center mt-2 gap-2">
                             <MdOutlineContentPasteSearch
                               className="h-5 w-5 text-purple-500 cursor-pointer"
@@ -1078,11 +1079,11 @@ const HomeWorkPage: React.FC = () => {
                 </tbody>
               </table>
 
-              <div className="flex justify-between gap-2 mt-3 px-2 items-center ">
+              <div className="flex justify-between gap-2 mt-6 px-2 items-center ">
                 <Typography className="text-red-800 ">หมายเหตุ</Typography>
                 <div className="flex items-center gap-2">
                   <button
-                    className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+                    className={` text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
                       pageList == 1 ? "" : "hover:text-black"
                     } `}
                     disabled={pageList === 1}
@@ -1099,7 +1100,7 @@ const HomeWorkPage: React.FC = () => {
                     หน้าที่ {pageList} / {dataList.totalPages || 1}
                   </span>
                   <button
-                    className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+                    className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
                       Number(data?.totalPages) - Number(pageList) < 0
                         ? ""
                         : "hover:text-black"

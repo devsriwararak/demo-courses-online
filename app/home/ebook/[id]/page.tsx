@@ -99,9 +99,6 @@ export default function ProjectDetailPage() {
             {ebook.link}
           </a>
         </div>
-
-
-        
       </div>
 
       {/* รายละเอียดสินค้า */}

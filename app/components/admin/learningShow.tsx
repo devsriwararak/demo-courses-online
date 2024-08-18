@@ -2,6 +2,7 @@
 "use client";
 import {
   Button,
+  Card,
   Input,
   Typography,
 } from "@material-tailwind/react";
@@ -158,24 +159,24 @@ const LearningShow: React.FC<LearningShowProps> = ({
     onResetForm();
   };
   return (
-    <div className="flex justify-center gap-3 ">
+    <Card className="flex justify-center gap-3 overflow-hidden   ">
       <div className="w-full p-5 px-7 justify-center items-center">
-        <div className="flex w-full gap-3 lg:gap-8 items-center flex-col sm:flex-row justify-start">
+        <div className="flex gap-3 lg:gap-8 items-center flex-col sm:flex-row justify-start">
           <div className="flex gap-2 items-center text-xl ">
             <FaBookReader />
             <Typography className="font-bold">
-              จัดการข้อมูลคอร์สเรียน
+              จัดการข้อมูลคอร์สเรียน 
             </Typography>
           </div>
           <div>
           <Input
             label="ค้นหาคอร์สเรียน"
-            color="deep-purple"
+            color="gray"
             crossOrigin="anonymous"
             onChange={(e) => setSearchQuery(e.target.value)}
             onClick={() => setPage(1)}
             icon={<FaSearch className=" text-deep-purple-300" />}
-            style={{ backgroundColor: "#f4f2ff" }}
+            style={{ backgroundColor: "#f5f5f5" }}
           />
           </div>
           <Button
@@ -186,50 +187,52 @@ const LearningShow: React.FC<LearningShowProps> = ({
           >
             เพิ่มข้อมูล
           </Button>
+
+          
         </div>
 
-        <div className="overflow-auto mt-5">
-          <ul className="list-none p-0 overflow-auto">
-            <li className="flex bg-blue-gray-50/50 border-b border-blue-gray-100 p-2 gap-5">
+        {/* <div className="mt-3 overflow-auto" >
+          <ul >
+            <li className="flex border-b pb-4 border-gray-300 p-2 gap-5 whitespace-nowrap">
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none opacity-70 w-1/12 whitespace-nowrap "
+                className=" text-gray-600 leading-none w-full sm:w-1/12 whitespace-nowrap "
               >
                 หน้าปก
               </Typography>
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none text-center  opacity-70 w-6/12 whitespace-nowrap "
+                className="text-gray-600  leading-none text-center  w-6/12 whitespace-nowrap "
               >
                 หัวข้อ
               </Typography>
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none opacity-70 w-2/12 text-center whitespace-nowrap "
+                className="text-gray-600  leading-none w-full  sm:w-2/12 text-center whitespace-nowrap "
               >
                 หมวดหมู่
               </Typography>
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none opacity-70 w-2/12 text-center whitespace-nowrap "
+                className="text-gray-600  leading-none w-full  sm:w-2/12 text-center whitespace-nowrap "
               >
                 ราคา
               </Typography>
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none opacity-70 w-2/12 text-center whitespace-nowrap "
+                className="text-gray-600  leading-none w-full   sm:w-2/12 text-center whitespace-nowrap "
               >
                 สถานะ
               </Typography>
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-bold leading-none opacity-70 w-1/12 text-center whitespace-nowrap "
+                className="text-gray-600  leading-none w-full   sm:w-1/12 text-center whitespace-nowrap "
               >
                 แก้ไข/ลบ
               </Typography>
@@ -242,10 +245,10 @@ const LearningShow: React.FC<LearningShowProps> = ({
               data?.data?.map((item, index) => (
                 <li
                   key={item.id}
-                  className="flex border-b border-blue-gray-100 p-1   items-center gap-5"
+                  className="flex border-b border-gray-300 p-2 hover:bg-purple-100/20  items-center gap-5"
                 >
-                  <div className="flex font-bold  ps-1  leading-none  w-1/12 ">
-                    <div className="flex    w-8 h-8 justify-stretch">
+                  <div className="flex font-bold  ps-1  leading-none  sm:w-1/12 ">
+                    <div className="flex w-8 h-8 justify-stretch">
                       <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item.image}`}
                         alt=""
@@ -255,7 +258,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="w-6/12 flex flex-col ">
+                  <div className="sm:w-6/12 flex flex-col ">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -267,7 +270,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       {htmlToText(item?.dec)}
                     </div>
                   </div>
-                  <div className="w-2/12 flex justify-center items-center whitespace-nowrap ">
+                  <div className="sm:w-2/12 flex justify-center items-center whitespace-nowrap ">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -276,7 +279,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       {item?.category_name}
                     </Typography>
                   </div>
-                  <div className="w-2/12 flex flex-col justify-center items-center whitespace-nowrap">
+                  <div className="sm:w-2/12 flex flex-col justify-center items-center whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -287,12 +290,12 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       {item?.price_sale > 0
                         ? item?.price_sale.toLocaleString()
                         : item?.price.toLocaleString()}{" "}
-                      <span className=" line-through text-black ">
-                        {item?.price_sale > 0 ? item?.price : ""}
+                      <span className=" line-through text-gray-500 ">
+                        {item?.price_sale > 0 ? item?.price.toLocaleString() : ""}
                       </span>
                     </Typography>
                   </div>
-                  <div className="w-2/12 flex justify-center items-center whitespace-nowrap ">
+                  <div className="sm:w-2/12 flex justify-center items-center whitespace-nowrap ">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -301,25 +304,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       ตรวจแล้ว
                     </Typography>
                   </div>
-                  {/* <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
-                        <IconButton
-                          size="sm"
-                          className="text-white max-w-7 max-h-7 bg-yellow-700"
-                          onClick={() => [onEdit(item)]}
-                        >
-                          <MdEdit className="h-5 w-5" />
-                        </IconButton>
-                        <IconButton
-                          size="sm"
-                          className="bg-red-300 max-w-7 max-h-7"
-                          onClick={() => {
-                            handleDelete(item);
-                          }}
-                        >
-                          <MdDelete className="h-5 w-5" />
-                        </IconButton>
-                      </div> */}
-                  <div className="w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
+                  <div className="sm:w-1/12 flex  flex-col md:flex-row justify-center gap-2 whitespace-nowrap">
                     <MdEdit
                       className="h-5 w-5 text-purple-500 cursor-pointer"
                       onClick={() => [onEdit(item)]}
@@ -336,11 +321,109 @@ const LearningShow: React.FC<LearningShowProps> = ({
               ))
             )}
           </ul>
-        </div>
+        </div > */}
+
+<div className="w-full p-5 px-7 justify-center items-center overflow-auto">
+  <table className="table-auto w-full">
+    <thead>
+      <tr>
+        <th className="border-b p-2 text-left whitespace-nowrap">หน้าปก</th>
+        <th className="border-b p-2 text-left whitespace-nowrap">หัวข้อ</th>
+        <th className="border-b p-2 text-left whitespace-nowrap">หมวดหมู่</th>
+        <th className="border-b p-2 text-left whitespace-nowrap">ราคา</th>
+        <th className="border-b p-2 text-left whitespace-nowrap">สถานะ</th>
+        <th className="border-b p-2 text-left whitespace-nowrap">แก้ไข/ลบ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data?.data?.length === 0 ? (
+        <tr>
+          <td colSpan={6} className="text-center pt-5">
+            <Typography>...ไม่พบข้อมูล...</Typography>
+          </td>
+        </tr>
+      ) : (
+        data?.data?.map((item) => (
+          <tr key={item.id} className="hover:bg-purple-100/20">
+            <td className="border-b p-2">
+              <div className="flex justify-center">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item.image}`}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="rounded-md"
+                />
+              </div>
+            </td>
+            <td className="border-b p-2">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal overflow-hidden text-ellipsis whitespace-nowrap"
+              >
+                {item?.title}
+              </Typography>
+            </td>
+            <td className="border-b p-2 text-center">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal overflow-hidden text-ellipsis whitespace-nowrap"
+              >
+                {item?.category_name}
+              </Typography>
+            </td>
+            <td className="border-b p-2 text-center">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className={`font-normal overflow-hidden text-ellipsis whitespace-nowrap ${
+                  item?.price_sale > 0 ? "text-red-500" : ""
+                }`}
+              >
+                {item?.price_sale > 0
+                  ? item?.price_sale.toLocaleString()
+                  : item?.price.toLocaleString()}{" "}
+                <span className="line-through text-gray-500">
+                  {item?.price_sale > 0
+                    ? item?.price.toLocaleString()
+                    : ""}
+                </span>
+              </Typography>
+            </td>
+            <td className="border-b p-2 text-center">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal text-green-500 bg-green-300 bg-opacity-25 px-2 overflow-hidden text-ellipsis whitespace-nowrap"
+              >
+                ตรวจแล้ว
+              </Typography>
+            </td>
+            <td className="border-b p-2 text-center">
+              <div className="flex justify-center gap-2">
+                <MdEdit
+                  className="h-5 w-5 text-purple-500 cursor-pointer"
+                  onClick={() => onEdit(item)}
+                />
+                <MdDelete
+                  className="h-5 w-5 text-purple-500 cursor-pointer"
+                  onClick={() => handleDelete(item)}
+                />
+              </div>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
 
         <div className="flex justify-end gap-2 mt-7 px-2 items-center ">
           <button
-            className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
+            className={` text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
               page == 1 ? "" : "hover:text-black"
             } `}
             disabled={page == 1}
@@ -352,7 +435,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
             หน้าที่ {page} / {data?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
               Number(data?.totalPages) - Number(page) < 1
                 ? true
                 : false
@@ -368,7 +451,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

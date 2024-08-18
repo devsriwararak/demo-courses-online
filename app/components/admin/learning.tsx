@@ -289,11 +289,10 @@ const LearningPage: React.FC = () => {
   return (
    
       
-      <div className="flex flex-col xl:flex-row justify-center gap-3  overflow-auto">
+      <div className="flex w-full flex-col xl:flex-row justify-center gap-3 ">
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
-          <div className="w-full ">
-            <Card className="flex overflow-auto mb-2">
+          <div className="w-full  ">
               <LearningShow
                 showToast={showToast}
                 onEdit={handleEdit}
@@ -301,7 +300,6 @@ const LearningPage: React.FC = () => {
                 learningAdd={learningAdd}
                 onResetForm={resetForm}
               />
-            </Card>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row w-full  gap-3">

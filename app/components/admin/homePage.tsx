@@ -237,7 +237,6 @@ const AdminPage: React.FC = () => {
       <Card className="flex w-full h-[85vh] mb-2">
         <div className="w-full p-5 justify-center items-center">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
-            <div className="flex gap-5  whitespace-nowrap items-center">
               <div className="flex gap-2 items-center text-xl  ">
                 <FaChalkboardTeacher  />
                 <Typography className="font-bold">จัดการหมวดหมู่</Typography>
@@ -266,9 +265,9 @@ const AdminPage: React.FC = () => {
               {/* <Button className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap">
                 ล้างค้นหา
               </Button> */}
-            </div>
+      
           </div>
-          <div className="overflow-auto  lg:h-[100%]">
+          <div className="overflow-auto  ">
             {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 "> */}           
               <table className="w-full min-w-max  mt-5">
                 <thead>
@@ -358,7 +357,7 @@ const AdminPage: React.FC = () => {
                   )}
                 </tbody>
               </table>
-          
+          </div>
             <div className="flex justify-end gap-2 mt-7 px-2 items-center ">
               <button
                 className={` text-gray-400  text-2xl  whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
@@ -388,7 +387,6 @@ const AdminPage: React.FC = () => {
                 <IoIosArrowForward />
               </button>
             </div>
-          </div>
         </div>
       </Card>
 

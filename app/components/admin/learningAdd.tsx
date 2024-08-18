@@ -99,7 +99,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             <Input
               label="สร้างคอร์สเรียน"
               crossOrigin="anonymous"
-              color="deep-purple"
+              color="gray"
               value={formData.title}
               onChange={(e) =>
                 setFormData((prevFormData) => ({
@@ -107,7 +107,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   title: e.target.value,
                 }))
               }
-              style={{ backgroundColor: "#f4f2ff" }}
+              style={{ backgroundColor: "#f5f5f5" }}
             />
           </div>
           <div className="flex flex-col gap-2 xl:flex-row md:justify-between">
@@ -117,7 +117,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="number"
                 min={0}
                 crossOrigin="anonymous"
-                color="deep-purple"
+                color="gray"
                 value={formData?.regularPrice?.toString()}
                 onChange={(e) =>
                   setFormData((prevFormData) => ({
@@ -125,7 +125,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     regularPrice: parseFloat(e.target.value),
                   }))
                 }
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
             <div className="w-full xl:w-3/12">
@@ -133,7 +133,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 label="ราคาลดแล้ว"
                 type="number"
                 min={0}
-                color="deep-purple"
+                color="gray"
                 crossOrigin="anonymous"
                 value={formData.discountPrice?.toString()}
                 onChange={(e) =>
@@ -142,7 +142,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     discountPrice: parseFloat(e.target.value),
                   }))
                 }
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
             <div className="w-full xl:w-3/12 flex  justify-center">
@@ -218,10 +218,10 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 type="file"
                 crossOrigin="anonymous"
                 accept="image/*"
-                 color="deep-purple"
+                 color="gray"
                 id="imageInput"
                 onChange={handleImageUpload}
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
           </div>

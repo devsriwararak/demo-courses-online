@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             hasDivider: false,
           },
           {
-            text: "คอร์ดเรียน",
+            text: "คอร์สเรียน",
             icon: <FaBookReader />,
             path: "/admin/learning",
             hasDivider: false,
@@ -155,7 +155,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             hasDivider: false,
           },
           {
-            text: "จัดการซื้อคอร์ดเรียน",
+            text: "จัดการซื้อคอร์สเรียน",
             icon: <FaCcAmazonPay />,
             path: "/admin/pay",
             hasDivider: false,

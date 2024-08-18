@@ -278,14 +278,14 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               label="สร้างบทเรียน"
               crossOrigin="anonymous"
               value={formData.lesson}
-               color="deep-purple"
+               color="gray"
               onChange={(e) =>
                 setFormData((prevFormData) => ({
                   ...prevFormData,
                   lesson: e.target.value,
                 }))
               }
-              style={{backgroundColor:"#f4f2ff"}}
+              style={{backgroundColor:"#f5f5f5"}}
             />
             <div className="md:w-[100px]">
               <Button
@@ -303,38 +303,38 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
             <table className="w-full  mt-5  overflow-auto ">
               <thead>
                 <tr>
-                  <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                  <th className="border-b pb-2  p-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold text-start leading-none opacity-70"
+                      className="text-sm  text-start leading-none opacity-70"
                     >
                       ลำดับ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                  <th className="border-b pb-2  p-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold text-start leading-none opacity-70  whitespace-nowrap"
+                      className="text-sm  text-start leading-none opacity-70  whitespace-nowrap"
                     >
                       หัวข้อ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1   whitespace-nowrap">
+                  <th className="border-b pb-2  p-1   whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold text-end leading-none opacity-70 whitespace-nowrap "
+                      className="text-sm text-end leading-none opacity-70 whitespace-nowrap "
                     >
                       อัพโหลด
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 w-1 whitespace-nowrap">
+                  <th className="border-b pb-2  p-1 w-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm  leading-none opacity-70"
                     >
                       แก้ไข/ลบ
                     </Typography>
@@ -350,13 +350,13 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   </tr>
                 ) : (
                   dataTitle?.data?.map((item: any, index: number) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}>
-                      <td className="py-1">
-                        <div className="flex items-center ps-4 ">
+                    <tr key={item.id} style={{ marginTop: "3px" }}  className="hover:bg-purple-100/20">
+                      <td >
+                        <div className="flex py-2.5  px-5  items-center  ">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal text-sm"
+                            className=" text-xs"
                           >
                             {index + 1}
                           </Typography>
@@ -367,7 +367,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal ps-1  text-sm overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
+                            className=" ps-1  text-xs overflow-hidden text-ellipsis whitespace-nowrap max-w-[250px]"
                           >
                             {item.title}
                           </Typography>
@@ -402,7 +402,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           </div>
           <div className="flex justify-end gap-2 mt-5 px-2 items-center">
             <button
-              className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
+              className={` text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
                 pageTitle == 1 ? "" : "hover:text-black"
               } `}
               disabled={pageTitle == 1}
@@ -412,11 +412,11 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
             >
               <IoIosArrowBack />
             </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
+            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
               หน้าที่ {pageTitle} / {dataTitle?.totalPages || 1}{" "}
             </span>
             <button
-              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
+              className={`text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
                 Number(dataTitle?.totalPages) - Number(pageTitle) < 1
                   ? true
                   : false

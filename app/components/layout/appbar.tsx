@@ -40,7 +40,7 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
     router.push("/");
   };
   return (
-    <div className={`fixed w-full bg-white border px-3 shadow-sm `}>
+    <div className={`fixed w-full bg-white border px-3 shadow-sm z-20 `}>
       <div className="flex justify-between items-center p-2 gap-4">
         {isSmallScreen && (
           <Button
@@ -61,11 +61,10 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
           <div className=" hidden md:flex">
             <Input
               label="ค้นหาผู้ใช้"
-              color="deep-purple"
+              color="gray"
               crossOrigin="anonymous"
               icon={<FaSearch className=" text-deep-purple-300" />}
-              style={{ backgroundColor: "#f4f2ff" }}
-
+              style={{ backgroundColor: "#f5f5f5" }}
             />
           </div>
           <div className="text-[#a8a4bc] hidden md:flex ">

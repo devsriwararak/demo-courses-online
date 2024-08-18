@@ -224,20 +224,20 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
     <div>
       <Card className="flex px-5 py-3 mb-2  overflow-auto">
         <form
-          className="flex flex-col w-full  gap-4"
+          className="flex flex-col w-full  gap-2"
           onSubmit={handleFormSubmit}
         >
-          <div className="flex flex-col gap-5 xl:flex-row">
+          <div className="flex flex-col gap-5 xl:flex-row ">
             <div className="w-full xl:w-[200px]">
               <Input
                 label="Upload VDO"
                 type="file"
                 accept="video/*"
-                color="deep-purple"
+                color="gray"
                 id="videoInput"
                 onChange={handleVideoUpload}
                 crossOrigin="anonymous"
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
             <div>
@@ -257,45 +257,45 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           <div></div>
         </form>
         <div>
-          <table className="w-full  overflow-auto  ">
+          <table className="w-full overflow-auto mt-3    ">
             <thead>
-              <tr>
-                <th className="border-y  px-5 border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+              <tr >
+                <th className="border-b pb-2 px-5  p-1 whitespace-nowrap">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-bold leading-none opacity-70 text-start"
+                    className="text-sm leading-none opacity-70 text-start"
                   >
                     บทเรียน
                   </Typography>
                 </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-1 whitespace-nowrap">
+                <th className="border-b pb-2 p-1 whitespace-nowrap">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-bold leading-none opacity-70"
+                    className="text-sm leading-none opacity-70"
                   >
                     แก้ไข/ลบ
                   </Typography>
                 </th>
               </tr>
             </thead>
-            <tbody className="justify-start items-start ">
+            <tbody className="">
               {dataVideo?.data?.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center pt-5">
+                  <td colSpan={5} className="text-center pt-5 ">
                     <Typography>...ไม่พบข้อมูล...</Typography>
                   </td>
                 </tr>
               ) : (
                 dataVideo?.data?.map((item: any, index: number) => (
-                  <tr key={item.id} style={{ marginTop: "3px" }}>
-                    <td className="flex py-1 px-5 justify-between">
+                  <tr key={item.id}  className=" hover:bg-purple-100/20">
+                    <td className="flex py-2.5  px-5 justify-between">
                       <div className="flex items-center justify-center">
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-normal"
+                          className="text-xs"
                         >
                           {` คลิปวิดีโอที่ ${index + 1}`}
                         </Typography>
@@ -323,9 +323,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end gap-2 mt-5 px-2 items-center">
+        <div className="flex justify-end gap-2 mt-6 px-2 items-center">
           <button
-            className={` text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md  ${
+            className={` text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
               pageVideo == 1 ? "" : "hover:text-black"
             } `}
             disabled={pageVideo == 1}
@@ -335,11 +335,11 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           >
             <IoIosArrowBack />
           </button>
-          <span style={{ whiteSpace: "nowrap" }} className="text-sm">
+          <span style={{ whiteSpace: "nowrap" }} className="text-xs">
             หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+            className={`text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
               Number(dataVideo?.totalPages) - Number(pageVideo) < 1
                 ? true
                 : false

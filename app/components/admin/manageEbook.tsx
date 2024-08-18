@@ -278,9 +278,9 @@ const ManageEbook: React.FC = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                color="deep-purple"
+                color="gray"
                 label="หัวข้อ"
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
                 crossOrigin
               />
             </div>
@@ -290,16 +290,16 @@ const ManageEbook: React.FC = () => {
                 name="coverFile"
                 label="เลือกรูปปก"
                 id="imageInput"
-                color="deep-purple"
+                color="gray"
                 onChange={(e) => handleChange(e)}
-                style={{ backgroundColor: "#f4f2ff" }}
+                style={{ backgroundColor: "#f5f5f5" }}
                 crossOrigin
               />
 
               <Input
                 name="link"
-                color="deep-purple"
-                style={{ backgroundColor: "#f4f2ff" }}
+                color="gray"
+                style={{ backgroundColor: "#f5f5f5" }}
                 value={formData.link}
                 onChange={handleChange}
                 label="ลิ้งค์"
@@ -311,7 +311,7 @@ const ManageEbook: React.FC = () => {
                 name="dec"
                 value={formData.dec}
                 onChange={handleChange}
-                color="deep-purple"
+                color="gray"
                 className="h-[317px]"
                 label="รายละเอียด"
                 style={{ backgroundColor: "#f5f5f5" }}
@@ -348,69 +348,69 @@ const ManageEbook: React.FC = () => {
                   label="ค้นหา Ebook"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onClick={() => setPage(1)}
-                  color="deep-purple"
-                  style={{ backgroundColor: "#f4f2ff" }}
+                  color="gray"
+                  style={{ backgroundColor: "#f5f5f5" }}
                   crossOrigin
-                  icon={<FaSearch className=" text-gray-500" />}
+                  icon={<FaSearch className=" text-deep-purple-300" />}
                 />
               </div>
             </div>
           </div>
-          <div className="overflow-auto lg:h-[100%]">
+          <div className=" overflow-auto ">
             {/* <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[69vh] overflow-auto mb-3 border-2"> */}
-            <table className="w-full min-w-max mt-5 overflow-auto">
+            <table className="w-full min-w-max mt-5 ">
               <thead>
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <th className="border-b  p-4 w-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className=" text-sm leading-none opacity-70"
                     >
                       ลำดับ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <th className="border-b  p-4 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm  leading-none opacity-70"
                     >
                       ปก
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <th className="border-b  p-4 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm leading-none opacity-70"
                     >
                       ชื่อ
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <th className="border-b  p-4 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm leading-none opacity-70"
                     >
                       รายละเอียด
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <th className="border-b  p-4 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm  leading-none opacity-70"
                     >
                       ลิ้งค์
                     </Typography>
                   </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <th className="border-b p-4 w-1 whitespace-nowrap">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-bold leading-none opacity-70"
+                      className="text-sm  leading-none opacity-70"
                     >
                       แก้ไข/ลบ
                     </Typography>
@@ -426,13 +426,13 @@ const ManageEbook: React.FC = () => {
                   </tr>
                 ) : (
                   data?.data?.map((item, index) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}>
+                    <tr key={item.id} style={{ marginTop: "3px" }}  className="hover:bg-purple-100/20">
                       <td className="py-2">
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal"
+                            className=" text-xs"
                           >
                             {index + 1}
                           </Typography>
@@ -454,7 +454,7 @@ const ManageEbook: React.FC = () => {
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal"
+                            className="text-xs"
                           >
                             {item?.title}
                           </Typography>
@@ -465,7 +465,7 @@ const ManageEbook: React.FC = () => {
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-normal"
+                            className="text-xs"
                           >
                             {item?.dec}
                           </Typography>
@@ -482,7 +482,7 @@ const ManageEbook: React.FC = () => {
                               href={item.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-400 "
+                              className="text-blue-400 text-xs "
                             >
                               {item.link}
                             </a>
@@ -506,10 +506,10 @@ const ManageEbook: React.FC = () => {
                 )}
               </tbody>
             </table>
-
-            <div className="flex justify-end gap-2 mt-3 px-2 items-center">
+          </div>
+            <div className="flex justify-end gap-2 mt-6 px-2 items-center">
               <button
-                className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+                className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
                   page == 1 ? "" : "hover:text-black"
                 }`}
                 disabled={page == 1}
@@ -521,7 +521,7 @@ const ManageEbook: React.FC = () => {
                 หน้าที่ {page} / {data?.totalPages || 1}{" "}
               </span>
               <button
-                className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md
+                className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md
                   ${
                     Number(data?.totalPages) - Number(page) < 1
                       ? ""
@@ -533,7 +533,6 @@ const ManageEbook: React.FC = () => {
                 <IoIosArrowForward />
               </button>
             </div>
-          </div>
         </Card>
       </div>
     </div>

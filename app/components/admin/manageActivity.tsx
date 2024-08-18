@@ -372,7 +372,7 @@ const ManageActivity: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="overflow-auto lg:h-[100%]">
+        <div className="overflow-auto ">
             <table className="w-full min-w-max mt-5 overflow-auto">
               <thead>
                 <tr>
@@ -495,7 +495,7 @@ const ManageActivity: React.FC = () => {
                 )}
               </tbody>
             </table>
-        
+        </div>
           <div className="flex justify-end gap-2 mt-7 px-2 items-center">
             <button
               className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
@@ -523,7 +523,6 @@ const ManageActivity: React.FC = () => {
               <IoIosArrowForward />
             </button>
           </div>
-        </div>
       </Card>
 
       <AddEditModalActivity
