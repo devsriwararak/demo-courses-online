@@ -12,6 +12,7 @@ import LearningShow from "./learningShow";
 import LearningADD from "./learningAdd";
 import LearningTitle from "./learningTitel";
 import LearningVedio from "./learningVedio";
+import CryptoJS from "crypto-js";
 
 const MySwal = withReactContent(Swal);
 
@@ -47,6 +48,14 @@ interface Course {
 }
 
 const LearningPage: React.FC = () => {
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
@@ -81,7 +90,9 @@ const LearningPage: React.FC = () => {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/category`,
         requestData,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       // console.log(res)
       if (res.status === 200) {
@@ -105,7 +116,9 @@ const LearningPage: React.FC = () => {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         if (res.status === 200) {
           setDataTitle(res.data);
@@ -159,13 +172,17 @@ const LearningPage: React.FC = () => {
         res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/add`,
           formDataToSubmit,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
       } else {
         res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/product`,
           formDataToSubmit,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
       }
 

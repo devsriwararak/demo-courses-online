@@ -20,6 +20,7 @@ import { FaSearch, FaBookReader } from "react-icons/fa";
 import { useState, useEffect, useCallback } from "react";
 
 import { htmlToText } from "html-to-text";
+import CryptoJS from "crypto-js";
 
 import Swal from "sweetalert2";
 import Image from "next/image";
@@ -62,6 +63,13 @@ const LearningShow: React.FC<LearningShowProps> = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
 
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const fetchCategory = useCallback(async () => {
     const requestData = {
       page: page,
@@ -73,7 +81,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
         `${process.env.NEXT_PUBLIC_API}/api/product`,
         requestData,
         {
-          ...HeaderAPI(localStorage.getItem("Token")),
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -118,9 +126,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/${category.id}`,
             {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              },
+              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
             }
           );
           // console.log(res);

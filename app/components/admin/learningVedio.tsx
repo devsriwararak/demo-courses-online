@@ -18,6 +18,7 @@ const CustomEditor = dynamic(() => import("./richTextEditor"), { ssr: false });
 import { MdDelete, MdEdit } from "react-icons/md";
 
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import CryptoJS from "crypto-js";
 
 interface Course {
   id: number;
@@ -47,6 +48,13 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
   const [videoId, setVideoId] = useState(0);
 
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const fetchVideo = useCallback(async () => {
     const data = {
       products_title_id: titleId,
@@ -57,7 +65,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
         data,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       console.log(res.data);
       if (res.status === 200) {
@@ -112,13 +122,17 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
         res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/add/videos`,
           formDataToSubmit,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
       } else {
         res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
           formDataToSubmit,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
       }
 
@@ -185,7 +199,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/videos/${item.id}`,
             {
-              ...HeaderAPI(localStorage.getItem("Token")),
+              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
             }
           );
           // console.log(res);

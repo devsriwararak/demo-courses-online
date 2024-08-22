@@ -3,6 +3,7 @@ import React, { useState, ReactNode, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import AppbarComponent from "./appbar";
 import { useMediaQuery } from "react-responsive";
+import CryptoJS from "crypto-js";
 
 const Sidebar = dynamic(() => import("./sidebar"), { ssr: false });
 
@@ -11,13 +12,20 @@ interface LayoutContentProps {
 }
 
 const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
-  const loginStatus = localStorage.getItem("Status");
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+  const loginStatus = parseInt(decryptData(localStorage.getItem("Status") || ""));;
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // const isSmallScreenQuery = useMediaQuery({ query: "(max-width: 751px)" });
 
   const isSmallScreenQuery = useMediaQuery({
-    query: loginStatus === '1' ? "(max-width: 1200px)" : "(max-width: 751px)"
+    query: loginStatus === 1 ? "(max-width: 1200px)" : "(max-width: 751px)"
   });
 
   useEffect(() => {

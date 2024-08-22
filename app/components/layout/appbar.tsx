@@ -37,6 +37,8 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
 
   const handleLogout = (): void => {
     sessionStorage.removeItem("login");
+    localStorage.removeItem("Token")
+    localStorage.removeItem("Status")
     router.push("/");
   };
   return (

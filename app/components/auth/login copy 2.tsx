@@ -1,9 +1,7 @@
 "use client";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
-import { jwtDecode, JwtPayload } from "jwt-decode";  // ใช้การนำเข้าแบบ named import
-import CryptoJS from "crypto-js";
-import Image from "next/image";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { usePathname, useRouter } from "next/navigation";
 import React, { FormEvent, useCallback, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,21 +13,12 @@ interface MyJwtPayload extends JwtPayload {
   id: number;
 }
 
-const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-const encryptData = (data: string) => {
-  return CryptoJS.AES.encrypt(data, secretKey).toString();
-};
-
-const decryptData = (ciphertext: string) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-  return bytes.toString(CryptoJS.enc.Utf8);
-};
-
 const LoginPage: React.FC = () => {
   const [user, setUser] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogin = useCallback(
     async (e: FormEvent) => {
@@ -44,28 +33,20 @@ const LoginPage: React.FC = () => {
         );
         const token = res.data.token;
         const decoded = jwtDecode<MyJwtPayload>(token);
+        console.log(decoded);
         if (token && decoded) {
           toast.success("เข้าสู่ระบบสำเร็จ");
-
-          // เข้ารหัสและเก็บข้อมูล
-          localStorage.setItem("Token", encryptData(token));
-          localStorage.setItem("Status", encryptData(decoded.status.toString()));
-          sessionStorage.setItem("login", encryptData(decoded.username));
-
+          localStorage.setItem("Token", token);
+          localStorage.setItem("Status", decoded.status.toString());
+          sessionStorage.setItem("login", decoded.username);
           let redirectPath = "/";
-          
-          const status = parseInt(decryptData(localStorage.getItem("Status") || ""));
-
-        console.log(status)
-          
-          if (status === 2) {
+          if (decoded.status === 2) {
             redirectPath = "/super";
-          } else if (status === 1) {
+          } else if (decoded.status === 1) {
             redirectPath = "/admin";
-          } else if (status === 0) {
+          } else if (decoded.status === 0) {
             redirectPath = "/user/shopcourse";
           }
-
           setTimeout(() => {
             router.push(redirectPath);
           }, 1500);

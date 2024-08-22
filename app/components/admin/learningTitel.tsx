@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 
 import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { GrUploadOption } from "react-icons/gr";
+import CryptoJS from "crypto-js";
 
 
 interface LearningTitleProps {
@@ -56,6 +57,13 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   dataTitle,
   setTitleId,
 }) => {
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const fetchTitle = useCallback(
@@ -69,7 +77,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         console.log(res);
         if (res.status === 200) {
@@ -107,7 +117,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         if (res.status === 200) {
           toast.success(res.data.message);
@@ -136,7 +148,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/add/title`,
           data,
-          { ...HeaderAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         if (res.status === 200) {
           toast.success(res.data.message);
@@ -209,9 +223,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
             {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              },
+              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
             }
           );
           if (res.status === 200) {
@@ -378,7 +390,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                       </td>
                       <td>
                         <div className="flex  justify-end pr-5  ">
-                            <GrUploadOption className="h-5 w-5 text-green-500" onClick={() => [handleUpload(item) , clearForm()] }/>
+                            <GrUploadOption className="h-5 w-5 text-green-500  cursor-pointer" onClick={() => [handleUpload(item) , clearForm()] }/>
                         </div>
                       </td>
                       <td>

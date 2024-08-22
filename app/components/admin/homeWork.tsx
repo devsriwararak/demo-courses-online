@@ -25,6 +25,7 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
+import CryptoJS from "crypto-js";
 
 const MySwal = withReactContent(Swal);
 
@@ -218,6 +219,13 @@ const HomeWorkPage: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ListData1 | null>(null);
   const [indexQuestion, setIndexQuestion] = useState(0);
 
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const {
     products,
     chapters,
@@ -258,9 +266,7 @@ const HomeWorkPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/question/list/change`,
           data,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
           }
         );
 
@@ -282,7 +288,9 @@ const HomeWorkPage: React.FC = () => {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/product`,
         { full: true },
-        { ...HeaderAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       console.log(res.data);
       if (res.status === 200) {
@@ -301,7 +309,9 @@ const HomeWorkPage: React.FC = () => {
       console.log(id);
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/select/courses/${id}`,
-        { ...HeaderAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       console.log(res);
       if (res.status === 200) {
@@ -393,18 +403,14 @@ const HomeWorkPage: React.FC = () => {
               `${process.env.NEXT_PUBLIC_API}/api/question/add`,
               data,
               {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("Token")}`,
-                },
+                ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
               }
             )
           : await axios.put(
               `${process.env.NEXT_PUBLIC_API}/api/question/list`,
               data,
               {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("Token")}`,
-                },
+                ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
               }
             );
       console.log(res.data);
@@ -469,7 +475,9 @@ const HomeWorkPage: React.FC = () => {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/question`,
         { search: searchQuery, page, full: false },
-        { ...HeaderAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       if (res.status === 200) {
         dispatch({ type: "SET_DATA", payload: res.data });
@@ -499,7 +507,7 @@ const HomeWorkPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/question/list`,
         requestData,
         {
-          ...HeaderAPI(localStorage.getItem("Token")),
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -596,9 +604,7 @@ const HomeWorkPage: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/question/list/${id}`,
             {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              },
+              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
             }
           );
           if (res.status === 200) {

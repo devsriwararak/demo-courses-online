@@ -20,6 +20,7 @@ import { IoAccessibility } from "react-icons/io5";
 import { VscNotebook } from "react-icons/vsc";
 import { CgWebsite } from "react-icons/cg";
 import { Typography } from "@material-tailwind/react";
+import CryptoJS from "crypto-js";
 
 interface MenuItem {
   text: string;
@@ -58,11 +59,17 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     setActivePath(pathname);
   }, [pathname]);
 
-  const loginStatus = localStorage.getItem("Status");
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+  const loginStatus = parseInt(decryptData(localStorage.getItem("Status") || ""));;
 
   const menuItems: MenuItem[] = useMemo(() => {
     switch (loginStatus) {
-      case "1":
+      case 1:
         return [
           {
             text: "หมวดหมู่",
@@ -115,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           },
           // { text: "Settings", icon: <FaClipboardList />, path: "/admin/settings", hasDivider: true },
         ];
-      case "2":
+      case 2:
         return [
           {
             text: "จัดการแอดมิน",
@@ -192,7 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             hasDivider: false,
           },
         ];
-      case "0":
+      case 0:
         return [
           {
             text: "จัดการรายการ",
@@ -228,7 +235,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
   return (
     <div
       className={`h-full flex flex-col bg-white ${
-        loginStatus === "1" ? " w-[200px]" : " w-[210px]"
+        loginStatus === 1 ? " w-[200px]" : " w-[210px]"
       }`}
     >
       <div className="flex pt-1 items-center justify-center h-[52px]  ">

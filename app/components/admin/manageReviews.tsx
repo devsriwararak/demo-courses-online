@@ -23,6 +23,7 @@ import { FaAward, FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import AddEditModalReview from "./addEditModalReview";
+import CryptoJS from "crypto-js";
 
 interface ReviewFormData {
   id: number;
@@ -69,6 +70,14 @@ const ManageReviews: React.FC = () => {
     { id: number; image: string }[]
   >([]);
 
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const fetchReviews = useCallback(async () => {
     const requestData = {
       page,
@@ -80,7 +89,7 @@ const ManageReviews: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/reviews`,
         requestData,
         {
-          ...HeaderAPI(localStorage.getItem("Token")),
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -119,9 +128,7 @@ const ManageReviews: React.FC = () => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/reviews/images/${item.id}`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
-          },
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -208,7 +215,9 @@ const ManageReviews: React.FC = () => {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/reviews`,
           updateData,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         console.log(res);
         if (res.status === 200) {
@@ -245,7 +254,9 @@ const ManageReviews: React.FC = () => {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/reviews/add`,
           data,
-          { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+          {
+            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          }
         );
         if (res.status === 200) {
           fetchReviews();
@@ -305,9 +316,7 @@ const ManageReviews: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/reviews/${customer.id}`,
             {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("Token")}`,
-              },
+              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
             }
           );
           if (res.status === 200) {

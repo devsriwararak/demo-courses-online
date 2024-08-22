@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdDelete, MdEdit } from "react-icons/md";
 
 import { useState, useEffect, useCallback } from "react";
+import CryptoJS from "crypto-js";
 import AddEditModal from "@/app/components/super/addEditModal";
 
 interface Customer {
@@ -46,6 +47,13 @@ const GoodReport: React.FC = () => {
     name: "",
   });
 
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const fetchCustomer = useCallback(async () => {
     const requestData = {
       status: 1,
@@ -58,7 +66,7 @@ const GoodReport: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/admin`,
         requestData,
         {
-          ...HeaderAPI(localStorage.getItem("Token")),
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -108,9 +116,7 @@ const GoodReport: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/admin`,
           updateData,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
           }
         );
         if (res.status === 200) {
@@ -139,9 +145,7 @@ const GoodReport: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/register`,
           data,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
+            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
           }
         );
         if (res.status === 200) {
@@ -165,9 +169,7 @@ const GoodReport: React.FC = () => {
       const res = await axios.delete(
         `${process.env.NEXT_PUBLIC_API}/api/admin/${customer.id}`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Token")}`,
-          },
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
 

@@ -15,6 +15,7 @@
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.2",
     "ckeditor5": "^42.0.0",
+    "crypto-js": "^4.2.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "html-to-draftjs": "^1.5.0",
@@ -36,6 +37,7 @@
     "tinymce": "^7.2.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/draft-js": "^0.11.18",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^20",

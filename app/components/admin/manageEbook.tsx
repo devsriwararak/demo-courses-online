@@ -19,6 +19,7 @@ import { FaRegSave, FaSearch } from "react-icons/fa";
 import { VscNotebook } from "react-icons/vsc";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import CryptoJS from "crypto-js";
 
 interface ReviewFormData {
   id: number;
@@ -54,6 +55,13 @@ const ManageEbook: React.FC = () => {
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [dataEdit, setDataEdit] = useState<ReviewFormData | null>(null);
 
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const fetchEbook = useCallback(async () => {
     const requestData = {
       page,
@@ -64,7 +72,7 @@ const ManageEbook: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/ebook`,
         requestData,
         {
-          ...HeaderAPI(localStorage.getItem("Token")),
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
       console.log(res.data);
@@ -162,7 +170,9 @@ const ManageEbook: React.FC = () => {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/ebook/add`,
         formDataToSend,
-        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       if (res.status === 200) {
         fetchEbook();
@@ -201,7 +211,9 @@ const ManageEbook: React.FC = () => {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API}/api/ebook`,
         formDataToSend,
-        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
       if (res.status === 200) {
         fetchEbook();
@@ -232,7 +244,9 @@ const ManageEbook: React.FC = () => {
         try {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/ebook/${item.id}`,
-            { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+            {
+              ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            }
           );
           if (res.status === 200) {
             fetchEbook();
