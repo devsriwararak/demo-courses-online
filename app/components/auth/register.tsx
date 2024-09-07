@@ -25,12 +25,8 @@ const Register = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // if (password !== confirmPassword) {
-        //     toast.error('Passwords do not match!');
-        //     return;
-        // }
 
-        const data = { username: user, password: password, name:name ,email: email , phone:Number(phone) ,status: 0 };
+        const data = { username: user, password: password, name:name ,email: email , phone:phone ,status: 0 };
         console.log(data)
 
         try {
@@ -59,7 +55,7 @@ const Register = () => {
       
       <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row  lg:h-[89%]   ">
         <Template/>
-        
+
         <div className="w-full md:w-3/4 ">
         <div className="flex flex-col w-full items-center gap-3  justify-end py-4 px-8">
             <div className="flex flex-col w-full justify-center items-center">

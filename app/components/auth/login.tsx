@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
             decryptData(localStorage.getItem("Status") || "")
           );
 
-          // console.log(status)
+          console.log(status)
 
           if (status === 2) {
             redirectPath = "/super";

@@ -81,6 +81,8 @@ export function UserHeader() {
 
   const login = sessionStorage.getItem("login");
 
+  console.log(login)
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {

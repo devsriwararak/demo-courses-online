@@ -136,7 +136,7 @@ const ShopCourse: React.FC = () => {
             <div className="flex flex-col gap-5  ">
               <div>
                 <Typography className=" txt-xl md:text-4xl   font-bold">
-                  คอร์สเทรดออนไลน์ ({user})
+                  คอร์สเทรดออนไลน์ 
                 </Typography>
            
               </div>
