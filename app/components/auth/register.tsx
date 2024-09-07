@@ -11,10 +11,12 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
+import Template from './template';
 
 const Register = () => {
     const [user, setUser] = useState<string>("");
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     // const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,7 +30,7 @@ const Register = () => {
         //     return;
         // }
 
-        const data = { username: user, password: password, status: 0 };
+        const data = { username: user, password: password, name:name ,email: email , phone:Number(phone) ,status: 0 };
         console.log(data)
 
         try {
@@ -44,23 +46,21 @@ const Register = () => {
                 },1000)
             }
         } catch (err) {
+          console.log(err)
             const error = err as { response: { data: { message: string } } };
-            // console.log(error)
+            console.log(error)
             toast.error(error?.response?.data?.message);
         }
     };
 
     return (
       <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
+         <ToastContainer autoClose={3000} theme="colored" />
       
       <div className="bg-white rounded-lg shadow-lg  flex flex-col md:flex-row  lg:h-[89%]   ">
-        <div className="  w-full md:w-2/4 bg-purple-50 rounded-lg shadow-lg hidden  md:flex flex-col justify-center items-center ">
-        <h1 className="text-xl">xxxxxxxxxxx</h1>
-        <img src="/login1.webp" alt=""  />
-        <small>xxxxxxxx</small>
-        </div>
-
-        <div className="w-full md:w-3/4     ">
+        <Template/>
+        
+        <div className="w-full md:w-3/4 ">
         <div className="flex flex-col w-full items-center gap-3  justify-end py-4 px-8">
             <div className="flex flex-col w-full justify-center items-center">
               <div>
@@ -84,7 +84,7 @@ const Register = () => {
                     value={user}
                     color="purple"
                     onChange={(e) => setUser(e.target.value)}
-                    required
+                    // required
                     className="mb-4"
                     crossOrigin=""
                   />
@@ -96,7 +96,19 @@ const Register = () => {
                     value={password}
                     color="purple"
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    // required
+                    className="mb-4"
+                    crossOrigin=""
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    label="name"
+                    value={name}
+                    color="purple"
+                    onChange={(e) => setName(e.target.value)}
+                    // required
                     className="mb-4"
                     crossOrigin=""
                   />
@@ -108,7 +120,7 @@ const Register = () => {
                     value={email}
                     color="purple"
                     onChange={(e) => setEmail(e.target.value)}
-                    required
+                    // required
                     className="mb-4"
                     crossOrigin=""
                   />
@@ -118,9 +130,10 @@ const Register = () => {
                     type="tel"
                     label="Phone"
                     value={phone}
+                    maxLength={10}
                     color="purple"
                     onChange={(e) => setPhone(e.target.value)}
-                    required
+                    // required
                     className="mb-4"
                     crossOrigin=""
                   />

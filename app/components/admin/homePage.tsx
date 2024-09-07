@@ -239,7 +239,7 @@ const AdminPage: React.FC = () => {
       <ToastContainer autoClose={3000} theme="colored" />
       <Card className="flex w-full h-[85vh] mb-2">
         <div className="w-full p-5 justify-center items-center">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
+          <div className="flex flex-col sm:flex-row  gap-3 items-center ">
               <div className="flex gap-2 items-center text-xl  ">
                 <FaChalkboardTeacher  />
                 <Typography className="font-bold">จัดการหมวดหมู่</Typography>
