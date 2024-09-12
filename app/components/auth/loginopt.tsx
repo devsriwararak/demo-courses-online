@@ -56,6 +56,7 @@ const LoginOTPPage: React.FC = () => {
             encryptData(decoded.status.toString())
           );
           sessionStorage.setItem("login", encryptData(decoded.username));
+          localStorage.setItem("Id", encryptData(decoded.id.toString()));
 
           let redirectPath = "/";
           const status = parseInt(

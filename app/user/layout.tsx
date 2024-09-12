@@ -29,7 +29,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setIsAuthorized(true); // ตั้งค่า state ให้แสดงเนื้อหาถูกต้อง
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log(loginStatus)
   }, [router]);
 
 

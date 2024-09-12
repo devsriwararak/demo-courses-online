@@ -47,6 +47,7 @@ const LoginPage: React.FC = () => {
         console.log(res);
         const token = res.data.token;
         const decoded = jwtDecode<MyJwtPayload>(token);
+        console.log(decoded)
         if (token && decoded) {
           toast.success("เข้าสู่ระบบสำเร็จ");
 
@@ -56,6 +57,7 @@ const LoginPage: React.FC = () => {
             "Status",
             encryptData(decoded.status.toString())
           );
+          localStorage.setItem("Id", encryptData(decoded.id.toString()));
           sessionStorage.setItem("login", encryptData(decoded.username));
 
           let redirectPath = "/";
