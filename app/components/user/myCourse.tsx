@@ -1,52 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import Image from "next/image";
 
 import Carousel from "../carousel";
 
+import axios from "axios";
+import { HeaderAPI } from "@/headerApi";
+
+import CryptoJS from "crypto-js";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+
 import { FaSearch } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
 
 import { useRecoilState } from "recoil";
 import { BuyCourseStore } from "@/store/store";
 
-const courseCategories = [
-  "ทั้งหมด",
-  "การตลาดออนไลน์",
-  "ธุรกิจ",
-  "การเงิน & ลงทุน",
-  "การพัฒนาตนเอง",
-  "การพัฒนาซอฟต์แวร์",
-  "การออกแบบ",
-  "ถ่ายภาพ & วีดิโอ",
-];
+interface Category {
+  name: string;
+  id: number;
+}
 
 interface Course {
   title: string;
   dec: string;
+  id: number ;
   image: string;
   price: number;
   price_sale: number;
+  category_name:string
 }
 
-const recommendedCourses: Course[] = [
-  {
-    title:
-      "Course 1 asfksdmkf dskjfjsdj;fjksd jkdsjfdllkljf  jkjsdjfjsldf kjsdkjfkljs",
-    dec: "Description for course 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate placeat tempora suscipit ipsum, doloribus maiores in recusandae amet? Harum laboriosam facere, explicabo vero odit odio earum nulla consequatur similique magnam, eaque commodi id animi voluptatibus at. Exercitationem eligendi illo odit, recusandae esse, labore a incidunt hic nisi sit qui doloribus!",
-    image: "/pic4.jpg",
-    price: 5900,
-    price_sale: 0,
-  },
-];
-
-const slides = [
-  { src: "/banner1.png", alt: "Picture 1" },
-  // { src: "/pic2.jpg", alt: "Picture 2" },
-  //   { src: "/pic3.jpg", alt: "Picture 3" },
-];
+// const slides = [
+//   { src: "/banner1.png", alt: "Picture 1" },
+//   // { src: "/pic2.jpg", alt: "Picture 2" },
+//   //   { src: "/pic3.jpg", alt: "Picture 3" },
+// ];
 
 const truncateText = (text: string, limit: number) => {
   if (text.length > limit) {
@@ -56,8 +50,88 @@ const truncateText = (text: string, limit: number) => {
 };
 
 const ShopCourse: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>("ทั้งหมด");
+
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    "ทั้งหมด"
+  );
+  const [courseCategories, setCourseCategories] = useState<Category[]>([]);
+  const [product, setProduct] = useState<Course[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectCatetegory, setSelectCatetegory] = useState(0);
+  const [page, setPage] = useState(1);
   const router = useRouter();
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
+  const userId = decryptData(localStorage.getItem("Id") || "");
+
+  const fetchCategory = useCallback(async () => {
+    const requestData = {
+      users_id: userId || 0,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/users/category`,
+        requestData,
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
+      );
+      console.log(res.data);
+      if (res.status === 200) {
+        setCourseCategories(res.data);
+      } else {
+        toast.error("error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("error");
+    }
+  }, [page, searchQuery]);
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  const fetchProduct = useCallback(async () => {
+    const requestData = {
+      // page: page,
+      users_id: userId || 0,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/users/category`,
+        requestData,
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
+      );
+      console.log(res.data);
+      if (res.status === 200) {
+        setProduct(res.data.data);
+      } else {
+        toast.error("error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("error");
+    }
+  }, [searchQuery, selectCatetegory]);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [searchQuery,selectCatetegory]);
+
+
+
+
+ 
+
 
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
 
@@ -101,6 +175,7 @@ const ShopCourse: React.FC = () => {
                   icon={<FaSearch />}
                   crossOrigin="anonymous"
                   className="bg-white  !bg-opacity-100"
+                  onChange={(e)=> setSearchQuery(e.target.value)}
                 />
               </div>
               <Typography className="text-md">
@@ -134,24 +209,24 @@ const ShopCourse: React.FC = () => {
         <Typography className="text-lg font-bold">คอร์สแนะนำ</Typography>
       </div>
       <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
-        {courseCategories.map((category, index) => (
+        {courseCategories?.map((category, index) => (
           <Button
             key={index}
             variant="outlined"
             className={`${
-              selectedCategory === category
+              selectedCategory === category.id
                 ? "bg-purple-500 text-white"
                 : "border border-purple-500 text-purple-500"
             }`}
-            onClick={() => setSelectedCategory(category)}
+            // onClick={() => setSelectedCategory(category)}
           >
-            {category}
+            {category?.category_name}
           </Button>
         ))}
       </div>
       <div className="flex justify-center mt-4 ">
         <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
-          {recommendedCourses.map((course, index) => (
+          {product?.map((course, index) => (
             <Card
               key={index}
               className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
@@ -164,7 +239,7 @@ const ShopCourse: React.FC = () => {
               <div>
                 <div className="flex w-full h-[200px]">
                   <Image
-                    src={course.image}
+                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
                     alt={course.title}
                     width={500}
                     height={500}

@@ -15,15 +15,27 @@ import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import Topsale from "../topsale";
 
+import CryptoJS from "crypto-js";
+
 const MySwal = withReactContent(Swal);
 
 const BuyCourse = () => {
   const buyData = useRecoilValue(BuyCourseStore);
   const [show, setShow] = useState(false);
+  const [bill, setBill] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const router =useRouter()
+  const router = useRouter();
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
+  const userId = decryptData(localStorage.getItem("Id") || "");
 
   const truncateText = (text: string, limit: number) => {
     if (text.length > limit) {
@@ -31,83 +43,6 @@ const BuyCourse = () => {
     }
     return text;
   };
-
-//   const handleCheck = async () => {
-//     MySwal.fire({
-//       title: "กำลังส่งข้อมูล...",
-//       allowOutsideClick: false,
-//       width: "350px",
-//       padding: "35px",
-//       didOpen: () => {
-//         MySwal.showLoading();
-//       },
-//     });
-
-//     const data = {
-//       title: buyData?.title,
-//     };
-//     try {
-//       console.log(show);
-//       const response = await axios.post(
-//         `${process.env.NEXT_PUBLIC_API}/api`,
-// data,
-//         { ...HeaderMultiAPI(localStorage.getItem("Token")) }
-//       );
-
-//       if (response.status === 200) {
-//         toast.success(response.data.message);
-//         MySwal.close();
-//       } else {
-//         toast.error("Form submission failed!");
-//         MySwal.close();
-//       }
-//     } catch (err) {
-//       MySwal.close();
-//       setShow(true);
-//       const error = err as { response: { data: { message: string } } };
-//       toast.error(error.response.data.message);
-//     }
-//   };
-
-
-  // const handleSubmit = async () => {
-  //   MySwal.fire({
-  //     title: "กำลังส่งข้อมูล...",
-  //     allowOutsideClick: false,
-  //     width: "350px",
-  //     padding: "35px",
-  //     didOpen: () => {
-  //       MySwal.showLoading();
-  //     },
-  //   });
-
-  //   const data = {
-  //     title: buyData?.title,
-  //   };
-  //   try {
-  //     console.log(show);
-  //     const response = await axios.post(
-  //       `${process.env.NEXT_PUBLIC_API}/api`,
-  //       data,
-  //       { ...HeaderMultiAPI(localStorage.getItem("Token")) }
-  //     );
-
-  //     if (response.status === 200) {
-  //       toast.success(response.data.message);
-  //       MySwal.close();
-  //     } else {
-  //       toast.error("Form submission failed!");
-  //       MySwal.close();
-  //     }
-  //   } catch (err) {
-  //     MySwal.close();
-  //     setSuccess(true);
-  //     const error = err as { response: { data: { message: string } } };
-  //     toast.error(error.response.data.message);
-  //   }
-  // };
-
-
 
   const handleCheck = async () => {
     setLoading(true);
@@ -122,33 +57,34 @@ const BuyCourse = () => {
     });
 
     const data = {
-      title: buyData?.title,
+      users_id: Number(userId),
+      id: Number(buyData?.id),
     };
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api`,
+      console.log(data);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/pay/add`,
         data,
-        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
       );
 
-      setTimeout(() => {
-        if (response.status === 200) {
-          toast.success(response.data.message);
-          MySwal.close();
-        } else {
-          toast.error("Form submission failed!");
-          MySwal.close();
-        }
-        setLoading(false);
-      }, 5000); // ตั้งเวลา 5 วินาที
-    } catch (err) {
-      setTimeout(() => {
-        MySwal.close();
+      console.log(res);
+      if (res.status === 200) {
+        toast.success(res.data.message);
         setShow(true);
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-        setLoading(false);
-      }, 2000); // ตั้งเวลา 5 วินาที
+        setBill(res?.data?.bill_number)
+        MySwal.close();
+      } else {
+        return;
+      }
+    } catch (err) {
+      MySwal.close();
+      setShow(true);
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+      setLoading(false);
     }
   };
 
@@ -193,9 +129,9 @@ const BuyCourse = () => {
         setLoading(false);
       }, 2000); // ตั้งเวลา 5 วินาที
     }
-  }
+  };
 
-
+  // console.log(buyData)
 
   return (
     <>
@@ -205,7 +141,7 @@ const BuyCourse = () => {
           <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white ">
             <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
               <Image
-                src={buyData?.image || ""}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${buyData?.image}`}
                 alt=""
                 width={400}
                 height={400}
@@ -215,11 +151,9 @@ const BuyCourse = () => {
             <div className="flex flex-col gap-3 py-6  px-2 md:px-10">
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Titel:</Typography>
-                <Typography>
-                  {buyData?.title || ""}
-                </Typography>
+                <Typography>{buyData?.title || ""}</Typography>
               </div>
-          
+
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Price:</Typography>
                 <Typography>
@@ -233,8 +167,7 @@ const BuyCourse = () => {
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Dec:</Typography>
                 {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
-                <Typography >{buyData?.dec || ""}</Typography>
-
+                <Typography>{buyData?.dec || ""}</Typography>
               </div>
             </div>
           </Card>
@@ -257,27 +190,33 @@ const BuyCourse = () => {
             {show ? (
               <div className="flex flex-col gap-3 ">
                 <div className="flex flex-col 2xl:flex-row gap-5 2xl:gap-[57px] items-center ">
-                <div className=" flex gap-2 ps-5  ">
-                  <Typography className="font-bold whitespace-nowrap  ">บิลเลขที่:</Typography>
-                  <Typography>A0001</Typography>
-                </div>
-                <div className=" flex gap-2  ps-2  ">
-                  {success ? (
-                    <div className="bg-green-500 py-2 px-8  flex gap-2 ">
-                      <Typography className="font-semibold text-white">สถานะ:</Typography>
-                      <Typography className="font-semibold text-white">
-                        ชำระเงินแล้ว
-                      </Typography>
-                    </div>
-                  ) : (
-                    <div className="bg-red-500 py-2 px-8 flex gap-2 ">
-                      <Typography className="font-semibold text-white ">สถานะ:</Typography>
-                      <Typography className="font-semibold text-white whitespace-nowrap ">
-                        รอชำระเงิน
-                      </Typography>
-                    </div>
-                  )}
-                </div>
+                  <div className=" flex gap-2 ps-5  ">
+                    <Typography className="font-bold whitespace-nowrap  ">
+                      บิลเลขที่:
+                    </Typography>
+                    <Typography>{bill}</Typography>
+                  </div>
+                  <div className=" flex gap-2  ps-2  ">
+                    {success ? (
+                      <div className="bg-green-500 py-2 px-8  flex gap-2 ">
+                        <Typography className="font-semibold text-white">
+                          สถานะ:
+                        </Typography>
+                        <Typography className="font-semibold text-white">
+                          ชำระเงินแล้ว
+                        </Typography>
+                      </div>
+                    ) : (
+                      <div className="bg-red-500 py-2 px-8 flex gap-2 ">
+                        <Typography className="font-semibold text-white ">
+                          สถานะ:
+                        </Typography>
+                        <Typography className="font-semibold text-white whitespace-nowrap ">
+                          รอชำระเงิน
+                        </Typography>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {success ? (
@@ -285,18 +224,20 @@ const BuyCourse = () => {
                 ) : (
                   <div className="mt-5">
                     <div className="flex flex-col 2xl:flex-row items-center gap-5 2xl:gap-[34px] ">
-                    <div className=" flex gap-1 ps-5   ">
-                      <Typography className="font-bold text-xl whitespace-nowrap ">ราคา :</Typography>
-                      <Typography className="text-xl">
-                        {buyData?.price_sale || 0 > 0
-                          ? buyData?.price_sale.toLocaleString()
-                          : buyData?.price.toLocaleString()}
-                      </Typography>
-                      <Typography className="text-xl">บาท</Typography>
-                    </div>
-                    <div className=" flex gap-2 w-[200px] ">
-                      <Input type="file" label="แนบสลิป files" crossOrigin />
-                    </div>
+                      <div className=" flex gap-1 ps-5   ">
+                        <Typography className="font-bold text-xl whitespace-nowrap ">
+                          ราคา :
+                        </Typography>
+                        <Typography className="text-xl">
+                          {buyData?.price_sale || 0 > 0
+                            ? buyData?.price_sale.toLocaleString()
+                            : buyData?.price.toLocaleString()}
+                        </Typography>
+                        <Typography className="text-xl">บาท</Typography>
+                      </div>
+                      <div className=" flex gap-2 w-[200px] ">
+                        <Input type="file" label="แนบสลิป files" crossOrigin />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -309,7 +250,7 @@ const BuyCourse = () => {
                         backgroundImage:
                           "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
                       }}
-                      onClick={() => router.push("/user/mycourse") }
+                      onClick={() => router.push("/user/mycourse")}
                     >
                       ไปที่คอร์สเรียนของคุณ
                     </Button>
@@ -336,7 +277,7 @@ const BuyCourse = () => {
           </Card>
         </div>
       </div>
-        <Topsale/>
+      <Topsale />
     </>
   );
 };

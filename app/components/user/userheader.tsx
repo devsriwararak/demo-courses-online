@@ -13,14 +13,14 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 
 const navItems = [
-  { href: '/home', label: 'หน้าหลัก' },
-  { href: '/home/broker', label: 'โบรกเกอร์' },
-  { href: '/home/ebook', label: 'EBook' },
-  { href: '/home/about', label: 'เกี่ยวกับเรา' },
-  { href: '/home/portfolio', label: 'ผลงาน' },
-  { href: '/home/activity', label: 'กิจกรรม' },
-  { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
-  { href: '/home/contact', label: 'ติดต่อเรา' },
+  // { href: '/home', label: 'หน้าหลัก' },
+  // { href: '/home/broker', label: 'โบรกเกอร์' },
+  // { href: '/home/ebook', label: 'EBook' },
+  // { href: '/home/about', label: 'เกี่ยวกับเรา' },
+  // { href: '/home/portfolio', label: 'ผลงาน' },
+  // { href: '/home/activity', label: 'กิจกรรม' },
+  // { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
+  { href: '/user/mycourse', label: 'คอร์สเรียนของฉัน' },
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
   { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
