@@ -23,6 +23,7 @@ import Topsale from "../topsale";
 interface Category {
   name: string;
   id: number;
+  category_name:string
 }
 
 interface Course {
@@ -209,7 +210,7 @@ const ShopCourse: React.FC = () => {
               key={index}
               variant="outlined"
               className={`${
-                selectedCategory === category.id
+                selectedCategory === String(category.id)
                   ? "bg-purple-500 text-white"
                   : "border border-purple-500 text-purple-500"
               }`}
