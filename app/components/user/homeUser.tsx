@@ -24,6 +24,7 @@ const courseCategories = [
 ];
 
 interface Course {
+  id: number; 
   title: string;
   dec: string;
   image: string;
@@ -33,6 +34,7 @@ interface Course {
 
 const recommendedCourses: Course[] = [
   {
+    id:1,
     title:
       "Course 1 asfksdmkf dskjfjsdj;fjksd jkdsjfdllkljf  jkjsdjfjsldf kjsdkjfkljs",
     dec: "Description for course 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate placeat tempora suscipit ipsum, doloribus maiores in recusandae amet? Harum laboriosam facere, explicabo vero odit odio earum nulla consequatur similique magnam, eaque commodi id animi voluptatibus at. Exercitationem eligendi illo odit, recusandae esse, labore a incidunt hic nisi sit qui doloribus!",
@@ -41,6 +43,7 @@ const recommendedCourses: Course[] = [
     price_sale: 0,
   },
   {
+    id:2,
     title: "Course 2",
     dec: "Description for course 2  sit amet consectetur adipisicing elit. Cupiditate placeat tempora suscipit ipsum, doloribus maiores in recusandae amet? Harum laboriosam facere, explicabo vero odit odio earum nulla consequatur similique magnam, eaque commodi id animi voluptatibus at. Exercitationem eligendi illo odit, recusandae esse, labore a incidunt hic nisi sit qui doloribus!",
     image: "/pic4.jpg",
@@ -48,6 +51,7 @@ const recommendedCourses: Course[] = [
     price_sale: 0,
   },
   {
+    id:3,
     title: "Course 3",
     dec: "Description for course 3",
     image: "/pic4.jpg",
@@ -55,6 +59,7 @@ const recommendedCourses: Course[] = [
     price_sale: 250,
   },
   {
+    id:4,
     title: "Course 4",
     dec: "Description for course 2",
     image: "/pic4.jpg",
@@ -62,6 +67,7 @@ const recommendedCourses: Course[] = [
     price_sale: 1500,
   },
   {
+    id:5,
     title: "Course 5",
     dec: "Description for course 2",
     image: "/pic4.jpg",
@@ -69,6 +75,7 @@ const recommendedCourses: Course[] = [
     price_sale: 0,
   },
   {
+    id:6,
     title: "Course 6",
     dec: "Description for course 2",
     image: "/pic4.jpg",
@@ -76,6 +83,7 @@ const recommendedCourses: Course[] = [
     price_sale: 5000,
   },
   {
+    id:7,
     title: "Course 7",
     dec: "Description for course 2",
     image: "/pic4.jpg",
@@ -83,6 +91,7 @@ const recommendedCourses: Course[] = [
     price_sale: 0,
   },
   {
+    id:8,
     title: "Course 8",
     dec: "Description for course 2",
     image: "/pic4.jpg",
