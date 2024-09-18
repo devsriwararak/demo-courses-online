@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
         }}
         className=" h-[650px]   "
       >
-        <div className="flex flex-col  2xl:px-[300px] pt-[70px]  h-full">
+        <div className="flex flex-col  2xl:px-[300px] pt-[80px]  h-full">
           <div>
             <h1 className=" text-white lg:text-[70px]   font-semibold">
               คอร์สสอนเทรด
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
             </h1>
           </div>
 
-          <div className="  2xl:mt-[100px] ">
+          <div className="  2xl:mt-[90px] ">
             <Carousel />
           </div>
         </div>
