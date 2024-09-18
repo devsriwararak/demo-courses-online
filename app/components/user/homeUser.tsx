@@ -178,7 +178,7 @@ const HomeUser: React.FC = () => {
               m-0
               className=" rounded-lg object-cover shadow-lg"
             /> */}
-              <Carousel slides={slides} />
+              <Carousel  />
             </div>
           </div>
         </div>
