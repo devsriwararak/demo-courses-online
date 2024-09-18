@@ -8,6 +8,7 @@ interface Course {
   image: string;
   price: number;
   price_sale: number;
+  id:any
 }
 
 

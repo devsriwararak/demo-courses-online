@@ -19,6 +19,8 @@ import CryptoJS from "crypto-js";
 
 const MySwal = withReactContent(Swal);
 
+
+
 const BuyCourse = () => {
   const buyData = useRecoilValue(BuyCourseStore);
   const [show, setShow] = useState(false);
