@@ -40,11 +40,12 @@ const NavItem: React.FC<NavItemProps> = ({
     as="li"
     key={href}
     variant="small"
-    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${currentPath === href ? "active " : ""}`}
+    color={currentPath === href ? "purple" : "blue-gray"}
+    className="p-1 font-normal"
   >
     <button
       onClick={() => onClick(href)}
-      className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
+      className="inline-block py-1 pr-2 transition-transform hover:scale-105"
     >
       {label}
     </button>
@@ -67,11 +68,11 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
     <Button
       variant={variant}
       size="sm"
+      color="purple"
       className="hidden lg:inline-block"
-      style={{background: "#DF9E10"}}
       onClick={() => router.push(href)}
     >
-      <span className="font-semibold px-1 text-[16px]">{children}</span>
+      <span>{children}</span>
     </Button>
   );
 };
@@ -103,7 +104,7 @@ export function HeaderHome() {
 
   const navList = useMemo(
     () => (
-      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-7 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5">
+      <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
@@ -121,49 +122,44 @@ export function HeaderHome() {
   return (
     <div className="max-h-[768px]">
       <Navbar
-        className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
-        style={{ backgroundColor: "#042044" , borderBottom: "3px solid #DF9E10" }}
+        className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8 "
+        style={{ backgroundColor: "#042044" , borderBlockColor:"border-bottom: 3px solid #DF9E10" }}
       >
-        <div className="flex w-full  items-center justify-between gap-5 ">
-          <div className=" items-center hidden lg:block ">
-          <Image
-           src={"/logonavbar.svg"}
-           alt=""
-           width={150}
-           height={120}
-           className=" object-cover "
-           crossOrigin=''
-         />
+        <div className="flex w-full items-center justify-between text-blue-gray-900">
+          <div className="flex items-center w-[150px] h-[40px]">
+            <Typography className="py-1.5 font-medium text-2xl whitespace-nowrap">
+              คอร์สออนไลน์
+            </Typography>
           </div>
-          <div className="flex items-center xl:gap-4 whitespace-nowrap">
-            <div className="mr-4 hidden   lg:block">{navList}</div>
+          <div className="flex items-center gap-4 whitespace-nowrap">
+            <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex rounded-lg">
               <HeaderButton href="/login" variant="gradient">
-               เข้าสู่ระบบ
+                Log In
               </HeaderButton>
             </div>
             <IconButton
               variant="text"
-              className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+              className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
               ripple={false}
               onClick={() => setOpenNav(!openNav)}
             >
-              <IoMenu className="text-2xl " />
+              <IoMenu className="text-2xl" />
             </IconButton>
           </div>
         </div>
-        <Collapse  open={openNav}>
+        <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
             <Button
               fullWidth
               variant="outlined"
+              color="purple"
               size="sm"
-              style={{background: "#DF9E10"}}
-              className="mb-3 text-white font-semibold"
+              className="mb-3"
               onClick={() => router.push("/login")}
             >
-              <span className=" font-semibold text-sm">เข้าสู่ระบบ</span>
+              <span>Login</span>
             </Button>
           </div>
         </Collapse>

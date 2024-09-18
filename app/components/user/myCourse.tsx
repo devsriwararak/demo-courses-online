@@ -23,7 +23,8 @@ import { BuyCourseStore } from "@/store/store";
 
 interface Category {
   name: string;
-  id: number;
+  id: any;
+  category_name:string
 }
 
 interface Course {

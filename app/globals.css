@@ -34,10 +34,8 @@ h4 {
   text-align: right;
 }
 
-
-
 .swal2-icon.swal2-warning.swal2-icon-show {
-  margin: 0px auto; 
+  margin: 0px auto;
 }
 .swal2-icon.swal2-warning.swal2-icon-show {
   width: 50px;
@@ -77,7 +75,7 @@ h4 {
   background-color: #eeeeee;
   text-align: center;
   border-radius: 6px;
-  padding: 2px ;
+  padding: 2px;
   position: absolute;
   z-index: 1;
   bottom: 125%; /* กำหนดตำแหน่งของทูลทิป */
@@ -113,5 +111,64 @@ h4 {
 .custom-option[data-selected="true"] {
   background-color: #8d80d0 !important; /* สีม่วงที่ต้องการสำหรับตัวเลือกที่ถูกเลือก */
   color: white !important; /* สีของข้อความสำหรับตัวเลือกที่ถูกเลือก */
+}
+.navbar {
+  height: 80px;
+  gap: 0px;
+  border: 0px 0px 3px 0px;
+  opacity: 0px;
+
+  background: #042044;
+  border-bottom: 3px solid #df9e10;
+}
+
+li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px; /* ความสูงของเส้นใต้ */
+  width: 0;
+  background-color: #DF9E10; /* สีของเส้นใต้ */
+  transition: width 0.2s ease-in-out;
+}
+
+li.active::after {
+  width: 100%; 
+}
+
+.custom-nav-prev,
+.custom-nav-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.custom-nav-prev {
+  left: 10px;
+}
+
+.custom-nav-next {
+  right: 10px;
+}
+
+.custom-nav-prev:hover,
+.custom-nav-next:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.custom-nav-prev::after,
+.custom-nav-next::after {
+  font-size: 20px;
+  color: #333;
 }
 
