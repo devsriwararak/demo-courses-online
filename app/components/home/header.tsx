@@ -14,6 +14,7 @@ import Image from "next/image";
 
 const navItems = [
   { href: "/home", label: "หน้าหลัก" },
+  { href: "/home/course", label: "คอร์สเรียน" },
   { href: "/home/broker", label: "โบรกเกอร์" },
   { href: "/home/ebook", label: "EBook" },
   { href: "/home/about", label: "เกี่ยวกับเรา" },
