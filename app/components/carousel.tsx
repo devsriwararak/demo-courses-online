@@ -25,7 +25,7 @@ const SliderComponent = () => {
   }, []);
 
   return (
-    <div className="w-[1030px] h-auto relative ">
+    <div className="w-full xl:w-[1030px] h-auto relative ">
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper; // เก็บอินสแตนซ์ของ Swiper ลงใน ref
@@ -53,35 +53,35 @@ const SliderComponent = () => {
           <img
             src="/pic1.jpg"
             alt="Slide 1"
-            className="rounded-lg object-cover w-[250px] h-[160px] border border-white "
+            className="rounded-lg object-cover w-full lg:w-[250px] h-[160px] border border-white "
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             src="/pic2.jpg"
             alt="Slide 1"
-            className="rounded-lg object-cover w-[250px] h-[160px] border border-white "
+            className="rounded-lg object-cover w-full lg:w-[250px]  h-[160px] border border-white "
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             src="/pic5.jpg"
             alt="Slide 1"
-            className="rounded-lg object-cover w-[250px] h-[160px] border border-white "
+            className="rounded-lg object-cover w-full lg:w-[250px]  h-[160px] border border-white "
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             src="/pic6.jpg"
             alt="Slide 1"
-            className="rounded-lg object-cover w-[250px] h-[160px] border border-white "
+            className="rounded-lg object-cover w-full lg:w-[250px]  h-[160px] border border-white "
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             src="/pic7.jpg"
             alt="Slide 1"
-            className="rounded-lg object-cover w-[250px] h-[160px] border border-white "
+            className="rounded-lg object-cover w-full lg:w-[250px]  h-[160px] border border-white "
           />
         </SwiperSlide>
 

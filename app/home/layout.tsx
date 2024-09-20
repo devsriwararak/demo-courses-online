@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex-grow -mt-1">
       {children}
       </div>
-      <FooterHome />
+      {/* <FooterHome /> */}
     </div>
   );
 }
