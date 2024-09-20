@@ -56,8 +56,9 @@ const SliderComponent = () => {
           1024: { slidesPerView: 3 },
         }}
       >
+       
         {/* กล่อง 1: สมัครสมาชิก */}
-        <SwiperSlide>
+        <SwiperSlide className="mb-14">
           <a
             href="/register"
             className="bg-[#252525] w-[250px] h-[250px] p-6  rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
