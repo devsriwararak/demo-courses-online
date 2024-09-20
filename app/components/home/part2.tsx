@@ -1,4 +1,5 @@
 import React from "react";
+import Carousel2 from "../carousel2";
 
 const Part2 = () => {
   return (
@@ -13,9 +14,9 @@ const Part2 = () => {
       <div className="flex flex-col px-10  2xl:px-[300px] h-full">
         <div  className="flex flex-col lg:flex-row w-full gap-10">
           <div className="flex flex-col w-full items-center md:items-start lg:w-7/12">
-            <p className="text-[45px] text-[#F9F0CD] font-[300]">ขั้นตอน</p>
-            <p className="text-[60px] text-[#F9F0CD] text-nowrap">การให้บริการ</p>
-            <p className="text-[18px] text-white xl:pr-24 mt-16">
+            <p className="text-[45px] text-[#F9F0CD] font-[400]">ขั้นตอน</p>
+            <p className="text-[60px] font-[700] text-[#F9F0CD] text-nowrap">การให้บริการ</p>
+            <p className="text-[18px] font-[400] text-white xl:pr-24 mt-10">
               Lorem Ipsum คือ เนื้อหาจำลองแบบเรียบๆ
               ที่ใช้กันในธุรกิจงานพิมพ์หรืองานเรียงพิมพ์
               มันได้กลายมาเป็นเนื้อหาจำลองมาตรฐานของธุรกิจดังกล่าวมาตั้งแต่ศตวรรษที่
@@ -33,10 +34,10 @@ const Part2 = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-8 left-8 text-white">
-                <p className="text-[22px] font-extralight">
+                <p className="text-[22px] font-[400]">
                   เรียนเทรดออนไลน์กับ...
                 </p>
-                <h1 className="text-[26px] sm:text-[35px] font-bold text-nowrap">
+                <h1 className="text-[26px] sm:text-[35px] font-[700] text-nowrap">
                   Nang Fah Pa Trade
                 </h1>
               </div>
@@ -45,7 +46,8 @@ const Part2 = () => {
         </div>
 
         {/* กล่องข้อความด้านล่างแบบ Fixed Size พร้อมระยะห่าง */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4  2xl:grid-cols-5 gap-8 mt-10 justify-center">
+
+        <div className=" hidden 2xl:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4  2xl:grid-cols-5 gap-8 mt-10 justify-center">
           <a
             href="/register" // ลิงก์ที่ต้องการ
             className="bg-[#252525] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
@@ -55,8 +57,8 @@ const Part2 = () => {
               alt="สมัครสมาชิก"
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-semibold text-white">สมัครสมาชิก</h2>
-            <p className="text-[17px] text-gray-300 text-center">
+            <h2 className="text-[22px] font-[700] text-white">สมัครสมาชิก</h2>
+            <p className="text-[17px] font-[400] text-white text-center">
               สมัครสมาชิกเพื่อลงทะเบียนคอร์สเรียน
             </p>
           </a>
@@ -70,13 +72,13 @@ const Part2 = () => {
               alt="เลือกคอร์สเรียน"
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-semibold text-white">
+            <h2 className="text-[22px] font-[700] text-white">
               เลือกคอร์สเรียน
             </h2>
-            <h2 className="text-[22px] font-semibold text-white">
+            <h2 className="text-[22px] font-[700] text-white">
               ที่ต้องการ
             </h2>
-            <p className="text-[17px] text-gray-300 text-center">
+            <p className="text-[17px] font-[400] text-white  text-center">
             ชำระเงินผ่านระบบอัตโนมัติ
             </p>
           </a>
@@ -90,8 +92,8 @@ const Part2 = () => {
               alt="ชำระเงิน"
               className="w-12 h-12 mb-4 -mt-9"
             />
-            <h2 className="text-[22px] font-semibold text-white">ชำระเงิน</h2>
-            <p className="text-[17px] text-gray-300 text-center">
+            <h2 className="text-[22px] font-[700] text-white">ชำระเงิน</h2>
+            <p className="text-[17px] font-[400] text-white  text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
           </a>
@@ -105,13 +107,13 @@ const Part2 = () => {
               alt="รับชมคอร์สเรียน"
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-semibold text-white">
+            <h2 className="text-[22px] font-[700] text-white">
               รับชมคอร์สเรียน
             </h2>
-            <p className="text-[17px] text-gray-300 text-center">
+            <p className="text-[17px] font-[400] text-white  text-center">
             คอร์สเรียนมีอายุ 1 ปี
             </p>
-            <p className="text-[17px] text-gray-300 text-center">
+            <p className="text-[17px] font-[400] text-white  text-center">
             นับตั้งแต่วันที่สมัคร
             </p>
           </a>
@@ -125,12 +127,16 @@ const Part2 = () => {
               alt="ทำแบบทดสอบ"
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-semibold text-white">ทำแบบทดสอบ</h2>
-            <p className="text-[17px] text-gray-300 text-center">
+            <h2 className="text-[22px] font-[700] text-white">ทำแบบทดสอบ</h2>
+            <p className="text-[17px] font-[400] text-white  text-center">
               ทำแบบทดสอบหลังเรียน คุณครูตรวจให้คะแนน
             </p>
           </a>
         </div>
+        <div className="flex justify-center 2xl:hidden ">
+        <Carousel2 />
+        </div>
+        
       </div>
     </div>
   );

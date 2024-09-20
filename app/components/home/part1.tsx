@@ -12,12 +12,12 @@ const Part1: React.FC = () => {
     >
       <div className="flex flex-col  2xl:px-[300px] pt-[80px]  h-full">
         <div>
-          <h1 className=" text-white text-center text-[70px]   font-semibold">
+          <h1 className=" text-white text-[80px] text-center lg:text-start   font-[700]">
             คอร์สสอนเทรด
           </h1>
         </div>
         <div>
-          <h1 className=" text-center text-[60px] 2xl:ps-[130px] font-semibold text-[#DF9E10]">
+          <h1 className=" text-[60px] 2xl:ps-[130px] font-[700] text-[#DF9E10] text-center lg:text-start ">
             สู่นักเทรดมืออาชีพ
           </h1>
         </div>
@@ -40,7 +40,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
-              <span className="text-[#093165] pt-2 text-[17px] xl:text-nowrap">
+              <span className="text-[#093165] pt-2 text-[17px] font-[400] xl:text-nowrap">
                 Nang Fah Pa Trade-นางฟ้าพาเทรดForex
               </span>
             </div>
@@ -50,7 +50,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
-              <span className="text-[#093165] pt-2 text-[17px] ">nangfahpatrade88888</span>
+              <span className="text-[#093165] pt-2 text-[17px] font-[400] ">nangfahpatrade88888</span>
             </div>
             <div className="flex items-center space-x-2">
               <img
@@ -58,7 +58,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
-              <span className="text-[#093165] pt-2 text-[17px] ">@nangfahpatrade</span>
+              <span className="text-[#093165] pt-2 text-[17px] font-[400]">@nangfahpatrade</span>
             </div>
           </div>
         </div>
