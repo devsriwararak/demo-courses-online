@@ -14,6 +14,7 @@ import withReactContent from "sweetalert2-react-content";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import Topsale from "../topsale";
+import parse from 'html-react-parser';
 
 import CryptoJS from "crypto-js";
 
@@ -169,7 +170,7 @@ const BuyCourse = () => {
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Dec:</Typography>
                 {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
-                <Typography>{buyData?.dec || ""}</Typography>
+                <Typography>{parse(buyData?.dec || "")}</Typography>
               </div>
             </div>
           </Card>
