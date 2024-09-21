@@ -12,6 +12,15 @@ const fetchData = async () => {
   }
 };
 
+interface Course {
+    id: number; // Assuming courses have a unique identifier
+    image: string;
+    title: string;
+    category_name: string;
+    price: number;
+    price_sale: number;
+  }
+
 const CoursesPage = async () => {
   const data = await fetchData();
 
@@ -68,7 +77,7 @@ const CoursesPage = async () => {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
-          {data?.map((course, index) => (
+        {data?.map((course: Course, index: number) => (
             <div
               key={index}
               className="bg-white p-5 shadow-md rounded-2xl flex flex-col justify-between"
