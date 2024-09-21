@@ -45,8 +45,8 @@ const LargeNewsItem: React.FC<NewsItemProps> = ({
       <Image
         src={image}
         alt={title}
-        width={500}
-        height={500}
+        width={1000}
+        height={1000}
         className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
         style={{ borderRadius: "12px 12px 0px 0px" }}
       />

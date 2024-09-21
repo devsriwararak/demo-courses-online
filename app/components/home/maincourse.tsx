@@ -1,5 +1,6 @@
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const fetchData = async () => {
@@ -14,13 +15,13 @@ const fetchData = async () => {
 };
 
 interface Course {
-    id: number; // Assuming courses have a unique identifier
-    image: string;
-    title: string;
-    category_name: string;
-    price: number;
-    price_sale: number;
-  }
+  id: number; // Assuming courses have a unique identifier
+  image: string;
+  title: string;
+  category_name: string;
+  price: number;
+  price_sale: number;
+}
 
 const CoursesPage = async () => {
   const data = await fetchData();
@@ -77,61 +78,57 @@ const CoursesPage = async () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
-        {data?.map((course: Course, index: number) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
+          {data?.map((course: Course, index: number) => (
             <div
               key={index}
-              className="bg-white p-5 shadow-md rounded-2xl flex flex-col justify-between"
+              className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
             >
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
-                alt={course.title}
-                width={100}
-                height={100}
-                className="rounded-t-2xl mb-4 object-cover h-48 w-full"
-              />
-              <div className="px-2 md:px-5">
-                <h2 className="text-md md:text-lg font-semibold">
-                  {course.title}
-                </h2>
-                <p className="text-gray-600">{course.category_name}</p>
-                <div className="flex w-full flex-wrap gap-3">
-                  <p
-                    className={`text-lg md:text-xl ${
-                      course.price_sale > 0
-                        ? "text-red-500 font-semibold"
-                        : "text-red-500 font-semibold"
-                    } mb-2 pr-1`}
-                  >
-                    {course?.price_sale > 0
-                      ? course?.price_sale.toLocaleString()
-                      : course?.price.toLocaleString()}{" "}
-                    บาท
-                  </p>
-                  {course?.price_sale > 0 && (
-                    <p className="line-through mb-2 pr-1">
-                      {course?.price.toLocaleString()}{" "}
+              <Link href={`/home/course/${course?.id}`}>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image}`}
+                  alt={course.title}
+                  width={500}
+                  height={500}
+                  className="rounded-t-2xl mb-4 object-cover h-48 w-full"
+                />
+                <div className="px-2 md:px-5">
+                  <h2 className="text-md md:text-lg font-semibold">
+                    {course?.title}
+                  </h2>
+                  <p className="text-gray-600">{course?.category_name}</p>
+                  <div className="flex w-full flex-wrap gap-3">
+                    <p
+                      className={`text-lg md:text-xl ${
+                        course?.price_sale > 0
+                          ? "text-red-500 font-semibold"
+                          : "text-red-500 font-semibold"
+                      } mb-2 pr-1`}
+                    >
+                      {course?.price_sale > 0
+                        ? course?.price_sale.toLocaleString()
+                        : course?.price.toLocaleString()}{" "}
+                      บาท
                     </p>
-                  )}
+                    {course?.price_sale > 0 && (
+                      <p className="line-through mb-2 pr-1">
+                        {course?.price.toLocaleString()}{" "}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="mt-auto px-5">
-                <button className="bg-[#184785] text-white px-4 py-2 rounded-md w-full">
-                  ดูคอร์สเรียนนี้
-                </button>
-              </div>
+                <div className="mt-auto px-5">
+                  <button className="bg-[#184785] text-white px-4 py-2 rounded-md w-full">
+                    ดูคอร์สเรียนนี้
+                  </button>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
       </div>
     </div>
-
-
-
   );
 };
 
 export default CoursesPage;
-
-
-

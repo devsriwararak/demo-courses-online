@@ -1,8 +1,11 @@
 import React from 'react'
+import MainCourse from '@/app/components/home/maincourse'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+       <MainCourse />
+    </div>
   )
 }
 
