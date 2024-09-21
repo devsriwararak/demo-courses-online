@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import Image from "next/image";
+import parse from 'html-react-parser';
 
 import Carousel from "../carousel";
 
@@ -250,7 +251,7 @@ const ShopCourse: React.FC = () => {
                     </Typography>
 
                     <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                      {truncateText(course.dec, 90)}
+                      {parse(course.dec)}
                     </Typography>
                   </div>
                 </div>

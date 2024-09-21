@@ -1,5 +1,5 @@
-"use client";
-import { useRef, useEffect, useCallback, useState } from "react";
+'use client'
+import { useRef, useEffect, useCallback, useState } from "react"; 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -11,37 +11,36 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Slide {
-  id: string;
+  id: string; 
   image: string;
-  title: string;
+  title:string
 }
 
 const SliderComponent = () => {
-  const swiperRef = useRef<SwiperType | null>(null);
-  const [slides, setSlides] = useState<Slide[]>([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false); 
+  const swiperRef = useRef<SwiperType | null>(null)
+  const [slides, setSlides] = useState<Slide[]>([])
+
 
   const fetchCourses = useCallback(async () => {
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`
       );
-      console.log(res)
+      // console.log(res.data);
       if (res.status === 200) {
-        setSlides(res.data || []); // อัพเดต state
-        setIsDataLoaded(true); // ตั้งค่าว่าโหลดข้อมูลเสร็จแล้ว
+        setSlides(res.data || []); // ใช้ setSlides เพื่ออัพเดต state
       } else {
         console.error("Error fetching products");
       }
     } catch (err) {
       const error = err as { response: { data: { message: string } } };
-      console.error(error.response?.data?.message || "Error fetching data");
+      console.error(error.response.data.message);
     }
   }, []);
 
   useEffect(() => {
     fetchCourses();
-  }, [fetchCourses]);
+  }, []);
 
   // Update swiper on resize
   useEffect(() => {
@@ -57,36 +56,21 @@ const SliderComponent = () => {
     };
   }, []);
 
-  // ฟังก์ชันทำซ้ำสไลด์ถ้าจำนวนน้อยเกินไป
-  const getSlides = (slides: Slide[]) => {
-    if (slides.length < 4) {
-      const duplicateSlides = [...slides, ...slides, ...slides]; // ทำซ้ำ 3 รอบ
-      return duplicateSlides.slice(0, 4); // เลือกแค่ 4 ชิ้น
-    }
-    return slides;
-  };
-
-
-  // หากข้อมูลยังไม่โหลดเสร็จ จะไม่แสดง Swiper
-  if (!isDataLoaded) {
-    return <p className="text-center text-white">Loading slides...</p>;
-  }
+  console.log(slides.length);
 
   return (
     <div className="w-full xl:w-[1030px] h-auto relative">
       <Swiper
-        key={slides.length} // ใช้ key เพื่อบังคับให้ Swiper รีเรนเดอร์เมื่อข้อมูลเปลี่ยน
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
         spaceBetween={20}
-        slidesPerView={Math.min(slides.length, 4)} // ปรับ slidesPerView
-        slidesPerGroup={Math.min(slides.length, 4)} // ปรับ slidesPerGroup
+        slidesPerView={1}
         navigation={{
           nextEl: ".swiper-button-next-custom",
           prevEl: ".swiper-button-prev-custom",
         }}
-        loop={slides.length >= 4} // เปิดใช้งาน loop เมื่อมีสไลด์มากพอ
+        loop={true}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,
@@ -99,23 +83,27 @@ const SliderComponent = () => {
         }}
         modules={[Navigation, Autoplay]}
       >
-        {getSlides(slides).map((slide, index) => (
-          <SwiperSlide key={index}>
-            <Link href={`/home/course/${slide.id}`}>
+        {slides.length > 0 ? (
+          slides.map((slide, index) => (
+            <SwiperSlide key={index}>
+              <Link href={`/home/course/${slide.id}`}>
               <div className="relative w-full h-48">
-                <Image
-                  fill
-                  style={{ objectFit: "cover" }}
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
-                  alt={slide.title || `Slide ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-full rounded-md"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-            </Link>
-          </SwiperSlide>
-        ))}
+                  <Image
+                    objectFit="cover" 
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
+                    alt={slide.title || `Slide ${index + 1}`}
+                    width={500}
+                    height={500}
+                    className=" w-full h-full rounded-md"
+                  />
+                </div>
+              </Link>
+            
+            </SwiperSlide>
+          ))
+        ) : (
+          <p className="text-center text-white">Loading slides...</p>
+        )}
       </Swiper>
 
       {/* Navigation Buttons */}

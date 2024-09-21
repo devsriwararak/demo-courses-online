@@ -14,7 +14,7 @@ import Image from "next/image";
 
 const navItems = [
   { href: "/home", label: "หน้าหลัก" },
-  { href: "/home/course", label: "คอร์สเรียน" },
+  { href: "/home/maincourse", label: "คอร์สเรียน" },
   { href: "/home/broker", label: "โบรกเกอร์" },
   { href: "/home/ebook", label: "EBook" },
   { href: "/home/about", label: "เกี่ยวกับเรา" },
@@ -133,7 +133,6 @@ export function HeaderHome() {
            width={150}
            height={120}
            className=" object-cover "
-           crossOrigin=''
          />
           </div>
           <div className="flex items-center xl:gap-4 whitespace-nowrap">

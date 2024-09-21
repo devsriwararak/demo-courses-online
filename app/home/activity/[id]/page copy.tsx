@@ -10,7 +10,7 @@ interface PageProps {
 const fetchData = async (id: String) => {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/courses/${id}`
+      `${process.env.NEXT_PUBLIC_API}/api/homepage/news/${id}`
     );
   return res.data;
   } catch (error) {
@@ -18,14 +18,14 @@ const fetchData = async (id: String) => {
   }
 };
 
-const CoursePage: React.FC<PageProps> = async ({ params }) => {
+const ActivityPage: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
   console.log(data);
 
   return (
     <div className="flex px-24  justify-center mt-10">
       <div className="w-4/12">
-      page {params.id} 
+      Activity {params.id} 
       </div>
       <hr/>
       <div>
@@ -35,4 +35,4 @@ const CoursePage: React.FC<PageProps> = async ({ params }) => {
   );
 };
 
-export default CoursePage;
+export default ActivityPage;
