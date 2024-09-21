@@ -119,7 +119,7 @@ const Part4 = async () => {
       </h2>
       <div className="flex flex-col w-full lg:flex-row gap-8">
         <LargeNewsItem
-          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data[0].image_title}`}
+          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data[0]?.image_title}`}
           title={data[0].title}
           description={data[0].dec}
           id={data[0].id}
@@ -130,7 +130,7 @@ const Part4 = async () => {
               <NewsItem
                 key={index}
                 id={news.id}
-                image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news.image_title}`}
+                image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news?.image_title}`}
                 title={news.title}
                 description={news.dec}
               />
