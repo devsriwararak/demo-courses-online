@@ -22,13 +22,19 @@ const SliderComponent = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false); 
 
   const fetchCourses = useCallback(async () => {
+    const requestData = {
+      search: "",
+      page: 1,
+      full: false,
+      filter_price: 1,
+    };
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`,requestData,
       );
       console.log(res)
       if (res.status === 200) {
-        setSlides(res.data || []); // อัพเดต state
+        setSlides(res?.data?.data || []); // อัพเดต state
         setIsDataLoaded(true); // ตั้งค่าว่าโหลดข้อมูลเสร็จแล้ว
       } else {
         console.error("Error fetching products");

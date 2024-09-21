@@ -4,11 +4,18 @@ import Link from "next/link";
 import React from "react";
 
 const fetchData = async () => {
+  const requestData = {
+    search: "",
+    page: "",
+    full: true,
+    filter_price: 1,
+  };
   try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/courses/`
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/api/homepage/courses/`,requestData,
     );
     return res.data;
+    
   } catch (error) {
     console.log(error);
   }
@@ -26,9 +33,12 @@ interface Course {
 const CoursesPage = async () => {
   const data = await fetchData();
 
+  console.log(data)
+
   return (
     <div className="p-5 md:p-10 2xl:px-10 flex flex-col md:flex-row">
       {/* Sidebar Filters */}
+      {/* {JSON.stringify(data)} */}
       <div className="w-full md:w-1/4 p-4 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <h2 className="text-lg md:text-xl font-bold mb-4">ตัวกรองคอร์สเรียน</h2>
         <select className="w-full p-2 mb-4 border rounded-md">
@@ -79,7 +89,7 @@ const CoursesPage = async () => {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
-          {data?.map((course: Course, index: number) => (
+          {data?.data.map((course: Course, index: number) => (
             <div
               key={index}
               className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
