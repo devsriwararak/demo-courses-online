@@ -12,7 +12,7 @@ const fetchData = async () => {
   };
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/courses/`,requestData,
+      `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`,requestData,
     );
     return res.data;
     
