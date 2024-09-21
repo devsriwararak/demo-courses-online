@@ -24,13 +24,14 @@ const CoursePage: React.FC<PageProps> = async ({ params }) => {
 
   return (
     <div className="flex px-24  justify-center mt-10">
-      <div className="w-4/12">
+      {/* <div className="w-4/12">
       page {params.id} 
       </div>
       <hr/>
       <div>
       {JSON.stringify(data)}
-      </div>
+      </div> */}
+      aaaa
     </div>
   );
 };
