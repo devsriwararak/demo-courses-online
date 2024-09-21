@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Part5 = () => {
@@ -16,9 +17,11 @@ const Part5 = () => {
               controls
               src="/path-to-your-video.mp4" // เปลี่ยนพาธให้ตรงกับไฟล์วิดีโอของคุณ
             /> */}
-            <img
+            <Image
               src="/blog-1.jpg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
               alt="ข่าวหลัก"
+              width={500}
+              height={500}
               className=" w-full h-auto object-cover   "
               style={
                 {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Part3 = () => {
@@ -35,10 +36,13 @@ const Part3 = () => {
 
         {/* รูปภาพโทรศัพท์ */}
         <div className="relative flex lg:w-4/12 items-center text-center  justify-center">
-          <img
+          <Image
             src="/iphone.png" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
             alt="Phone with Trading Screen"
-            className="w-[300px] lg:w-[400px] mx-auto"
+            width={500}
+            height={500}
+            loading="lazy"
+            className="w-[300px] lg:w-[400px] mx-auto  object-cover"
           />
         </div>
 

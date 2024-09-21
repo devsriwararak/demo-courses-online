@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Carousel from "../carousel";
 
 const Part1: React.FC = () => {
@@ -35,9 +36,11 @@ const Part1: React.FC = () => {
 
           <div className="flex flex-col md:flex-row space-x-6 items-baseline  px-6 gap-2">
             <div className="flex  items-center space-x-2">
-              <img
+              <Image
                 src="/icon-fb-blue.svg"
                 alt="Facebook Icon"
+                width={100}
+                height={100}
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
               <span className="text-[#093165] pt-2 text-[17px] font-[400] xl:text-nowrap">
@@ -45,17 +48,21 @@ const Part1: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center  space-x-2">
-              <img
+              <Image
                 src="/icon-tiktok-blue.svg"
                 alt="Facebook Icon"
+                width={100}
+                height={100}
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
               <span className="text-[#093165] pt-2 text-[17px] font-[400] ">nangfahpatrade88888</span>
             </div>
             <div className="flex items-center space-x-2">
-              <img
+              <Image
                 src="/icon-line-blue.svg"
                 alt="Facebook Icon"
+                width={100}
+                height={100}
                 className="w-6 h-6" // ปรับขนาดตามต้องการ
               />
               <span className="text-[#093165] pt-2 text-[17px] font-[400]">@nangfahpatrade</span>

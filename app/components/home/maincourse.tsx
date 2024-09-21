@@ -1,4 +1,5 @@
 import axios from "axios";
+import Image from "next/image";
 import React from "react";
 
 const fetchData = async () => {
@@ -82,9 +83,11 @@ const CoursesPage = async () => {
               key={index}
               className="bg-white p-5 shadow-md rounded-2xl flex flex-col justify-between"
             >
-              <img
+              <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
                 alt={course.title}
+                width={100}
+                height={100}
                 className="rounded-t-2xl mb-4 object-cover h-48 w-full"
               />
               <div className="px-2 md:px-5">

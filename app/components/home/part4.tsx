@@ -1,5 +1,6 @@
 // Component สำหรับแสดงข่าวขนาดใหญ่
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 
 export const fetchNews = async () => {
@@ -47,9 +48,11 @@ const LargeNewsItem: React.FC<NewsItemProps> = ({
     style={{ background: "#CDCDCD" }}
   >
     <Link href={`/home/activity/${id}`}>
-      <img
+      <Image
         src={image}
         alt={title}
+        width={1000}
+        height={1000}
         className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
         style={{ borderRadius: "12px 12px 0px 0px" }}
       />
@@ -78,14 +81,19 @@ const NewsItem: React.FC<NewsItemProps> = ({
   id,
 }) => (
   <div className="w-full flex flex-col xl:flex-row gap-3 rounded-xl">
-    <img
+    <Link href={`/home/course/${id}`}>
+    <Image
       src={image}
       alt={title}
+      width={1000}
+      height={1000}
       className="xl:w-[350px] object-cover"
       style={{ borderRadius: "12px" }}
     />
+    </Link>
     <div className="w-full">
       <div className="p-2 flex flex-col bg-[#cdcdcd] w-full h-full py-5 rounded-lg px-7">
+          <Link href={`/home/course/${id}`}>
         <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
           {title}
         </h3>
@@ -93,15 +101,14 @@ const NewsItem: React.FC<NewsItemProps> = ({
           {description}
         </p>
         <div className="flex gap-3 items-center">
-          <Link href={`/home/course/${id}`}>
             <button className="bg-[#093165] text-white text-[14px] font-[700] px-4 py-2 rounded-lg">
               อ่านเพิ่มเติม
             </button>
-          </Link>
           <span className="text-[14px] font-[400] text-[#181818]">
             12 พ.ค. 2024
           </span>
         </div>
+          </Link>
       </div>
     </div>
   </div>
@@ -126,14 +133,12 @@ const Part4 = async () => {
 
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
           {data?.slice(1).map((news: News, index: number) => (
-            <Link href={`/home/activity/${news.id}`} key={index}>
               <NewsItem
                 id={news.id}
                 image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news.image_title}`}
                 title={news.title}
                 description={news.dec}
               />
-            </Link>
           ))}
         </div>
       </div>

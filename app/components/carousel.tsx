@@ -104,13 +104,12 @@ const SliderComponent = () => {
             <Link href={`/home/course/${slide.id}`}>
               <div className="relative w-full h-48">
                 <Image
-                  fill
                   style={{ objectFit: "cover" }}
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
                   alt={slide.title || `Slide ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-full rounded-md"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  width={500}
+                  height={500}
+                  className="w-full h-full rounded-md "
                 />
               </div>
             </Link>

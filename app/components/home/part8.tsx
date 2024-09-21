@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Part8 = () => {
@@ -10,9 +11,11 @@ const Part8 = () => {
             {/* <h2 className="text-xl font-semibold">Nang Fah Pa Trade</h2>
             <span className="text-[#DF9E10]">If i want it ,i get it.</span> */}
             <div className="flex flex-col gap-5 items-center">
-              <img
+              <Image
                 src="/logonavbar.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="FAQ Image"
+                width={500}
+                height={500}
                 className=" rounded-lg w-[150px]   "
               />
               <div className=" text-center ">
@@ -51,44 +54,56 @@ const Part8 = () => {
           {/* ไอคอนโซเชียลมีเดีย */}
           <div className="flex space-x-5 items-center justify-center">
             <a href="#">
-              <img
+              <Image
                 src="/icon-youtube.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
             <a href="#">
-              <img
+              <Image
                 src="/icon-email.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
             <a href="#">
-              <img
+              <Image
                 src="/icon-call.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
             <a href="#">
-              <img
+              <Image
                 src="/icon-fb.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
             <a href="#">
-              <img
+              <Image
                 src="/icon-tiktok.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
             <a href="#">
-              <img
+              <Image
                 src="/icon-line.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
             </a>
@@ -101,9 +116,11 @@ const Part8 = () => {
           Copyright © 2024 all rights reserved. | Nang Fah Pa Trade
         </p>
         <div className=" w-[200px]  bg-[#df9310] flex py-3 justify-center  rounded-t-xl ">
-        <img
+        <Image
                 src="/icon-chat.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
+                width={500}
+                height={500}
                 className=" w-[30px] h-[30px] "
               />
           <p className="  px-2 text-[12px] md:text-[18px] font-[700] text-nowrap  ">

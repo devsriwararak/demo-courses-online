@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Part7 = () => {
@@ -10,9 +11,11 @@ const Part7 = () => {
     >
       {/* ภาพทางด้านซ้าย */}
       <div className="w-full 2xl:w-[450px]">
-        <img
+        <Image
           src="/banner-faq.jpg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
           alt="FAQ Image"
+          width={500}
+          height={500}
           className="w-full rounded-lg lg:w-[550px] xl:w-[650px] 2xl:w-full"
         />
       </div>
