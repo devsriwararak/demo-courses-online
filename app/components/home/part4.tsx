@@ -15,82 +15,95 @@ export const fetchNews = async () => {
   }
 };
 
-interface NewsItemProps {
-  image: string; // ประเภท string สำหรับ URL ของรูปภาพ
-  title: string; // ประเภท string สำหรับหัวข้อข่าว
-  description: string; // ประเภท string สำหรับคำบรรยายข่าว
-  id:number
-}
+// interface NewsItemProps {
+//   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
+//   title: string; // ประเภท string สำหรับหัวข้อข่าว
+//   description: string; // ประเภท string สำหรับคำบรรยายข่าว
+//   id:number
+// }
 
 interface NewsItemProps {
   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
   title: string; // ประเภท string สำหรับหัวข้อข่าว
   description: string; // ประเภท string สำหรับคำบรรยายข่าว
+  id: any;
+}
+
+interface News {
+  id: number;
+  image_title: string;
+  title: string;
+  dec: string;
 }
 
 const LargeNewsItem: React.FC<NewsItemProps> = ({
   image,
   title,
   description,
-  id
+  id,
 }) => (
   <div
     className="mt-10 rounded-xl lg:w-5/12 xl:overflow-hidden"
     style={{ background: "#CDCDCD" }}
   >
-    <Link href={`/home/activity/${id}`} >
-    <img
-      src={image}
-      alt={title}
-      className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
-      style={{ borderRadius: "12px 12px 0px 0px" }}
-    />
-    <div className="p-4 px-7">
-      <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
-        {title}
-      </h3>
-      <p className="text-[14px] font-[400] text-[#181818] mb-4">
-        {description}
-      </p>
-      <div className="flex gap-3 items-center">
-        <button className="bg-[#093165] text-white text-[14px] font-[700] px-4 py-2 rounded-lg">
-          อ่านเพิ่มเติม
-        </button>
+    <Link href={`/home/activity/${id}`}>
+      <img
+        src={image}
+        alt={title}
+        className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
+        style={{ borderRadius: "12px 12px 0px 0px" }}
+      />
+      <div className="p-4 px-7">
+        <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
+          {title}
+        </h3>
+        <p className="text-[14px] font-[400] text-[#181818] mb-4">
+          {description}
+        </p>
+        <div className="flex gap-3 items-center">
+          <button className="bg-[#093165] text-white text-[14px] font-[700] px-4 py-2 rounded-lg">
+            อ่านเพิ่มเติม
+          </button>
+        </div>
       </div>
-    </div>
     </Link>
   </div>
 );
 
 // Component สำหรับแสดงข่าวทั่วไป
-const NewsItem: React.FC<NewsItemProps> = ({ image, title, description,id }) => (
+const NewsItem: React.FC<NewsItemProps> = ({
+  image,
+  title,
+  description,
+  id,
+}) => (
   <div className="w-full flex flex-col xl:flex-row gap-3 rounded-xl">
-      <img
-        src={image}
-        alt={title}
-        className="xl:w-[350px] object-cover"
-        style={{ borderRadius: "12px" }}
-      />
-      <div className="w-full">
-        <div className="p-2 flex flex-col bg-[#cdcdcd] w-full h-full py-5 rounded-lg px-7">
-          <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
-            {title}
-          </h3>
-          <p className="text-[14px] font-[400] text-[#181818] mb-4">
-            {description}
-          </p>
-          <div className="flex gap-3 items-center">
+    <img
+      src={image}
+      alt={title}
+      className="xl:w-[350px] object-cover"
+      style={{ borderRadius: "12px" }}
+    />
+    <div className="w-full">
+      <div className="p-2 flex flex-col bg-[#cdcdcd] w-full h-full py-5 rounded-lg px-7">
+        <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
+          {title}
+        </h3>
+        <p className="text-[14px] font-[400] text-[#181818] mb-4">
+          {description}
+        </p>
+        <div className="flex gap-3 items-center">
           <Link href={`/home/course/${id}`}>
             <button className="bg-[#093165] text-white text-[14px] font-[700] px-4 py-2 rounded-lg">
               อ่านเพิ่มเติม
             </button>
-            </Link>
-            <span className="text-[14px] font-[400] text-[#181818]">
-              12 พ.ค. 2024
-            </span>
-          </div>
+          </Link>
+          <span className="text-[14px] font-[400] text-[#181818]">
+            12 พ.ค. 2024
+          </span>
         </div>
       </div>
+    </div>
   </div>
 );
 
@@ -110,17 +123,16 @@ const Part4 = async () => {
           description={data[0].dec}
           id={data[0].id}
         />
-      
 
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
-          {data?.slice(1).map((news, index) => (
-             <Link href={`/home/activity/${news.id}`}>
-            <NewsItem
-              key={index}
-              image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news.image_title}`}
-              title={news.title}
-              description={news.dec}
-            />
+          {data?.slice(1).map((news: News, index: number) => (
+            <Link href={`/home/activity/${news.id}`} key={index}>
+              <NewsItem
+                id={news.id}
+                image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news.image_title}`}
+                title={news.title}
+                description={news.dec}
+              />
             </Link>
           ))}
         </div>
