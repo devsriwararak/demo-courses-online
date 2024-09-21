@@ -120,9 +120,9 @@ const Part4 = async () => {
       <div className="flex flex-col w-full lg:flex-row gap-8">
         <LargeNewsItem
           image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data[0]?.image_title}`}
-          title={data[0].title}
-          description={data[0].dec}
-          id={data[0].id}
+          title={data[0]?.title}
+          description={data[0]?.dec}
+          id={data[0]?.id}
         />
 
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
