@@ -88,7 +88,7 @@ const AdminPage: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  }, [page, searchQuery]);
+  }, [page, searchQuery,decryptData]);
 
   useEffect(() => {
     fetchCategory();
