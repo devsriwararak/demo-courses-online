@@ -16,12 +16,6 @@ export const fetchNews = async () => {
   }
 };
 
-// interface NewsItemProps {
-//   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
-//   title: string; // ประเภท string สำหรับหัวข้อข่าว
-//   description: string; // ประเภท string สำหรับคำบรรยายข่าว
-//   id:number
-// }
 
 interface NewsItemProps {
   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
@@ -51,8 +45,8 @@ const LargeNewsItem: React.FC<NewsItemProps> = ({
       <Image
         src={image}
         alt={title}
-        width={1000}
-        height={1000}
+        width={500}
+        height={500}
         className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
         style={{ borderRadius: "12px 12px 0px 0px" }}
       />
@@ -134,6 +128,7 @@ const Part4 = async () => {
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
           {data?.slice(1).map((news: News, index: number) => (
               <NewsItem
+                key={index}
                 id={news.id}
                 image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news.image_title}`}
                 title={news.title}

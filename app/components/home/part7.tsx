@@ -37,16 +37,20 @@ const Part7 = () => {
                 มีคอร์สสำหรับทดลองเรียนหรือไม่?
               </h3>
               <span className="text-2xl font-bold text-[#093165] group-open:hidden">
-                <img
+                <Image
                   src="/icon-plus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="บวก"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
               <span className="text-2xl font-bold text-[#093165] hidden group-open:inline">
-                <img
+                <Image
                   src="/icon-minus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="ลบ"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
@@ -67,16 +71,20 @@ const Part7 = () => {
                 มีคอร์สสำหรับทดลองเรียนหรือไม่?
               </h3>
               <span className="text-2xl font-bold text-[#093165] group-open:hidden">
-                <img
+                <Image
                   src="/icon-plus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="บวก"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
               <span className="text-2xl font-bold text-[#093165] hidden group-open:inline">
-                <img
+                <Image
                   src="/icon-minus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="ลบ"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
@@ -97,16 +105,20 @@ const Part7 = () => {
                 มีคอร์สสำหรับทดลองเรียนหรือไม่?
               </h3>
               <span className="text-2xl font-bold text-[#093165] group-open:hidden">
-                <img
+                <Image
                   src="/icon-plus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="บวก"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
               <span className="text-2xl font-bold text-[#093165] hidden group-open:inline">
-                <img
+                <Image
                   src="/icon-minus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                   alt="ลบ"
+                  width={500}
+                  height={500}
                   className=" w-full h-auto "
                 />
               </span>
