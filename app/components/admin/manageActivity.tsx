@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 
-import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
@@ -74,7 +74,6 @@ const ManageActivity: React.FC = () => {
     const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
-
 
   const fetchReviews = useCallback(async () => {
     const requestData = {
@@ -382,156 +381,172 @@ const ManageActivity: React.FC = () => {
           </div>
         </div>
         <div className="overflow-auto ">
-            <table className="w-full min-w-max mt-5 overflow-auto">
-              <thead>
+          <table className="w-full mt-5 overflow-auto">
+            <thead>
+              <tr>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ลำดับ
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ปก
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    ชื่อ
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    รายละเอียด
+                  </Typography>
+                </th>
+                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-bold leading-none opacity-70"
+                  >
+                    แก้ไข/ลบ
+                  </Typography>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.data?.length === 0 ? (
                 <tr>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ลำดับ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ปก
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      ชื่อ
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      รายละเอียด
-                    </Typography>
-                  </th>
-                  <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-bold leading-none opacity-70"
-                    >
-                      แก้ไข/ลบ
-                    </Typography>
-                  </th>
+                  <td colSpan={6} className="text-center pt-5">
+                    <Typography>...ไม่พบข้อมูล...</Typography>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {data?.data?.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="text-center pt-5">
-                      <Typography>...ไม่พบข้อมูล...</Typography>
+              ) : (
+                data?.data?.map((item, index) => (
+                  <tr key={item.id} style={{ marginTop: "3px" }}>
+                    <td className="py-2">
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {index + 1}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-2 flex justify-center">
+                      <div className="flex w-8 h-8 justify-stretch">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                          alt=""
+                          width={40}
+                          height={40}
+                          className="rounded-md"
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center justify-center">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item?.title}
+                        </Typography>
+                      </div>
+                    </td>
+                    {/* <td className="px-2 py-2 text-left max-w-[300px] lg:max-w-[500px] overflow-hidden">
+                      <div
+                        className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-y-auto"
+                        style={{
+                          wordBreak: "break-word",
+                          lineHeight: "1.5",
+                          maxHeight: "100px", // ปรับความสูงตามที่ต้องการ
+                          padding: "0.5rem",
+                        }}
+                      >
+                        {item?.dec}
+                      </div>
+                    </td> */}
+                    <td className="px-2 py-2 text-left max-w-[300px] lg:max-w-[500px]">
+                      <div
+                        className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-hidden"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3, // กำหนดจำนวนบรรทัดที่ต้องการแสดงก่อนตัดคำ
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item?.dec}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex justify-center gap-2">
+                        <MdEdit
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
+                          onClick={() => openEditModal(item)}
+                        />
+
+                        <MdDelete
+                          className="h-5 w-5 text-purple-500 cursor-pointer"
+                          onClick={() => handleDelete(item)}
+                        />
+                      </div>
                     </td>
                   </tr>
-                ) : (
-                  data?.data?.map((item, index) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}>
-                      <td className="py-2">
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {index + 1}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className="py-2 flex justify-center">
-                        <div className="flex w-8 h-8 justify-stretch">
-                          <Image
-                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
-                            alt=""
-                            width={40}
-                            height={40}
-                            className="rounded-md"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {item?.title}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {item?.dec}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex justify-center gap-2">
-                          <MdEdit
-                            className="h-5 w-5 text-purple-500 cursor-pointer"
-                            onClick={() => openEditModal(item)}
-                          />
-
-                          <MdDelete
-                            className="h-5 w-5 text-purple-500 cursor-pointer"
-                            onClick={() => handleDelete(item)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-          <div className="flex justify-end gap-2 mt-7 px-2 items-center">
-            <button
-              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-                page == 1 ? "" : "hover:text-black"
-              }`}
-              disabled={page == 1}
-              onClick={() => setPage((page) => Math.max(page - 1, 1))}
-            >
-              <IoIosArrowBack />
-            </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
-              หน้าที่ {page} / {data?.totalPages || 1}{" "}
-            </span>
-            <button
-              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-                Number(data?.totalPages) - Number(page) < 1
-                  ? true
-                  : false
-                  ? ""
-                  : "hover:text-black"
-              }`}
-              disabled={Number(data?.totalPages) - Number(page) < 1}
-              onClick={() => setPage((page) => page + 1)}
-            >
-              <IoIosArrowForward />
-            </button>
-          </div>
+        <div className="flex justify-end gap-2 mt-7 px-2 items-center">
+          <button
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+              page == 1 ? "" : "hover:text-black"
+            }`}
+            disabled={page == 1}
+            onClick={() => setPage((page) => Math.max(page - 1, 1))}
+          >
+            <IoIosArrowBack />
+          </button>
+          <span style={{ whiteSpace: "nowrap" }} className="text-sm">
+            หน้าที่ {page} / {data?.totalPages || 1}{" "}
+          </span>
+          <button
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+              Number(data?.totalPages) - Number(page) < 1
+                ? true
+                : false
+                ? ""
+                : "hover:text-black"
+            }`}
+            disabled={Number(data?.totalPages) - Number(page) < 1}
+            onClick={() => setPage((page) => page + 1)}
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
       </Card>
 
       <AddEditModalActivity

@@ -4,9 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const fetchNews = async () => {
+  const requestData = {
+    page: 1,
+    search: "",
+    full: false,
+    home:true
+  };
+
   try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/news`
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,requestData,
     );
     return res.data;
   } catch (err) {
@@ -119,14 +126,14 @@ const Part4 = async () => {
       </h2>
       <div className="flex flex-col w-full lg:flex-row gap-8">
         <LargeNewsItem
-          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data[0]?.image_title}`}
-          title={data[0]?.title}
-          description={data[0]?.dec}
-          id={data[0]?.id}
+          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.data[0]?.image_title}`}
+          title={data?.data[0]?.title}
+          description={data?.data[0]?.dec}
+          id={data?.data[0]?.id}
         />
 
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
-          {data?.slice(1).map((news: News, index: number) => (
+          {data?.data?.slice(1).map((news: News, index: number) => (
               <NewsItem
                 key={index}
                 id={news.id}

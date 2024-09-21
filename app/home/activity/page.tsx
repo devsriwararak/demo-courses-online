@@ -1,5 +1,9 @@
+import MainAvtivity from "@/app/components/home/mainactivity"
+
 export default function Page() {
     return (
-        <div className="flex w-full text-red-500 justify-center  items-center mt-10">กิจกรรม โปรแกรมพร้อมใช้งานงวดที่ 3/3</div>
+        <div>
+        <MainAvtivity />
+        </div>
     );
 }
