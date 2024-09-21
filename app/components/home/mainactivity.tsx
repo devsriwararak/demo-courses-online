@@ -89,20 +89,20 @@ const ActivityPage = () => {
               key={index}
               className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300"
             >
-              <Link href={`/home/activity/${course.id}`}>
+              <Link href={`/home/activity/${course?.id}`}>
                 <div className="relative h-48">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image_title}`}
-                    alt={course.title}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image_title}`}
+                    alt={course?.title}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                    {course.title}
+                    {course?.title}
                   </h2>
-                  <p className="text-gray-600 text-sm">{course.dec}</p>
+                  <p className="text-gray-600 text-sm">{course?.dec}</p>
                 </div>
               </Link>
             </div>
