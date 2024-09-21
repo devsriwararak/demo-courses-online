@@ -63,7 +63,10 @@ const ActivityPage = () => {
               <span className="text-blue-500 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
-              ผลลัพท์การค้นหา <span className="font-semibold">{data?.data?.length || 0} คอร์ส</span>
+              ผลลัพท์การค้นหา{" "}
+              <span className="font-semibold">
+                {data?.data?.length || 0} คอร์ส
+              </span>
             </p>
           </div>
 
@@ -82,8 +85,38 @@ const ActivityPage = () => {
             </select>
           </div>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-10 gap-8">
+          {data?.data.map((course: Course, index: number) => (
+            <div
+              key={index}
+              className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
+            >
+              <Link href={`/home/course/${course?.id}`}>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image_title}`}
+                  alt={course?.title}
+                  width={500}
+                  height={500}
+                  className="rounded-t-2xl mb-4 object-cover h-48 w-full"
+                />
+                <div className="px-2 md:px-5">
+                  <h2 className="text-md md:text-lg font-semibold">
+                    {course?.title}
+                  </h2>
+                  <p className="text-gray-600">{course?.dec}</p>
+                 
+                </div>
+                {/* <div className="mt-auto px-5">
+                  <button className="bg-[#184785] text-white px-4 py-2 rounded-md w-full">
+                    ดูคอร์สเรียนนี้
+                  </button>
+                </div> */}
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-10 gap-8">
           {data?.data?.map((course: Course, index: number) => (
             <div
               key={index}
@@ -94,7 +127,8 @@ const ActivityPage = () => {
                   <Image
                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image_title}`}
                     alt={course?.title}
-                    fill
+                    width={1500}
+                    height={1500}
                     className="object-cover"
                   />
                 </div>
@@ -107,7 +141,7 @@ const ActivityPage = () => {
               </Link>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
