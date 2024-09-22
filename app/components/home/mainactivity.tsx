@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-interface Course {
+interface Activity {
   id: number;
   image_title: string;
   title: string;
@@ -53,19 +53,27 @@ const ActivityPage = () => {
     setPage(selectedPage);
   };
 
+  //   ฟังก์ชันสำหรับตัดข้อความ
+
+const truncate = (text: string, maxLength: number = 300): string => {
+  // เช็คว่าข้อความยาวเกินที่กำหนดหรือไม่ ถ้าเกินให้ตัดและใส่ ...
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
+
   return (
     <div className="p-6 md:p-12 flex flex-col">
       <div className="w-full">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              คอร์สเรียน{" "}
+              กิจกรรม{" "}
               <span className="text-blue-500 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
               ผลลัพท์การค้นหา{" "}
               <span className="font-semibold">
-                {data?.data?.length || 0} คอร์ส
+                {data?.data?.length || 0} กิจกรรม
               </span>
             </p>
           </div>
@@ -86,24 +94,24 @@ const ActivityPage = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-10 gap-8">
-          {data?.data.map((course: Course, index: number) => (
+          {data?.data.map((activity: Activity, index: number) => (
             <div
               key={index}
               className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
             >
-              <Link href={`/home/course/${course?.id}`}>
+              <Link href={`/home/activity/${activity?.id}`}>
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image_title}`}
-                  alt={course?.title}
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${activity?.image_title}`}
+                  alt={activity?.image_title}
                   width={500}
                   height={500}
                   className="rounded-t-2xl mb-4 object-cover h-48 w-full"
                 />
-                <div className="px-2 md:px-5">
+                <div className="flex flex-col px-2 md:px-5 py-3 gap-5">
                   <h2 className="text-md md:text-lg font-semibold">
-                    {course?.title}
+                    {activity?.title}
                   </h2>
-                  <p className="text-gray-600">{course?.dec}</p>
+                  <p className="text-gray-600 ">{truncate(activity?.dec)}</p>
                  
                 </div>
                 {/* <div className="mt-auto px-5">
