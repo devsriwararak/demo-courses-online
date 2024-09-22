@@ -14,20 +14,20 @@ import withReactContent from "sweetalert2-react-content";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 import Topsale from "../topsale";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 import CryptoJS from "crypto-js";
 
 const MySwal = withReactContent(Swal);
 
-
-
 const BuyCourse = () => {
   const buyData = useRecoilValue(BuyCourseStore);
   const [show, setShow] = useState(false);
-  const [bill, setBill] = useState('');
+  const [bill, setBill] = useState("");
+  const [payId, setPayId] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
 
   const router = useRouter();
 
@@ -45,6 +45,10 @@ const BuyCourse = () => {
       return text.substring(0, limit) + "...";
     }
     return text;
+  };
+
+  const handleFileChange = (event: any) => {
+    setFile(event.target.files[0]); // Capture the file when the input changes
   };
 
   const handleCheck = async () => {
@@ -76,15 +80,15 @@ const BuyCourse = () => {
       console.log(res);
       if (res.status === 200) {
         toast.success(res.data.message);
+        setPayId(res.data.pay_id);
         setShow(true);
-        setBill(res?.data?.bill_number)
+        setBill(res?.data?.bill_number);
         MySwal.close();
       } else {
         return;
       }
     } catch (err) {
       MySwal.close();
-      setShow(true);
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
       setLoading(false);
@@ -92,6 +96,11 @@ const BuyCourse = () => {
   };
 
   const handleSubmit = async () => {
+    if (!file) {
+      toast.error("กรุณาแนบไฟล์สลิป!"); // Display an error message if no file is selected
+      return;
+    }
+
     setLoading(true);
     MySwal.fire({
       title: "กำลังส่งข้อมูล...",
@@ -103,34 +112,41 @@ const BuyCourse = () => {
       },
     });
 
-    const data = {
-      title: buyData?.title,
-    };
+    const formData = new FormData();
+    formData.append("pay_id", payId);
+
+    const price =
+      buyData?.price_sale && buyData?.price_sale > 0
+        ? buyData?.price_sale.toString()
+        : buyData?.price?.toString() || "0";
+
+    formData.append("price", price);
+    formData.append("file", file);
+
     try {
+      console.log(Object.fromEntries(formData));
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api`,
-        data,
-        { ...HeaderMultiAPI(localStorage.getItem("Token")) }
+        `${process.env.NEXT_PUBLIC_API}/api/pay/upload_slip`,
+        formData,
+        { ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")) }
       );
 
-      setTimeout(() => {
-        if (response.status === 200) {
-          toast.success(response.data.message);
-          MySwal.close();
-        } else {
-          toast.error("Form submission failed!");
-          MySwal.close();
-        }
-        setLoading(false);
-      }, 5000); // ตั้งเวลา 5 วินาที
-    } catch (err) {
-      setTimeout(() => {
-        MySwal.close();
+      console.log(response);
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
         setSuccess(true);
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
+        MySwal.close();
+      } else {
         setLoading(false);
-      }, 2000); // ตั้งเวลา 5 วินาที
+        toast.error("Form submission failed!");
+        MySwal.close();
+      }
+    } catch (err) {
+      MySwal.close();
+      const error = err as { response: { data: { message: string } } };
+      toast.error(error.response.data.message);
+      setLoading(false);
     }
   };
 
@@ -239,7 +255,12 @@ const BuyCourse = () => {
                         <Typography className="text-xl">บาท</Typography>
                       </div>
                       <div className=" flex gap-2 w-[200px] ">
-                        <Input type="file" label="แนบสลิป files" crossOrigin />
+                        <Input
+                          type="file"
+                          label="แนบสลิป files"
+                          onChange={handleFileChange}
+                          crossOrigin
+                        />
                       </div>
                     </div>
                   </div>

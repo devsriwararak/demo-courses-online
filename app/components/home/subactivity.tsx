@@ -94,10 +94,16 @@ const ActivityPage: React.FC<PageProps> = async ({ params }) => {
               <div className="w-16 h-16 relative">
                 <Image
                   src={"/pic1.jpg" || "/default-image.jpg"}
-                  alt={newsItem.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-md"
+                //   alt={newsItem.title}
+                //   layout="fill"
+                //   objectFit="cover"
+                //   className="rounded-md"
+                  alt={data?.title}
+                  width={500}
+                  height={500}
+                //   objectFit="cover" // ทำให้ภาพครอบคลุมพื้นที่โดยรักษาสัดส่วน
+                //   layout="fill" // ทำให้ภาพเป็น responsive
+                  className="w-full h-full rounded-xl  object-fill "
                 />
               </div>
               <div className="flex-1">
