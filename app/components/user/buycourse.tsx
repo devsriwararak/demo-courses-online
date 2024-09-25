@@ -12,7 +12,7 @@ import { useState, useEffect, useCallback } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Router } from "next/router";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation"; // Correct import
 import Topsale from "../topsale";
 import parse from "html-react-parser";
 
@@ -20,14 +20,19 @@ import CryptoJS from "crypto-js";
 
 const MySwal = withReactContent(Swal);
 
+
+
 const BuyCourse = () => {
-  const buyData = useRecoilValue(BuyCourseStore);
+  // const buyData = useRecoilValue(BuyCourseStore);
+  const [buyData, setBuyData] = useState<any>(null);
   const [show, setShow] = useState(false);
   const [bill, setBill] = useState("");
   const [payId, setPayId] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+
+  const { id } = useParams();
 
   const router = useRouter();
 
@@ -47,6 +52,38 @@ const BuyCourse = () => {
     return text;
   };
 
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/product/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${decryptData(
+                localStorage.getItem("Token") || ""
+              )}`,
+            },
+          }
+        );
+        console.log(res.data);
+      if (res.status === 200) {
+        setBuyData(res.data); 
+      } else {
+        toast.error("error");
+      }
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch data from server.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(buyData)
+
   const handleFileChange = (event: any) => {
     setFile(event.target.files[0]); // Capture the file when the input changes
   };
@@ -65,7 +102,7 @@ const BuyCourse = () => {
 
     const data = {
       users_id: Number(userId),
-      id: Number(buyData?.id),
+      product_id: Number(buyData?.product_id),
     };
     try {
       console.log(data);
@@ -160,7 +197,7 @@ const BuyCourse = () => {
           <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white ">
             <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
               <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${buyData?.image}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${buyData?.product_image}`}
                 alt=""
                 width={400}
                 height={400}
@@ -170,15 +207,15 @@ const BuyCourse = () => {
             <div className="flex flex-col gap-3 py-6  px-2 md:px-10">
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Titel:</Typography>
-                <Typography>{buyData?.title || ""}</Typography>
+                <Typography>{buyData?.product_title || ""}</Typography>
               </div>
 
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Price:</Typography>
                 <Typography>
-                  {buyData?.price_sale || 0 > 0
-                    ? buyData?.price_sale.toLocaleString()
-                    : buyData?.price.toLocaleString()}
+                  {buyData?.products_price_sale || 0 > 0
+                    ? buyData?.products_price_sale.toLocaleString()
+                    : buyData?.products_price.toLocaleString()}
                 </Typography>
                 <Typography>บาท</Typography>
               </div>
@@ -186,7 +223,7 @@ const BuyCourse = () => {
               <div className=" flex gap-2 ps-3 ">
                 <Typography className="font-bold ">Dec:</Typography>
                 {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
-                <Typography>{parse(buyData?.dec || "")}</Typography>
+                <Typography>{parse(buyData?.product_dec || "")}</Typography>
               </div>
             </div>
           </Card>
@@ -248,9 +285,9 @@ const BuyCourse = () => {
                           ราคา :
                         </Typography>
                         <Typography className="text-xl">
-                          {buyData?.price_sale || 0 > 0
-                            ? buyData?.price_sale.toLocaleString()
-                            : buyData?.price.toLocaleString()}
+                          {buyData?.products_price_sale || 0 > 0
+                            ? buyData?.products_price_sale.toLocaleString()
+                            : buyData?.products_price.toLocaleString()}
                         </Typography>
                         <Typography className="text-xl">บาท</Typography>
                       </div>

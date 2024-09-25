@@ -286,7 +286,7 @@ const LearningPage: React.FC = () => {
   const handleEdit = (data: Course) => {
     setFormData({
       id: data.id,
-      category_id: data?.category_id.toString() || "",
+      category_id: data?.category_id?.toString() || "",
       image: data.image,
       videoFile: null,
       videoUrl: data.video,

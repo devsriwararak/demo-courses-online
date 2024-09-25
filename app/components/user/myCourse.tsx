@@ -28,13 +28,13 @@ interface Category {
 }
 
 interface Course {
-  title: string;
-  dec: string;
-  id: number ;
-  image: string;
-  price: number;
-  price_sale: number;
-  category_name:string
+  products_title: string;
+  products_dec: string;
+  products_id: number ;
+  products_image: string;
+  products_price: number;
+  products_price_sale: number;
+  // product_category_name:string
 }
 
 // const slides = [
@@ -44,7 +44,7 @@ interface Course {
 // ];
 
 const truncateText = (text: string, limit: number) => {
-  if (text.length > limit) {
+  if (text?.length > limit) {
     return text.substring(0, limit) + "...";
   }
   return text;
@@ -103,10 +103,14 @@ const ShopCourse: React.FC = () => {
     const requestData = {
       // page: page,
       users_id: userId || 0,
+      search: "",
+      page: 1,
+      full:true,
+      category_id:""
     };
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/users/category`,
+        `${process.env.NEXT_PUBLIC_API}/api/users/product`,
         requestData,
         {
           ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
@@ -136,10 +140,12 @@ const ShopCourse: React.FC = () => {
 
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
 
-  const handleBuyNow = (course: Course) => {
-    setBuyCourse(course);
-    router.push("/user/buycourse");
-  };
+  // const handleBuyNow = (course: Course) => {
+  //   setBuyCourse(course);
+  //   router.push("/user/buycourse");
+  // };
+
+  console.log(product)
 
   return (
     <div
@@ -190,14 +196,12 @@ const ShopCourse: React.FC = () => {
            
             src={"/banner1.png"}
             alt=""
-            width={550}
-            height={500}
+            width={1000}
+            height={1000}
             className=" object-cover "
             crossOrigin=''
           />
-            {/* <div className="flex justify-center  py-2 px-2 ">
-              <Carousel slides={slides} />
-            </div> */}
+      
           </div>
         </div>
       </div>
@@ -231,17 +235,14 @@ const ShopCourse: React.FC = () => {
             <Card
               key={index}
               className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
-              onClick={() => router.push("/user/study")}
-              // style={{
-              //   backgroundImage:
-              //     "linear-gradient(180.6deg,  rgba(228,107,232,1) 11.2%, rgba(87,27,226,1) 96.7% )",
-              // }}
+              onClick={() => router.push(`/user/study/${course?.products_id}`)}
+              // onClick={() => router.push(`/user/study`)}
             >
               <div>
                 <div className="flex w-full h-[200px]">
                   <Image
-                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
-                    alt={course.title}
+                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.products_image}`}
+                    alt={course?.products_title}
                     width={500}
                     height={500}
                     priority
@@ -252,11 +253,11 @@ const ShopCourse: React.FC = () => {
 
                 <div className="px-2 md:px-4 mt-5">
                 <Typography className="text-lg font-semibold text-black ps-2">
-                    {truncateText(course.title, 30)}
+                    {truncateText(course?.products_title, 30)}
                   </Typography>
 
                   <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                    {truncateText(course.dec, 90)}
+                    {truncateText(course?.products_dec, 90)}
                   </Typography>
 
                 </div>
@@ -267,14 +268,14 @@ const ShopCourse: React.FC = () => {
                 <div className="flex w-full text-wrap">
                   <Typography
                     className={`text-xl ${
-                      course.price_sale > 0
+                      course.products_price_sale > 0
                         ? "text-red-500 font-semibold"
                         : "text-black"
                     }  mb-2  pr-1`}
                   >
-                    {course?.price_sale > 0
-                      ? course?.price_sale.toLocaleString()
-                      : course?.price.toLocaleString()}{" "}
+                    {course?.products_price_sale > 0
+                      ? course?.products_price_sale?.toLocaleString()
+                      : course?.products_price?.toLocaleString()}{" "}
                     บาท
                   </Typography>
                 </div>
@@ -287,7 +288,7 @@ const ShopCourse: React.FC = () => {
                   //   backgroundImage:
                   //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
                   // }}
-                  onClick={() => router.push("/user/study")}
+                  // onClick={() => router.push(`/user/study/${course?.products_id}`)}
                 >
                   {`ดูเนื้อหา >>>`}
                 </Button>
@@ -303,6 +304,8 @@ const ShopCourse: React.FC = () => {
 
 
     </div>
+
+
   );
 };
 

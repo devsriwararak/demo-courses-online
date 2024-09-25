@@ -4,7 +4,6 @@ export function middleware(request) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname; // กำหนดค่า pathname จาก request.nextUrl
 
-  
   let permition = "";
   let allowedPaths = {};
 
@@ -51,14 +50,26 @@ export function middleware(request) {
         "/user/manageprofile",
         "/user/shopcourse",
         "/user/buycourse",
+        "/user/buycourse/:id*", 
         "/user/mycourse",
-        "/user/study",
+        "/user/study", 
+        "/user/study/:id*", 
+        "/user/myorder",
       ],
     };
   }
 
+  // ตรวจสอบการเข้าถึงด้วย wildcard
+  const allowed = allowedPaths[permition]?.some((allowedPath) => {
+    // เปลี่ยนให้รองรับการตรวจสอบ wildcard
+    const pathPattern = new RegExp(
+      `^${allowedPath.replace(/\*/g, ".*").replace(/:\w+/g, "\\w+")}$`
+    );
+    return pathPattern.test(pathname);
+  });
+
   // Redirect ถ้าไม่มีสิทธิ์เข้าถึงเส้นทางนั้น
-  if (!allowedPaths[permition]?.includes(pathname)) {
+  if (!allowed) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -67,5 +78,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/user/:path*", "/super/:path*",],
+  matcher: ["/admin/:path*", "/user/:path*", "/super/:path*"],
 };

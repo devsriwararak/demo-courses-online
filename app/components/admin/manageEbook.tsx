@@ -474,17 +474,20 @@ const ManageEbook: React.FC = () => {
                           </Typography>
                         </div>
                       </td>
-                      <td>
-                        <div className="flex items-center justify-center">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="text-xs"
-                          >
-                            {item?.dec}
-                          </Typography>
-                        </div>
-                      </td>
+                      <td className="px-2 py-2 text-left max-w-[300px] lg:max-w-[500px]">
+                      <div
+                        className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-hidden"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: 1, // กำหนดจำนวนบรรทัดที่ต้องการแสดงก่อนตัดคำ
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item?.dec}
+                      </div>
+                    </td>
                       <td>
                         <div className="flex items-center justify-center">
                           <Typography

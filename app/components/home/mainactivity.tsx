@@ -53,22 +53,18 @@ const ActivityPage = () => {
     setPage(selectedPage);
   };
 
-  //   ฟังก์ชันสำหรับตัดข้อความ
-
-const truncate = (text: string, maxLength: number = 300): string => {
-  // เช็คว่าข้อความยาวเกินที่กำหนดหรือไม่ ถ้าเกินให้ตัดและใส่ ...
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
-};
-
+  // ฟังก์ชันสำหรับตัดข้อความ
+  const truncate = (text: string, maxLength: number = 300): string => {
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  };
 
   return (
-    <div className="p-6 md:p-12 flex flex-col">
+    <div className="p-6 md:p-12 flex flex-col 2xl:px-64">
       <div className="w-full">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-left w-full md:w-1/2">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              กิจกรรม{" "}
-              <span className="text-blue-500 font-bold">ทั้งหมด</span>
+              กิจกรรม <span className="text-blue-500 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
               ผลลัพท์การค้นหา{" "}
@@ -78,10 +74,10 @@ const truncate = (text: string, maxLength: number = 300): string => {
             </p>
           </div>
 
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0 w-full md:w-auto justify-center  flex xl:justify-end md:justify-start">
             {/* Select element for page navigation */}
             <select
-              className="p-2 border px-5 border-gray-300 rounded-md shadow-sm text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out"
+              className="p-2 border w-36 md:w-40 lg:w-32 xl:w-28 2xl:w-24 cursor-pointer border-gray-300 rounded-md shadow-sm text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out"
               value={page}
               onChange={handlePageChange}
             >
@@ -93,7 +89,8 @@ const truncate = (text: string, maxLength: number = 300): string => {
             </select>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-10 gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 mt-10 gap-8">
           {data?.data.map((activity: Activity, index: number) => (
             <div
               key={index}
@@ -111,45 +108,12 @@ const truncate = (text: string, maxLength: number = 300): string => {
                   <h2 className="text-md md:text-lg font-semibold">
                     {activity?.title}
                   </h2>
-                  <p className="text-gray-600 ">{truncate(activity?.dec)}</p>
-                 
+                  <p className="text-gray-600">{truncate(activity?.dec)}</p>
                 </div>
-                {/* <div className="mt-auto px-5">
-                  <button className="bg-[#184785] text-white px-4 py-2 rounded-md w-full">
-                    ดูคอร์สเรียนนี้
-                  </button>
-                </div> */}
               </Link>
             </div>
           ))}
         </div>
-
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-10 gap-8">
-          {data?.data?.map((course: Course, index: number) => (
-            <div
-              key={index}
-              className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300"
-            >
-              <Link href={`/home/activity/${course?.id}`}>
-                <div className="relative h-48">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course?.image_title}`}
-                    alt={course?.title}
-                    width={1500}
-                    height={1500}
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                    {course?.title}
-                  </h2>
-                  <p className="text-gray-600 text-sm">{course?.dec}</p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div> */}
       </div>
     </div>
   );

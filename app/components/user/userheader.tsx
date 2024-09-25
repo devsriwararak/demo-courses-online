@@ -20,8 +20,9 @@ const navItems = [
   // { href: '/home/portfolio', label: 'ผลงาน' },
   // { href: '/home/activity', label: 'กิจกรรม' },
   // { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
-  { href: '/user/mycourse', label: 'คอร์สเรียนของฉัน' },
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
+  { href: '/user/mycourse', label: 'คอร์สเรียนของฉัน' },
+  { href: '/user/myorder', label: 'รายการสั่งซื้อของฉัน' },
   { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
 

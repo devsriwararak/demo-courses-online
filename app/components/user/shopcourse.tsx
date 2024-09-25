@@ -41,7 +41,7 @@ interface Course {
 
 
 const truncateText = (text: string, limit: number) => {
-  if (text.length > limit) {
+  if (text?.length > limit) {
     return text.substring(0, limit) + "...";
   }
   return text;
@@ -128,9 +128,9 @@ const ShopCourse: React.FC = () => {
     fetchProduct();
   }, [searchQuery,selectCatetegory]);
 
-  const handleBuyNow = (course: Course) => {
-    setBuyCourse(course);
-    router.push("/user/buycourse");
+  const handleBuyNow = (id :any) => {
+    // setBuyCourse(course);
+    router.push(`/user/buycourse/${id}`);
   };
 
   console.log(searchQuery)
@@ -227,7 +227,7 @@ const ShopCourse: React.FC = () => {
               <Card
                 key={index}
                 className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
-                onClick={() => handleBuyNow(course)}
+                onClick={() => handleBuyNow(course?.id)}
               >
                 <div>
                   <div className="flex w-full h-[200px]">
@@ -285,7 +285,7 @@ const ShopCourse: React.FC = () => {
                     //   backgroundImage:
                     //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
                     // }}
-                    onClick={() => handleBuyNow(course)}
+                    onClick={() => handleBuyNow(course?.id)}
                   >
                     ซื้อตอนนี้
                   </Button>

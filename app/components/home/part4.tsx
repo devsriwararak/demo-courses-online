@@ -8,12 +8,13 @@ export const fetchNews = async () => {
     page: 1,
     search: "",
     full: false,
-    home:true
+    home: true,
   };
 
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,requestData,
+      `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,
+      requestData
     );
     return res.data;
   } catch (err) {
@@ -31,7 +32,6 @@ export const truncate1 = (text: string, maxLength: number = 150): string => {
   // เช็คว่าข้อความยาวเกินที่กำหนดหรือไม่ ถ้าเกินให้ตัดและใส่ ...
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };
-
 
 interface NewsItemProps {
   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
@@ -58,14 +58,14 @@ const LargeNewsItem: React.FC<NewsItemProps> = ({
     style={{ background: "#CDCDCD" }}
   >
     <Link href={`/home/activity/${id}`}>
-      <Image
+      {/* <Image
         src={image}
         alt={title}
         width={1000}
         height={1000}
         className="lg:-mt-[50px] w-full h-auto 2xl:h-[300px] object-cover"
         style={{ borderRadius: "12px 12px 0px 0px" }}
-      />
+      /> */}
       <div className="p-4 px-7">
         <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
           {title}
@@ -92,33 +92,33 @@ const NewsItem: React.FC<NewsItemProps> = ({
 }) => (
   <div className="w-full flex flex-col xl:flex-row gap-3 rounded-xl">
     <Link href={`/home/activity/${id}`}>
-    <Image
+      {/* <Image
       src={image}
       alt={title}
       width={1000}
       height={1000}
       className="object-cover"
       style={{ borderRadius: "12px" }}
-    />
+    /> */}
     </Link>
     <div className="w-full">
       <div className="p-2 flex flex-col bg-[#cdcdcd] w-full h-full py-5 rounded-lg px-7">
-          <Link href={`/home/activity/${id}`}>
-        <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
-          {title}
-        </h3>
-        <p className="text-[14px] font-[400] text-[#181818] mb-4">
-          {truncate(description)}
-        </p>
-        <div className="flex gap-3 items-center">
+        <Link href={`/home/activity/${id}`}>
+          <h3 className="text-[16px] sm:text-[18px] font-[700] text-[#093165] mb-4">
+            {title}
+          </h3>
+          <p className="text-[14px] font-[400] text-[#181818] mb-4">
+            {truncate(description)}
+          </p>
+          <div className="flex gap-3 items-center">
             <button className="bg-[#093165] text-white text-[14px] font-[700] px-4 py-2 rounded-lg">
               อ่านเพิ่มเติม
             </button>
-          <span className="text-[14px] font-[400] text-[#181818]">
-            12 พ.ค. 2024
-          </span>
-        </div>
-          </Link>
+            <span className="text-[14px] font-[400] text-[#181818]">
+              12 พ.ค. 2024
+            </span>
+          </div>
+        </Link>
       </div>
     </div>
   </div>
@@ -128,8 +128,6 @@ const NewsItem: React.FC<NewsItemProps> = ({
 const Part4 = async () => {
   const data = await fetchNews();
 
-
-
   return (
     <div className="bg-[#222222] py-10 px-10 h-full 2xl:px-[250px]">
       <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
@@ -137,21 +135,23 @@ const Part4 = async () => {
       </h2>
       <div className="flex flex-col w-full lg:flex-row gap-8">
         <LargeNewsItem
-          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.data[0]?.image_title}`}
-          title={data?.data[0]?.title}
-          description={truncate(data?.data[0]?.dec)}
-          id={data?.data[0]?.id}
+          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${
+            data?.data?.[0]?.image_title || ""
+          }`}
+          title={data?.data?.[0]?.title || "ไม่มีหัวข้อข่าว"}
+          description={truncate(data?.data?.[0]?.dec || "ไม่มีคำบรรยายข่าว")}
+          id={data?.data?.[0]?.id || "0"}
         />
 
         <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
           {data?.data?.slice(1).map((news: News, index: number) => (
-              <NewsItem
-                key={index}
-                id={news.id}
-                image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news?.image_title}`}
-                title={news.title}
-                description={truncate1(news?.dec)}
-              />
+            <NewsItem
+              key={index}
+              id={news.id}
+              image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news?.image_title}`}
+              title={news.title}
+              description={truncate1(news?.dec)}
+            />
           ))}
         </div>
       </div>

@@ -18,13 +18,14 @@ const PortfolioPage = () => {
   const [data, setData] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [type, setType] = useState(0);
 
   const fetchData = async () => {
     const requestData = {
       page: page,
       search: "",
       full: false,
-      type: 0,
+      type: type,
     };
 
     try {
@@ -32,6 +33,8 @@ const PortfolioPage = () => {
         `${process.env.NEXT_PUBLIC_API}/api/homepage/reviews`,
         requestData
       );
+
+      console.log(res.data)
       if (res.status === 200) {
         setData(res.data);
         setTotalPages(res.data.totalPages || 1);
@@ -45,7 +48,7 @@ const PortfolioPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page]);
+  }, [page, type]);
 
   // ฟังก์ชันสำหรับตัดข้อความ
   const truncate = (text: string, maxLength: number = 100): string => {
@@ -53,8 +56,33 @@ const PortfolioPage = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 flex flex-col">
-      <div className="w-full">
+    <div className="p-6 md:p-12 flex flex-col 2xl:px-64">
+      <div className="w-full ">
+        {/* ปุ่ม Select แบบ Toggle */}
+        <div className="flex space-x-4 mt-4 md:mt-0 justify-center">
+          <button
+            onClick={() => setType(0)}
+            className={`flex-1 px-4 py-2 rounded-full text-center ${
+              type === 0
+                ? "bg-purple-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
+          >
+            สัมมนา
+          </button>
+          <button
+            onClick={() => setType(1)}
+            className={`flex-1 px-4 py-2 rounded-full text-center ${
+              type === 1
+                ? "bg-purple-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
+          >
+            รีวิว
+          </button>
+        </div>
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -68,9 +96,9 @@ const PortfolioPage = () => {
             </p>
           </div>
 
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0  w-36" >
             <select
-              className="p-2 border px-5 border-gray-300 rounded-md shadow-sm text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out"
+              className="p-2 border px-5 w-full border-gray-300 rounded-md shadow-sm text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out"
               value={page}
               onChange={(e) => setPage(Number(e.target.value))}
             >
@@ -89,7 +117,10 @@ const PortfolioPage = () => {
               key={index}
               className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col lg:flex-row"
             >
-              <Link href={`/home/portfolio/${portfolio?.id}`} className="lg:w-2/5">
+              <Link
+                href={`/home/portfolio/${portfolio?.id}`}
+                className="lg:w-2/5"
+              >
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${portfolio?.image_title}`}
                   alt={portfolio?.image_title}

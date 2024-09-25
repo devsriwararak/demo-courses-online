@@ -6,8 +6,14 @@ import ReactPlayer from "react-player";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
 
-const Study = () => {
+
+const Study: React.FC<PageProps> = ({ params }) => {
 
   const videoRef = useRef<ReactPlayer>(null);
 

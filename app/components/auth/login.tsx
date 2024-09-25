@@ -4,7 +4,7 @@ import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode"; // ใช้การนำเข้าแบบ named import
 import CryptoJS from "crypto-js";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { FormEvent, useCallback, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,6 +32,14 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
+  const id = searchParams.get("id");
+  const number = searchParams.get("number");
+
+  console.log("Received ID:", id);
+  console.log("Received Number:", number);
+
   const handleLogin = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
@@ -47,7 +55,7 @@ const LoginPage: React.FC = () => {
         console.log(res);
         const token = res.data.token;
         const decoded = jwtDecode<MyJwtPayload>(token);
-        console.log(decoded)
+        console.log(decoded);
         if (token && decoded) {
           toast.success("เข้าสู่ระบบสำเร็จ");
 
@@ -66,14 +74,26 @@ const LoginPage: React.FC = () => {
             decryptData(localStorage.getItem("Status") || "")
           );
 
-          console.log(status)
+          console.log(status);
 
           if (status === 2) {
             redirectPath = "/super";
           } else if (status === 1) {
             redirectPath = "/admin";
           } else if (status === 0) {
-            redirectPath = "/user/shopcourse";
+            if (id) {
+              // ตรวจสอบค่าของ number เพื่อกำหนด redirectPath
+              if (number === "0") {
+                redirectPath = `/user/study/${id}`;
+              } else if (number === "1") {
+                redirectPath = `/user/buycourse/${id}`;
+                // router.push(`/buycourse?id=${id}&number=${number}`);
+              } else {
+                console.error("Unexpected number value:", number);
+              }
+            } else {
+              redirectPath = "/user/shopcourse";
+            }
           }
 
           setTimeout(() => {
@@ -115,6 +135,7 @@ const LoginPage: React.FC = () => {
                 <Typography className=" font-medium text-3xl ">
                   DEV SRIWARARAK
                 </Typography>
+                <Typography className=" font-medium text-3xl ">{id}</Typography>
               </div>
               <div>
                 <Typography className=" mt-3 text-sm font-medium text-gray-500">

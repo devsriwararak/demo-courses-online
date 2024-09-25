@@ -13,12 +13,9 @@ import axios from "axios";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  MdDelete,
-  MdEdit,
-} from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 
-import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { FaAward, FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Image from "next/image";
@@ -70,12 +67,16 @@ const ManageReviews: React.FC = () => {
     { id: number; image: string }[]
   >([]);
 
-
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
   const decryptData = (ciphertext: string) => {
     const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
+  // ฟังก์ชันสำหรับตัดข้อความ
+  const truncate = (text: string, maxLength: number = 50): string => {
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
   };
 
   const fetchReviews = useCallback(async () => {
@@ -359,29 +360,35 @@ const ManageReviews: React.FC = () => {
               </Typography>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 ">
-            <div>
-              <Input
-                label="ค้นหาผลงาน"
-                crossOrigin="anonymous"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClick={() => setPage(1)}
-                color="deep-purple"
-                style={{ backgroundColor: "#f4f2ff" }}
-                icon={<FaSearch className=" text-gray-500" />}
-              />
-            </div>
-            <div>
-              <Select
-                color="deep-purple"
-                style={{ backgroundColor: "#f4f2ff" }}
-                label="ค้นหาประเภท"
-                onChange={(e) => setSearchType(e || "")}
-              >
-                <Option value="" className="custom-option">ทั้งหมด</Option>
-                <Option value="1"className="custom-option">รีวิว</Option>
-                <Option value="0"className="custom-option">สัมมนา</Option>
-              </Select>
-            </div>
+              <div>
+                <Input
+                  label="ค้นหาผลงาน"
+                  crossOrigin="anonymous"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClick={() => setPage(1)}
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  icon={<FaSearch className=" text-gray-500" />}
+                />
+              </div>
+              <div>
+                <Select
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  label="ค้นหาประเภท"
+                  onChange={(e) => setSearchType(e || "")}
+                >
+                  <Option value="" className="custom-option">
+                    ทั้งหมด
+                  </Option>
+                  <Option value="1" className="custom-option">
+                    รีวิว
+                  </Option>
+                  <Option value="0" className="custom-option">
+                    สัมมนา
+                  </Option>
+                </Select>
+              </div>
             </div>
             <div>
               <Button
@@ -519,15 +526,18 @@ const ManageReviews: React.FC = () => {
                         </Typography>
                       </div>
                     </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.dec}
-                        </Typography>
+                    <td className="px-2 py-2 text-left max-w-[300px] lg:max-w-[500px]">
+                      <div
+                        className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-hidden"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3, // กำหนดจำนวนบรรทัดที่ต้องการแสดงก่อนตัดคำ
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item?.dec}
                       </div>
                     </td>
                     <td>
@@ -549,33 +559,33 @@ const ManageReviews: React.FC = () => {
             </tbody>
           </table>
         </div>
-          <div className="flex justify-end gap-2 mt-5 px-2 items-center">
-            <button
-              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-                page == 1 ? "" : "hover:text-black"
-              }`}
-              disabled={page == 1}
-              onClick={() => setPage((page) => Math.max(page - 1, 1))}
-            >
-              <IoIosArrowBack />
-            </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
-              หน้าที่ {page} / {data?.totalPages || 1}{" "}
-            </span>
-            <button
-              className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-                Number(data?.totalPages) - Number(page) < 1
-                  ? true
-                  : false
-                  ? ""
-                  : "hover:text-black"
-              }`}
-              disabled={Number(data?.totalPages) - Number(page) < 1}
-              onClick={() => setPage((page) => page + 1)}
-            >
-              <IoIosArrowForward />
-            </button>
-          </div>
+        <div className="flex justify-end gap-2 mt-5 px-2 items-center">
+          <button
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+              page == 1 ? "" : "hover:text-black"
+            }`}
+            disabled={page == 1}
+            onClick={() => setPage((page) => Math.max(page - 1, 1))}
+          >
+            <IoIosArrowBack />
+          </button>
+          <span style={{ whiteSpace: "nowrap" }} className="text-sm">
+            หน้าที่ {page} / {data?.totalPages || 1}{" "}
+          </span>
+          <button
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
+              Number(data?.totalPages) - Number(page) < 1
+                ? true
+                : false
+                ? ""
+                : "hover:text-black"
+            }`}
+            disabled={Number(data?.totalPages) - Number(page) < 1}
+            onClick={() => setPage((page) => page + 1)}
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
       </Card>
 
       <AddEditModalReview
