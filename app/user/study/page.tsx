@@ -4,7 +4,8 @@ const StudyPage: React.FC = () => {
 
     return (
         <div>
-            <Study/>
+            {/* <Study/> */}
+            aaaa
         </div>
     )
 }
