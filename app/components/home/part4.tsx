@@ -19,7 +19,7 @@ export const fetchNews = async () => {
     return res.data;
   } catch (err) {
     const error = err as { response: { data: { message: string } } };
-    console.error(error.response.data.message);
+    console.error(error.response.data?.message);
     return []; // Return เป็น array เปล่า เพื่อป้องกัน Error ในการ Map ข้อมูล
   }
 };

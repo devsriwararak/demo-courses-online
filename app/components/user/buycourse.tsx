@@ -214,8 +214,8 @@ const BuyCourse = () => {
                 <Typography className="font-bold ">Price:</Typography>
                 <Typography>
                   {buyData?.products_price_sale || 0 > 0
-                    ? buyData?.products_price_sale.toLocaleString()
-                    : buyData?.products_price.toLocaleString()}
+                    ? buyData?.products_price_sale?.toLocaleString()
+                    : buyData?.products_price?.toLocaleString()}
                 </Typography>
                 <Typography>บาท</Typography>
               </div>
@@ -286,8 +286,8 @@ const BuyCourse = () => {
                         </Typography>
                         <Typography className="text-xl">
                           {buyData?.products_price_sale || 0 > 0
-                            ? buyData?.products_price_sale.toLocaleString()
-                            : buyData?.products_price.toLocaleString()}
+                            ? buyData?.products_price_sale?.toLocaleString()
+                            : buyData?.products_price?.toLocaleString()}
                         </Typography>
                         <Typography className="text-xl">บาท</Typography>
                       </div>
