@@ -5,10 +5,13 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import CryptoJS from "crypto-js";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { FormEvent, useCallback, useState } from "react";
+import React, { FormEvent, useCallback, useState, Suspense } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Template from "./template";
+
+
+
 
 interface MyJwtPayload extends JwtPayload {
   username: string;
@@ -25,6 +28,18 @@ const encryptData = (data: string) => {
 const decryptData = (ciphertext: string) => {
   const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
   return bytes.toString(CryptoJS.enc.Utf8);
+};
+
+const SearchParamsComponent = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const number = searchParams.get("number");
+
+  console.log("Received ID:", id);
+  console.log("Received Number:", number);
+
+  // ... ใช้ค่า id และ number ในที่ที่ต้องการ
+  return null; // หรือองค์ประกอบที่เหมาะสม
 };
 
 const LoginPage: React.FC = () => {
@@ -111,8 +126,12 @@ const LoginPage: React.FC = () => {
   );
 
   return (
+   
     <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
       <ToastContainer autoClose={3000} theme="colored" />
+      <Suspense fallback={<div>Loading search parameters...</div>}>
+        <SearchParamsComponent />
+      </Suspense>
       <div className="bg-white rounded-3xl shadow-xl  flex flex-col lg:flex-row  ">
         <Template />
 
