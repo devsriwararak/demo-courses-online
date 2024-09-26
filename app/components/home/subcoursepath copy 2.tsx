@@ -1,29 +1,20 @@
-// SubCoursePath.tsx
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useRecoilState } from "recoil";
-import { userIdState, numberState } from "@/store/store"; 
 
 interface SubCoursePathProps {
-  data: any; 
+  data: any; // Use a more specific type if available
 }
 
 const SubCoursePath: React.FC<SubCoursePathProps> = ({ data }) => {
   const router = useRouter();
-  const [, setUserId] = useRecoilState(userIdState);
-  const [, setNumber] = useRecoilState(numberState);
 
   // Combined function to handle redirects with a parameter
   const handleRedirect = (number: number) => {
-    const userId = data?.product_id; 
+    const userId = data?.product_id; // Retrieve the product ID from the data
     if (userId) {
-      // Store the userId and number in Recoil
-      setUserId(userId);
-      setNumber(number.toString());
-      
-      // Navigate to the login page
-      router.push(`/login`);
+      // Construct the URL with the query parameter
+      router.push(`/login?id=${userId}&number=${number}`);
     } else {
       console.error("Product ID is missing");
     }
@@ -31,6 +22,8 @@ const SubCoursePath: React.FC<SubCoursePathProps> = ({ data }) => {
 
   return (
     <div className="bg-gray-100 shadow p-4 rounded">
+      {/* <h2 className="text-md lg:text-lg font-bold mb-2">รายละเอียดการเรียน</h2> */}
+      {/* <p>คอร์สนี้เหมาะสำหรับ...</p> */}
       {data?.products_price === 0 ? (
         <button
           className="bg-green-500 text-white px-4 py-2 mt-3 rounded-md w-full"
@@ -46,6 +39,9 @@ const SubCoursePath: React.FC<SubCoursePathProps> = ({ data }) => {
           ซื้อคอร์สเรียนนี้
         </button>
       )}
+      <div className="mt-4">
+        {/* <h3 className="text-sm lg:text-md font-bold">Certificate of Completion</h3> */}
+      </div>
     </div>
   );
 };
