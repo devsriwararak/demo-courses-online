@@ -58,9 +58,8 @@ export default function ManageProfile() {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [getProfile]);
 
-  // ฟังก์ชันจัดการการเปลี่ยนค่าในแต่ละฟิลด์
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -74,23 +73,20 @@ export default function ManageProfile() {
     });
   };
 
-  // ฟังก์ชันการอัปเดทข้อมูล
   const handleUpdate = async () => {
     if (userProfile) {
       const data = {
         id: userProfile.id,
-        username: userProfile.username || '',
-        password: userProfile.password || '',
-        name: userProfile.name || '' ,
-        email: userProfile.email  || '',
-        phone: userProfile.phone  || '',
-        trade: userProfile.trade  || '',
-        address: userProfile.address  || '',
+        username: userProfile.username || "",
+        password: userProfile.password || "",
+        name: userProfile.name || "",
+        email: userProfile.email || "",
+        phone: userProfile.phone || "",
+        trade: userProfile.trade || "",
+        address: userProfile.address || "",
       };
 
       try {
-
-        console.log(data)
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/login/user`,
           data,
@@ -98,14 +94,11 @@ export default function ManageProfile() {
             ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
           }
         );
-        console.log(res)
         if (res.status === 200) {
           toast.success("อัพเดทข้อมูลสำเร็จ");
-          if(res.data.statusPassword  === 1) {
+          if (res.data.statusPassword === 1) {
             router.push("/home");
             localStorage.clear();
-          }else {
-            // router.push("/user/shopcourse");
           }
         } else {
           toast.error("Error updating profile");
@@ -118,129 +111,94 @@ export default function ManageProfile() {
   };
 
   return (
-    <div className="relative w-full overflow-auto">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(150deg,  rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-          opacity: "0.75",
-          filter: "blur(5px)",
-        }}
-      ></div>
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black opacity-30"></div>
-
-      {/* Foreground Content */}
-      <div className="relative w-full h-full px-10 lg:px-48 xl:px-[500px] flex flex-col items-center">
-        <ToastContainer autoClose={2000} theme="colored" />
-        <Card className="flex flex-col items-center my-10 lg:my-5 mt-5 p-10 shadow-md gap-5 overflow-hidden bg-white bg-opacity-90 backdrop-blur-sm">
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Typography className="text-xl font-semibold whitespace-nowrap">
-              {`จัดการข้อมูลผู้ใช้:`}
-            </Typography>
-            <Typography className="text-xl font-semibold">
-              {userProfile?.username}
-            </Typography>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-5 w-full">
-            <div className="w-full">
-              <Input
-                type="text"
-                label="ชื่อผู้ใช้"
-                name="username"
-                value={userProfile?.username || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                type="password"
-                label="รหัสผ่าน"
-                name="password"
-                value={userProfile?.password || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-5 w-full">
-            <div className="w-full">
-              <Input
-                type="name"
-                label="ชื่อ-สกุล"
-                name="name"
-                value={userProfile?.name || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                type="email"
-                label="อีเมล์"
-                name="email"
-                value={userProfile?.email || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                type="tel"
-                label="เบอร์โทรศัพท์"
-                name="phone"
-                value={userProfile?.phone || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-5 w-full">
-            <div className="w-full">
-              <Input
-                type="text"
-                label="บัญชีเทรด"
-                name="trade"
-                value={userProfile?.trade || ""}
-                onChange={handleChange}
-                crossOrigin="anonymous"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-5 w-full">
-            <Textarea
-              label="ที่อยู่"
-              name="address"
-              value={userProfile?.address || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col w-full lg:flex-row gap-5 justify-end">
-            <div className="w-full">
-              <Button
-                variant="outlined"
-                onClick={() => router.push("/user/shopcourse")}
-                color="red"
-                className="w-full text-sm"
-              >
-                ยกเลิก
-              </Button>
-            </div>
-            <div className="w-full">
-              <Button
-                color="purple"
-                className="w-full text-sm"
-                onClick={handleUpdate} // เรียกฟังก์ชันอัพเดทเมื่อกดปุ่ม
-              >
-                อัพเดท
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
+    <div className="flex flex-col items-center h-full p-5 bg-gray-100">
+      <ToastContainer autoClose={2000} theme="colored" />
+      <Card className="flex flex-col items-center w-full max-w-2xl p-6 my-10 shadow-md gap-5 bg-white bg-opacity-90 backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row gap-2 text-center">
+          <Typography className="text-xl font-semibold">
+            จัดการข้อมูลผู้ใช้:
+          </Typography>
+          <Typography className="text-xl font-semibold">
+            {userProfile?.username}
+          </Typography>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
+          <Input
+            type="text"
+            label="ชื่อผู้ใช้"
+            name="username"
+            value={userProfile?.username || ""}
+            onChange={handleChange}
+            crossOrigin="anonymous"
+          />
+          <Input
+            type="password"
+            label="รหัสผ่าน"
+            name="password"
+            value={userProfile?.password || ""}
+            onChange={handleChange}
+            crossOrigin="anonymous"
+          />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
+          <Input
+            type="text"
+            label="ชื่อ-สกุล"
+            name="name"
+            value={userProfile?.name || ""}
+            onChange={handleChange}
+            crossOrigin="anonymous"
+          />
+          <Input
+            type="email"
+            label="อีเมล์"
+            name="email"
+            value={userProfile?.email || ""}
+            onChange={handleChange}
+            crossOrigin="anonymous"
+          />
+          <Input
+            type="tel"
+            label="เบอร์โทรศัพท์"
+            name="phone"
+            value={userProfile?.phone || ""}
+            onChange={handleChange}
+            crossOrigin="anonymous"
+          />
+        </div>
+        <Input
+          type="text"
+          label="บัญชีเทรด"
+          name="trade"
+          value={userProfile?.trade || ""}
+          onChange={handleChange}
+          crossOrigin="anonymous"
+        />
+        <Textarea
+          label="ที่อยู่"
+          name="address"
+          value={userProfile?.address || ""}
+          onChange={handleChange}
+          className="w-full"
+        />
+        <div className="flex flex-col lg:flex-row gap-5 w-full justify-center lg:justify-end">
+          <Button
+            variant="outlined"
+            onClick={() => router.push("/user/shopcourse")}
+            color="red"
+            className="w-full lg:w-auto"
+          >
+            ยกเลิก
+          </Button>
+          <Button
+            color="purple"
+            className="w-full lg:w-auto"
+            onClick={handleUpdate}
+          >
+            อัพเดท
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 }

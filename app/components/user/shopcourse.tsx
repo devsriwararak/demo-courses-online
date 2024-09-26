@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import Image from "next/image";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 import Carousel from "../carousel";
 
@@ -19,26 +19,23 @@ import { FaSearch } from "react-icons/fa";
 
 import { useRecoilState } from "recoil";
 import { BuyCourseStore } from "@/store/store";
-import Topsale from "../topsale";
+import Banner from "./banner";
 
 interface Category {
   name: string;
   id: number;
-  category_name:string
+  category_name: string;
 }
 
 interface Course {
   title: string;
   dec: string;
-  id: number ;
+  id: number;
   image: string;
   price: number;
   price_sale: number;
-  category_name:string
+  category_name: string;
 }
-
-
-
 
 const truncateText = (text: string, limit: number) => {
   if (text?.length > limit) {
@@ -58,7 +55,6 @@ const ShopCourse: React.FC = () => {
   const [page, setPage] = useState(1);
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
   const router = useRouter();
-
 
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
@@ -101,7 +97,7 @@ const ShopCourse: React.FC = () => {
     const requestData = {
       // page: page,
       category_id: selectCatetegory || 0,
-      search:searchQuery || '',
+      search: searchQuery || "",
       full: true,
     };
     try {
@@ -126,94 +122,54 @@ const ShopCourse: React.FC = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, [searchQuery,selectCatetegory]);
+  }, [searchQuery, selectCatetegory]);
 
-  const handleBuyNow = (id :any) => {
+  const handleBuyNow = (id: any) => {
     // setBuyCourse(course);
     router.push(`/user/buycourse/${id}`);
   };
 
-  console.log(searchQuery)
-  console.log(selectCatetegory)
 
   return (
-    <div
-      className="  "
-      // style={{
-      //   backgroundImage:
-      //     "linear-gradient(109.6deg,   rgba(215,223,252,1) 0%, rgba(255,255,255,1) 0%, rgba(215,223,252,1) 84% )",
-      // }}
-    >
+    <div>
       <ToastContainer autoClose={2000} theme="colored" />
-      <div className="p-1  ">
-        <div className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-6 sm:px-16 lg:px-36  py-10 justify-center items-center  bg-purple-200 bg-opacity-20">
-          <div className="w-full lg:w-5/12 pt-4 px-5 lg:ps-4   ">
-            <div className="flex flex-col gap-5  ">
-              <div>
-                <Typography className=" txt-xl md:text-4xl   font-bold">
-                  คอร์สเทรดออนไลน์
-                </Typography>
-              </div>
-              <div className=" bg-white rounded-lg  lg:mb-0 w-full xl:w-[60%]">
-                <Input
-                  type="text"
-                  label="ค้นหาคอร์สเรียน"
-                  icon={<FaSearch />}
-                  crossOrigin="anonymous"
-                  className="bg-white  !bg-opacity-100"
-                  onChange={(e)=> setSearchQuery(e.target.value)}
-                />
-              </div>
-              <Typography className="text-md">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </Typography>
-            </div>
-          </div>
-          <div className="flex  justify-center items-end w-full  lg:w-7/12 ">
-            <Image
-              src={"/banner1.png"}
-              alt=""
-              width={550}
-              height={500}
-              className=" object-cover "
-              crossOrigin=""
-            />
-            {/* <div className="flex justify-center  py-2 px-2 ">
-              <Carousel slides={slides} />
-            </div> */}
-          </div>
-        </div>
+      <div>
+        <Banner />
       </div>
 
       {/* section - 2 */}
 
-      <div className=" px-6 md:px-28">
+      <div className=" px-6  pb-10 md:px-28">
+        <div className=" bg-white rounded-lg mt-10 lg:mb-0 w-[300px]">
+          <Input
+            type="text"
+            label="ค้นหาคอร์สเรียน"
+            icon={<FaSearch />}
+            crossOrigin="anonymous"
+            className="bg-white  !bg-opacity-100"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <div className="mt-8">
-          <Typography className="text-lg font-bold">
-            คอร์สแนะนำ
-          </Typography>
+          <Typography className="text-lg  text-white  font-light">คอร์สแนะนำ</Typography>
         </div>
         <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
-        <Button
-              variant="outlined"
-              // className={`${
-              //   selectedCategory === category.id
-              //     ? "bg-purple-500 text-white"
-              //     : "border border-purple-500 text-purple-500"
-              // }`}
-              onClick={() => setSelectCatetegory(0)}
-            >
-              ทั้งหมด
-            </Button>
+          <Button
+            variant="outlined"
+            color="white"
+            className=" font-light"
+            onClick={() => setSelectCatetegory(0)}
+          >
+            ทั้งหมด
+          </Button>
           {courseCategories.map((category, index) => (
-      
             <Button
               key={index}
               variant="outlined"
               className={`${
                 selectedCategory === String(category.id)
-                  ? "bg-purple-500 text-white"
-                  : "border border-purple-500 text-purple-500"
+                  ? "bg-purple-500 text-white font-light"
+                  : "border border-white text-white font-light"
               }`}
               onClick={() => setSelectCatetegory(category.id)}
             >
@@ -222,11 +178,11 @@ const ShopCourse: React.FC = () => {
           ))}
         </div>
         <div className="flex justify-center mt-4 ">
-          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
+          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
             {product.map((course, index) => (
               <Card
                 key={index}
-                className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
+                className="w-full mt-5 rounded-lg flex flex-col justify-between border border-gray-300 cursor-pointer"
                 onClick={() => handleBuyNow(course?.id)}
               >
                 <div>
@@ -251,7 +207,7 @@ const ShopCourse: React.FC = () => {
                     </Typography>
 
                     <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                      {parse(course.dec)}
+                      {parse(truncateText(course.dec.replace(/<\/?[^>]+(>|$)/g, ""), 500))}
                     </Typography>
                   </div>
                 </div>
@@ -281,10 +237,6 @@ const ShopCourse: React.FC = () => {
                     variant="outlined"
                     color="purple"
                     size="sm"
-                    // style={{
-                    //   backgroundImage:
-                    //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-                    // }}
                     onClick={() => handleBuyNow(course?.id)}
                   >
                     ซื้อตอนนี้

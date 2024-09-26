@@ -34,16 +34,30 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) => (
+  // <Typography
+  //   as="li"
+  //   key={href}
+  //   variant="small"
+  //   color={currentPath === href ? "purple" : "blue-gray"}
+  //   className="p-1 font-normal"
+  // >
+  //   <button
+  //     onClick={() => onClick(href)}
+  //     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+  //   >
+  //     {label}
+  //   </button>
+  // </Typography>
+
   <Typography
     as="li"
     key={href}
     variant="small"
-    color={currentPath === href ? "purple" : "blue-gray"}
-    className="p-1 font-normal"
+    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${currentPath === href ? "active " : ""}`}
   >
     <button
       onClick={() => onClick(href)}
-      className="inline-block py-1 pr-2 transition-transform hover:scale-105"
+      className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
     >
       {label}
     </button>
@@ -66,7 +80,7 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
     <Button
       variant={variant}
       size="sm"
-      color="purple"
+      style={{ background: "#DF9E10" }}
       className="hidden lg:inline-block"
       onClick={() => router.push(href)}
     >
@@ -129,12 +143,20 @@ export function UserHeader() {
 
   return (
     <div className="max-h-[768px]">
-      <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8">
-        <div className="flex w-full items-center justify-between text-blue-gray-900">
-          <div className="flex items-center w-[150px] h-[40px]">
-            <Typography className="py-1.5 font-medium text-2xl whitespace-nowrap">
-              คอร์สออนไลน์
-            </Typography>
+      {/* <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8" */}
+      <Navbar className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
+      
+        style={{ backgroundColor: "#042044", borderBottom: "3px solid #DF9E10" }}>
+      
+             <div className="flex w-full  items-center justify-between gap-5 ">
+          <div className=" items-center hidden lg:block ">
+            <Image
+              src={"/logonavbar.svg"}
+              alt=""
+              width={150}
+              height={120}
+              className=" object-cover "
+            />
           </div>
           <div className="flex items-center gap-4  whitespace-nowrap ">
             <div className="mr-4 hidden lg:block ">{navList}</div>
@@ -144,7 +166,7 @@ export function UserHeader() {
                 <Button
                   variant="outlined"
                   size="sm"
-                  color="purple"
+                  color="white"
                   className="hidden lg:inline-block "
                   onClick={handleLogout}
                 >
@@ -169,7 +191,7 @@ export function UserHeader() {
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
-          <Button
+            <Button
               fullWidth
               variant="outlined"
               color="purple"
@@ -182,6 +204,53 @@ export function UserHeader() {
           </div>
         </Collapse>
       </Navbar>
+      {/* <Navbar
+        className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
+        style={{ backgroundColor: "#042044", borderBottom: "3px solid #DF9E10" }}
+      >
+        <div className="flex w-full  items-center justify-between gap-5 ">
+          <div className=" items-center hidden lg:block ">
+            <Image
+              src={"/logonavbar.svg"}
+              alt=""
+              width={150}
+              height={120}
+              className=" object-cover "
+            />
+          </div>
+          <div className="flex items-center xl:gap-4 whitespace-nowrap">
+            <div className="mr-4 hidden   lg:block">{navList}</div>
+            <div className="flex rounded-lg">
+              <HeaderButton href="/login" variant="gradient">
+                เข้าสู่ระบบ
+              </HeaderButton>
+            </div>
+            <IconButton
+              variant="text"
+              className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+              ripple={false}
+              onClick={() => setOpenNav(!openNav)}
+            >
+              <IoMenu className="text-2xl " />
+            </IconButton>
+          </div>
+        </div>
+        <Collapse open={openNav}>
+          {navList}
+          <div className="flex items-center justify-center gap-x-1">
+            <Button
+              fullWidth
+              variant="outlined"
+              size="sm"
+              style={{ background: "#DF9E10" }}
+              className="mb-3 text-white font-semibold"
+              onClick={() => router.push("/login")}
+            >
+              <span className=" font-semibold text-sm">เข้าสู่ระบบ</span>
+            </Button>
+          </div>
+        </Collapse>
+      </Navbar> */}
     </div>
   );
 }

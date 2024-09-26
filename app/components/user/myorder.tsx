@@ -112,253 +112,130 @@ const MyOrder: React.FC = () => {
       };
 
       console.log(userId)
+
+      const truncate = (text: string, maxLength: number = 150): string => {
+        // เช็คว่าข้อความยาวเกินที่กำหนดหรือไม่ ถ้าเกินให้ตัดและใส่ ...
+        return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+      };
     
   return (
-    <div className="flex justify-center gap-3">
-      <ToastContainer autoClose={2000} theme="colored" />
-      <Card className="flex w-full px-5 h-[85vh]">
-        <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <div className="flex items-center gap-2 ">
-              <IoAccessibility className="text-xl" />
-              <Typography className="font-semibold">
-                จัดการข้อมูลกิจกรรม
-              </Typography>
-            </div>
-            <div>
-              <Input
-                label="ค้นหากิจกรรม"
-                crossOrigin="anonymous"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClick={() => setPage(1)}
-                color="deep-purple"
-                style={{ backgroundColor: "#f4f2ff" }}
-                icon={<FaSearch className=" text-gray-500" />}
-              />
-            </div>
-          </div>
+
+
+    <div  className="flex flex-col items-center p-3 py-5">
+    <ToastContainer autoClose={2000} theme="colored" />
+    <Card className="w-full  2xl:max-w-[95rem] p-5 h-[85vh]">
+      <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4">
+        <div className="flex items-center gap-3">
+          <IoAccessibility className="text-xl" />
+          <Typography className="font-semibold text-lg sm:text-xl text-nowrap">
+            จัดการข้อมูลกิจกรรม
+          </Typography>
         </div>
-        <div className="overflow-auto ">
-          <table className="w-full mt-5 overflow-auto">
-            <thead>
+        <Input
+          label="ค้นหากิจกรรม"
+          crossOrigin="anonymous"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onClick={() => setPage(1)}
+          color="deep-purple"
+          className="w-full sm:w-auto bg-purple-50"
+          icon={<FaSearch className=" text-gray-500" />}
+        />
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full mt-5">
+          <thead>
+            <tr className="text-sm sm:text-base">
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                ลำดับ
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                รหัส
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                ชื่อ
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                ราคา
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                วันเริ่มต้น
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                วันสิ้นสุด
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
+                สถานะ
+              </th>
+              <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                ดู/ตรวจสอบ
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.data?.length === 0 ? (
               <tr>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    ลำดับ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    รหัส
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    ชื่อ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    ราคา
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    วันเริ่มต้น
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    วันสิ้นสุด
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    สถานะ
-                  </Typography>
-                </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-bold leading-none opacity-70"
-                  >
-                    ดู/ตรวจสอบ
-                  </Typography>
-                </th>
+                <td colSpan={8} className="text-center py-5">
+                  <Typography>...ไม่พบข้อมูล...</Typography>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {data?.data?.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="text-center pt-5">
-                    <Typography>...ไม่พบข้อมูล...</Typography>
+            ) : (
+              data?.data?.map((item, index) => (
+                <tr key={index} className="text-sm sm:text-base">
+                  <td className="py-2 text-center">{index + 1}</td>
+                  <td className="py-2 text-center">{item?.code}</td>
+                  <td className="py-2 text-center">{item?.products_name}</td>
+                  <td className="py-2 text-center">{item?.products_price}</td>
+                  <td className="py-2 text-center">{item?.start_pay}</td>
+                  <td className="py-2 text-center">{item?.end_pay}</td>
+                  <td className="py-2 text-center">
+                    {item?.status === 0 ? "ยังไม่จ่าย" : "จ่ายแล้ว"}
+                  </td>
+                  <td className="py-2 flex ps-7 gap-2">
+                    <FaEye
+                      className="h-5 w-5 text-purple-500 cursor-pointer"
+                      onClick={() => openModalWithImage(item?.pay_image)}
+                    />
+                    <MdFactCheck
+                      className={`h-5 w-5 text-purple-500 cursor-pointer ${
+                        item?.status === 1 ? "hidden" : ""
+                      }`}
+                      onClick={() => openModalWithImage1(item)}
+                    />
                   </td>
                 </tr>
-              ) : (
-                data?.data?.map((item, index) => (
-                  <tr key={index} style={{ marginTop: "3px" }}>
-                    <td className="py-2">
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {index + 1}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-2 flex justify-center">
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.code}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.products_name}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.products_price}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.start_pay}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {item?.end_pay}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center justify-center">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          //   className={`font-normal ${item?.status === 0 ? "bg-red-500" : "bg-green-500"}`}
-                          className={`font-normal`}
-                        >
-                          {item?.status === 0 ? "ยังไม่จาย" : "จ่ายแล้ว"}
-                        </Typography>
-                      </div>
-                    </td>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex justify-between items-center mt-5">
+        <button
+          className={`text-gray-400 text-2xl rounded-full border border-gray-300 shadow-md ${
+            page === 1 ? "" : "hover:text-black"
+          }`}
+          disabled={page === 1}
+          onClick={() => setPage((page) => Math.max(page - 1, 1))}
+        >
+          <IoIosArrowBack />
+        </button>
+        <span className="text-sm">
+          หน้าที่ {page} / {data?.totalPages || 1}
+        </span>
+        <button
+          className={`text-gray-400 text-2xl rounded-full border border-gray-300 shadow-md ${
+            Number(data?.totalPages) - Number(page) < 1 ? "text-gray-400" : "hover:text-black"
+          }`}
+          disabled={Number(data?.totalPages) - Number(page) < 1}
+          onClick={() => setPage((page) => page + 1)}
+        >
+          <IoIosArrowForward />
+        </button>
+      </div>
+    </Card>
 
-                    <td>
-                      <div className="flex ps-6 gap-2">
-                        <FaEye
-                          className="h-5 w-5 text-purple-500 cursor-pointer"
-                          onClick={() => openModalWithImage(item?.pay_image)}
-                        />
-
-                        <MdFactCheck
-                          className={`h-5 w-5 text-purple-500 bg  cursor-pointer ${item?.status === 1 ? 'hidden ': "" }`}
-                          onClick={() => openModalWithImage1(item)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex justify-end gap-2 mt-7 px-2 items-center">
-          <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              page == 1 ? "" : "hover:text-black"
-            }`}
-            disabled={page == 1}
-            onClick={() => setPage((page) => Math.max(page - 1, 1))}
-          >
-            <IoIosArrowBack />
-          </button>
-          <span style={{ whiteSpace: "nowrap" }} className="text-sm">
-            หน้าที่ {page} / {data?.totalPages || 1}{" "}
-          </span>
-          <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              Number(data?.totalPages) - Number(page) < 1
-                ? true
-                : false
-                ? ""
-                : "hover:text-black"
-            }`}
-            disabled={Number(data?.totalPages) - Number(page) < 1}
-            onClick={() => setPage((page) => page + 1)}
-          >
-            <IoIosArrowForward />
-          </button>
-        </div>
-      </Card>
-
-      <ModalOrder open={openModal} handleModal={handleModal} image={image} />
-     
-      <ModalCheck open={openModal1} handleModal1={handleModal1} item={item}  fetchData={fetchData} />
-
-
-    </div>
+    <ModalOrder open={openModal} handleModal={handleModal} image={image} />
+    <ModalCheck open={openModal1} handleModal1={handleModal1} item={item} fetchData={fetchData} />
+  </div>
   );
 };
 

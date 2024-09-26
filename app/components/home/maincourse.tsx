@@ -134,7 +134,7 @@ const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10 ">
+        <div className="grid grid-cols-1 mt-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
           {coursesData.map((course) => (
             <div
               key={course.id}

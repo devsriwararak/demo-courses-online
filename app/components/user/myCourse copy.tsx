@@ -14,12 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { FaSearch } from "react-icons/fa";
 
-import Banner from "./banner";
-import parse from "html-react-parser";
+import { useRecoilState } from "recoil";
+import { BuyCourseStore } from "@/store/store";
 
 interface Category {
   name: string;
-  category_id: number;
+  id: any;
   category_name:string
 }
 
@@ -41,7 +41,9 @@ const truncateText = (text: string, limit: number) => {
 
 const ShopCourse: React.FC = () => {
 
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    "ทั้งหมด"
+  );
   const [courseCategories, setCourseCategories] = useState<Category[]>([]);
   const [product, setProduct] = useState<Course[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,13 +92,12 @@ const ShopCourse: React.FC = () => {
     const requestData = {
       // page: page,
       users_id: userId || 0,
-      search: searchQuery,
+      search: "",
       page: 1,
       full:true,
-      category_id:selectedCategory || 0,
+      category_id:""
     };
     try {
-      console.log(requestData)
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/users/product`,
         requestData,
@@ -114,73 +115,102 @@ const ShopCourse: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectCatetegory]);
 
   useEffect(() => {
     fetchProduct();
-  }, [searchQuery,selectedCategory]);
+  }, [searchQuery,selectCatetegory]);
 
-  console.log(courseCategories)
-  console.log(selectedCategory)
+  const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
+
+  // const handleBuyNow = (course: Course) => {
+  //   setBuyCourse(course);
+  //   router.push("/user/buycourse");
+  // };
+
+  console.log(product)
+
   return (
-    <div>
+    <div
+      className="  "
+      // style={{
+      //   backgroundImage:
+      //     "linear-gradient(109.6deg,   rgba(215,223,252,1) 0%, rgba(255,255,255,1) 0%, rgba(215,223,252,1) 84% )",
+      // }}
+    >
       <ToastContainer autoClose={2000} theme="colored" />
-      <div>
-        <Banner />
+      <div className="p-1   ">
+        <div
+          className="flex flex-col lg:flex-row  w-full  rounded-lg gap-5 px-6 sm:px-16 lg:px-36 py-10 justify-center items-center  bg-purple-200 bg-opacity-20"
+        >
+          <div className="w-full lg:w-5/12 pt-4 md:px-5 lg:ps-4   ">
+            <div className="flex flex-col  gap-5 ">
+              <div>
+                <Typography className=" txt-xl md:text-4xl   font-bold">
+                  คอร์สเทรดออนไลน์
+                </Typography>
+           
+              </div>
+              <div className=" bg-white rounded-lg  lg:mb-0 w-full xl:w-[60%]">
+                <Input
+                  type="text"
+                  label="ค้นหาคอร์สเรียน"
+                  icon={<FaSearch />}
+                  crossOrigin="anonymous"
+                  className="bg-white  !bg-opacity-100"
+                  onChange={(e)=> setSearchQuery(e.target.value)}
+                />
+              </div>
+              <Typography className="text-md">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </Typography>
+            </div>
+          </div>
+          <div className="flex  justify-center items-end w-full  lg:w-7/12 ">
+
+          <Image
+           
+            src={"/banner1.png"}
+            alt=""
+            width={1000}
+            height={1000}
+            className=" object-cover "
+            crossOrigin=''
+          />
+      
+          </div>
+        </div>
       </div>
+
 
       {/* section - 2 */}
 
-      <div className=" px-6 md:px-28 py-10">
-
-      <div className=" bg-white rounded-lg mt-10 lg:mb-0 w-[300px]">
-          <Input
-            type="text"
-            label="ค้นหาคอร์สเรียน"
-            icon={<FaSearch />}
-            crossOrigin="anonymous"
-            className="bg-white  !bg-opacity-100"
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+      <div className=" px-6 md:px-28">
       <div className="mt-8">
-        <Typography className="text-lg  text-white  font-light">คอร์สแนะนำ</Typography>
+        <Typography className="text-lg font-bold">คอร์สแนะนำ</Typography>
       </div>
       <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
-      <Button
-            variant="outlined"
-            color="white"
-            className={`${
-              selectedCategory === 0
-                ? "bg-purple-500 text-white font-light"
-                : "border border-white text-white font-light"
-            }`}
-            onClick={() => setSelectedCategory(0)}
-          >
-            ทั้งหมด
-          </Button>
         {courseCategories?.map((category, index) => (
           <Button
             key={index}
             variant="outlined"
             className={`${
-              selectedCategory === category?.category_id
-              ? "bg-purple-500 text-white font-light"
-              : "border border-white text-white font-light"
-          }`}
-            onClick={() => setSelectedCategory(category?.category_id)}
-            // onClick={() => setSelectCatetegory(category.id)}
+              selectedCategory === category.id
+                ? "bg-purple-500 text-white"
+                : "border border-purple-500 text-purple-500"
+            }`}
+            // onClick={() => setSelectedCategory(category)}
           >
             {category?.category_name}
           </Button>
         ))}
       </div>
       <div className="flex justify-center mt-4 ">
-        <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
+        <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 ">
           {product?.map((course, index) => (
             <Card
               key={index}
-              className="w-full mt-5 rounded-lg  flex flex-col justify-between border border-gray-300 cursor-pointer"
+              className="w-full mt-5  flex flex-col justify-between border border-gray-300 cursor-pointer"
               onClick={() => router.push(`/user/study/${course?.products_id}`)}
               // onClick={() => router.push(`/user/study`)}
             >
@@ -203,8 +233,7 @@ const ShopCourse: React.FC = () => {
                   </Typography>
 
                   <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                    {/* {course?.products_dec} */}
-                    {parse(truncateText(course.products_dec.replace(/<\/?[^>]+(>|$)/g, ""), 500))}
+                    {truncateText(course?.products_dec, 90)}
                   </Typography>
 
                 </div>
@@ -231,6 +260,11 @@ const ShopCourse: React.FC = () => {
                   variant="outlined"
                   color="purple"
                   size="sm"
+                  // style={{
+                  //   backgroundImage:
+                  //     "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                  // }}
+                  // onClick={() => router.push(`/user/study/${course?.products_id}`)}
                 >
                   {`ดูเนื้อหา >>>`}
                 </Button>
@@ -240,7 +274,14 @@ const ShopCourse: React.FC = () => {
         </div>
       </div>
       </div>
+
+    
+
+
+
     </div>
+
+
   );
 };
 

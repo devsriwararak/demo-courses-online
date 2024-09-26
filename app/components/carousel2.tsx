@@ -59,8 +59,7 @@ const SliderComponent = () => {
        
         {/* กล่อง 1: สมัครสมาชิก */}
         <SwiperSlide className="mb-14">
-          <a
-            href="/register"
+          <div
             className="bg-[#252525] w-[250px] h-[250px] p-6  rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <img
@@ -72,13 +71,12 @@ const SliderComponent = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               สมัครสมาชิกเพื่อลงทะเบียนคอร์สเรียน
             </p>
-          </a>
+          </div>
         </SwiperSlide>
 
         {/* กล่อง 2: เลือกคอร์สเรียน */}
         <SwiperSlide>
-          <a
-            href="/select-course"
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <img
@@ -92,13 +90,12 @@ const SliderComponent = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
-          </a>
+          </div>
         </SwiperSlide>
 
         {/* กล่อง 3: ชำระเงิน */}
         <SwiperSlide>
-          <a
-            href="/payment"
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <img
@@ -110,13 +107,12 @@ const SliderComponent = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
-          </a>
+          </div>
         </SwiperSlide>
 
         {/* กล่อง 4: รับชมคอร์สเรียน */}
         <SwiperSlide>
-          <a
-            href="/receive-course"
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <img
@@ -130,13 +126,12 @@ const SliderComponent = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               คอร์สเรียนมีอายุ 1 ปี นับตั้งแต่วันที่สมัคร
             </p>
-          </a>
+          </div>
         </SwiperSlide>
 
         {/* กล่อง 5: ทำแบบทดสอบ */}
         <SwiperSlide>
-          <a
-            href="/test"
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <img
@@ -148,7 +143,7 @@ const SliderComponent = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               ทำแบบทดสอบหลังเรียน คุณครูตรวจให้คะแนน
             </p>
-          </a>
+          </div>
         </SwiperSlide>
       </Swiper>
 

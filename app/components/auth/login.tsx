@@ -1,4 +1,3 @@
-// LoginPage.tsx
 "use client";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
@@ -33,8 +32,8 @@ const LoginPage: React.FC = () => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const userId = useRecoilValue(userIdState); // ดึงค่า userId จาก Recoil
-  const number = useRecoilValue(numberState); // ดึงค่า number จาก Recoil
+  const userId = useRecoilValue(userIdState); 
+  const number = useRecoilValue(numberState);
 
   const handleLogin = useCallback(
     async (e: FormEvent) => {

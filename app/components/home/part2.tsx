@@ -49,8 +49,7 @@ const Part2 = () => {
         {/* กล่องข้อความด้านล่างแบบ Fixed Size พร้อมระยะห่าง */}
 
         <div className=" hidden 2xl:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4  2xl:grid-cols-5 gap-8 mt-10 justify-center">
-          <a
-            href="/register" // ลิงก์ที่ต้องการ
+          <div
             className="bg-[#252525] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <Image
@@ -65,10 +64,9 @@ const Part2 = () => {
             <p className="text-[17px] font-[400] text-white text-center">
               สมัครสมาชิกเพื่อลงทะเบียนคอร์สเรียน
             </p>
-          </a>
+          </div>
 
-          <a
-            href="/select-course" // ลิงก์ที่ต้องการ
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <Image
@@ -86,10 +84,9 @@ const Part2 = () => {
             <p className="text-[17px] font-[400] text-white  text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
-          </a>
+          </div>
 
-          <a
-            href="/payment" // ลิงก์ที่ต้องการ
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
             <Image
@@ -105,10 +102,9 @@ const Part2 = () => {
             <p className="text-[17px] font-[400] text-white  text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
-          </a>
+          </div>
 
-          <a
-            href="/receive-course" // ลิงก์ที่ต้องการ
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
              <Image
@@ -128,10 +124,9 @@ const Part2 = () => {
             <p className="text-[17px] font-[400] text-white  text-center">
               นับตั้งแต่วันที่สมัคร
             </p>
-          </a>
+          </div>
 
-          <a
-            href="/test" // ลิงก์ที่ต้องการ
+          <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
              <Image
@@ -146,7 +141,7 @@ const Part2 = () => {
             <p className="text-[17px] font-[400] text-white  text-center">
               ทำแบบทดสอบหลังเรียน คุณครูตรวจให้คะแนน
             </p>
-          </a>
+          </div>
         </div>
         <div className="flex justify-center 2xl:hidden ">
           <Carousel2 />

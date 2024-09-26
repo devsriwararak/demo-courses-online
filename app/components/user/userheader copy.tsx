@@ -13,14 +13,17 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 
 const navItems = [
-  { href: "/home", label: "หน้าหลัก" },
-  { href: "/home/broker", label: "โบรกเกอร์" },
-  { href: "/home/ebook", label: "EBook" },
-  { href: "/home/about", label: "เกี่ยวกับเรา" },
-  { href: "/home/portfolio", label: "ผลงาน" },
-  { href: "/home/activity", label: "กิจกรรม" },
-  { href: "/home/bycourse", label: "วิธีการซื้อคอร์ส" },
-  { href: "/home/contact", label: "ติดต่อเรา" },
+  // { href: '/home', label: 'หน้าหลัก' },
+  // { href: '/home/broker', label: 'โบรกเกอร์' },
+  // { href: '/home/ebook', label: 'EBook' },
+  // { href: '/home/about', label: 'เกี่ยวกับเรา' },
+  // { href: '/home/portfolio', label: 'ผลงาน' },
+  // { href: '/home/activity', label: 'กิจกรรม' },
+  // { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
+  { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
+  { href: '/user/mycourse', label: 'คอร์สเรียนของฉัน' },
+  { href: '/user/myorder', label: 'รายการสั่งซื้อของฉัน' },
+  { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
 
 interface NavItemProps {
@@ -30,12 +33,7 @@ interface NavItemProps {
   onClick: (href: string) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({
-  href,
-  label,
-  currentPath,
-  onClick,
-}) => (
+const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) => (
   <Typography
     as="li"
     key={href}
@@ -77,10 +75,14 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
   );
 };
 
-export function HeaderHome() {
+export function UserHeader() {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
+
+  const login = sessionStorage.getItem("login");
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -102,6 +104,12 @@ export function HeaderHome() {
     [router, openNav]
   );
 
+  const handleLogout = () => {
+    router.push("/home");
+    localStorage.clear();
+  };
+
+
   const navList = useMemo(
     () => (
       <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -121,22 +129,33 @@ export function HeaderHome() {
 
   return (
     <div className="max-h-[768px]">
-      <Navbar
-        className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8 "
-        style={{ backgroundColor: "#042044" , borderBlockColor:"border-bottom: 3px solid #DF9E10" }}
-      >
+      <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8"
+        style={{ backgroundColor: "#042044" , borderBottom: "3px solid #DF9E10" }}>
         <div className="flex w-full items-center justify-between text-blue-gray-900">
           <div className="flex items-center w-[150px] h-[40px]">
             <Typography className="py-1.5 font-medium text-2xl whitespace-nowrap">
               คอร์สออนไลน์
             </Typography>
           </div>
-          <div className="flex items-center gap-4 whitespace-nowrap">
-            <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex rounded-lg">
-              <HeaderButton href="/login" variant="gradient">
-                Log In
-              </HeaderButton>
+          <div className="flex items-center gap-4  whitespace-nowrap ">
+            <div className="mr-4 hidden lg:block ">{navList}</div>
+            <div className="flex ">
+              {/* <HeaderButton href="/register" variant="outlined">Register</HeaderButton> */}
+              {login ? (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  color="purple"
+                  className="hidden lg:inline-block "
+                  onClick={handleLogout}
+                >
+                  ออกจากระบบ
+                </Button>
+              ) : (
+                <HeaderButton href="/login" variant="gradient">
+                  Log In
+                </HeaderButton>
+              )}
             </div>
             <IconButton
               variant="text"
@@ -151,15 +170,15 @@ export function HeaderHome() {
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
-            <Button
+          <Button
               fullWidth
               variant="outlined"
               color="purple"
               size="sm"
               className="mb-3"
-              onClick={() => router.push("/login")}
+              onClick={handleLogout}
             >
-              <span>Login</span>
+              <span>ออกจากระบบ</span>
             </Button>
           </div>
         </Collapse>
