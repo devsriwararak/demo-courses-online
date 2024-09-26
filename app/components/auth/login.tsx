@@ -1,17 +1,13 @@
 "use client";
-import { Button, Card, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode"; 
 import CryptoJS from "crypto-js";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { FormEvent, useCallback, useState, Suspense } from "react";
+import { useRouter } from "next/navigation"; // Removed useSearchParams here
+import React, { FormEvent, useCallback, useState, Suspense, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Template from "./template";
-
-
-
 
 interface MyJwtPayload extends JwtPayload {
   username: string;
@@ -30,30 +26,26 @@ const decryptData = (ciphertext: string) => {
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-const SearchParamsComponent = () => {
+// Component to handle search parameters
+const SearchParamsComponent = ({ setId, setNumber }: { setId: (id: string | null) => void; setNumber: (number: string | null) => void; }) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const number = searchParams.get("number");
 
-  console.log("Received ID:", id);
-  console.log("Received Number:", number);
+  useEffect(() => {
+    setId(id);
+    setNumber(number);
+  }, [id, number, setId, setNumber]);
 
-  // ... ใช้ค่า id และ number ในที่ที่ต้องการ
-  return null; // หรือองค์ประกอบที่เหมาะสม
+  return null;
 };
 
 const LoginPage: React.FC = () => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [id, setId] = useState<string | null>(null);
+  const [number, setNumber] = useState<string | null>(null);
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-
-  const id = searchParams.get("id");
-  const number = searchParams.get("number");
-
-  console.log("Received ID:", id);
-  console.log("Received Number:", number);
 
   const handleLogin = useCallback(
     async (e: FormEvent) => {
@@ -67,29 +59,21 @@ const LoginPage: React.FC = () => {
           data
         );
 
-        console.log(res);
         const token = res.data.token;
         const decoded = jwtDecode<MyJwtPayload>(token);
-        console.log(decoded);
+
         if (token && decoded) {
           toast.success("เข้าสู่ระบบสำเร็จ");
 
-          // เข้ารหัสและเก็บข้อมูล
+          // Save encrypted data
           localStorage.setItem("Token", encryptData(token));
-          localStorage.setItem(
-            "Status",
-            encryptData(decoded.status.toString())
-          );
+          localStorage.setItem("Status", encryptData(decoded.status.toString()));
           localStorage.setItem("Id", encryptData(decoded.id.toString()));
           sessionStorage.setItem("login", encryptData(decoded.username));
 
           let redirectPath = "/";
 
-          const status = parseInt(
-            decryptData(localStorage.getItem("Status") || "")
-          );
-
-          console.log(status);
+          const status = parseInt(decryptData(localStorage.getItem("Status") || ""));
 
           if (status === 2) {
             redirectPath = "/super";
@@ -97,12 +81,10 @@ const LoginPage: React.FC = () => {
             redirectPath = "/admin";
           } else if (status === 0) {
             if (id) {
-              // ตรวจสอบค่าของ number เพื่อกำหนด redirectPath
               if (number === "0") {
                 redirectPath = `/user/study/${id}`;
               } else if (number === "1") {
                 redirectPath = `/user/buycourse/${id}`;
-                // router.push(`/buycourse?id=${id}&number=${number}`);
               } else {
                 console.error("Unexpected number value:", number);
               }
@@ -122,41 +104,38 @@ const LoginPage: React.FC = () => {
         toast.error(error?.response?.data.message);
       }
     },
-    [user, password, router]
+    [user, password, router, id, number]
   );
 
   return (
-   
-    <div className="bg-gray-200 h-screen flex   justify-center items-center  px-10 md:px-64">
+    <div className="bg-gray-200 h-screen flex justify-center items-center px-10 md:px-64">
       <ToastContainer autoClose={3000} theme="colored" />
       <Suspense fallback={<div>Loading search parameters...</div>}>
-        <SearchParamsComponent />
+        <SearchParamsComponent setId={setId} setNumber={setNumber} />
       </Suspense>
-      <div className="bg-white rounded-3xl shadow-xl  flex flex-col lg:flex-row  ">
+      <div className="bg-white rounded-3xl shadow-xl flex flex-col lg:flex-row">
         <Template />
-
-        <div className="w-full lg:w-3/4 ">
-          <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
+        <div className="w-full lg:w-3/4">
+          <div className="flex flex-row w-full items-center gap-3 justify-end py-4 px-8">
             <p className="text-gray-600 text-xs">
               สมัครสมาชิกเพื่อซื้อคอร์สเรียน
             </p>
             <button
-              className=" text-[10px]  border border-gray-500 px-4 py-2 rounded-full"
+              className="text-[10px] border border-gray-500 px-4 py-2 rounded-full"
               onClick={() => router.push("/register")}
             >
-              {" "}
               สมัครสมาชิก
             </button>
           </div>
-          <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
-            <div className="flex flex-col w-full  ">
+          <div className="flex flex-col gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16">
+            <div className="flex flex-col w-full">
               <div>
-                <Typography className=" font-medium text-3xl ">
+                <Typography className="font-medium text-3xl">
                   DEV SRIWARARAK
                 </Typography>
               </div>
               <div>
-                <Typography className=" mt-3 text-sm font-medium text-gray-500">
+                <Typography className="mt-3 text-sm font-medium text-gray-500">
                   ระบบห้องเรียน Online
                 </Typography>
               </div>
@@ -173,7 +152,6 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => setUser(e.target.value)}
                     required
                     className="mb-4"
-                    crossOrigin=""
                   />
                 </div>
 
@@ -186,7 +164,6 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     className="mb-4"
-                    crossOrigin=""
                   />
                 </div>
                 <div>
@@ -213,27 +190,27 @@ const LoginPage: React.FC = () => {
                   </div>
 
                   <div className="flex flex-row items-center justify-center gap-4">
-                    <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-700"></hr>
+                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
                     <p className="text-gray-600 text-sm">ตัวเลือกอื่น</p>
                     <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
                   </div>
 
-                  <div className="flex w-full  flex-row  gap-2 justify-center items-center   ">
-                    <div className="w-full ">
+                  <div className="flex w-full flex-row gap-2 justify-center items-center">
+                    <div className="w-full">
                       <p
-                        className=" text-right text-purple-300 hover:bg-purple-50 px-2  py-1 cursor-pointer "
+                        className="text-right text-purple-300 hover:bg-purple-50 px-2 py-1 cursor-pointer"
                         onClick={() => router.push("/loginopt")}
                       >
                         เข้าสู่ระบบ OTP
                       </p>
                     </div>
 
-                    <div className="w-full ">
+                    <div className="w-full">
                       <p
-                        className=" text-left text-purple-300 hover:bg-purple-50 px-2 py-1  cursor-pointer "
+                        className="text-left text-purple-300 hover:bg-purple-50 px-2 py-1 cursor-pointer"
                         onClick={() => router.push("/reset")}
                       >
-                        ลืมรหัสผ่าน{" "}
+                        ลืมรหัสผ่าน
                       </p>
                     </div>
                   </div>
