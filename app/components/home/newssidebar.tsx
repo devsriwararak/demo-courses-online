@@ -75,7 +75,7 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
             </div>
             <div className="flex-1">
               <p className="text-sm text-black font-medium">{newsItem?.title}</p>
-              <p className="text-xs text-gray-500 mt-1">{parse(newsItem?.dec)}</p>
+             <div>{parse(newsItem?.dec)}</div>
             </div>
           </li>
         ))}

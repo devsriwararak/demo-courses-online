@@ -75,7 +75,7 @@ export default function Page() {
       <div className="flex justify-center mt-4 ">
         <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {data?.map((item: any, index: any) => (
-            <Link href={item.link}>
+            <Link href={item.link} key={index}>
               <Card
                 key={index}
                 className="w-full mt-5 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"

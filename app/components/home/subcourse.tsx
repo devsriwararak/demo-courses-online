@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import parse from "html-react-parser";
 import NewsSidebar from "./newssidebar";
-import SubCoursePath from "./subcoursepath"
+import SubCoursePath from "./subcoursepath";
 
 interface PageProps {
   params: {
@@ -35,8 +35,8 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.product_image}`}
               alt={data?.product_title}
-              width={2500}
-              height={2500}
+              width={700}
+              height={700}
               className="w-full h-auto rounded-xl object-cover"
             />
           </div>
@@ -49,32 +49,33 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
                 {data?.product_id}
               </h1>
             </div>
-            <div>{parse(data?.product_dec || "")}</div>
+        
+              <div>{parse(`<div>${data?.product_dec.toString() || ""}</div>`)}</div>
+            
             <div className="flex w-full flex-wrap gap-3">
-                    <p
-                      className={`text-lg md:text-xl ${
-                        data?.products_price_sale > 0
-                          ? "text-red-500 font-semibold"
-                          : "text-red-500 font-semibold"
-                      } mb-2 pr-1`}
-                    >
-                      {data?.products_price_sale > 0
-                        ? data?.products_price_sale?.toLocaleString()
-                        : data?.products_price?.toLocaleString()}{" "}
-                      บาท
-                    </p>
-                    {data?.products_price_sale > 0 && (
-                      <p className="line-through mb-2 pr-1">
-                        {data?.products_price.toLocaleString()}{" "}
-                      </p>
-                    )}
-                  </div>
+              <p
+                className={`text-lg md:text-xl ${
+                  data?.products_price_sale > 0
+                    ? "text-red-500 font-semibold"
+                    : "text-red-500 font-semibold"
+                } mb-2 pr-1`}
+              >
+                {data?.products_price_sale > 0
+                  ? data?.products_price_sale?.toLocaleString()
+                  : data?.products_price?.toLocaleString()}{" "}
+                บาท
+              </p>
+              {data?.products_price_sale > 0 && (
+                <p className="line-through mb-2 pr-1">
+                  {data?.products_price.toLocaleString()}{" "}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
         {/* แสดงรายละเอียดบทเรียนโดยใช้ details และ summary */}
         <div className="mt-4 mb-10">
-  
           <h1>รายละเอียดบทเรียน</h1>
           <div className="mt-5 bg-gray-50 rounded-b">
             {data?.result_list?.map((lesson: any, index: number) => (
@@ -88,7 +89,6 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
             ))}
           </div>
         </div>
-        
       </div>
 
       {/* ส่วนข้อมูลเพิ่มเติม */}
