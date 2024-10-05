@@ -68,7 +68,7 @@ export default function Page() {
     <div className="bg-gray-100">
       <div className="container mx-auto px-4 py-8 ">
       <ToastContainer autoClose={2000} theme="colored" />
-      <Typography variant="h2" className="text-center mb-8 text-purple-600">
+      <Typography variant="h2" className="text-center mb-8 text-indigo-800">
         Ebook
       </Typography>
 

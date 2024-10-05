@@ -2,11 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import { Button, Card, Typography } from "@material-tailwind/react";
+import { button, Button, Card, Typography } from "@material-tailwind/react";
 import ReactPlayer from "react-player";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { IoPlaySkipBackOutline } from "react-icons/io5";
+import Image from "next/image";
 
 interface PageProps {
   params: {
@@ -112,7 +114,7 @@ const Study: React.FC<PageProps> = ({ params }) => {
   // console.log(data?.titles)
 
   return (
-    <div className="  container mx-auto py-8">
+    <div className="  container mx-auto py-8 px-4 ">
       <ToastContainer autoClose={2000} theme="colored" />
 
       <h1>
@@ -137,12 +139,12 @@ const Study: React.FC<PageProps> = ({ params }) => {
                     activeTitle == item.title_id && "bg-gray-300"
                   }`}
                 >
-                  {item.title}
+                  {index + 1}. {item.title}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="w-full mt-5 text-left flex flex-col md:flex-row gap-3 ">
+          <div className="w-full mt-5 text-left flex flex-row justify-center lg:justify-start gap-3 ">
             <Link
               href="/user/mycourse"
               className="bg-indigo-900 hover:bg-indigo-700 text-white px-4 py-2 rounded-md"
@@ -160,7 +162,7 @@ const Study: React.FC<PageProps> = ({ params }) => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 mt-5">
+      <div className="flex flex-row justify-center lg:justify-start gap-6 mt-5">
         <button
           className={`text-lg ${
             pageNumber === 1 && "border-b-4 border-indigo-900"
@@ -179,7 +181,7 @@ const Study: React.FC<PageProps> = ({ params }) => {
         </button>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 ">
         {pageNumber === 1 ? (
           <VideoSection
             dataVideo={dataVideo}
@@ -211,7 +213,7 @@ export const VideoSection = ({
   activeVideo: any;
 }) => {
   return (
-    <div className="bg-white w-2/3 rounded-md py-6 px-8">
+    <div className="bg-white w-full lg:w-2/3 rounded-md py-6 px-8">
       <ul className="flex flex-col gap-2">
         {dataVideo?.map((item: any, index: any) => (
           <li
@@ -221,12 +223,12 @@ export const VideoSection = ({
             key={item.video_id}
           >
             {" "}
-            คลิปวีดีโอที่ {index + 1}
+            {index + 1}. คลิปวีดีโอที่ {index + 1}
             <button
-              className={`bg-red-800 hover:bg-red-700 text-white px-4 rounded-md `}
+              className={`bg-red-800 hover:bg-red-700 text-white px-3 rounded-md flex flex-row gap-2 justify-center items-center `}
               onClick={() => onPlayClick(item.video_id)}
             >
-              เล่น
+              <IoPlaySkipBackOutline /> เล่น
             </button>
           </li>
         ))}
@@ -302,13 +304,20 @@ export const ShowVideo = ({ id }: { id: number }) => {
 export const QuestionSection = ({
   product_id,
   activeTitle,
-  userId
+  userId,
 }: {
   product_id: any;
   activeTitle: number;
-  userId:any
+  userId: any;
 }) => {
   const [data, setData] = useState<any | []>([]);
+  const [dataAllNew, setDataAllNew] = useState<any | []>([]);
+  const [showImage, setShowImage] = useState<string>("");
+  const [sendData, setSendData] = useState<any>({
+    product_id: product_id,
+    products_title_id: activeTitle,
+    new_question_id: null,
+  });
 
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
   const decryptData = (ciphertext: string) => {
@@ -316,11 +325,12 @@ export const QuestionSection = ({
     return bytes.toString(CryptoJS.enc.Utf8);
   };
 
-  const fetchData = async () => {
+  const fetchData = async (new_question_id : any, products_id : number,  products_title_id : number) => {
     try {
       const data = {
-        products_id: product_id,
-        products_title_id: activeTitle,
+        products_id: products_id,
+        products_title_id: products_title_id,
+        new_question_id: new_question_id,
       };
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/question/list`,
@@ -341,32 +351,48 @@ export const QuestionSection = ({
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [activeTitle]);
-
+  const fetchDataAllNewQuestion = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/api/question/new/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${decryptData(
+              localStorage.getItem("Token") || ""
+            )}`,
+          },
+        }
+      );
+      console.log(res.data);
+      setDataAllNew(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleRequest = async () => {
     try {
       const data = {
         status: 0,
-        users_id: userId, 
+        users_id: userId,
         products_id: product_id,
         products_title_id: activeTitle,
       };
 
-      console.log(data)
-  
+      console.log(data);
+
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/question/new/add`,
         data,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(localStorage.getItem("Token") || "")}`,
+            Authorization: `Bearer ${decryptData(
+              localStorage.getItem("Token") || ""
+            )}`,
           },
         }
       );
-  
+
       if (res.status === 200) {
         toast.success(res.data.message);
       } else {
@@ -378,45 +404,127 @@ export const QuestionSection = ({
     }
   };
 
+  const handleShowImage = (image: string) => {
+    setShowImage(image);
+  };
 
-  
+  const handleChangeQuestion = async (
+    id: number,
+    products_id: number,
+    products_title_id: number
+  ) => {
+    const new_question_id = id
+    setSendData({
+      product_id: products_id,
+      products_title_id: products_title_id,
+      new_question_id: id,
+    });
+     fetchData(new_question_id, products_id,  products_title_id );
+  };
+
+  const handleDefaleQuestion = async() => {
+    setSendData({
+      product_id: product_id,
+      products_title_id: activeTitle,
+      new_question_id: null,
+    });
+    //  fetchData(sendData.new_question_id, sendData.product_id, sendData.products_title_id);
+  };
+
+  useEffect(() => {
+    fetchData(sendData.new_question_id, sendData.product_id, sendData.products_title_id );
+    fetchDataAllNewQuestion();
+  }, [activeTitle, sendData]);
   return (
     <div>
-      {product_id} <br />
-      {activeTitle}
       <div className="flex flex-col md:flex-row gap-3">
-        <div className="w-2/4 bg-white px-6 py-4 rounded-md shadow-sm border border-gray-200">
+        <div className="w-full lg:w-2/4 bg-white px-6 py-4 rounded-md shadow-sm border border-gray-200 h-96 md:h-full overflow-y-scroll">
           <ul className="flex flex-col gap-4">
             {data.map((item: any, index: number) => (
               <li className="flex flex-row justify-between" key={item.id}>
                 ข้อที่ {index + 1} : {item.question}
-                <button className="bg-indigo-900 text-gray-300 px-2 rounded-md text-sm">
-                  ดูเฉลย
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleShowImage(item.image_question)}
+                    className="bg-indigo-900 text-gray-300 px-2 rounded-md text-sm"
+                  >
+                    ดูคำถาม
+                  </button>
+                  <button
+                    onClick={() => handleShowImage(item.image_answer)}
+                    className="bg-indigo-900 text-gray-300 px-2 rounded-md text-sm"
+                  >
+                    ดูเฉลย
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         </div>
-        <div className="w-1/4">
+        <div className="w-full lg:w-2/4">
           <div className="bg-white shadow-md rounded-md">
             <h2 className="bg-gray-300 text-gray-900 px-8 py-2 rounded-t-md">
               รูปเฉลย
             </h2>
 
-            <div className=" px-8 py-4">ไม่มีข้อมูล ...</div>
+            <div className=" px-4 py-4">
+              {showImage ? (
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${showImage}`}
+                  width={700}
+                  height={700}
+                  alt=""
+                />
+              ) : (
+                <p>ไม่มีข้อมูล ...</p>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="w-1/4">
-        <Button onClick={handleRequest}>ขอชุดคำถามใหม่</Button>
-          <div className="bg-white shadow-md rounded-md">
-            <div className=" px-8 py-4">ไม่มีข้อมูล ...</div>
+        <div className="w-full lg:w-1/4">
+          <div className="flex flex-row gap-2 justify-center lg:justify-start">
+            <Button onClick={handleDefaleQuestion} variant="outlined">
+              คำถามเริ่มต้น
+            </Button>
+            <Button onClick={handleRequest}>ขอชุดคำถามใหม่</Button>
           </div>
 
-          <br />
-          <div className="bg-white shadow-md rounded-md">
-            <div className=" px-8 py-4">ไม่มีข้อมูล ...</div>
+          <div className=" overflow-y-scroll h-96">
+          {dataAllNew.map((item: any, index: any) => (
+            <div className="bg-white shadow-md rounded-md mt-4" key={item.id}>
+              <div className=" px-4 py-4 flex flex-row md:flex-col md:flex-row justify-start gap-3">
+                {index + 1}.
+                {item.status === 0 ? (
+                  <p className="text-red-800 bg-red-100 rounded-sm px-4">
+                    ดำเนินการ
+                  </p>
+                ) : (
+                  <p className="text-green-800 bg-green-100 rounded-sm px-4">
+                    เสร็จแล้ว
+                  </p>
+                )}
+                {item.status === 0 ? (
+                  <p className="text-sm text-gray-700">ดูไม่ได้</p>
+                ) : (
+                  <button
+                    className="bg-black text-white px-2 rounded-md text-sm"
+                    onClick={() =>
+                      handleChangeQuestion(
+                        item.id,
+                        item.products_id,
+                        item.products_title_id
+                      )
+                    }
+                  >
+                    ดูคำถาม
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
           </div>
+     
         </div>
       </div>
     </div>

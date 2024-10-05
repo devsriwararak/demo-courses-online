@@ -54,7 +54,7 @@ const ActivityPage = () => {
   };
 
   // ฟังก์ชันสำหรับตัดข้อความ
-  const truncate = (text: string, maxLength: number = 300): string => {
+  const truncate = (text: string, maxLength: number = 50): string => {
     return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
   };
 
@@ -65,7 +65,7 @@ const ActivityPage = () => {
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left w-full md:w-1/2">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              กิจกรรม <span className="text-blue-500 font-bold">ทั้งหมด</span>
+              กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
               ผลลัพท์การค้นหา{" "}
@@ -95,7 +95,7 @@ const ActivityPage = () => {
           {data?.data.map((activity: Activity, index: number) => (
             <div
               key={index}
-              className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
+              className="bg-white pb-3 shadow-md rounded-lg flex flex-col justify-between"
             >
               <Link href={`/home/activity/${activity?.id}`}>
                 <Image

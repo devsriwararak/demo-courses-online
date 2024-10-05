@@ -63,7 +63,7 @@ const CoursesPage: React.FC = () => {
       <div className="w-full md:w-4/12 p-4 lg:w-3/12 2xl:w-2/12 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-col mb-3 gap-3">
           <h2 className="font-light">คอร์เรียนใหม่</h2>
-          <h2 className="text-[#3e8df3] font-light">คอร์เรียนทั้งหมด</h2>
+          <h2 className="text-indigo-800 font-light">คอร์เรียนทั้งหมด</h2>
           <hr />
         </div>
         <div className="flex justify-between">
@@ -124,7 +124,7 @@ const CoursesPage: React.FC = () => {
           <div>
             <p className="text-xl md:text-2xl font-bold">
               คอร์สเรียน{" "}
-              <span className="text-[#3e8df3] font-bold">ทั้งหมด</span>
+              <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </p>
             <p className="mb-4">
               ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>
@@ -148,13 +148,13 @@ const CoursesPage: React.FC = () => {
                   className="rounded-t-md mb-4 object-cover h-48 w-full"
                 />
                 <div className="px-2 md:px-5">
-                  <h2 className="text-md  ">
+                  <h2 className="text-sm  ">
                     {course.title}
                   </h2>
                   <p className="text-gray-600">{course.category_name}</p>
                   <div className="flex w-full flex-wrap gap-3">
                     <p
-                      className={`text-lg md:text-xl ${
+                      className={`text-lg md:text-md ${
                         course.price_sale > 0
                           ? "text-red-500 font-semibold"
                           : "text-red-500 font-semibold"

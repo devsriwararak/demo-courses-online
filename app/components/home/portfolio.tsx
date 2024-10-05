@@ -65,7 +65,7 @@ const PortfolioPage = () => {
             onClick={() => setType(0)}
             className={`flex-1 px-4 py-2 rounded-full text-center ${
               type === 0
-                ? "bg-purple-500 text-white"
+                ? "bg-indigo-800 text-white"
                 : "bg-gray-200 text-gray-700"
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
@@ -76,7 +76,7 @@ const PortfolioPage = () => {
             onClick={() => setType(1)}
             className={`flex-1 px-4 py-2 rounded-full text-center ${
               type === 1
-                ? "bg-purple-500 text-white"
+                ? "bg-indigo-800 text-white"
                 : "bg-gray-200 text-gray-700"
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
@@ -87,7 +87,7 @@ const PortfolioPage = () => {
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              กิจกรรม <span className="text-blue-500 font-bold">ทั้งหมด</span>
+              กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
               ผลลัพท์การค้นหา{" "}
@@ -131,7 +131,7 @@ const PortfolioPage = () => {
                 />
               </Link>
               <div className="p-4 flex flex-col gap-3 lg:w-3/5">
-                <span className="bg-purple-200 text-purple-600 text-xs px-3 py-1 rounded-full self-start">
+                <span className="bg-indigo-100 text-indigo-800 text-xs px-3 py-0 rounded-full self-start">
                   {portfolio.category_name || "หมวดหมู่"}
                 </span>
                 <h2 className="text-md md:text-lg font-semibold text-gray-800">
@@ -143,7 +143,7 @@ const PortfolioPage = () => {
                 <div className="mt-auto">
                   <Link
                     href={`/home/portfolio/${portfolio?.id}`}
-                    className="text-purple-500 hover:text-purple-600 text-sm flex items-center gap-1"
+                    className="text-indigo-800 hover:text-purple-600 text-sm flex items-center gap-1"
                   >
                     ดูรายละเอียด{" "}
                     <svg
