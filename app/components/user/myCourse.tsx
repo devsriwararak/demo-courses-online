@@ -212,7 +212,7 @@ const ShopCourse: React.FC = () => {
               
               <div className="flex flex-col mt-4 px-6 pb-5 ">
                 <div className="flex w-full text-wrap">
-                  <Typography
+                  {/* <Typography
                     className={`text-xl ${
                       course.products_price_sale > 0
                         ? "text-red-500 font-semibold"
@@ -223,15 +223,15 @@ const ShopCourse: React.FC = () => {
                       ? course?.products_price_sale?.toLocaleString()
                       : course?.products_price?.toLocaleString()}{" "}
                     บาท
-                  </Typography>
+                  </Typography> */}
                 </div>
                 <Button
                   className="w-full justify-center items-center text-base font-normal "
-                  variant="outlined"
-                  color="purple"
+                  variant="gradient"
+                  color="indigo"
                   size="sm"
                 >
-                  {`ดูเนื้อหา >>>`}
+                  {`ดูเนื้อหา`}
                 </Button>
               </div>
             </Card>
