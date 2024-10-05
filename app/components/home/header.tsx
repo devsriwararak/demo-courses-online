@@ -41,7 +41,9 @@ const NavItem: React.FC<NavItemProps> = ({
     as="li"
     key={href}
     variant="small"
-    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${currentPath === href ? "active " : ""}`}
+    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
+      currentPath === href ? "active " : ""
+    }`}
   >
     <button
       onClick={() => onClick(href)}
@@ -69,7 +71,7 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
       variant={variant}
       size="sm"
       className="hidden lg:inline-block"
-      style={{background: "#DF9E10"}}
+      style={{ background: "#DF9E10" }}
       onClick={() => router.push(href)}
     >
       <span className="font-semibold px-1 text-[16px]">{children}</span>
@@ -122,44 +124,52 @@ export function HeaderHome() {
   return (
     <div className="max-h-[768px]">
       <Navbar
-        className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
-        style={{ backgroundColor: "#042044" , borderBottom: "3px solid #DF9E10" }}
+        className="sticky min-w-full  top-0 z-10 h-max    rounded-none  lg:px-60  mx-auto container "
+        style={{
+          backgroundColor: "#042044",
+          borderBottom: "3px solid #DF9E10",
+        }}
       >
-        <div className="flex w-full  items-center justify-between gap-5 ">
-          <div className=" items-center hidden lg:block ">
-          <Image
-           src={"/logonavbar.svg"}
-           alt=""
-           width={150}
-           height={120}
-           className=" object-cover "
-         />
+
+
+
+        <div className="flex flex-row w-full  items-center justify-between gap-5 ">
+          <div className=" items-center hidden lg:block w-full  ">
+            <Image
+              src={"/logonavbar.svg"}
+              alt=""
+              width={120}
+              height={120}
+              className=" object-cover "
+            />
           </div>
-          <div className="flex items-center xl:gap-4 whitespace-nowrap">
-            <div className="mr-4 hidden   lg:block">{navList}</div>
-            <div className="flex rounded-lg">
-              <HeaderButton href="/login" variant="gradient">
-               เข้าสู่ระบบ
-              </HeaderButton>
+          <div className="w-full">
+            <div className="flex items-center xl:gap-4 whitespace-nowrap">
+              <div className="mr-4 hidden   lg:block">{navList}</div>
+              <div className="flex rounded-lg">
+                <HeaderButton href="/login" variant="gradient">
+                  เข้าสู่ระบบ
+                </HeaderButton>
+              </div>
+              <IconButton
+                variant="text"
+                className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                ripple={false}
+                onClick={() => setOpenNav(!openNav)}
+              >
+                <IoMenu className="text-2xl " />
+              </IconButton>
             </div>
-            <IconButton
-              variant="text"
-              className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-              ripple={false}
-              onClick={() => setOpenNav(!openNav)}
-            >
-              <IoMenu className="text-2xl " />
-            </IconButton>
           </div>
         </div>
-        <Collapse  open={openNav}>
+        <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
             <Button
               fullWidth
               variant="outlined"
               size="sm"
-              style={{background: "#DF9E10"}}
+              style={{ background: "#DF9E10" }}
               className="mb-3 text-white font-semibold"
               onClick={() => router.push("/login")}
             >

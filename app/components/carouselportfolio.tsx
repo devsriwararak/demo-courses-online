@@ -26,82 +26,20 @@ const SliderPortFolio = ({ data }: { data: string[] }) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center ">
-      {/* <Swiper
-        ref={swiperRef}
-        direction="vertical"
-        spaceBetween={10}
-        slidesPerView={3}
-        navigation={{
-          nextEl: ".swiper-button-next-custom",
-          prevEl: ".swiper-button-prev-custom",
-        }}
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
-        className="w-full h-[80vh] overflow-hidden"
-      >
-        {data.map((image, index) => (
-          <SwiperSlide key={index} className="flex items-center justify-center">
-            <div
-              className="relative w-full h-56 cursor-pointer"
-              onClick={() => handleImageClick(image)}
-            >
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${image}`}
-                alt={`Slide ${index + 1}`}
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full rounded-md shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+      <div className="flex flex-wrap">
+        {data.map((item:any, index:any)=> (
+          <div className=" lg:w-1/4" key={index}>
+            <div onClick={()=>handleImageClick(item)} className=" cursor-pointer">
+            <img
+                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item}`}
+                alt=""
               />
+              </div>
             </div>
-          </SwiperSlide>
         ))}
-      </Swiper> */}
 
-<Swiper
-  ref={swiperRef}
-  // direction="vertical"
-  spaceBetween={20} // เพิ่มระยะห่างระหว่างสไลด์
-  slidesPerView={3}
-  breakpoints={{
-    // ปรับการแสดงผลให้เหมาะกับหน้าจอขนาดเล็ก
-    320: {
-      slidesPerView: 2,
-      spaceBetween: 15,
-    },
-    640: {
-      slidesPerView: 2,
-      spaceBetween: 15,
-    },
-    768: {
-      slidesPerView: 3,
-      spaceBetween: 20,
-    },
-  }}
-  navigation={{
-    nextEl: ".swiper-button-next-custom",
-    prevEl: ".swiper-button-prev-custom",
-  }}
-  pagination={{ clickable: true }}
-  modules={[Navigation, Pagination]}
-  className="w-full h-[80vh] overflow-hidden"
->
-  {data.map((image, index) => (
-    <SwiperSlide key={index} className="flex items-center justify-center">
-      <div
-        className="relative w-full h-56 cursor-pointer"
-        onClick={() => handleImageClick(image)}
-      >
-        <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${image}`}
-          alt={`Slide ${index + 1}`}
-          layout="fill"
-          objectFit="cover"
-          className="w-full h-full rounded-md shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-        />
       </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
+
 
 
       {/* Modal */}
@@ -117,11 +55,12 @@ const SliderPortFolio = ({ data }: { data: string[] }) => {
             >
               ✕
             </button>
+            <h2>{selectedImage}</h2>
             <Image
               src={selectedImage}
               alt="Selected"
-              width={1500}
-              height={1500}
+              width={700}
+              height={700}
               style={{ objectFit: "contain" }}
               className="rounded-lg w-full h-auto max-h-[85vh]"
             />

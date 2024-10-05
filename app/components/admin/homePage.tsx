@@ -19,8 +19,6 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   MdDelete,
   MdEdit,
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
 import { FaSearch, FaChalkboardTeacher } from "react-icons/fa";
@@ -88,7 +86,7 @@ const AdminPage: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  },  [page, searchQuery, decryptData]);
+  },  []);
 
   useEffect(() => {
     fetchCategory();
@@ -231,7 +229,6 @@ const AdminPage: React.FC = () => {
     });
   };
 
-  console.log(dataEdit);
 
   return (
    

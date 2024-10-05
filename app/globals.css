@@ -188,3 +188,17 @@ li.active::after {
   background-color: #ffffff; /* เปลี่ยนจุด Pagination ที่ถูกเลือกเป็นสีขาว */
 }
 
+
+
+/* นาย ปิดปุ่ม dowload video */
+video::-internal-media-controls-download-button {
+  display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+  overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+  width: calc(100% + 30px); /* เพิ่มความกว้างของปุ่มควบคุมเพื่อซ่อนปุ่ม */
+}

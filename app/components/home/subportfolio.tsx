@@ -23,7 +23,6 @@ const fetchData = async (id: string) => {
 
 const SubPortFolioPage: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
-  console.log(data);
 
   return (
     <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-12 mt-10">
@@ -32,21 +31,24 @@ const SubPortFolioPage: React.FC<PageProps> = async ({ params }) => {
         <h1 className="text-2xl font-bold mb-5 text-center lg:text-left">
           {data?.title}
         </h1>
-        <Image
+
+        <img
+          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.image_title}`}
+          alt=""
+          className="w-full"
+        />
+        {/* <Image
           src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.image_title}`}
           alt={data?.title}
-          width={2500}
-          height={1400}
-          objectFit="cover"
-          layout="responsive"
-          className="w-full h-auto rounded-xl object-cover"
-        />
+          width={500}
+          height={500}
+        /> */}
         <div className="px-5">
           <p className="text-gray-700 leading-relaxed mt-5">{data?.dec}</p>
         </div>
 
-             {/* CarouselPortFolio ด้านล่าง */}
-             <div className="mt-6">
+        {/* CarouselPortFolio ด้านล่าง */}
+        <div className="mt-6">
           <CarouselPortFolio data={data?.result_list || []} />
         </div>
       </div>
@@ -55,8 +57,6 @@ const SubPortFolioPage: React.FC<PageProps> = async ({ params }) => {
       <div className="flex-shrink-0 w-full lg:w-1/3">
         <NewsSidebar id={params.id} name="reviews" title="แนะนำ กิจกรรม" />
       </div>
-
-
     </div>
   );
 };

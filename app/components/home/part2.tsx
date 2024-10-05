@@ -12,14 +12,14 @@ const Part2 = () => {
       }}
       className="h-auto py-20"
     >
-      <div className="flex flex-col px-10  2xl:px-[300px] h-full">
+      <div className="flex flex-col mx-auto container px-10  lg:px-18  h-full">
         <div className="flex flex-col lg:flex-row w-full gap-10">
           <div className="flex flex-col w-full items-center md:items-start lg:w-7/12">
             <p className="text-[45px] text-[#F9F0CD] font-[400]">ขั้นตอน</p>
-            <p className="text-[60px] font-[700] text-[#F9F0CD] text-nowrap">
+            <p className="text-4xl md:text-[60px] font-[700] text-[#F9F0CD] text-nowrap">
               การให้บริการ
             </p>
-            <p className="text-[18px] font-[400] text-white xl:pr-24 mt-10">
+            <p className="text-[18px] font-[400] text-gray-500 xl:pr-24 mt-10">
               Lorem Ipsum คือ เนื้อหาจำลองแบบเรียบๆ
               ที่ใช้กันในธุรกิจงานพิมพ์หรืองานเรียงพิมพ์
               มันได้กลายมาเป็นเนื้อหาจำลองมาตรฐานของธุรกิจดังกล่าวมาตั้งแต่ศตวรรษที่
@@ -60,8 +60,8 @@ const Part2 = () => {
               height={100}
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-[700] text-white">สมัครสมาชิก</h2>
-            <p className="text-[17px] font-[400] text-white text-center">
+            <h2 className="text-xl font-[700] text-white">สมัครสมาชิก</h2>
+            <p className="text-[17px] font-[400] text-gray-500 mt-2 text-center">
               สมัครสมาชิกเพื่อลงทะเบียนคอร์สเรียน
             </p>
           </div>
@@ -77,11 +77,11 @@ const Part2 = () => {
               height={100}
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-[700] text-white">
+            <h2 className="text-xl font-[700] text-white">
               เลือกคอร์สเรียน
             </h2>
-            <h2 className="text-[22px] font-[700] text-white">ที่ต้องการ</h2>
-            <p className="text-[17px] font-[400] text-white  text-center">
+            <h2 className="text-xl font-[700] text-white">ที่ต้องการ</h2>
+            <p className="text-[17px] font-[400] text-gray-500 mt-2  text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
           </div>
@@ -98,8 +98,8 @@ const Part2 = () => {
               className="w-12 h-12 mb-4"
             />
 
-            <h2 className="text-[22px] font-[700] text-white">ชำระเงิน</h2>
-            <p className="text-[17px] font-[400] text-white  text-center">
+            <h2 className="text-xl font-[700] text-white">ชำระเงิน</h2>
+            <p className="text-[17px] font-[400] text-gray-500 mt-2  text-center">
               ชำระเงินผ่านระบบอัตโนมัติ
             </p>
           </div>
@@ -115,13 +115,13 @@ const Part2 = () => {
               height={100}
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-[700] text-white">
+            <h2 className="text-xl font-[700] text-white">
               รับชมคอร์สเรียน
             </h2>
-            <p className="text-[17px] font-[400] text-white  text-center">
+            <p className="text-[17px] font-[400] text-gray-500 mt-2  text-center">
               คอร์สเรียนมีอายุ 1 ปี
             </p>
-            <p className="text-[17px] font-[400] text-white  text-center">
+            <p className="text-[17px] font-[400] text-gray-500   text-center">
               นับตั้งแต่วันที่สมัคร
             </p>
           </div>
@@ -137,8 +137,8 @@ const Part2 = () => {
               height={100}
               className="w-12 h-12 mb-4"
             />
-            <h2 className="text-[22px] font-[700] text-white">ทำแบบทดสอบ</h2>
-            <p className="text-[17px] font-[400] text-white  text-center">
+            <h2 className="text-xl font-[700] text-white">ทำแบบทดสอบ</h2>
+            <p className="text-[17px] font-[400] text-gray-500 mt-2  text-center">
               ทำแบบทดสอบหลังเรียน คุณครูตรวจให้คะแนน
             </p>
           </div>

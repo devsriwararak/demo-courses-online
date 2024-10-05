@@ -59,7 +59,8 @@ const ActivityPage = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 flex flex-col 2xl:px-64">
+   <div className="bg-gray-100">
+     <div className="p-6 md:p-12 flex flex-col lg:px-28">
       <div className="w-full">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left w-full md:w-1/2">
@@ -116,6 +117,7 @@ const ActivityPage = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

@@ -9,26 +9,27 @@ const Part1: React.FC = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className=" lg:h-[650px]   "
+      className="   "
     >
-      <div className="flex flex-col  2xl:px-[300px] pt-[80px]  h-full">
+      <div className="flex flex-col   mx-auto container lg:px-28  py-20    h-full ">
         <div>
-          <h1 className=" text-white text-[80px] text-center lg:text-start   font-[700]">
+          <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
             คอร์สสอนเทรด
           </h1>
         </div>
         <div>
-          <h1 className=" text-[60px] 2xl:ps-[130px] font-[700] text-[#DF9E10] text-center lg:text-start ">
+          <h1 className=" mt-4 md:mt-10 lg:md-0 text-4xl md:text-[60px] 2xl:ps-[130px] font-[700] text-[#DF9E10] text-center lg:text-start ">
             สู่นักเทรดมืออาชีพ
           </h1>
         </div>
 
-        <div className="mt-[100px] 2xl:mt-[90px] px-10  2xl:px-0  bor">
+        <div className=" py-6 px-10  2xl:px-0 md:mt-10   ">
           <Carousel />
         </div>
 
+
         <div
-          className="flex justify-center xl:w-[838px] mt-20 lg:mt-auto items-baseline mx-3 2xl:mx-0  py-3 rounded-t-2xl shadow-md"
+          className="flex  xl:w-[838px]   mx-3   py-3 rounded-t-2xl shadow-md mt-10 lg:mt-16 -mb-20"
           style={{
             background: "linear-gradient(352.09deg, rgba(153, 153, 153, 0) -221.84%, #FFFFFF 103.95%)",
           }}
@@ -41,9 +42,9 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" // ปรับขนาดตามต้องการ
+                className="w-6 h-6" 
               />
-              <span className="text-[#093165] pt-2 text-[17px] font-[400] xl:text-nowrap">
+              <span className="text-[#093165]  text-[17px] font-[400] xl:text-nowrap">
                 Nang Fah Pa Trade-นางฟ้าพาเทรดForex
               </span>
             </div>
@@ -53,9 +54,9 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" // ปรับขนาดตามต้องการ
+                className="w-6 h-6" 
               />
-              <span className="text-[#093165] pt-2 text-[17px] font-[400] ">nangfahpatrade88888</span>
+              <span className="text-[#093165]  text-[17px] font-[400] ">nangfahpatrade88888</span>
             </div>
             <div className="flex items-center space-x-2">
               <Image
@@ -63,12 +64,13 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" // ปรับขนาดตามต้องการ
+                className="w-6 h-6" 
               />
-              <span className="text-[#093165] pt-2 text-[17px] font-[400]">@nangfahpatrade</span>
+              <span className="text-[#093165]  text-[17px] font-[400]">@nangfahpatrade</span>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

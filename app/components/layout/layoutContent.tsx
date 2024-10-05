@@ -9,6 +9,7 @@ const Sidebar = dynamic(() => import("./sidebar"), { ssr: false });
 
 interface LayoutContentProps {
   children: ReactNode;
+
 }
 
 const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
@@ -23,6 +24,8 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // const isSmallScreenQuery = useMediaQuery({ query: "(max-width: 751px)" });
+  const [menuCount, setMenuCount] = useState(false);
+
 
   const isSmallScreenQuery = useMediaQuery({
     query: loginStatus === 1 ? "(max-width: 1200px)" : "(max-width: 751px)"
@@ -39,7 +42,11 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen overflow-auto md:overflow-hidden  bg-[#f6f7fc]">
+    //   const [menuCount, setMenuCount] = useState(false)
+    // และต้องการส่ง setMenuCount={setMenuCount} ไปที่ question component ผ่าน children เพื่อทำให้เป็น true
+
+// md:overflow-hidden
+    <div className="flex h-screen overflow-auto    bg-[#f6f7fc]">
       {!isSmallScreen && <Sidebar />}
 
       {isSmallScreen && isDrawerOpen && (
@@ -51,14 +58,16 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ children }) => {
       />
 
       {isSmallScreen && (
-        <div className={`fixed inset-y-0 left-0 z-30 w-64 transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
-          <Sidebar setDrawerOpen={setDrawerOpen} />
+        <div className={` fixed inset-y-0 left-0 z-30 w-64 transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
+          <Sidebar setDrawerOpen={setDrawerOpen}  />
         </div>
       )}
 
       <div className="flex-1 flex flex-col  ">
-        <div className="mr-3 mt-[75px] px-3 w-screen lg:w-full ">
+        <div className="mr-3 mt-[75px] px-3 w-screen lg:w-full  ">
           {children}
+
+
         </div>
       </div>
     </div>

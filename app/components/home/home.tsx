@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
       <Part5 />
       <Part6 />
       <Part7 />
-      <Part8 />
+      {/* <Part8 /> */}
     </div>
   );
 };

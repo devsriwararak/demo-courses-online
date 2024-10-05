@@ -4,8 +4,8 @@ import React from "react";
 const Part8 = () => {
   return (
     <footer>
-      <div className="bg-[#042044] text-white py-8 ">
-        <div className="container mx-auto 2xl:mx-[200px] grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:gap-8 2xl:pr-28">
+      <div className="bg-[#042044] text-white py-14 ">
+        <div className="container mx-auto  grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:gap-8 ">
           {/* โลโก้และที่อยู่ */}
           <div className="flex flex-col space-y-4  ">
             {/* <h2 className="text-xl font-semibold">Nang Fah Pa Trade</h2>
@@ -111,33 +111,25 @@ const Part8 = () => {
         </div>
       </div>
 
-      <div className="bg-[#07172D] 2xl:px-20 pt-4 text-white hidden lg:flex items-center 2xl:gap-80 ">
-        <p className=" px-2 text-[12px] md:text-[16px] font-[700] 2xl:px-[200px] ">
-          Copyright © 2024 all rights reserved. | Nang Fah Pa Trade
-        </p>
-        <div className=" w-[200px]  bg-[#df9310] flex py-3 justify-center  rounded-t-xl ">
-        <Image
-                src="/icon-chat.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
-                alt="youtube"
-                width={500}
-                height={500}
-                className=" w-[30px] h-[30px] "
-              />
-          <p className="  px-2 text-[12px] md:text-[18px] font-[700] text-nowrap  ">
-            สอบถามเพิ่มเติม
+      <div className="bg-[#07172D]  pt-4 text-white     ">
+        <div className="container mx-auto px-6 lg:px-60 flex flex-row items-center justify-between gap-4">
+          <p className="  text-[12px] md:text-[16px] font-[700]   ">
+            Copyright © 2024 all rights reserved. | Nang Fah Pa Trade
           </p>
+          <div className=" w-[200px]  bg-[#df9310] flex py-3 justify-center  rounded-t-xl ">
+            <Image
+              src="/icon-chat.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
+              alt="youtube"
+              width={200}
+              height={200}
+              className=" w-6 md:w-[30px] h-6 md:h-[30px] "
+            />
+            <p className="  px-2 text-[12px] md:text-[18px] font-[700] text-nowrap  ">
+              สอบถามเพิ่มเติม
+            </p>
+          </div>
         </div>
       </div>
-
-      {/* ส่วนข้อความลิขสิทธิ์ */}
-
-      {/* ปุ่มสอบถามเพิ่มเติม */}
-      {/* <div className="fixed bottom-4 right-4">
-        <button className="bg-[#DF9E10] text-[#0B1F3C] px-4 py-2 rounded-full flex items-center shadow-lg">
-        <i className="fas fa-comment-dots mr-2"></i>
-        สอบถามเพิ่มเติม
-        </button>
-        </div> */}
     </footer>
   );
 };

@@ -79,7 +79,7 @@ const SliderComponent = () => {
   }
 
   return (
-    <div className="w-full xl:w-[1030px] h-auto relative">
+    <div className="w-full  h-auto relative">
       <Swiper
         key={slides.length} // ใช้ key เพื่อบังคับให้ Swiper รีเรนเดอร์เมื่อข้อมูลเปลี่ยน
         onSwiper={(swiper) => {
@@ -108,7 +108,7 @@ const SliderComponent = () => {
         {getSlides(slides).map((slide, index) => (
           <SwiperSlide key={index}>
             <Link href={`/home/course/${slide.id}`}>
-              <div className="relative w-full h-48">
+              <div className="relative w-full h-40">
                 <Image
                   style={{ objectFit: "cover" }}
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}

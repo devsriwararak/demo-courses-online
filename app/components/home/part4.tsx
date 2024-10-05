@@ -19,7 +19,7 @@ export const fetchNews = async () => {
     return res.data;
   } catch (err) {
     const error = err as { response: { data: { message: string } } };
-    console.error(error.response.data?.message);
+    console.error(error.response?.data?.message);
     return []; // Return เป็น array เปล่า เพื่อป้องกัน Error ในการ Map ข้อมูล
   }
 };
@@ -129,30 +129,32 @@ const Part4 = async () => {
   const data = await fetchNews();
 
   return (
-    <div className="bg-[#222222] py-10 px-10 h-full 2xl:px-[250px]">
-      <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
-        ข่าวสารและกิจกรรมล่าสุด
-      </h2>
-      <div className="flex flex-col w-full lg:flex-row gap-8">
-        <LargeNewsItem
-          image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${
-            data?.data?.[0]?.image_title || ""
-          }`}
-          title={data?.data?.[0]?.title || "ไม่มีหัวข้อข่าว"}
-          description={truncate(data?.data?.[0]?.dec || "ไม่มีคำบรรยายข่าว")}
-          id={data?.data?.[0]?.id || "0"}
-        />
+    <div className="bg-[#222222] py-20  h-full   ">
+      <div className="px-8 lg:px-18  mx-auto container">
+        <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
+          ข่าวสารและกิจกรรมล่าสุด
+        </h2>
+        <div className="flex flex-col w-full lg:flex-row gap-8 ">
+          <LargeNewsItem
+            image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${
+              data?.data?.[0]?.image_title || ""
+            }`}
+            title={data?.data?.[0]?.title || "ไม่มีหัวข้อข่าว"}
+            description={truncate(data?.data?.[0]?.dec || "ไม่มีคำบรรยายข่าว")}
+            id={data?.data?.[0]?.id || "0"}
+          />
 
-        <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
-          {data?.data?.slice(1).map((news: News, index: number) => (
-            <NewsItem
-              key={index}
-              id={news.id}
-              image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news?.image_title}`}
-              title={news.title}
-              description={truncate1(news?.dec)}
-            />
-          ))}
+          <div className="flex flex-col lg:w-7/12 gap-7 lg:mt-[33px] xl:mt-[80px] 2xl:mt-[40px]">
+            {data?.data?.slice(1).map((news: News, index: number) => (
+              <NewsItem
+                key={index}
+                id={news.id}
+                image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${news?.image_title}`}
+                title={news.title}
+                description={truncate1(news?.dec)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

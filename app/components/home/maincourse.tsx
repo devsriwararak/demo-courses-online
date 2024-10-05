@@ -18,11 +18,12 @@ const CoursesPage: React.FC = () => {
   // กำหนดชนิดข้อมูลให้กับ state
   const [filterPrice, setFilterPrice] = useState<number>(1);
   const [coursesData, setCoursesData] = useState<Course[]>([]);
+  const [search , setSearch] = useState<string>("")
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
     const requestData = {
-      search: "",
+      search:search,
       page: "",
       full: true,
       filter_price: filterPrice,
@@ -38,14 +39,13 @@ const CoursesPage: React.FC = () => {
     }
   };
 
-  // เรียกใช้เมื่อ component โหลดขึ้นมาครั้งแรกหรือเมื่อ filterPrice เปลี่ยนแปลง
   useEffect(() => {
     const fetchCourses = async () => {
       const data = await fetchData();
       setCoursesData(data?.data || []);
     };
     fetchCourses();
-  }, [filterPrice]);
+  }, [filterPrice, search]);
 
   // ฟังก์ชันเปลี่ยนค่า filter
   const handleFilterChange = (value: number) => {
@@ -58,7 +58,7 @@ const CoursesPage: React.FC = () => {
   };
 
   return (
-    <div className="p-5 md:p-10 2xl:px-10 flex flex-col md:flex-row xl:mt-10">
+    <div className="p-5 md:p-10 2xl:px-10 flex flex-col md:flex-row  bg-gray-100">
       {/* Sidebar Filters */}
       <div className="w-full md:w-4/12 p-4 lg:w-3/12 2xl:w-2/12 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-col mb-3 gap-3">
@@ -80,7 +80,7 @@ const CoursesPage: React.FC = () => {
 
         {/* Radio Buttons for Price Filter */}
 
-        <label className="flex items-center w-1/2   cursor-pointer">
+        <label className="flex items-center    cursor-pointer">
           <input
             type="radio"
             name="price"
@@ -89,10 +89,10 @@ const CoursesPage: React.FC = () => {
             onChange={() => handleFilterChange(1)}
             className="mr-2 w-auto "
           />
-          น้อยไปหามาก
+          ราคา น้อย-มาก
         </label>
 
-        <label className="flex items-center  w-1/2 mt-2 cursor-pointer">
+        <label className="flex items-center   mt-2 cursor-pointer">
           <input
             type="radio"
             name="price"
@@ -101,7 +101,7 @@ const CoursesPage: React.FC = () => {
             onChange={() => handleFilterChange(2)}
             className="mr-2 cursor-pointer"
           />
-          มากไปหาน้อย
+          ราคา มาก-น้อย
         </label>
       </div>
 
@@ -113,10 +113,11 @@ const CoursesPage: React.FC = () => {
             type="text"
             placeholder="ค้นหา"
             className="flex-grow p-2 border rounded-md md:rounded-l-md mb-2 md:mb-0 md:mr-2"
+            onChange={(e)=>setSearch(e.target.value)}
           />
-          <button className="bg-purple-500 text-white px-4 py-2 rounded-md md:rounded-r-md">
+          {/* <button className="bg-purple-500 text-white px-4 py-2 rounded-md md:rounded-r-md">
             ค้นหา
-          </button>
+          </button> */}
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
@@ -129,16 +130,14 @@ const CoursesPage: React.FC = () => {
               ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>
             </p>
           </div>
-
- 
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
+        <div className="grid grid-cols-1 mt-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
           {coursesData.map((course) => (
-            <div
+            <div 
               key={course.id}
-              className="bg-white pb-3 shadow-md rounded-2xl flex flex-col justify-between"
+              className="bg-white border border-gray-100 pb-3 shadow-sm rounded-md flex flex-col justify-between"
             >
               <Link href={`/home/course/${course.id}`}>
                 <Image
@@ -146,10 +145,10 @@ const CoursesPage: React.FC = () => {
                   alt={course.title}
                   width={500}
                   height={500}
-                  className="rounded-t-2xl mb-4 object-cover h-48 w-full"
+                  className="rounded-t-md mb-4 object-cover h-48 w-full"
                 />
                 <div className="px-2 md:px-5">
-                  <h2 className="text-md md:text-lg font-semibold">
+                  <h2 className="text-md  ">
                     {course.title}
                   </h2>
                   <p className="text-gray-600">{course.category_name}</p>
@@ -161,7 +160,7 @@ const CoursesPage: React.FC = () => {
                           : "text-red-500 font-semibold"
                       } mb-2 pr-1`}
                     >
-                      {course.price_sale > 0
+                      ราคา {course.price_sale > 0
                         ? course.price_sale.toLocaleString()
                         : course.price.toLocaleString()}{" "}
                       บาท

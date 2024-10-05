@@ -81,9 +81,10 @@ const LoginPage: React.FC = () => {
             }
           }
 
-          setTimeout(() => {
-            router.push(redirectPath);
-          }, 1500);
+          // setTimeout(() => {
+          //   router.push(redirectPath);
+          // }, 500);
+          router.push(redirectPath);
         } else {
           toast.error("Error: Token not found");
         }

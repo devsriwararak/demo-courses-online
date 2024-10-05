@@ -88,16 +88,16 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
                 </Button>
               </MenuHandler>
               <MenuList className="p-2  rounded-lg shadow-xl">
-                <MenuItem>
+                {/* <MenuItem>
                   <div className="flex text-lg  px-3  items-center gap-3 whitespace-nowrap">
                     <BsFillPersonLinesFill />
                     <p className="text-sm">แก้ไขประวัติส่วนตัว</p>
                   </div>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={handleLogout}>
                   <div className="flex text-lg  px-3  items-center gap-3 whitespace-nowrap">
                     <IoMdLogOut />
-                    <p className="text-sm">Logout</p>
+                    <p className="text-sm">ออกจากระบบ</p>
                   </div>
                 </MenuItem>
               </MenuList>

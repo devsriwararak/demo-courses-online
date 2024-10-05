@@ -1,4 +1,3 @@
-// Super.tsx
 "use client";
 import {
   Card,
@@ -6,7 +5,11 @@ import {
   Input,
   Typography,
   IconButton,
+  Dialog,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
+import CryptoJS from "crypto-js";
 
 import axios from "axios";
 import { HeaderAPI } from "@/headerApi";
@@ -25,6 +28,14 @@ import { useState, useEffect, useCallback } from "react";
 import AddEditModal from "./addEditModal";
 
 import Swal from "sweetalert2";
+import PaginationPage from "../PaginationPage";
+import Image from "next/image";
+
+const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+const decryptData = (ciphertext: string) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
 
 interface pay {
   id: number;
@@ -36,15 +47,43 @@ interface pay {
   status: number;
 }
 
-interface ResponseData {
-  data: pay[];
-  totalPages: number;
-}
-
 const PayPage: React.FC = () => {
-  const [data, setData] = useState<ResponseData>({ data: [], totalPages: 1 });
+  const [data, setData] = useState<any>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+
+  // Paginations
+  const [pageStart, setPageStart] = useState<number>(1);
+  const [pageEnd, setPageEnd] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({
+    image: "",
+  });
+
+  // Modal
+  const handleOpenModal = (image: string) => {
+    console.log({ image });
+    setModalData({
+      image,
+    });
+
+    // เปิด Modal
+    setIsModalOpen(true);
+  };
+
+  const Pagination = (pageNumber: number) => {
+    if (pageNumber === 1) {
+      if (pageStart > 1) {
+        fetchData(pageStart - 1);
+      }
+    } else {
+      if (pageStart < pageEnd) {
+        fetchData(pageStart + 1);
+      }
+    }
+  };
 
   const [formData, setFormData] = useState({
     username: "",
@@ -52,41 +91,65 @@ const PayPage: React.FC = () => {
     name: "",
   });
 
-  const fetchPay = useCallback(async () => {
-    const requestData = {
-      page: page,
-      search: searchQuery,
-    };
-    // console.log(requestData)
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/pay`,
-        requestData,
-        {
-          ...HeaderAPI(localStorage.getItem("Token")),
-        }
-      );
-      console.log(res.data);
-      if (res.status === 200) {
-        setData(res.data);
-      } else {
-        toast.error("error");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("error");
-    }
-  }, [page, searchQuery]);
+  // const fetchPay = useCallback(async () => {
+  //   const requestData = {
+  //     page: page,
+  //     search: searchQuery,
+  //   };
+  //   // console.log(requestData)
+  //   try {
+  //     const res = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API}/api/pay`,
+  //       requestData,
+  //       {
+  //         ...HeaderAPI(localStorage.getItem("Token")),
+  //       }
+  //     );
+  //     console.log(res.data);
+  //     if (res.status === 200) {
+  //       setData(res.data);
+  //     } else {
+  //       toast.error("error");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("error");
+  //   }
+  // }, [page, searchQuery]);
 
-  useEffect(() => {
-    fetchPay();
-  }, [fetchPay, page]);
-
-  console.log(searchQuery);
+  // useEffect(() => {
+  //   fetchPay();
+  // }, [fetchPay, page]);
 
   //------------- modal Add Product -----------------------//
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [dataEdit, setDataEdit] = useState<pay | null>(null);
+
+  const fetchData = async (pageStart: number) => {
+    try {
+      const requestData = {
+        page: pageStart || 1,
+        search: search,
+      };
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/pay`,
+        requestData,
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
+      );
+      console.log(res.data);
+
+      if (res.status === 200) {
+        setData(res.data.data);
+        setPageStart(res.data.page);
+        setPageEnd(res.data.totalPages);
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   const handleModalAdd = () => {
     setOpenModalAdd(!openModalAdd);
@@ -103,65 +166,6 @@ const PayPage: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  const handleAddCategory = async () => {
-    if (dataEdit) {
-      const updateData = { ...formData, id: dataEdit.id };
-      try {
-        const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_API}/api/category`,
-          updateData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
-        if (res.status === 200) {
-          fetchPay();
-          toast.success("ข้อมูลถูกแก้ไขเรียบร้อยแล้ว");
-          handleModalAdd();
-        } else {
-          toast.error("เกิดข้อผิดพลาด");
-        }
-      } catch (err) {
-        handleModalAdd();
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
-    } else {
-      const data = {
-        name: formData.name,
-      };
-
-      console.log(data);
-
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/api/category/add`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
-        console.log(res);
-        if (res.status === 200) {
-          fetchPay();
-          toast.success(res.data.message);
-          setFormData({ username: "", password: "", name: "" });
-          handleModalAdd();
-        } else {
-          toast.error("เกิดข้อผิดพลาด");
-        }
-      } catch (err) {
-        handleModalAdd();
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
-      }
-    }
   };
 
   const handleDelete = async (customer: pay) => {
@@ -195,7 +199,7 @@ const PayPage: React.FC = () => {
             }
           );
           if (res.status === 200) {
-            fetchPay();
+            fetchData(pageStart);
             Swal.fire({
               // title: "ลบแล้ว !",
               text: "ข้อมูลของคุณถูกลบแล้ว.",
@@ -225,257 +229,129 @@ const PayPage: React.FC = () => {
     });
   };
 
-  console.log(dataEdit);
+  useEffect(() => {
+    fetchData(pageStart);
+  }, [search]);
 
   return (
     <div className="flex justify-center gap-3 ">
       <ToastContainer autoClose={2000} theme="colored" />
+
+      <ModalImage
+        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen}
+        modalData={modalData}
+      />
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3 items-center ">
-            <div className="flex gap-3">
-              <Input
-                label="ค้นหาการซื้อคอร์ดเรียน"
-                crossOrigin="anonymous"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClick={() => setPage(1)}
-              />
-              {/* <Button className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap">
-                ล้างค้นหา
-              </Button> */}
-            </div>
-            {/* <div>
-              <Button
-                className="bg-blue-500 text-white hover:bg-blue-700 whitespace-nowrap"
-                onClick={handleModalAdd}
-              >
-                เพิ่มข้อมูล
-              </Button>
-            </div> */}
+          <div className="w-72">
+            <Input
+              label="ค้นหาการซื้อคอร์ดเรียน"
+              crossOrigin="anonymous"
+              onChange={(e) => setSearch(e.target.value)}
+              color="purple"
+              
+            />
           </div>
+
           <div className="overflow-auto  lg:h-[100%]">
-            <Card className="mt-5 h-[35vh] sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
-              <table className="w-full min-w-max">
-                <thead>
+            <Card className="mt-5 h-96 sm:h-[48vh] md:h-[58vh] lg:h-[60vh] overflow-auto mb-3 border-2 ">
+              <table className="w-full text-sm text-center   ">
+                <thead className="text-gray-800   bg-gray-200 border border-gray-300 ">
                   <tr>
-                    <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 "
-                      >
-                        ลำดับ
-                      </Typography>
-                    </th>
-                    <th className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 "
-                      >
-                        เลขที่บิล
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        ชื่อผู้ซื้อ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap  w-[200px]">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 "
-                      >
-                        หัวข้อ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap ">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 whitespace-nowrap"
-                      >
-                        วันที่เริ่มซื้อ
-                      </Typography>
-                    </th>
-                    <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70 whitespace-nowrap"
-                      >
-                        วันที่สิ้นสุด
-                      </Typography>
-                    </th>
-                    {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold leading-none opacity-70"
-                      >
-                        แก้ไข/ลบ
-                      </Typography>
-                    </th> */}
+                    <th className="px-2 py-3">ลำดับ</th>
+                    <th className="px-2 py-3">เลขที่บิล</th>
+                    <th className="px-2 py-3">ชื่อผู้ซื้อ</th>
+                    <th className="px-2 py-3">หัวข้อ</th>
+                    <th className="px-2 py-3">วันที่เริ่มซื้อ</th>
+                    <th className="px-2 py-3">วันที่สิ้นสุด</th>
+                    <th className="px-2 py-3">สลิปโอนเงิน</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {data?.data?.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="text-center pt-5">
-                        <Typography>...ไม่พบข้อมูล...</Typography>
+
+                <tbody className="text-gray-600 ">
+                  {data.map((item: any, index: any) => (
+                    <tr className="" key={item.id}>
+                      <td className="px-2 py-3"> {index + 1}</td>
+                      <td className="px-2 py-3"> {item.code}</td>
+                      <td className="px-2 py-3"> {item.name}</td>
+                      <td className="px-2 py-3"> {item.title}</td>
+                      <td className="px-2 py-3"> {item.start_pay}</td>
+                      <td className="px-2 py-3"> {item.end_pay}</td>
+                      <td className="px-2 py-3">
+                        <button
+                          className="bg-purple-400 hover:bg-purple-600 text-white text-xs px-2 py-1 rounded-md"
+                          onClick={() => handleOpenModal(item.image)}
+                        >
+                          สลิปโอนเงิน
+                        </button>
                       </td>
                     </tr>
-                  ) : (
-                    data?.data?.map((item, index) => (
-                      <tr key={item.id} style={{ marginTop: "3px" }}>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {index + 1}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className="py-2">
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.code}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.name}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className=" flex mt-2 justify-center  ">
-                          <div className="relative  justify-center align-middle text-center  tooltip  ">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal   overflow-hidden text-ellipsis whitespace-nowrap  max-w-[350px]"
-                            >
-                              {item?.title}
-                            </Typography>
-                            <div className="tooltip-text text-sm  ">
-                              {item?.title}
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center ">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.start_pay}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center justify-center">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {item?.end_pay}
-                            </Typography>
-                          </div>
-                        </td>
-                        {/* <td>
-                          <div className="flex justify-center gap-2  ">
-                            <IconButton
-                              size="sm"
-                              className=" text-white max-w-7 max-h-7 bg-yellow-700  "
-                              onClick={(e) => [
-                                handleModalAdd(),
-                                setDataEdit(item),
-                              ]}
-                            >
-                              <MdEdit className="h-5 w-5   " />
-                            </IconButton>
-                            <IconButton
-                              size="sm"
-                              className=" bg-red-300 max-w-7 max-h-7 "
-                              onClick={() => {
-                                handleDelete(item);
-                              }}
-                            >
-                              <MdDelete className="h-5 w-5   " />
-                            </IconButton>
-                          </div>
-                        </td> */}
-                      </tr>
-                    ))
-                  )}
+                  ))}
                 </tbody>
               </table>
             </Card>
-            <div className="flex justify-end gap-2 mt-3 px-2 items-center ">
-            <button
-              className={` text-gray-400  text-xl  whitespace-nowrap ${
-                page == 1 ? "" : "hover:text-black"
-              } `}
-              disabled={page == 1}
-              onClick={() => setPage((page) => Math.max(page - 1, 1))}
-            >
-              <MdOutlineKeyboardDoubleArrowLeft />
-            </button>
-            <span style={{ whiteSpace: "nowrap" }} className="text-xs">
-              หน้าที่ {page} / {data?.totalPages || 1}{" "}
-            </span>
-            <button
-              className={`text-gray-400 text-xl whitespace-nowrap ${
-                Number(data?.totalPages) - Number(page) < 1
-                  ? true
-                  : false
-                  ? ""
-                  : "hover:text-black"
-              }`}
-              disabled={
-                Number(data?.totalPages) - Number(page) < 1 ? true : false
-              }
-              onClick={() => setPage((page) => page + 1)}
-            >
-              <MdOutlineKeyboardDoubleArrowRight />
-            </button>
-          </div>
+
+            {/* PaginationPage */}
+            <div className="flex  justify-end">
+              <PaginationPage
+                Pagination={Pagination}
+                pageStart={pageStart}
+                pageEnd={pageEnd}
+              />
+            </div>
           </div>
         </div>
       </Card>
-
-      {/* modal Add and Edit  */}
-      {/* <AddEditModal
-        open={openModalAdd}
-        handleModalAdd={handleModalAdd}
-        formData={formData}
-        setFormData={setFormData}
-        handleChange={handleChange}
-        handleAddCategory={handleAddCategory}
-        dataEdit={dataEdit}
-      /> */}
     </div>
   );
 };
 
 export default PayPage;
+
+interface ModalImageProps {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  modalData: { image: string };
+}
+
+export const ModalImage: React.FC<ModalImageProps> = ({
+  isModalOpen,
+  setIsModalOpen,
+  modalData,
+}) => {
+  return (
+    <div>
+      <Dialog
+        open={isModalOpen}
+        handler={setIsModalOpen}
+        className="bg-gray-200 "
+        size="sm"
+      >
+        <DialogBody divider>
+          {modalData.image && (
+            <div className="w-full flex justify-center">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${modalData.image}`}
+                alt=""
+                width={400}
+                height={400}
+                className=" rounded-md"
+              />
+            </div>
+          )}
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            size="sm"
+            color="red"
+            onClick={() => setIsModalOpen(false)}
+            className="mr-1 text-sm"
+          >
+            <span>ปิด</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+    </div>
+  );
+};

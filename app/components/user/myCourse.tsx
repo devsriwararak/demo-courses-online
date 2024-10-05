@@ -125,15 +125,13 @@ const ShopCourse: React.FC = () => {
   return (
     <div>
       <ToastContainer autoClose={2000} theme="colored" />
-      <div>
-        <Banner />
-      </div>
+
 
       {/* section - 2 */}
 
       <div className=" px-6 md:px-28 py-10">
 
-      <div className=" bg-white rounded-lg mt-10 lg:mb-0 w-[300px]">
+      <div className=" bg-white rounded-lg  lg:mb-0 w-[300px]">
           <Input
             type="text"
             label="ค้นหาคอร์สเรียน"
@@ -141,15 +139,16 @@ const ShopCourse: React.FC = () => {
             crossOrigin="anonymous"
             className="bg-white  !bg-opacity-100"
             onChange={(e) => setSearchQuery(e.target.value)}
+            color="indigo"
           />
         </div>
       <div className="mt-8">
-        <Typography className="text-lg  text-white  font-light">คอร์สแนะนำ</Typography>
+        <Typography className="text-3xl  text-black  font-light">คอร์สของฉัน</Typography>
       </div>
       <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
       <Button
-            variant="outlined"
-            color="white"
+            variant="gradient"
+            color="indigo"
             className={`${
               selectedCategory === 0
                 ? "bg-purple-500 text-white font-light"
@@ -165,8 +164,8 @@ const ShopCourse: React.FC = () => {
             variant="outlined"
             className={`${
               selectedCategory === category?.category_id
-              ? "bg-purple-500 text-white font-light"
-              : "border border-white text-white font-light"
+              ? "bg-indigo-700 text-white font-light"
+              : "border border-gray-700 text-gray-800 font-light"
           }`}
             onClick={() => setSelectedCategory(category?.category_id)}
             // onClick={() => setSelectCatetegory(category.id)}
@@ -204,7 +203,7 @@ const ShopCourse: React.FC = () => {
 
                   <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
                     {/* {course?.products_dec} */}
-                    {parse(truncateText(course.products_dec.replace(/<\/?[^>]+(>|$)/g, ""), 500))}
+                    {parse(truncateText(course.products_dec.replace(/<\/?[^>]+(>|$)/g, ""), 100))}
                   </Typography>
 
                 </div>

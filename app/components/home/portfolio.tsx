@@ -56,7 +56,8 @@ const PortfolioPage = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 flex flex-col 2xl:px-64">
+  <div className="bg-gray-100">
+      <div className="p-6 md:p-12 flex flex-col lg:px-28">
       <div className="w-full ">
         {/* ปุ่ม Select แบบ Toggle */}
         <div className="flex space-x-4 mt-4 md:mt-0 justify-center">
@@ -167,6 +168,7 @@ const PortfolioPage = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

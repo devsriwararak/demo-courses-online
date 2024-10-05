@@ -393,6 +393,7 @@ const HomeWorkPage: React.FC = () => {
       question: formData.question,
       image_question: questionImageBase64,
       image_answer: solutionImageBase64,
+      // new_question_id : null || id 
     };
 
     try {
@@ -977,7 +978,7 @@ const HomeWorkPage: React.FC = () => {
                         ลำดับ
                       </Typography>
                     </th>
-                    <th className="border-b  p-4 w-1 whitespace-nowrap">
+                    {/* <th className="border-b  p-4 w-1 whitespace-nowrap">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -985,7 +986,7 @@ const HomeWorkPage: React.FC = () => {
                       >
                         id
                       </Typography>
-                    </th>
+                    </th> */}
                     <th className="border-b  p-4 whitespace-nowrap">
                       <Typography
                         variant="small"
@@ -1018,11 +1019,11 @@ const HomeWorkPage: React.FC = () => {
                       <tr
                         key={index}
                         style={{ marginTop: "3px" }}
-                        draggable
-                        onDragStart={() => (dragItem.current = index)}
-                        onDragEnter={() => (dragItemOver.current = index)}
-                        onDragEnd={handleSort}
-                        onDragOver={(e) => e.preventDefault()}
+                        // draggable
+                        // onDragStart={() => (dragItem.current = index)}
+                        // onDragEnter={() => (dragItemOver.current = index)}
+                        // onDragEnd={handleSort}
+                        // onDragOver={(e) => e.preventDefault()}
                         className="hover:bg-purple-100/20"
                       >
                         <td className="py-2 border-b">
@@ -1032,11 +1033,11 @@ const HomeWorkPage: React.FC = () => {
                               color="blue-gray"
                               className=" text-xs "
                             >
-                              ข้อที่ {item?.index}
+                              {index+1}
                             </Typography>
                           </div>
                         </td>
-                        <td className="py-2 border-b">
+                        {/* <td className="py-2 border-b">
                           <div className="flex items-center justify-center">
                             <Typography
                               variant="small"
@@ -1046,7 +1047,7 @@ const HomeWorkPage: React.FC = () => {
                               {item?.id}
                             </Typography>
                           </div>
-                        </td>
+                        </td> */}
                         <td className="border-b">
                           <div className="relative flex items-center justify-center mt-2 tooltip">
                             <Typography
@@ -1084,7 +1085,6 @@ const HomeWorkPage: React.FC = () => {
                   )}
                 </tbody>
               </table>
-
               <div className="flex justify-between gap-2 mt-6 px-2 items-center ">
                 <Typography className="text-red-800 ">หมายเหตุ</Typography>
                 <div className="flex items-center gap-2">

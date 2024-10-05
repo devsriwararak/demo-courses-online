@@ -133,9 +133,9 @@ const ShopCourse: React.FC = () => {
   return (
     <div>
       <ToastContainer autoClose={2000} theme="colored" />
-      <div>
+      {/* <div>
         <Banner />
-      </div>
+      </div> */}
 
       {/* section - 2 */}
 
@@ -148,15 +148,16 @@ const ShopCourse: React.FC = () => {
             crossOrigin="anonymous"
             className="bg-white  !bg-opacity-100"
             onChange={(e) => setSearchQuery(e.target.value)}
+            color="indigo"
           />
         </div>
         <div className="mt-8">
-          <Typography className="text-lg  text-white  font-light">คอร์สแนะนำ</Typography>
+          <Typography className="text-3xl  text-black  font-light">คอร์สแนะนำ</Typography>
         </div>
         <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
           <Button
-            variant="outlined"
-            color="white"
+            variant="gradient"
+            color="indigo"
             className=" font-light"
             onClick={() => setSelectCatetegory(0)}
           >
@@ -168,8 +169,8 @@ const ShopCourse: React.FC = () => {
               variant="outlined"
               className={`${
                 selectedCategory === String(category.id)
-                  ? "bg-purple-500 text-white font-light"
-                  : "border border-white text-white font-light"
+                  ? "bg-purple-500 text-gray-700 font-light"
+                  : "border border-gray-500 text-gray-800 font-light"
               }`}
               onClick={() => setSelectCatetegory(category.id)}
             >
@@ -202,12 +203,12 @@ const ShopCourse: React.FC = () => {
                     <Typography className="text-lg font-semibold text-black ps-2">
                       {truncateText(course.title, 30)}
                     </Typography>
-                    <Typography className="text-lg font-semibold text-black ps-2">
-                      {truncateText(course.category_name, 30)}
+                    <Typography className="text-md font-semibold text-gray-700 ps-2">
+                      หมวดหมู่ {truncateText(course.category_name, 30)}
                     </Typography>
 
                     <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                      {parse(truncateText(course.dec.replace(/<\/?[^>]+(>|$)/g, ""), 500))}
+                      {parse(truncateText(course.dec.replace(/<\/?[^>]+(>|$)/g, ""), 100))}
                     </Typography>
                   </div>
                 </div>

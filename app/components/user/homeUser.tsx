@@ -101,11 +101,7 @@ const recommendedCourses: Course[] = [
   // Add more courses as needed
 ];
 
-const slides = [
-  { src: "/pic1.jpg", alt: "Picture 1" },
-  { src: "/pic2.jpg", alt: "Picture 2" },
-  //   { src: "/pic3.jpg", alt: "Picture 3" },
-];
+
 
 const truncateText = (text: string, limit: number) => {
   if (text.length > limit) {
