@@ -92,7 +92,7 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
       <div className="lg:col-span-1 flex flex-col gap-4">
         <SubCoursePath data={data} />
         {/* ย้าย NewsSidebar ไปด้านขวา */}
-        <NewsSidebar id={params.id} name="products" title="คลอสเรียน" />
+        <NewsSidebar id={params.id} name="products" title="คอร์สเรียนที่เกี่ยวข้อง" />
       </div>
     </div>
   );

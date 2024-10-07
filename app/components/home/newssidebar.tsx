@@ -3,6 +3,7 @@ import axios from "axios";
 import Image from "next/image";
 import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 // กำหนดโครงสร้างของข้อมูลข่าว
 interface NewsItem {
@@ -61,9 +62,10 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
     <div className="w-full bg-white p-4 rounded-md shadow-md">
       <h2 className="text-lg font-semibold mb-4 text-indigo-700">แนะนำ {title}</h2>
       <hr />
-      <ul className="mt-4 space-y-4">
+      <ul className=" mt-2">
         {newsData.map((newsItem, index) => (
-          <li key={index} className="flex space-x-4 items-start border-b ">
+    <Link href={`/home/course/${newsItem.id}`}>
+          <li key={index} className="flex space-x-4 items-start border-b hover:bg-gray-100  py-2 px-4 ">
             <div className="w-20 h-20 relative">
               <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${getImageSource(newsItem)}`}
@@ -78,6 +80,7 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
              <div className="text-sm text-gray-700">{parse(newsItem?.dec)}</div>
             </div>
           </li>
+    </Link>
         ))}
       </ul>
     </div>
