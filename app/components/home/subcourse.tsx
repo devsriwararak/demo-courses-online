@@ -24,7 +24,6 @@ const fetchData = async (id: String) => {
 
 const SubCourse: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
-  console.log(data);
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
@@ -40,51 +39,49 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
               className="w-full h-auto rounded-xl object-cover"
             />
           </div>
-          <div className="flex flex-col gap-5 px-10">
-            <div>
-              <h1 className="text-xl lg:text-2xl font-bold">
-                {data?.product_title}
-              </h1>
-              <h1 className="text-xl lg:text-2xl font-bold">
-                {data?.product_id}
-              </h1>
-            </div>
-        
-              <div>{parse(`<div>${data?.product_dec.toString() || ""}</div>`)}</div>
-            
-            <div className="flex w-full flex-wrap gap-3">
-              <p
-                className={`text-lg md:text-xl ${
-                  data?.products_price_sale > 0
-                    ? "text-red-500 font-semibold"
-                    : "text-red-500 font-semibold"
-                } mb-2 pr-1`}
-              >
-                {data?.products_price_sale > 0
-                  ? data?.products_price_sale?.toLocaleString()
-                  : data?.products_price?.toLocaleString()}{" "}
-                บาท
+        </div>
+
+        {/* รายละเอียด */}
+
+        <div className="my-4 bg-white shadow-md rounded-md py-6 px-8">
+          <h1 className="text-xl lg:text-2xl font-bold">
+            {data?.product_title}
+          </h1>
+
+          <div className="text-gray-700">{parse(`<div>${data?.product_dec.toString() || ""}</div>`)}</div>
+
+          <div className="flex w-full flex-wrap gap-3 mt-4">
+            <p
+              className={`text-lg md:text-xl ${
+                data?.products_price_sale > 0
+                  ? "text-red-500 font-semibold"
+                  : "text-red-500 font-semibold"
+              } mb-2 pr-1`}
+            >
+              ราคา {data?.products_price_sale > 0
+                ? data?.products_price_sale?.toLocaleString()
+                : data?.products_price?.toLocaleString()}{" "}
+              บาท
+            </p>
+             {data?.products_price_sale > 0 && (
+              <p className="line-through mb-2 pr-1 text-gray-700">
+               ลดจาก {data?.products_price.toLocaleString()}{" "} บาท
               </p>
-              {data?.products_price_sale > 0 && (
-                <p className="line-through mb-2 pr-1">
-                  {data?.products_price.toLocaleString()}{" "}
-                </p>
-              )}
-            </div>
+            )}
           </div>
         </div>
 
         {/* แสดงรายละเอียดบทเรียนโดยใช้ details และ summary */}
         <div className="mt-4 mb-10">
           <h1>รายละเอียดบทเรียน</h1>
-          <div className="mt-5 bg-gray-50 rounded-b">
+          <div className="mt-5 bg-white rounded-md shadow-md">
             {data?.result_list?.map((lesson: any, index: number) => (
               <div
                 key={index}
-                className="flex border-b last:border-none py-2 px-5 justify-between items-center hover:bg-gray-100 transition duration-200"
+                className="flex border-b last:border-none py-3 px-5 justify-between items-center hover:bg-gray-100 transition duration-200"
               >
                 <h2 className="font-semibold text-gray-700">{lesson.title}</h2>
-                <h2 className="text-gray-600">{lesson.video_count} บทเรียน</h2>
+                <h2 className="text-gray-500 text-sm">{lesson.video_count} บทเรียน</h2>
               </div>
             ))}
           </div>

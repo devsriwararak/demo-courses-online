@@ -134,7 +134,7 @@ export function HeaderHome() {
 
 
         <div className="flex flex-row w-full  items-center justify-between gap-5 ">
-          <div className=" items-center hidden lg:block w-full  ">
+          <div className=" items-center w-full  ">
             <Image
               src={"/logonavbar.svg"}
               alt=""

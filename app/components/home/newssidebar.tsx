@@ -59,11 +59,11 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
 
   return (
     <div className="w-full bg-white p-4 rounded-md shadow-md">
-      <h2 className="text-lg font-semibold mb-4 text-green-500">แนะนำ {title}</h2>
+      <h2 className="text-lg font-semibold mb-4 text-indigo-700">แนะนำ {title}</h2>
       <hr />
       <ul className="mt-4 space-y-4">
         {newsData.map((newsItem, index) => (
-          <li key={index} className="flex space-x-4 items-start border-b pb-4">
+          <li key={index} className="flex space-x-4 items-start border-b ">
             <div className="w-20 h-20 relative">
               <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${getImageSource(newsItem)}`}
@@ -75,7 +75,7 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
             </div>
             <div className="flex-1">
               <p className="text-sm text-black font-medium">{newsItem?.title}</p>
-             <div>{parse(newsItem?.dec)}</div>
+             <div className="text-sm text-gray-700">{parse(newsItem?.dec)}</div>
             </div>
           </li>
         ))}

@@ -1,4 +1,5 @@
 "use client";
+import { Input, Option, Radio, Select } from "@material-tailwind/react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,26 +15,50 @@ interface Course {
   price_sale: number;
 }
 
+const dataSelecttest = [
+  { id: 1, name: "Option 1" },
+  { id: 2, name: "Option 2" },
+  { id: 3, name: "Option 3" },
+];
+
 const CoursesPage: React.FC = () => {
   // กำหนดชนิดข้อมูลให้กับ state
   const [filterPrice, setFilterPrice] = useState<number>(1);
   const [coursesData, setCoursesData] = useState<Course[]>([]);
-  const [search , setSearch] = useState<string>("")
+  const [dataSelect, setDataSelect] = useState<any[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [selectType, setSelectType] = useState<any>("");
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
     const requestData = {
-      search:search,
+      search: search,
       page: "",
       full: true,
       filter_price: filterPrice,
+      category_id: selectType,
     };
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`,
         requestData
       );
+      console.log(res.data);
+
       return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataSelect = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/api/homepage/category`
+      );
+      if (res.status === 200) {
+        setDataSelect(res.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +70,8 @@ const CoursesPage: React.FC = () => {
       setCoursesData(data?.data || []);
     };
     fetchCourses();
-  }, [filterPrice, search]);
+    fetchDataSelect();
+  }, [filterPrice, search, selectType]);
 
   // ฟังก์ชันเปลี่ยนค่า filter
   const handleFilterChange = (value: number) => {
@@ -55,6 +81,8 @@ const CoursesPage: React.FC = () => {
   // ฟังก์ชันรีเซ็ต filter
   const resetFilters = () => {
     setFilterPrice(1);
+    setSearch("");
+    setSelectType(null);
   };
 
   return (
@@ -62,16 +90,16 @@ const CoursesPage: React.FC = () => {
       {/* Sidebar Filters */}
       <div className="w-full md:w-4/12 p-4 lg:w-3/12 2xl:w-2/12 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-col mb-3 gap-3">
-          <h2 className="font-light">คอร์เรียนใหม่</h2>
-          <h2 className="text-indigo-800 font-light">คอร์เรียนทั้งหมด</h2>
-          <hr />
-        </div>
-        <div className="flex justify-between">
-          <h2 className="text-lg md:text-sm font-bold mb-4">
-            ตัวกรองคอร์สเรียน
+          <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
+          <h2 className="text-indigo-800 text-sm font-light">
+            คอร์เรียนทั้งหมด
           </h2>
+          <hr className="border border-gray-200 my-1" />
+        </div>
+        <div className="flex justify-between mb-2">
+          <h2 className="text-lg md:text-sm font-bold ">ตัวกรองคอร์สเรียน</h2>
           <button
-            className="text-lg md:text-sm text-red-500 font-light mb-4"
+            className="text-lg md:text-sm text-red-500 font-light "
             onClick={resetFilters}
           >
             ล้างตัวกรอง
@@ -80,62 +108,85 @@ const CoursesPage: React.FC = () => {
 
         {/* Radio Buttons for Price Filter */}
 
-        <label className="flex items-center    cursor-pointer">
-          <input
-            type="radio"
-            name="price"
+        <small className="text-gray-500"> ราคา</small>
+        <div className="flex flex-col ">
+          <Radio
+            crossOrigin="anonymous"
+            name="type"
+            label="ราคา น้อย-มาก"
             value="1"
             checked={filterPrice === 1}
             onChange={() => handleFilterChange(1)}
-            className="mr-2 w-auto "
+            color="indigo"
+            className=""
           />
-          ราคา น้อย-มาก
-        </label>
 
-        <label className="flex items-center   mt-2 cursor-pointer">
-          <input
-            type="radio"
-            name="price"
+          <Radio
+            crossOrigin="anonymous"
+            name="type"
+            label="ราคา มาก-น้อย"
             value="2"
             checked={filterPrice === 2}
             onChange={() => handleFilterChange(2)}
-            className="mr-2 cursor-pointer"
+            color="indigo"
           />
-          ราคา มาก-น้อย
-        </label>
+
+          <hr className="border border-gray-200 my-2" />
+
+          <div className="">
+            <small className="text-gray-500"> หมวดหมู่</small>
+
+            <div className="mt-3 ">
+              <select
+                onChange={(e) => setSelectType(e.target.value)}
+                value={selectType || ""}
+                className="w-full bg-gray-100 py-1.5 px-2 border border-gray-300 rounded-md "
+              >
+                {dataSelect.map((item, index) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Courses Display */}
       <div className="w-full md:w-8/12 lg:w-9/12 2xl:w-10/12 2xl:px-10">
         {/* Search Bar */}
-        <div className="flex flex-col md:flex-row items-center mb-4">
-          <input
+        <div className="flex flex-col md:flex-row items-center mb-4 bg-white">
+          <Input
+            crossOrigin="anonymous"
             type="text"
-            placeholder="ค้นหา"
+            label="ค้นหา"
+            value={search}
             className="flex-grow p-2 border rounded-md md:rounded-l-md mb-2 md:mb-0 md:mr-2"
-            onChange={(e)=>setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
+            color="indigo"
           />
           {/* <button className="bg-purple-500 text-white px-4 py-2 rounded-md md:rounded-r-md">
             ค้นหา
           </button> */}
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-5 ">
           <div>
             <p className="text-xl md:text-2xl font-bold">
               คอร์สเรียน{" "}
               <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </p>
-            <p className="mb-4">
+            <p className="mb-4 text-sm text-gray-700">
               ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>
             </p>
           </div>
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
           {coursesData.map((course) => (
-            <div 
+            <div
               key={course.id}
               className="bg-white border border-gray-100 pb-3 shadow-sm rounded-md flex flex-col justify-between"
             >
@@ -148,11 +199,11 @@ const CoursesPage: React.FC = () => {
                   className="rounded-t-md mb-4 object-cover h-48 w-full"
                 />
                 <div className="px-2 md:px-5">
-                  <h2 className="text-sm  ">
-                    {course.title}
-                  </h2>
-                  <p className="text-gray-600">{course.category_name}</p>
-                  <div className="flex w-full flex-wrap gap-3">
+                  <h2 className="text-sm  ">{course.title}</h2>
+                  <p className="text-gray-600 text-sm">
+                    หมวดหมู่ {course.category_name}
+                  </p>
+                  <div className="flex w-full flex-wrap gap-3 mt-2">
                     <p
                       className={`text-lg md:text-md ${
                         course.price_sale > 0
@@ -160,25 +211,26 @@ const CoursesPage: React.FC = () => {
                           : "text-red-500 font-semibold"
                       } mb-2 pr-1`}
                     >
-                      ราคา {course.price_sale > 0
+                      ราคา{" "}
+                      {course.price_sale > 0
                         ? course.price_sale.toLocaleString()
                         : course.price.toLocaleString()}{" "}
                       บาท
                     </p>
                     {course.price_sale > 0 && (
-                      <p className="line-through mb-2 pr-1">
-                        {course.price.toLocaleString()}{" "}
+                      <p className="line-through  text-gray-600">
+                        {course.price.toLocaleString()} บาท
                       </p>
                     )}
                   </div>
                 </div>
                 <div className="mt-auto px-5">
                   {course.price === 0 ? (
-                    <button className="bg-green-500 text-white px-4 py-2 rounded-md w-full">
+                    <button className="bg-green-500 text-white px-4 py-1 rounded-md w-full">
                       ดูคอร์สเรียนนี้
                     </button>
                   ) : (
-                    <button className="bg-[#184785] text-white px-4 py-2 rounded-md w-full">
+                    <button className="bg-[#184785] text-white px-4 py-1 rounded-md w-full">
                       ซื้อคอร์สเรียนนี้
                     </button>
                   )}
