@@ -18,7 +18,7 @@ interface NewsItem {
 interface NewsSidebarProps {
   id: string;
   name: string;
-  title: string
+  title: string;
 }
 
 const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
@@ -60,27 +60,35 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
 
   return (
     <div className="w-full bg-white p-4 rounded-md shadow-md">
-      <h2 className="text-lg font-semibold mb-4 text-indigo-700">แนะนำ {title}</h2>
+      <h2 className="text-lg font-semibold mb-4 text-indigo-700">
+        แนะนำ {title}
+      </h2>
       <hr />
       <ul className=" mt-2">
         {newsData.map((newsItem, index) => (
-    <Link href={`/home/course/${newsItem.id}`}>
-          <li key={index} className="flex space-x-4 items-start border-b hover:bg-gray-100  py-2 px-4 ">
-            <div className="w-20 h-20 relative">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${getImageSource(newsItem)}`}
-                alt={newsItem.title}
-                width={500}
-                height={500}
-                className="rounded-md object-cover"
-              />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm text-black font-medium">{newsItem?.title}</p>
-             <div className="text-sm text-gray-700">{parse(newsItem?.dec)}</div>
-            </div>
-          </li>
-    </Link>
+          <Link href={`/home/course/${newsItem.id}`} key={index}>
+            <li className="flex space-x-4 items-start border-b hover:bg-gray-100  py-2 px-4 ">
+              <div className="w-20 h-20 relative">
+                <Image
+                  src={`${
+                    process.env.NEXT_PUBLIC_IMAGE_API
+                  }/images/${getImageSource(newsItem)}`}
+                  alt={newsItem?.title}
+                  width={500}
+                  height={500}
+                  className="rounded-md object-cover"
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-black font-medium">
+                  {newsItem?.title}
+                </p>
+                <div className="text-sm text-gray-700">
+                  {parse(newsItem?.dec)}
+                </div>
+              </div>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>
