@@ -131,19 +131,16 @@ export function HeaderHome() {
           borderBottom: "3px solid #DF9E10",
         }}
       >
-
-
-
-        <div className="flex flex-row w-full  items-center justify-between gap-5 ">
-          <div className=" items-center w-full  ">
+        <div className="flex flex-row  items-center justify-between gap-5  ">
+          <div className=" w-full ">
             <Link href="/home">
-            <Image
-              src={"/logonavbar.svg"}
-              alt=""
-              width={120}
-              height={120}
-              className=" object-cover "
-            />
+              <Image
+                src={"/logonavbar.svg"}
+                alt=""
+                width={500}
+                height={500}
+                className=" w-24  md:w-28  object-cover "
+              />
             </Link>
           </div>
           <div className="w-full">

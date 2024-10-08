@@ -80,7 +80,7 @@ const Part8 = () => {
                 className=" w-[30px] h-[30px] "
               />
             </a>
-            <a href="#">
+            <a target="_bank" href="https://www.facebook.com/people/Nang-Fah-Pa-Trade-%E0%B8%99%E0%B8%B2%E0%B8%87%E0%B8%9F%E0%B9%89%E0%B8%B2%E0%B8%9E%E0%B8%B2%E0%B9%80%E0%B8%97%E0%B8%A3%E0%B8%94Forex/100047611106918/">
               <Image
                 src="/icon-fb.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
@@ -89,7 +89,7 @@ const Part8 = () => {
                 className=" w-[30px] h-[30px] "
               />
             </a>
-            <a href="#">
+            <a target="_bank" href="https://www.tiktok.com/@nangfahpatrade88888">
               <Image
                 src="/icon-tiktok.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
@@ -98,7 +98,7 @@ const Part8 = () => {
                 className=" w-[30px] h-[30px] "
               />
             </a>
-            <a href="#">
+            <a target="_bank" href="https://line.me/R/ti/p/@nangfahpatrade">
               <Image
                 src="/icon-line.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
                 alt="youtube"
