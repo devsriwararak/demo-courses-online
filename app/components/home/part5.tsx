@@ -3,7 +3,7 @@ import React from "react";
 
 const Part5 = () => {
   return (
-    <div className="bg-[#222222]  py-20 h-full border-t-gray-800 border-t-[1px]     ">
+    <div className="bg-[#222222] py-14  md:py-20 h-full border-t-gray-800 border-t-[1px]     ">
       <h2 className="text-white text-3xl md:text-[35px]  font-[700] text-center mb-10 px-8">
         เรียนเทรดกับเราดีอย่างไร
       </h2>

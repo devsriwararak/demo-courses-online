@@ -26,7 +26,7 @@ const ActivityPage: React.FC<PageProps> = async ({ params }) => {
   console.log(data);
 
   return (
-    <div className="container mx-auto flex flex-col mb-5 gap-6 px-6 lg:px-24 mt-10">
+    <div className="container mx-auto flex flex-col mb-5 gap-6 px-6 lg:px-0 mt-10">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* คอลัมน์ด้านซ้าย (เนื้อหาหลัก) */}
         <div className="flex-1">

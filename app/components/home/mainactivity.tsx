@@ -67,9 +67,9 @@ const ActivityPage = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
               กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-base">
               ผลลัพท์การค้นหา{" "}
-              <span className="font-semibold">
+              <span className="">
                 {data?.data?.length || 0} กิจกรรม
               </span>
             </p>
@@ -95,7 +95,7 @@ const ActivityPage = () => {
           {data?.data.map((activity: Activity, index: number) => (
             <div
               key={index}
-              className="bg-white pb-3 shadow-md rounded-lg flex flex-col justify-between"
+              className="bg-white pb-3 shadow-md rounded-md flex flex-col justify-between"
             >
               <Link href={`/home/activity/${activity?.id}`}>
                 <Image
@@ -105,11 +105,11 @@ const ActivityPage = () => {
                   height={500}
                   className="rounded-t-2xl mb-4 object-cover h-48 w-full"
                 />
-                <div className="flex flex-col px-2 md:px-5 py-3 gap-5">
-                  <h2 className="text-md md:text-lg font-semibold">
+                <div className="flex flex-col px-2 md:px-5  gap-2">
+                  <h2 className="text-md  ">
                     {activity?.title}
                   </h2>
-                  <p className="text-gray-600">{truncate(activity?.dec)}</p>
+                  <p className="text-gray-600 text-sm">{truncate(activity?.dec)}</p>
                 </div>
               </Link>
             </div>

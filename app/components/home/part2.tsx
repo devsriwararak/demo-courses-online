@@ -10,16 +10,16 @@ const Part2 = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="h-auto py-20"
+      className="h-auto py-16 md:py-20"
     >
       <div className="flex flex-col mx-auto container px-10  lg:px-18  h-full">
         <div className="flex flex-col lg:flex-row w-full gap-10">
-          <div className="flex flex-col w-full items-center md:items-start lg:w-7/12">
-            <p className="text-[45px] text-[#F9F0CD] font-[400]">ขั้นตอน</p>
-            <p className="text-4xl md:text-[60px] font-[700] text-[#F9F0CD] text-nowrap">
+          <div className="flex flex-col w-full items-start lg:w-7/12">
+            <p className="text-2xl md:text-[45px] text-[#F9F0CD] font-[400] ">ขั้นตอน</p>
+            <p className="mt-2 md:mt-8 text-4xl md:text-[60px] font-[700] text-[#F9F0CD] text-nowrap">
               การให้บริการ
             </p>
-            <p className="text-[18px] font-[400] text-gray-500 xl:pr-24 mt-10">
+            <p className="text-base md:text-[18px] font-[400] text-gray-500 xl:pr-24 mt-6 md:mt-10">
               Lorem Ipsum คือ เนื้อหาจำลองแบบเรียบๆ
               ที่ใช้กันในธุรกิจงานพิมพ์หรืองานเรียงพิมพ์
               มันได้กลายมาเป็นเนื้อหาจำลองมาตรฐานของธุรกิจดังกล่าวมาตั้งแต่ศตวรรษที่

@@ -4,12 +4,13 @@ import Image from "next/image";
 import parse from "html-react-parser";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { truncateText } from "@/app/libs/TruncateText";
 
 // กำหนดโครงสร้างของข้อมูลข่าว
 interface NewsItem {
   id: string;
   title: string;
-  dec: string;
+  dec: any;
   image: string;
   image_title: string;
 }
@@ -56,19 +57,61 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
     return newsItem.image; // ค่าเริ่มต้น
   };
 
-  console.log(newsData);
+  const getLink = (name: string) => {
+    switch (name) {
+      case "products":
+        return "course";
+      case "reviews":
+        return "portfolio";
+      case "activity":
+        return "activity";
+      default:
+        return "courses";
+    }
+  };
 
   return (
-    <div className="w-full bg-white p-4 rounded-md shadow-md">
-      <h2 className="text-lg font-semibold mb-4 text-indigo-700">
-        แนะนำ {title}
-      </h2>
+    <div className="w-full  p-4 rounded-md shadow-md bg-white">
+      <h2 className="text-lg font-semibold mb-4 text-indigo-700">{title}    name : {name}</h2>
       <hr />
+   
       <ul className=" mt-2">
         {newsData.map((newsItem, index) => (
-          <Link href={`/home/course/${newsItem.id}`} key={index}>
-            <li className="flex space-x-4 items-start border-b hover:bg-gray-100  py-2 px-4 ">
-              <div className="w-20 h-20 relative">
+          <Link href={`/home/${getLink(name)}/${newsItem.id}`} key={index}>
+            <li className="flex flex-col lg:flex-row gap-2 py-6 md:py-8 lg:py-4 border-b border-gray-200 hover:bg-gray-100">
+              <section className=" w-full lg:w-1/3">
+                <div className="relative w-full h-44 lg:h-20">
+                  <Image
+                    src={`${
+                      process.env.NEXT_PUBLIC_IMAGE_API
+                    }/images/${getImageSource(newsItem)}`}
+                    layout="fill"
+                    objectFit="cover"
+                    alt={newsItem.title}
+                    loading="lazy"
+                    className="w-full h-full rounded-md"
+                  />
+                </div>
+              </section>
+
+              <section className="w-full lg:w-2/3">
+                <p className="text-sm text-black font-medium">
+                  {newsItem?.title}
+                </p>
+                <div className="text-xs text-gray-700 mt-2  ">
+                  {parse(
+                    truncateText(
+                      newsItem?.dec?.replace(/<\/?[^>]+(>|$)/g, ""),
+                      70
+                    )
+                  )}
+                </div>
+              </section>
+            </li>
+
+            {/* 
+            <li className="flex space-x-4 items-center justify-center border-b hover:bg-gray-100  py-2 px-4 ">
+              <div className=" h-20 relative flex items-center ">
                 <Image
                   src={`${
                     process.env.NEXT_PUBLIC_IMAGE_API
@@ -76,18 +119,24 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
                   alt={newsItem?.title}
                   width={500}
                   height={500}
-                  className="rounded-md object-cover"
+                  className="rounded-sm object-cover "
                 />
               </div>
-              <div className="flex-1">
+
+              <div className="flex-1 ">
                 <p className="text-sm text-black font-medium">
                   {newsItem?.title}
                 </p>
-                <div className="text-sm text-gray-700">
-                  {parse(newsItem?.dec)}
+                <div className="text-sm text-gray-700 ">
+                  {parse(
+                    truncateText(
+                      newsItem?.dec?.replace(/<\/?[^>]+(>|$)/g, ""),
+                      80
+                    )
+                  )}
                 </div>
               </div>
-            </li>
+            </li> */}
           </Link>
         ))}
       </ul>

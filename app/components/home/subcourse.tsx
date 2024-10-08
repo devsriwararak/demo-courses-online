@@ -25,6 +25,9 @@ const fetchData = async (id: String) => {
 const SubCourse: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
 
+  console.log(data);
+  
+
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
       {/* ส่วนข้อมูลหลัก */}
@@ -33,7 +36,7 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
           <div className="bg-white shadow rounded-xl">
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.product_image}`}
-              alt={data?.product_title}
+              alt={data?.product_title || ""}
               width={700}
               height={700}
               className="w-full h-auto rounded-xl object-cover"
@@ -48,7 +51,7 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
             {data?.product_title}
           </h1>
 
-          <div className="text-gray-700">{parse(`<div>${data?.product_dec.toString() || ""}</div>`)}</div>
+          <div className="text-gray-700">{parse(`<div>${data?.product_dec?.toString() || ""}</div>`)}</div>
 
           <div className="flex w-full flex-wrap gap-3 mt-4">
             <p
@@ -72,7 +75,7 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
         </div>
 
         {/* แสดงรายละเอียดบทเรียนโดยใช้ details และ summary */}
-        <div className="mt-4 mb-10">
+        <div className="mt-4 mb-0 lg:mb-10">
           <h1>รายละเอียดบทเรียน</h1>
           <div className="mt-5 bg-white rounded-md shadow-md">
             {data?.result_list?.map((lesson: any, index: number) => (
@@ -80,7 +83,7 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
                 key={index}
                 className="flex border-b last:border-none py-3 px-5 justify-between items-center hover:bg-gray-100 transition duration-200"
               >
-                <h2 className="font-semibold text-gray-700">{lesson.title}</h2>
+                <h2 className="font-semibold text-gray-800 text-base">{lesson.title}</h2>
                 <h2 className="text-gray-500 text-sm">{lesson.video_count} บทเรียน</h2>
               </div>
             ))}

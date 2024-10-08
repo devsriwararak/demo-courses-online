@@ -11,6 +11,7 @@ import {
 import { IoMenu } from "react-icons/io5";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const navItems = [
   { href: "/home", label: "หน้าหลัก" },
@@ -135,6 +136,7 @@ export function HeaderHome() {
 
         <div className="flex flex-row w-full  items-center justify-between gap-5 ">
           <div className=" items-center w-full  ">
+            <Link href="/home">
             <Image
               src={"/logonavbar.svg"}
               alt=""
@@ -142,6 +144,7 @@ export function HeaderHome() {
               height={120}
               className=" object-cover "
             />
+            </Link>
           </div>
           <div className="w-full">
             <div className="flex items-center xl:gap-4 whitespace-nowrap">

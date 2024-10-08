@@ -25,7 +25,7 @@ const SubPortFolioPage: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
 
   return (
-    <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-12 mt-10">
+    <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-12 py-10">
       {/* คอลัมน์ซ้าย: เนื้อหาและรูปภาพ */}
       <div className="flex-1 lg:pr-8">
         <h1 className="text-2xl font-bold mb-5 text-center lg:text-left">

@@ -89,13 +89,13 @@ const CoursesPage: React.FC = () => {
     <div className="p-5 md:p-10 2xl:px-10 flex flex-col md:flex-row  bg-gray-100">
       {/* Sidebar Filters */}
       <div className="w-full md:w-4/12 p-4 lg:w-3/12 2xl:w-2/12 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
-        <div className="flex flex-col mb-3 gap-3">
+        <div className="flex flex-row items-center justify-between md:flex-col mb-3 gap-3">
           <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
           <h2 className="text-indigo-800 text-sm font-light">
             คอร์เรียนทั้งหมด
           </h2>
-          <hr className="border border-gray-200 my-1" />
         </div>
+        <hr className="border border-gray-200 my-1" />
         <div className="flex justify-between mb-2">
           <h2 className="text-lg md:text-sm font-bold ">ตัวกรองคอร์สเรียน</h2>
           <button
@@ -109,7 +109,7 @@ const CoursesPage: React.FC = () => {
         {/* Radio Buttons for Price Filter */}
 
         <small className="text-gray-500"> ราคา</small>
-        <div className="flex flex-col ">
+        <div className="flex flex-row md:flex-col ">
           <Radio
             crossOrigin="anonymous"
             name="type"
@@ -130,25 +130,25 @@ const CoursesPage: React.FC = () => {
             onChange={() => handleFilterChange(2)}
             color="indigo"
           />
+        </div>
 
-          <hr className="border border-gray-200 my-2" />
+        <hr className="border border-gray-200 my-2" />
 
-          <div className="">
-            <small className="text-gray-500"> หมวดหมู่</small>
+        <div className="">
+          <small className="text-gray-500"> หมวดหมู่</small>
 
-            <div className="mt-3 ">
-              <select
-                onChange={(e) => setSelectType(e.target.value)}
-                value={selectType || ""}
-                className="w-full bg-gray-100 py-1.5 px-2 border border-gray-300 rounded-md "
-              >
-                {dataSelect.map((item, index) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="mt-3 ">
+            <select
+              onChange={(e) => setSelectType(e.target.value)}
+              value={selectType || ""}
+              className="w-full bg-gray-100 py-1.5 px-2 border border-gray-300 rounded-md "
+            >
+              {dataSelect.map((item, index) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
