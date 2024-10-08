@@ -84,7 +84,7 @@ const Part7 = () => {
           {/* FAQ Item */}
           <div>
             {data.map((item, index) => (
-              <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52">
+              <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52" key={item.id}>
                 <details className="group">
                   <summary className="flex justify-between items-center cursor-pointer ">
 
