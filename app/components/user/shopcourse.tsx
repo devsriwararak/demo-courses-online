@@ -229,8 +229,8 @@ const ShopCourse: React.FC = () => {
                     </Typography>
                     <Typography className="  line-through  mb-2  pr-1">
                       {course?.price_sale > 0
-                        ? course?.price.toLocaleString()
-                        : ""}{" "}
+                        ? `${course?.price.toLocaleString()} บาท` 
+                        : ""}{" "} 
                     </Typography>
                   </div>
                   <Button
