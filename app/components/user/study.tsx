@@ -493,7 +493,7 @@ export const QuestionSection = ({
           <div className=" overflow-y-scroll h-96">
           {dataAllNew.map((item: any, index: any) => (
             <div className="bg-white shadow-md rounded-md mt-4" key={item.id}>
-              <div className=" px-4 py-4 flex flex-row md:flex-col md:flex-row justify-start gap-3">
+              <div className=" px-4 py-4 flex flex-row md:flex-col  justify-start gap-3">
                 {index + 1}.
                 {item.status === 0 ? (
                   <p className="text-red-800 bg-red-100 rounded-sm px-4">
