@@ -67,47 +67,53 @@ export default function Page() {
   return (
     <div className="bg-gray-100">
       <div className="container mx-auto px-8 py-16 ">
-      <ToastContainer autoClose={2000} theme="colored" />
-      <Typography variant="h2" className="text-center  text-indigo-800 text-2xl md:text-4xl">
-      เพิ่มศักยภาพการเรียนรู้ด้วย Ebook และคอร์สเรียนเทรด
-      </Typography>
-      <p className="text-gray-600 text-sm md:text-base mt-6 text-center">
-      การเริ่มต้นศึกษาอาจเป็นเรื่องยากด้วยเหตุนี้ Ebook และคอร์สเรียนเทรดจึงเป็นแหล่งความรู้ที่เข้าถึงง่าย ช่วยทำให้สร้างรายได้อย่างมีประสิทธิภาพ สำหรับผู้ที่มีความรู้และความเข้าใจในตลาด
-      </p>
+        <ToastContainer autoClose={2000} theme="colored" />
+        <Typography
+          variant="h2"
+          className="text-center  text-indigo-800 text-2xl md:text-4xl"
+        >
+          เพิ่มศักยภาพการเรียนรู้ด้วย Ebook และคอร์สเรียนเทรด
+        </Typography>
+        <p className="text-gray-600 text-sm md:text-base mt-6 text-center">
+          การเริ่มต้นศึกษาอาจเป็นเรื่องยากด้วยเหตุนี้ Ebook
+          และคอร์สเรียนเทรดจึงเป็นแหล่งความรู้ที่เข้าถึงง่าย
+          ช่วยทำให้สร้างรายได้อย่างมีประสิทธิภาพ
+          สำหรับผู้ที่มีความรู้และความเข้าใจในตลาด
+        </p>
 
-      <div className="flex justify-center mt-10 ">
-        <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data?.map((item: any, index: any) => (
-            <Link href={item.link} key={index}>
-              <Card
-                key={index}
-                className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"
-              >
-                <div>
-                  <div className="flex w-full h-[300px]">
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
-                      alt={item.title}
-                      width={500}
-                      height={500}
-                      priority
-                      className=" rounded-b-none object-cover mb-4"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
+        {/* grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 */}
+        <div className="flex justify-center mt-10 px-4  ">
+          <div className=" flex flex-col md:flex-row gap-6">
+            {data?.map((item: any, index: any) => (
+              <Link href={item.link} key={index}>
+                <Card
+                  key={index}
+                  className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"
+                >
+                  <div className="">
+                    <div className="flex w-full h-72 md:h-60">
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
+                        alt={item.title}
+                        width={500}
+                        height={500}
+                        priority
+                        className=" rounded-b-none object-cover mb-4"
+                      />
+                    </div>
 
-                  <div className="px-2 md:px-4 py-3  ">
-                    <Typography className="text-lg  text-black ps-2 ">
-                      {truncateText(item.title, 30)}
-                    </Typography>
+                    <div className="px-2 md:px-4 py-3  ">
+                      <Typography className="text-lg  text-black ps-2 ">
+                        {truncateText(item.title, 30)}
+                      </Typography>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            </Link>
-          ))}
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

@@ -146,7 +146,7 @@ export function UserHeader() {
   );
 
   return (
-    <div className="max-h-[768px]">
+    <div className="max-h-[768px]  ">
       {/* <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8" py-1 lg:px-8 2xl:px-[270px] */}
       <Navbar
         className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none  "
@@ -155,7 +155,7 @@ export function UserHeader() {
           borderBottom: "3px solid #DF9E10",
         }}
       >
-        <div className="flex w-full  items-center justify-between gap-5 ">
+        <div className="flex w-full  items-center justify-between gap-5 px-6 md:px-10 container mx-auto ">
           <div className=" items-center  ">
             <Image
               src={"/logonavbar.svg"}

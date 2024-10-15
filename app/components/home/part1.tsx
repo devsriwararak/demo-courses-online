@@ -11,7 +11,7 @@ const Part1: React.FC = () => {
       }}
       className=" pb-4 md:pb-0   "
     >
-      <div className="flex flex-col   mx-auto container lg:px-28 py-16  md:py-20    h-full ">
+      <div className="flex flex-col   mx-auto container lg:px-28 py-16  md:py-40    h-full ">
        
           <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
             คอร์สสอนเทรด
@@ -29,7 +29,7 @@ const Part1: React.FC = () => {
 
 
         <div
-          className="flex  xl:w-[838px]   mx-3   py-3 rounded-t-2xl shadow-md mt-6 lg:mt-16 -mb-20"
+          className="flex  xl:w-[838px]   mx-3   py-3 rounded-t-2xl shadow-md mt-6 lg:mt-16 -mb-40"
           style={{
             background: "linear-gradient(352.09deg, rgba(153, 153, 153, 0) -221.84%, #FFFFFF 103.95%)",
           }}

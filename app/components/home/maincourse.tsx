@@ -86,9 +86,10 @@ const CoursesPage: React.FC = () => {
   };
 
   return (
-    <div className="p-5 md:p-10 2xl:px-10 flex flex-col md:flex-row  bg-gray-100">
-      {/* Sidebar Filters */}
-      <div className="w-full md:w-4/12 p-4 lg:w-3/12 2xl:w-2/12 bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
+    <div className=" container mx-auto py-8 px-6 lg:px-0  flex flex-col md:flex-row  bg-gray-100">
+      {/* Sidebar Filters p-5 md:p-10 2xl:px-10 */}
+      {/* lg:w-3/12 2xl:w-2/12 */}
+      <div className="w-full md:w-4/12 lg:w-1/5 p-4  bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-row items-center justify-between md:flex-col mb-3 gap-3">
           <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
           <h2 className="text-indigo-800 text-sm font-light">
@@ -154,7 +155,7 @@ const CoursesPage: React.FC = () => {
       </div>
 
       {/* Courses Display */}
-      <div className="w-full md:w-8/12 lg:w-9/12 2xl:w-10/12 2xl:px-10">
+      <div className="w-full md:w-8/12 lg:w-4/5">
         {/* Search Bar */}
         <div className="flex flex-col md:flex-row items-center mb-4 bg-white">
           <Input
@@ -184,7 +185,7 @@ const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 px-4">
           {coursesData.map((course) => (
             <div
               key={course.id}
@@ -196,7 +197,7 @@ const CoursesPage: React.FC = () => {
                   alt={course.title}
                   width={500}
                   height={500}
-                  className="rounded-t-md mb-4 object-cover h-48 w-full"
+                  className="rounded-t-md mb-4 object-cover h-60 md:h-48 w-full"
                 />
                 <div className="px-2 md:px-5">
                   <h2 className="text-sm  ">{course.title}</h2>
@@ -205,7 +206,7 @@ const CoursesPage: React.FC = () => {
                   </p>
                   <div className="flex w-full flex-wrap gap-3 mt-2">
                     <p
-                      className={`text-lg md:text-md ${
+                      className={`text-md ${
                         course.price_sale > 0
                           ? "text-red-500 font-semibold"
                           : "text-red-500 font-semibold"

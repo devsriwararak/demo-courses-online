@@ -151,7 +151,7 @@ const ShopCourse: React.FC = () => {
 
       {/* section - 2 */}
 
-      <div className=" px-6  pb-10 md:px-28">
+      <div className=" px-6  pb-10 md:px-10 container mx-auto">
         <div className="mt-8">
           <Typography className="text-3xl  text-black  font-light">
             คอร์สแนะนำ

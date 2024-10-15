@@ -108,7 +108,7 @@ const MyOrder: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-6 md:px-28 py-10">
+    <div className="flex flex-col items-center px-6 md:px-10 py-10 container mx-auto">
       <ToastContainer autoClose={2000} theme="colored" />
       <Card className="w-full  2xl:max-w-[95rem] p-5 h-[85vh]">
         <div className="flex flex-col sm:flex-row justify-start gap-3 mb-4">
