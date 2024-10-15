@@ -60,7 +60,7 @@ const BuyCourse = () => {
 
   const fetchData = async () => {
     try {
-      setImageQrCode("");
+      
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/product/${id}`,
         {
@@ -72,8 +72,6 @@ const BuyCourse = () => {
         }
       );
       if (res.status === 200) {
-        console.log(res.data);
-
         setBuyData(res.data);
         const price = res.data.products_price_sale
           ? res.data.products_price_sale
@@ -95,6 +93,8 @@ const BuyCourse = () => {
         users_id: userId,
       };
 
+      console.log(sendData);
+
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/pay/users/check_pay`,
         sendData,
@@ -106,7 +106,8 @@ const BuyCourse = () => {
           },
         }
       );
-      
+      console.log(res);
+
       if (res.status === 200) {
         setCheckPay({
           id: res.data.id,
@@ -117,6 +118,9 @@ const BuyCourse = () => {
         if (res.data.id) {
           setShow(true);
           await fetchDataCreateQrCode(price);
+          // setTimeout(() => {
+          //   fetchDataCreateQrCode(price);
+          // }, 3000);
         }
       }
     } catch (error) {
@@ -125,9 +129,10 @@ const BuyCourse = () => {
   };
 
   // Create QR Code
-  const fetchDataCreateQrCode = async (price: number ) => {
+  const fetchDataCreateQrCode = async (price: number) => {
+    
     try {
-      const sendData = { price : price || 0 };
+      const sendData = { price: price || 0 };
 
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/pay/users/qr_code/create`,
@@ -141,7 +146,9 @@ const BuyCourse = () => {
         }
       );
       if (res.status === 200) {
-        setImageQrCode("qr.svg");
+        console.log(res.data);
+        setImageQrCode(res.data.qrCodePath);
+    
       }
     } catch (error) {
       console.log(error);
@@ -238,11 +245,10 @@ const BuyCourse = () => {
       console.log(response);
 
       if (response.status === 200) {
-       await fetchDataMyPay(0)
+        await fetchDataMyPay(0);
         toast.success(response.data.message);
         setSuccess(true);
         MySwal.close();
-       
       } else {
         setLoading(false);
         toast.error("Form submission failed!");
@@ -259,6 +265,7 @@ const BuyCourse = () => {
   return (
     <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-20 px-6 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
+
 
       <div className="w-full md:w-3/5 ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white ">
@@ -343,33 +350,32 @@ const BuyCourse = () => {
             </Button>
           </div>
 
-          {show && (
-            <>
-              <hr />
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="w-full">
-                  {imageQrCode && (
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_API}/${imageQrCode}`}
-                      className="w-32"
-                      alt=""
-                    />
-                  )}
-                </div>
-                <div className="w-full">
-                  <ul>
-                    <li>ธนาคาร : พร้อมเพย์</li>
-                    <li>เลขที่บัญชี : 0850032649</li>
-                    <li>ชื่อเจ้าของบัญชี : นาย</li>
-                  </ul>
-                </div>
-              </div>
-            </>
-          )}
-
           <hr className=" " />
+
           {show ? (
             <div className="flex flex-col gap-3 ">
+              <>
+
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="w-full">
+                    {imageQrCode && (
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageQrCode}`}
+                        className="w-32"
+                        alt=""
+                      />
+                    )}
+                  </div>
+                  <div className="w-full">
+                    <ul className="text-base">
+                      <li>บัญชี : พร้อมเพย์</li>
+                      <li>เลขที่บัญชี : 0850032649</li>
+                      <li>ชื่อเจ้าของบัญชี : นาย</li>
+                    </ul>
+                  </div>
+                </div>
+              </>
+
               <div className="flex flex-col 2xl:flex-row gap-5 2xl:gap-[57px] items-center mb-2 ">
                 <div className="w-full">
                   <Typography className="font-bold whitespace-nowrap  ">
@@ -379,18 +385,20 @@ const BuyCourse = () => {
                     {bill || checkPay.code}
                   </Typography>
                 </div>
-                
+
                 <div className="w-full">
-                  <div className={`${checkPay.status == 0 ? "bg-red-500" : "bg-green-500"} py-2 px-4  flex gap-2 rounded-md`}>
+                  <div
+                    className={`${
+                      checkPay.status == 0 ? "bg-red-500" : "bg-green-500"
+                    } py-2 px-4  flex gap-2 rounded-md`}
+                  >
                     <Typography className="font-semibold text-white">
                       สถานะ :
                     </Typography>
                     <Typography className="font-semibold text-white">
-                      {checkPay.status == 0 ? "ยังไม่ชำระ": "ชำระเงินแล้ว"}
+                      {checkPay.status == 0 ? "ยังไม่ชำระ" : "ชำระเงินแล้ว"}
                     </Typography>
                   </div>
-
-               
                 </div>
               </div>
 

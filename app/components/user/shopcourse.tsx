@@ -1,7 +1,14 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Card, Input, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  Input,
+  Option,
+  Select,
+  Typography,
+} from "@material-tailwind/react";
 import Image from "next/image";
 import parse from "html-react-parser";
 
@@ -53,6 +60,7 @@ const ShopCourse: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectCatetegory, setSelectCatetegory] = useState(0);
   const [page, setPage] = useState(1);
+  const [index, setIndex] = useState<number>(0);
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
   const router = useRouter();
 
@@ -108,7 +116,7 @@ const ShopCourse: React.FC = () => {
           ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
         }
       );
-      console.log(res.data);
+      console.log(res.data.data);
       if (res.status === 200) {
         setProduct(res.data.data);
       } else {
@@ -129,6 +137,10 @@ const ShopCourse: React.FC = () => {
     router.push(`/user/buycourse/${id}`);
   };
 
+  const handleClickCategory = (id: number) => {
+    setSelectCatetegory(id);
+    setIndex(id);
+  };
 
   return (
     <div>
@@ -140,7 +152,13 @@ const ShopCourse: React.FC = () => {
       {/* section - 2 */}
 
       <div className=" px-6  pb-10 md:px-28">
-        <div className=" bg-white rounded-lg mt-10 lg:mb-0 w-[300px]">
+        <div className="mt-8">
+          <Typography className="text-3xl  text-black  font-light">
+            คอร์สแนะนำ
+          </Typography>
+        </div>
+
+        <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
           <Input
             type="text"
             label="ค้นหาคอร์สเรียน"
@@ -151,35 +169,61 @@ const ShopCourse: React.FC = () => {
             color="indigo"
           />
         </div>
-        <div className="mt-8">
-          <Typography className="text-3xl  text-black  font-light">คอร์สแนะนำ</Typography>
-        </div>
-        <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
-          <Button
-            variant="gradient"
-            color="indigo"
-            className=" font-light"
-            onClick={() => setSelectCatetegory(0)}
-          >
-            ทั้งหมด
-          </Button>
-          {courseCategories.map((category, index) => (
+
+        <div className=" flex flex-row lg:flex-wrap gap-2 items-center  justify-start mt-3 md:mt-6 ">
+          <div className="w-1/4 lg:w-full">
             <Button
-              key={index}
-              variant="outlined"
-              className={`${
-                selectedCategory === String(category.id)
-                  ? "bg-purple-500 text-gray-700 font-light"
-                  : "border border-gray-500 text-gray-800 font-light"
-              }`}
-              onClick={() => setSelectCatetegory(category.id)}
+              size="sm"
+              className=" font-light bg-indigo-800 lg:hidden"
+              onClick={() => handleClickCategory(0)}
             >
-              {category?.name}
+              ทั้งหมด
             </Button>
-          ))}
+          </div>
+
+          <div className="w-3/4 lg:w-full">
+            <div className=" md:hidden bg-white mt-1">
+              <Select color="indigo" label="เลือกหมวดหมู่">
+                {courseCategories.map((category, key) => (
+                  <Option
+                    key={key}
+                    value={String(category.id)}
+                    onClick={() => handleClickCategory(category.id)}
+                  >
+                    {category?.name}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+
+            <div className="hidden lg:flex lg:flex-row lg:gap-2">
+            <Button
+              size="sm"
+              className=" font-light bg-indigo-800"
+              onClick={() => handleClickCategory(0)}
+            >
+              ทั้งหมด
+            </Button>
+              {courseCategories.map((category, key) => (
+                <Button
+                  key={key}
+                  size="sm"
+                  className={`${
+                    index == category.id
+                      ? "bg-yellow-900 text-white border border-yellow-500 "
+                      : "border border-indigo-800 bg-gray-200 text-indigo-800"
+                  } `}
+                  onClick={() => handleClickCategory(category.id)}
+                >
+                  {category?.name}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
+
         <div className="flex justify-center mt-4 ">
-          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
+          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 md:gap-6 ">
             {product.map((course, index) => (
               <Card
                 key={index}
@@ -208,35 +252,39 @@ const ShopCourse: React.FC = () => {
                     </Typography>
 
                     <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                      {parse(truncateText(course.dec.replace(/<\/?[^>]+(>|$)/g, ""), 100))}
+                      {parse(
+                        truncateText(
+                          course.dec.replace(/<\/?[^>]+(>|$)/g, ""),
+                          100
+                        )
+                      )}
                     </Typography>
                   </div>
                 </div>
 
-                <div className="flex flex-col mt-4 px-6 pb-5 ">
-                  <div className="flex w-full text-wrap gap-3">
+                <div className="flex flex-col mt-2 px-6 pb-5 ">
+                  <div className="flex w-full text-wrap gap-3 items-center">
                     <Typography
-                      className={`text-xl ${
+                      className={`text-lg ${
                         course.price_sale > 0
                           ? "text-red-500 font-semibold"
                           : "text-red-500 font-semibold"
                       }  mb-2  pr-1`}
                     >
+                      ราคา{" "}
                       {course?.price_sale > 0
                         ? course?.price_sale.toLocaleString()
                         : course?.price.toLocaleString()}{" "}
                       บาท
                     </Typography>
-                    <Typography className="  line-through  mb-2  pr-1">
+                    <Typography className="  text-sm line-through  mb-2  pr-1">
                       {course?.price_sale > 0
-                        ? `${course?.price.toLocaleString()} บาท` 
-                        : ""}{" "} 
+                        ? `${course?.price.toLocaleString()} บาท`
+                        : ""}{" "}
                     </Typography>
                   </div>
                   <Button
-                    className="w-full justify-center items-center text-base font-normal "
-                    variant="outlined"
-                    color="purple"
+                    className="w-full justify-center items-center text-base font-normal bg-indigo-800 hover:bg-indigo-600"
                     size="sm"
                     onClick={() => handleBuyNow(course?.id)}
                   >

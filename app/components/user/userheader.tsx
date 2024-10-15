@@ -21,8 +21,8 @@ const navItems = [
   // { href: '/home/activity', label: 'กิจกรรม' },
   // { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
-  { href: '/user/mycourse', label: 'คอร์สเรียนของฉัน' },
-  { href: '/user/myorder', label: 'รายการสั่งซื้อของฉัน' },
+  { href: "/user/mycourse", label: "คอร์สเรียนของฉัน" },
+  { href: "/user/myorder", label: "รายการสั่งซื้อของฉัน" },
   { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
 ];
 
@@ -33,7 +33,12 @@ interface NavItemProps {
   onClick: (href: string) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) => (
+const NavItem: React.FC<NavItemProps> = ({
+  href,
+  label,
+  currentPath,
+  onClick,
+}) => (
   // <Typography
   //   as="li"
   //   key={href}
@@ -53,7 +58,9 @@ const NavItem: React.FC<NavItemProps> = ({ href, label, currentPath, onClick }) 
     as="li"
     key={href}
     variant="small"
-    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${currentPath === href ? "active " : ""}`}
+    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
+      currentPath === href ? "active " : ""
+    }`}
   >
     <button
       onClick={() => onClick(href)}
@@ -96,8 +103,6 @@ export function UserHeader() {
 
   const login = sessionStorage.getItem("login");
 
-
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {
@@ -123,7 +128,6 @@ export function UserHeader() {
     localStorage.clear();
   };
 
-
   const navList = useMemo(
     () => (
       <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -143,18 +147,21 @@ export function UserHeader() {
 
   return (
     <div className="max-h-[768px]">
-      {/* <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8" */}
-      <Navbar className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
-      
-        style={{ backgroundColor: "#042044", borderBottom: "3px solid #DF9E10" }}>
-      
-             <div className="flex w-full  items-center justify-between gap-5 ">
-          <div className=" items-center hidden lg:block ">
+      {/* <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8" py-1 lg:px-8 2xl:px-[270px] */}
+      <Navbar
+        className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none  "
+        style={{
+          backgroundColor: "#042044",
+          borderBottom: "3px solid #DF9E10",
+        }}
+      >
+        <div className="flex w-full  items-center justify-between gap-5 ">
+          <div className=" items-center  ">
             <Image
               src={"/logonavbar.svg"}
               alt=""
-              width={150}
-              height={120}
+              width={100}
+              height={100}
               className=" object-cover "
             />
           </div>
@@ -194,9 +201,8 @@ export function UserHeader() {
             <Button
               fullWidth
               variant="outlined"
-              color="purple"
               size="sm"
-              className="mb-3"
+              className="mb-3 bg-indigo-800 text-indigo-100"
               onClick={handleLogout}
             >
               <span>ออกจากระบบ</span>
@@ -204,53 +210,6 @@ export function UserHeader() {
           </div>
         </Collapse>
       </Navbar>
-      {/* <Navbar
-        className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none px-4 py-1 lg:px-8 2xl:px-[270px]"
-        style={{ backgroundColor: "#042044", borderBottom: "3px solid #DF9E10" }}
-      >
-        <div className="flex w-full  items-center justify-between gap-5 ">
-          <div className=" items-center hidden lg:block ">
-            <Image
-              src={"/logonavbar.svg"}
-              alt=""
-              width={150}
-              height={120}
-              className=" object-cover "
-            />
-          </div>
-          <div className="flex items-center xl:gap-4 whitespace-nowrap">
-            <div className="mr-4 hidden   lg:block">{navList}</div>
-            <div className="flex rounded-lg">
-              <HeaderButton href="/login" variant="gradient">
-                เข้าสู่ระบบ
-              </HeaderButton>
-            </div>
-            <IconButton
-              variant="text"
-              className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-              ripple={false}
-              onClick={() => setOpenNav(!openNav)}
-            >
-              <IoMenu className="text-2xl " />
-            </IconButton>
-          </div>
-        </div>
-        <Collapse open={openNav}>
-          {navList}
-          <div className="flex items-center justify-center gap-x-1">
-            <Button
-              fullWidth
-              variant="outlined"
-              size="sm"
-              style={{ background: "#DF9E10" }}
-              className="mb-3 text-white font-semibold"
-              onClick={() => router.push("/login")}
-            >
-              <span className=" font-semibold text-sm">เข้าสู่ระบบ</span>
-            </Button>
-          </div>
-        </Collapse>
-      </Navbar> */}
     </div>
   );
 }
