@@ -107,7 +107,7 @@ export function HeaderHome() {
 
   const navList = useMemo(
     () => (
-      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-7 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5">
+      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-7 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5  ">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
@@ -133,7 +133,7 @@ export function HeaderHome() {
       >
         <div className="flex flex-row  items-center justify-between gap-5  ">
           <div className=" w-full ">
-            <Link href="/home">
+          <Link href="/home">
               <Image
                 src={"/logonavbar.svg"}
                 alt=""
@@ -145,15 +145,17 @@ export function HeaderHome() {
           </div>
           <div className="w-full">
             <div className="flex items-center xl:gap-4 whitespace-nowrap">
-              <div className="mr-4 hidden   lg:block">{navList}</div>
+              <div className="mr-4 hidden   lg:block">
+                {navList}
+                </div>
               <div className="flex rounded-lg">
                 <HeaderButton href="/login" variant="gradient">
-                  เข้าสู่ระบบ
+                  เข้าสู่ระบบ 
                 </HeaderButton>
               </div>
               <IconButton
                 variant="text"
-                className="ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                className=" ml-auto pt-10 h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
                 ripple={false}
                 onClick={() => setOpenNav(!openNav)}
               >
@@ -162,7 +164,7 @@ export function HeaderHome() {
             </div>
           </div>
         </div>
-        <Collapse open={openNav}>
+        <Collapse open={openNav} >
           {navList}
           <div className="flex items-center justify-center gap-x-1">
             <Button
@@ -170,10 +172,10 @@ export function HeaderHome() {
               variant="outlined"
               size="sm"
               style={{ background: "#DF9E10" }}
-              className="mb-3 text-white font-semibold"
+              className="mb-3 text-red-500 "
               onClick={() => router.push("/login")}
             >
-              <span className=" font-semibold text-sm">เข้าสู่ระบบ</span>
+              <span className=" font-semibold text-sm">เข้าสู่ระบบ sss</span>
             </Button>
           </div>
         </Collapse>

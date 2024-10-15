@@ -72,7 +72,7 @@ const NewsSidebar: React.FC<NewsSidebarProps> = ({ id, name, title }) => {
 
   return (
     <div className="w-full  p-4 rounded-md shadow-md bg-white">
-      <h2 className="text-lg font-semibold mb-4 text-indigo-700">{title}    name : {name}</h2>
+      <h2 className="text-lg font-semibold mb-4 text-indigo-700">{title}   </h2>
       <hr />
    
       <ul className=" mt-2">

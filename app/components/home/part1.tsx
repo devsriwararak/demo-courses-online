@@ -9,9 +9,9 @@ const Part1: React.FC = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className=" pb-4 md:pb-0   "
+      className=" pb-20 md:pb-0   "
     >
-      <div className="flex flex-col   mx-auto container lg:px-28 py-16  md:py-40    h-full ">
+      <div className="flex flex-col   mx-auto container lg:px-28 py-20  md:py-40    h-full ">
        
           <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
             คอร์สสอนเทรด

@@ -108,7 +108,7 @@ const SliderComponent = () => {
         {getSlides(slides).map((slide, index) => (
           <SwiperSlide key={index}>
             <Link href={`/home/course/${slide.id}`}>
-              <div className="relative w-full h-40">
+              <div className="relative w-full h-48">
                 <Image
                   style={{ objectFit: "cover" }}
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
@@ -125,10 +125,10 @@ const SliderComponent = () => {
 
       {/* Navigation Buttons */}
       <div className="swiper-button-prev-custom absolute left-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img src="/icon-arrow-left.svg" alt="Previous" className="h-6 w-6" />
+        <img src="/icon-arrow-left.svg" alt="Previous" className=" h-3 md:h-4 w-3 md:w-4" />
       </div>
       <div className="swiper-button-next-custom absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img src="/icon-arrow-right.svg" alt="Next" className="h-6 w-6" />
+        <img src="/icon-arrow-right.svg" alt="Next" className="h-3 md:h-4 w-3 md:w-4" />
       </div>
     </div>
   );
