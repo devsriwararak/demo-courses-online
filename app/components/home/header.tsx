@@ -172,10 +172,10 @@ export function HeaderHome() {
               variant="outlined"
               size="sm"
               style={{ background: "#DF9E10" }}
-              className="mb-3 text-red-500 "
+              className="mb-3 text-white "
               onClick={() => router.push("/login")}
             >
-              <span className=" font-semibold text-sm">เข้าสู่ระบบ sss</span>
+              <span className=" font-semibold text-sm">เข้าสู่ระบบ </span>
             </Button>
           </div>
         </Collapse>

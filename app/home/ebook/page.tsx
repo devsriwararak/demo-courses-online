@@ -83,35 +83,39 @@ export default function Page() {
 
         {/* grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 */}
         <div className="flex justify-center mt-10 px-4  ">
-          <div className=" flex flex-col md:flex-row gap-6">
-            {data?.map((item: any, index: any) => (
+          <div className=" flex flex-col md:flex-row gap-6"></div>
+        </div>
+
+        <div className="flex flex-wrap ">
+          {data?.map((item: any, index: any) => (
+            <div className="w-full lg:w-1/5 p-2 ">
               <Link href={item.link} key={index}>
                 <Card
                   key={index}
                   className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"
                 >
                   <div className="">
-                    <div className="flex w-full h-72 md:h-60">
+                    <div className="flex w-full h-72 md:h-56">
                       <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
                         alt={item.title}
                         width={500}
                         height={500}
                         priority
-                        className=" rounded-b-none object-cover mb-4"
+                        className=" rounded-b-none object-cover "
                       />
                     </div>
 
                     <div className="px-2 md:px-4 py-3  ">
-                      <Typography className="text-lg  text-black ps-2 ">
+                      <Typography className="text-base  text-black ps-2 ">
                         {truncateText(item.title, 30)}
                       </Typography>
                     </div>
                   </div>
                 </Card>
               </Link>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

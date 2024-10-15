@@ -155,7 +155,7 @@ const CoursesPage: React.FC = () => {
       </div>
 
       {/* Courses Display */}
-      <div className="w-full md:w-8/12 lg:w-4/5">
+      <div className="w-full md:w-8/12 lg:w-4/5 px-4">
         {/* Search Bar */}
         <div className="flex flex-col md:flex-row items-center mb-4 bg-white">
           <Input
@@ -185,7 +185,7 @@ const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 px-4">
+        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 ">
           {coursesData.map((course) => (
             <div
               key={course.id}
@@ -204,7 +204,7 @@ const CoursesPage: React.FC = () => {
                   <p className="text-gray-600 text-sm">
                     หมวดหมู่ {course.category_name}
                   </p>
-                  <div className="flex w-full flex-wrap gap-3 mt-2">
+                  <div className="flex w-full flex-wrap gap-3 mt-2 items-center">
                     <p
                       className={`text-md ${
                         course.price_sale > 0
@@ -219,7 +219,7 @@ const CoursesPage: React.FC = () => {
                       บาท
                     </p>
                     {course.price_sale > 0 && (
-                      <p className="line-through  text-gray-600">
+                      <p className="line-through text-sm  text-gray-600">
                         {course.price.toLocaleString()} บาท
                       </p>
                     )}
@@ -231,7 +231,7 @@ const CoursesPage: React.FC = () => {
                       ดูคอร์สเรียนนี้
                     </button>
                   ) : (
-                    <button className="bg-[#184785] text-white px-4 py-1 rounded-md w-full">
+                    <button className="bg-indigo-900  text-white px-4 py-1 rounded-md w-full">
                       ซื้อคอร์สเรียนนี้
                     </button>
                   )}

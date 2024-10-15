@@ -20,7 +20,7 @@ const Part8 = () => {
               />
               <div className=" text-center ">
                 <p className="text-[16px] font-[700]">
-                  998/5 ม.7 9.เมืองเก่า อ.เมืองเก่า
+                  998/5 ม.7 ต.เมืองเก่า อ.เมือง
                 </p>
                 <p className="text-[16px] font-[700]">จ. ขอนแก่น 40000</p>
               </div>

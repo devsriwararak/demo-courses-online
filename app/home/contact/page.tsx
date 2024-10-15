@@ -16,28 +16,26 @@ export default function Page() {
             <div className="bg-white border border-gray-200 shadow-md rounded-md px-6 py-8">
               <h1 className="text-xl text-gray-800">ส่งข้อความหาเรา</h1>
               <div className="flex flex-col md:flex-row gap-2 mt-6">
-                <div className="bg-gray-100 rounded-md w-full">
-                  <Input
-                    crossOrigin="anonymous"
-                    type="text"
-                    label="ชื่อ"
-                    color="indigo"
-                  />
-                </div>
-                <div className="bg-gray-100 rounded-md w-full">
-                  <Input
+                <Input
+                  crossOrigin="anonymous"
+                  type="text"
+                  label="ชื่อ"
+                  color="indigo"
+                />
+              
+              <Input
                     crossOrigin="anonymous"
                     type="text"
                     label="เบอร์โทร"
                     color="indigo"
                   />
-                </div>
+                  
               </div>
-              <div className="mt-4  bg-gray-100 rounded-md w-full   ">
+              <div className="mt-4   rounded-md w-full   ">
                 <Textarea label="รายละเอียด" className=" " color="indigo" />
               </div>
               <div className="text-right mt-8">
-                <button className="bg-indigo-800 hover:bg-indigo-600 text-white px-4 py-2 rounded-md">
+                <button className="bg-indigo-900 hover:bg-indigo-800 text-white px-4 py-2 rounded-md">
                   ส่งข้อความหาเรา
                 </button>
               </div>
@@ -59,10 +57,10 @@ export default function Page() {
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-0 items-center justify-center">
                   <div className="w-1/3">
-                    <LuMapPin size={40} className="text-indigo-800" />
+                    <LuMapPin size={40} className="text-indigo-900" />
                   </div>
                   <div className="w-2/3">
-                    <h2 className="text-lg text-indigo-800">ที่อยู่</h2>
+                    <h2 className="text-lg text-indigo-900">ที่อยู่</h2>
                     <p className=" text-sm text-gray-600 mt-1 ">
                       998/5 ม.7 9.เมืองเก่า อ.เมืองเก่า จ. ขอนแก่น 40000
                     </p>
@@ -73,7 +71,7 @@ export default function Page() {
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-0 items-center justify-center">
                   <div className="w-1/3">
-                    <LuPhone size={40} color="indigo" />
+                    <LuPhone size={40} className="text-indigo-900" />
                   </div>
                   <div className="w-2/3">
                     <h2 className="text-lg text-indigo-800">เบอร์โทร</h2>
@@ -95,7 +93,7 @@ export default function Page() {
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-4 items-center justify-center">
                   <div className="w-1/3">
-                    <LuAlarmClock size={40} color="indigo" />
+                    <LuAlarmClock size={40} className="text-indigo-900" />
                   </div>
                   <div className="w-2/3">
                     <h2 className="text-lg text-indigo-800">เวลาทำการ</h2>
@@ -109,7 +107,7 @@ export default function Page() {
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex  gap-4 items-center justify-center">
                   <div className="w-1/3">
-                    <FaLine size={40} color="indigo" />
+                    <FaLine size={40} className="text-indigo-900" />
                   </div>
                   <div className="w-2/3">
                     <h2 className="text-lg text-indigo-800">Line</h2>
