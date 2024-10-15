@@ -88,8 +88,8 @@ export default function Page() {
 
         <div className="flex flex-wrap ">
           {data?.map((item: any, index: any) => (
-            <div className="w-full lg:w-1/5 p-2 ">
-              <Link href={item.link} key={index}>
+            <div className="w-full lg:w-1/5 p-2 " key={item.id} >
+              <Link href={item.link} >
                 <Card
                   key={index}
                   className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"
