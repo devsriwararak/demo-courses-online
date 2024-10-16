@@ -20,6 +20,7 @@ export function middleware(request) {
         "/admin/manageebook",
         "/admin/managereviews",
         "/admin/manageactivity",
+        "/admin/reports"
       ],
     };
   }
@@ -40,6 +41,7 @@ export function middleware(request) {
         "/admin/manageebook",
         "/admin/managereviews",
         "/admin/manageactivity",
+        "/admin/reports"
       ],
     };
   }

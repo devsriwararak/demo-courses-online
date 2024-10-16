@@ -37,23 +37,26 @@ const NavItem: React.FC<NavItemProps> = ({
   label,
   currentPath,
   onClick,
-}) => (
-  <Typography
-    as="li"
-    key={href}
-    variant="small"
-    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
-      currentPath === href ? "active " : ""
-    }`}
-  >
-    <button
-      onClick={() => onClick(href)}
-      className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
+}) => {
+  return (
+    //
+    <Typography
+      as="li"
+      key={href}
+      variant="small"
+      className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
+        currentPath === href ? "active " : ""
+      }`}
     >
-      {label}
-    </button>
-  </Typography>
-);
+      <button
+        onClick={() => onClick(href)}
+        className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
+      >
+        {label} 
+      </button>
+    </Typography>
+  );
+};
 
 interface HeaderButtonProps {
   href: string;
@@ -133,7 +136,7 @@ export function HeaderHome() {
       >
         <div className="flex flex-row  items-center justify-between gap-5  ">
           <div className=" w-full ">
-          <Link href="/home">
+            <Link href="/home">
               <Image
                 src={"/logonavbar.svg"}
                 alt=""
@@ -145,12 +148,10 @@ export function HeaderHome() {
           </div>
           <div className="w-full">
             <div className="flex items-center xl:gap-4 whitespace-nowrap">
-              <div className="mr-4 hidden   lg:block">
-                {navList}
-                </div>
+              <div className="mr-4 hidden   lg:block">{navList}</div>
               <div className="flex rounded-lg">
                 <HeaderButton href="/login" variant="gradient">
-                  เข้าสู่ระบบ 
+                  เข้าสู่ระบบ
                 </HeaderButton>
               </div>
               <IconButton
@@ -164,7 +165,7 @@ export function HeaderHome() {
             </div>
           </div>
         </div>
-        <Collapse open={openNav} >
+        <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
             <Button

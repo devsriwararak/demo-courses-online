@@ -11,15 +11,9 @@ import {
 import { IoMenu } from "react-icons/io5";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const navItems = [
-  // { href: '/home', label: 'หน้าหลัก' },
-  // { href: '/home/broker', label: 'โบรกเกอร์' },
-  // { href: '/home/ebook', label: 'EBook' },
-  // { href: '/home/about', label: 'เกี่ยวกับเรา' },
-  // { href: '/home/portfolio', label: 'ผลงาน' },
-  // { href: '/home/activity', label: 'กิจกรรม' },
-  // { href: '/home/bycourse', label: 'วิธีการซื้อคอร์ส' },
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
   { href: "/user/mycourse", label: "คอร์สเรียนของฉัน" },
   { href: "/user/myorder", label: "รายการสั่งซื้อของฉัน" },
@@ -38,38 +32,31 @@ const NavItem: React.FC<NavItemProps> = ({
   label,
   currentPath,
   onClick,
-}) => (
-  // <Typography
-  //   as="li"
-  //   key={href}
-  //   variant="small"
-  //   color={currentPath === href ? "purple" : "blue-gray"}
-  //   className="p-1 font-normal"
-  // >
-  //   <button
-  //     onClick={() => onClick(href)}
-  //     className="inline-block py-1 pr-2 transition-transform hover:scale-105"
-  //   >
-  //     {label}
-  //   </button>
-  // </Typography>
+}) => {
+  let newCurrentPath = "";
 
-  <Typography
-    as="li"
-    key={href}
-    variant="small"
-    className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
-      currentPath === href ? "active " : ""
-    }`}
-  >
-    <button
-      onClick={() => onClick(href)}
-      className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
+  if (currentPath.startsWith("/user/buycourse")) {
+    newCurrentPath = "/user/shopcourse";
+  }
+
+  return (
+    <Typography
+      as="li"
+      key={href}
+      variant="small"
+      className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
+        currentPath === href || newCurrentPath.startsWith(href) ? "active" : ""
+      }`}
     >
-      {label}
-    </button>
-  </Typography>
-);
+      <button
+        onClick={() => onClick(href)}
+        className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
+      >
+        {label}
+      </button>
+    </Typography>
+  );
+};
 
 interface HeaderButtonProps {
   href: string;
@@ -181,7 +168,7 @@ export function UserHeader() {
                 </Button>
               ) : (
                 <HeaderButton href="/login" variant="gradient">
-                  Log In
+                  เข้าสู่ระบบ
                 </HeaderButton>
               )}
             </div>

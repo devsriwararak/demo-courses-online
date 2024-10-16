@@ -53,7 +53,7 @@ export default function Page() {
               สำหรับการเป็นเทรดเดอร์มืออาชีพ
             </p>
 
-            <div className="flex flex-col md:flex-row gap-3 md:gap-6 mt-5">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-6 mt-5 px-4 lg:px-0">
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-0 items-center justify-center">
                   <div className="w-1/3">
@@ -89,7 +89,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-6 mt-6">
+            <div className="flex flex-col md:flex-row gap-6 mt-6 px-4 lg:px-0">
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-4 items-center justify-center">
                   <div className="w-1/3">

@@ -37,8 +37,8 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.product_image}`}
               alt={data?.product_title || ""}
-              width={700}
-              height={700}
+              width={1000}
+              height={1000}
               className="w-full h-auto rounded-xl object-cover"
             />
           </div>

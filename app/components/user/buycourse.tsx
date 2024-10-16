@@ -60,7 +60,6 @@ const BuyCourse = () => {
 
   const fetchData = async () => {
     try {
-      
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/product/${id}`,
         {
@@ -130,7 +129,6 @@ const BuyCourse = () => {
 
   // Create QR Code
   const fetchDataCreateQrCode = async (price: number) => {
-    
     try {
       const sendData = { price: price || 0 };
 
@@ -148,7 +146,6 @@ const BuyCourse = () => {
       if (res.status === 200) {
         console.log(res.data);
         setImageQrCode(res.data.qrCodePath);
-    
       }
     } catch (error) {
       console.log(error);
@@ -263,12 +260,11 @@ const BuyCourse = () => {
   };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-20 px-6 lg:px-36   ">
+    <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
 
-
       <div className="w-full md:w-3/5 ">
-        <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white ">
+        <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white  ">
           <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${buyData?.product_image}`}
@@ -278,42 +274,64 @@ const BuyCourse = () => {
               className="flex w-auto h-auto lg:w-[400px]  "
             />
           </div>
-          <div className="flex flex-col gap-3 py-6  px-2 md:px-10">
-            <div className=" flex gap-2 ps-3 ">
-              <Typography className="font-bold ">หัวข้อ :</Typography>
-              <Typography>{buyData?.product_title || ""}</Typography>
+
+          <div className="flex flex-col  gap-3 py-4 px-6 md:px-8  ">
+            <div className=" flex flex-col lg:flex-row  gap-2  ">
+              <div className="w-full lg:w-1/6">
+                <Typography className="font-bold text-base text-black ">
+                  หัวข้อ :
+                </Typography>
+              </div>
+              <div className="w-full text-sm lg:w-5/6">
+                <Typography className="text-base ">
+                  {buyData?.product_title || ""}
+                </Typography>
+              </div>
             </div>
 
-            <div className=" flex gap-2 ps-3 ">
-              <Typography className="font-bold ">ราคา :</Typography>
-              <Typography>
-                {/* {buyData?.products_price_sale || 0 > 0
-                  ? buyData?.products_price_sale?.toLocaleString()
-                  : buyData?.products_price?.toLocaleString()} */}
-                {buyData?.products_price_sale
-                  ? buyData?.products_price_sale.toLocaleString()
-                  : buyData?.products_price.toLocaleString()}
-              </Typography>
-              <Typography>บาท</Typography>
+            <div className=" flex flex-col lg:flex-row gap-2  ">
+              <div className="w-full lg:w-1/6">
+                <Typography className="font-bold text-black  text-base">ราคา :</Typography>
+              </div>
+              <div className="w-full text-sm lg:w-5/6">
+                <Typography className="text-base">
+                  {buyData?.products_price_sale
+                    ? buyData?.products_price_sale.toLocaleString()
+                    : buyData?.products_price.toLocaleString()}{" "}
+                  <span className="ml-1.5">บาท</span>
+                </Typography>
+              </div>
             </div>
 
-            <div className=" flex gap-2 ps-3 text-red-500 ">
-              <Typography className="font-bold  ">ลดราคาจาก :</Typography>
-              <Typography>
-                {buyData?.products_price_sale
-                  ? buyData?.products_price.toLocaleString()
-                  : 0}
-              </Typography>
-              <Typography className="">บาท</Typography>
+            <div className=" flex flex-col lg:flex-row gap-2    ">
+              <div className="w-full lg:w-1/6">
+                <Typography className="font-bold text-base text-red-500  ">
+                  ลดราคาจาก :
+                </Typography>
+              </div>
+              <div className="w-full text-sm lg:w-5/6">
+                <Typography className="text-base text-red-500">
+                  {buyData?.products_price_sale
+                    ? buyData?.products_price.toLocaleString()
+                    : 0}
+                    <span className="ml-1.5">บาท</span>
+                </Typography>
+                
+              </div>
             </div>
 
-            <div className=" flex gap-2 ps-3 ">
-              <Typography className="font-bold ">รายละเอียด :</Typography>
+            <div className=" flex flex-col lg:flex-row gap-2 items-start ">
+              <div className=" w-full lg:w-1/6">
+                <Typography className="font-bold text-black ">รายละเอียด :</Typography>
+              </div>
               {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
-              <div>{parse(buyData?.product_dec || "")}</div>
+              <div className="w-full text-sm lg:w-5/6">
+                {parse(buyData?.product_dec || "")}
+              </div>
             </div>
+
             <div className="mt-4 mb-10">
-              <h1 className="text-lg">รายละเอียดบทเรียน</h1>
+              <h2 className="text-lg text-back">รายละเอียดบทเรียน</h2>
               <div className="mt-5 bg-gray-50 rounded-md">
                 {buyData?.result_list?.map((lesson: any, index: number) => (
                   <div
@@ -333,6 +351,7 @@ const BuyCourse = () => {
           </div>
         </Card>
       </div>
+
       <div className="w-full md:w-2/5  ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 px-6 py-4">
           <div className="w-full sm:w-[150px] ">
@@ -355,7 +374,6 @@ const BuyCourse = () => {
           {show ? (
             <div className="flex flex-col gap-3 ">
               <>
-
                 <div className="flex flex-col lg:flex-row gap-4">
                   <div className="w-full">
                     {imageQrCode && (

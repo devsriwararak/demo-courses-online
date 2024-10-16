@@ -22,8 +22,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <RecoilProvider>
-          {" "}
-          {/* ใช้ RecoilProvider */}
           {children}
         </RecoilProvider>
       </body>

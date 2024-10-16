@@ -157,6 +157,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             ],
             hasDivider: false,
           },
+          {
+            text: "รายงานยอดขาย",
+            icon: <HiOutlineChatAlt2 />,
+            path: "/admin/reports",
+            hasDivider: false,
+          },
         ];
       case 2:
         return [

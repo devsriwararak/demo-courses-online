@@ -197,13 +197,13 @@ const ShopCourse: React.FC = () => {
             </div>
 
             <div className="hidden lg:flex lg:flex-row lg:gap-2">
-            <Button
-              size="sm"
-              className=" font-light bg-indigo-800"
-              onClick={() => handleClickCategory(0)}
-            >
-              ทั้งหมด
-            </Button>
+              <Button
+                size="sm"
+                className=" font-light bg-indigo-800"
+                onClick={() => handleClickCategory(0)}
+              >
+                ทั้งหมด
+              </Button>
               {courseCategories.map((category, key) => (
                 <Button
                   key={key}
@@ -230,66 +230,64 @@ const ShopCourse: React.FC = () => {
                 className="w-full mt-5 rounded-lg flex flex-col justify-between border border-gray-300 cursor-pointer"
                 onClick={() => handleBuyNow(course?.id)}
               >
-                <div>
-                  <div className="flex w-full h-[200px]">
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
-                      alt=""
-                      width={500}
-                      height={500}
-                      priority
-                      className="rounded-lg rounded-b-none object-cover mb-4"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
-
-                  <div className="px-2 md:px-4 mt-5 ">
-                    <Typography className="text-lg font-semibold text-black ps-2">
-                      {truncateText(course.title, 30)}
-                    </Typography>
-                    <Typography className="text-md font-semibold text-gray-700 ps-2">
-                      หมวดหมู่ {truncateText(course.category_name, 30)}
-                    </Typography>
-
-                    <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
-                      {parse(
-                        truncateText(
-                          course.dec.replace(/<\/?[^>]+(>|$)/g, ""),
-                          100
-                        )
-                      )}
-                    </Typography>
-                  </div>
+                <div className="flex w-full h-[200px] ">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
+                    alt=""
+                    width={500}
+                    height={500}
+                    priority
+                    className="rounded-lg rounded-b-none object-cover "
+                    style={{ width: "100%", height: "100%" }}
+                  />
                 </div>
 
-                <div className="flex flex-col mt-2 px-6 pb-5 ">
-                  <div className="flex w-full text-wrap gap-3 items-center">
-                    <Typography
-                      className={`text-lg ${
-                        course.price_sale > 0
-                          ? "text-red-500 font-semibold"
-                          : "text-red-500 font-semibold"
-                      }  mb-2  pr-1`}
+                <div className="px-4  py-4">
+                  <Typography className="text-base font-semibold text-black ">
+                    {truncateText(course.title, 30)}
+                  </Typography>
+                  <Typography className="text-sm  text-gray-800 ">
+                    หมวดหมู่ {truncateText(course.category_name, 30)}
+                  </Typography>
+
+                  <Typography className="text-xs mt-2 text-gray-700  pr-1">
+                    {parse(
+                      truncateText(
+                        course.dec.replace(/<\/?[^>]+(>|$)/g, ""),
+                        80
+                      )
+                    )}
+                  </Typography>
+
+                  <div className="flex flex-col mt-2   ">
+                    <div className="flex w-full text-wrap gap-3 items-center">
+                      <Typography
+                        className={`text-base ${
+                          course.price_sale > 0
+                            ? "text-red-500 font-semibold"
+                            : "text-red-500 font-semibold"
+                        }  mb-2  `}
+                      >
+                        ราคา{" "}
+                        {course?.price_sale > 0
+                          ? course?.price_sale.toLocaleString()
+                          : course?.price.toLocaleString()}{" "}
+                        บาท
+                      </Typography>
+                      <Typography className="  text-sm line-through  mb-2  pr-1">
+                        {course?.price_sale > 0
+                          ? `${course?.price.toLocaleString()} บาท`
+                          : ""}{" "}
+                      </Typography>
+                    </div>
+                    <Button
+                      className="w-full justify-center items-center text-sm font-normal bg-indigo-800 hover:bg-indigo-600"
+                      size="sm"
+                      onClick={() => handleBuyNow(course?.id)}
                     >
-                      ราคา{" "}
-                      {course?.price_sale > 0
-                        ? course?.price_sale.toLocaleString()
-                        : course?.price.toLocaleString()}{" "}
-                      บาท
-                    </Typography>
-                    <Typography className="  text-sm line-through  mb-2  pr-1">
-                      {course?.price_sale > 0
-                        ? `${course?.price.toLocaleString()} บาท`
-                        : ""}{" "}
-                    </Typography>
+                      ซื้อตอนนี้
+                    </Button>
                   </div>
-                  <Button
-                    className="w-full justify-center items-center text-base font-normal bg-indigo-800 hover:bg-indigo-600"
-                    size="sm"
-                    onClick={() => handleBuyNow(course?.id)}
-                  >
-                    ซื้อตอนนี้
-                  </Button>
                 </div>
               </Card>
             ))}
