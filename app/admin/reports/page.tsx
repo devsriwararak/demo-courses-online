@@ -96,7 +96,7 @@ const TABLE_HEAD = [
 //   },
 // ];
 
-const page = () => {
+const Page = () => {
   const dateNow2 = moment(Date.now()).format("YYYY-MM-DD");
 
   // ทำไมใน value ไม่โชว์วันที่ defaule
@@ -480,7 +480,7 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
 
 interface ModalImageProps {
   isModalOpen: boolean;
