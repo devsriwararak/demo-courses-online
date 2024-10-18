@@ -22,6 +22,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import PaginationPage from "@/app/components/PaginationPage";
+import ModalImage from "@/app/components/admin/modals/ModalImage";
 
 const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 const decryptData = (ciphertext: string) => {
@@ -482,52 +483,3 @@ const Page = () => {
 
 export default Page;
 
-interface ModalImageProps {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  modalData: { image: string };
-  
-}
-
-
-
-export const ModalImage: React.FC<ModalImageProps> = ({
-  isModalOpen,
-  setIsModalOpen,
-  modalData,
-}) => {
-  return (
-    <div>
-      <Dialog
-        open={isModalOpen}
-        handler={setIsModalOpen}
-        className="bg-gray-200 "
-        size="sm"
-      >
-        <DialogBody divider>
-          {modalData.image && (
-            <div className="w-full flex justify-center">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${modalData.image}`}
-                alt=""
-                width={400}
-                height={400}
-                className=" rounded-md"
-              />
-            </div>
-          )}
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            size="sm"
-            color="red"
-            onClick={() => setIsModalOpen(false)}
-            className="mr-1 text-sm"
-          >
-            <span>ปิด</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
-    </div>
-  );
-};

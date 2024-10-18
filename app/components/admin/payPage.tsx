@@ -237,11 +237,12 @@ const PayPage: React.FC = () => {
     <div className="flex justify-center gap-3 ">
       <ToastContainer autoClose={2000} theme="colored" />
 
-      <ModalImage
+      {/* <ModalImage
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
         modalData={modalData}
-      />
+      /> */}
+      
       <Card className="flex w-full h-[85vh]">
         <div className="w-full p-5 justify-center items-center">
           <div className="w-72">
@@ -309,49 +310,49 @@ const PayPage: React.FC = () => {
 
 export default PayPage;
 
-interface ModalImageProps {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  modalData: { image: string };
-}
+// interface ModalImageProps {
+//   isModalOpen: boolean;
+//   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+//   modalData: { image: string };
+// }
 
-export const ModalImage: React.FC<ModalImageProps> = ({
-  isModalOpen,
-  setIsModalOpen,
-  modalData,
-}) => {
-  return (
-    <div>
-      <Dialog
-        open={isModalOpen}
-        handler={setIsModalOpen}
-        className="bg-gray-200 "
-        size="sm"
-      >
-        <DialogBody divider>
-          {modalData.image && (
-            <div className="w-full flex justify-center">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${modalData.image}`}
-                alt=""
-                width={400}
-                height={400}
-                className=" rounded-md"
-              />
-            </div>
-          )}
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            size="sm"
-            color="red"
-            onClick={() => setIsModalOpen(false)}
-            className="mr-1 text-sm"
-          >
-            <span>ปิด</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
-    </div>
-  );
-};
+// export const ModalImage: React.FC<ModalImageProps> = ({
+//   isModalOpen,
+//   setIsModalOpen,
+//   modalData,
+// }) => {
+//   return (
+//     <div>
+//       <Dialog
+//         open={isModalOpen}
+//         handler={setIsModalOpen}
+//         className="bg-gray-200 "
+//         size="sm"
+//       >
+//         <DialogBody divider>
+//           {modalData.image && (
+//             <div className="w-full flex justify-center">
+//               <Image
+//                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${modalData.image}`}
+//                 alt=""
+//                 width={400}
+//                 height={400}
+//                 className=" rounded-md"
+//               />
+//             </div>
+//           )}
+//         </DialogBody>
+//         <DialogFooter>
+//           <Button
+//             size="sm"
+//             color="red"
+//             onClick={() => setIsModalOpen(false)}
+//             className="mr-1 text-sm"
+//           >
+//             <span>ปิด</span>
+//           </Button>
+//         </DialogFooter>
+//       </Dialog>
+//     </div>
+//   );
+// };
