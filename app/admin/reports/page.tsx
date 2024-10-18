@@ -486,7 +486,10 @@ interface ModalImageProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   modalData: { image: string };
+  
 }
+
+
 
 export const ModalImage: React.FC<ModalImageProps> = ({
   isModalOpen,
