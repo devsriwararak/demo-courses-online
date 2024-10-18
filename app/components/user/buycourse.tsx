@@ -228,7 +228,11 @@ const BuyCourse = () => {
     //     ? buyData?.price_sale.toString()
     //     : buyData?.price?.toString() || "0";
 
-    formData.append("price", buyData?.products_price);
+    const price = buyData?.products_price_sale
+    ? buyData?.products_price_sale.toLocaleString()
+    : buyData?.products_price.toLocaleString()
+
+    formData.append("price", price);
     formData.append("file", file);
 
     try {

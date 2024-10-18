@@ -210,33 +210,10 @@ const ShopCourse: React.FC = () => {
           </div>
         </div>
 
-        {/* <div className=" flex flex-col md:flex-row flex-wrap gap-2 justify-start mt-6 ">
-          <Button
-            size="sm"
-            className=" font-light bg-indigo-800"
-            onClick={() => handleClickCategory(0)}
-          >
-            ทั้งหมด
-          </Button>
-          {courseCategories?.map((category, key) => (
-            <Button
-              key={key}
-              variant="outlined"
-              size="sm"
-              className={`${
-                index == category.category_id
-                  ? "bg-yellow-900 text-white border border-yellow-500 "
-                  : "border border-indigo-800 bg-gray-200 text-indigo-800"
-              } `}
-              onClick={() => handleClickCategory(category.category_id)}
-            >
-              {category?.category_name}
-            </Button>
-          ))}
-        </div> */}
+      
 
         <div className="flex justify-center mt-4 ">
-          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 ">
+          <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 ">
             {product?.map((course, index) => (
               <Card
                 key={index}
@@ -278,23 +255,10 @@ const ShopCourse: React.FC = () => {
 
                 <div className="flex flex-col mt-4 px-6 pb-5 ">
                   <div className="flex w-full text-wrap">
-                    {/* <Typography
-                    className={`text-xl ${
-                      course.products_price_sale > 0
-                        ? "text-red-500 font-semibold"
-                        : "text-black"
-                    }  mb-2  pr-1`}
-                  >
-                    {course?.products_price_sale > 0
-                      ? course?.products_price_sale?.toLocaleString()
-                      : course?.products_price?.toLocaleString()}{" "}
-                    บาท
-                  </Typography> */}
                   </div>
                   <Button
-                    className="w-full justify-center items-center text-base font-normal "
-                    variant="gradient"
-                    color="indigo"
+                    className="w-full justify-center items-center text-base font-normal bg-indigo-800 hover:bg-indigo-600 "
+                   
                     size="sm"
                   >
                     {`ดูเนื้อหา`}

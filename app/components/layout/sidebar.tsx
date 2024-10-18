@@ -114,12 +114,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/admin/learning",
             hasDivider: false,
           },
-          {
-            text: "จัดการซื้อคอร์สเรียน",
-            icon: <FaCcAmazonPay />,
-            path: "/admin/pay",
-            hasDivider: false,
-          },
+          // {
+          //   text: "จัดการซื้อคอร์สเรียน",
+          //   icon: <FaCcAmazonPay />,
+          //   path: "/admin/pay",
+          //   hasDivider: false,
+          // },
           {
             text: "สร้างการบ้าน",
             icon: <FaClipboardQuestion />,
@@ -203,12 +203,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/admin/learning",
             hasDivider: false,
           },
-          {
-            text: "จัดการซื้อคอร์สเรียน",
-            icon: <FaCcAmazonPay />,
-            path: "/admin/pay",
-            hasDivider: false,
-          },
+          // {
+          //   text: "จัดการซื้อคอร์สเรียน",
+          //   icon: <FaCcAmazonPay />,
+          //   path: "/admin/pay",
+          //   hasDivider: false,
+          // },
           {
             text: "สร้างการบ้าน",
             icon: <FaClipboardQuestion />,

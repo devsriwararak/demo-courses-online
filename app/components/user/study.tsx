@@ -117,9 +117,7 @@ const Study: React.FC<PageProps> = ({ params }) => {
     <div className="  container mx-auto py-8 px-4 ">
       <ToastContainer autoClose={2000} theme="colored" />
 
-      <h1>
-        {data?.product_id} {data?.product_title}
-      </h1>
+      <h1>{data?.product_title}</h1>
 
       <div className="flex flex-col lg:flex-row gap-4 mt-6">
         <div className="w-full lg:w-2/3 ">
@@ -223,7 +221,7 @@ export const VideoSection = ({
             key={item.video_id}
           >
             {" "}
-            {index + 1}. คลิปวีดีโอที่ {index + 1}
+            คลิปวีดีโอที่ {index + 1}
             <button
               className={`bg-red-800 hover:bg-red-700 text-white px-3 rounded-md flex flex-row gap-2 justify-center items-center `}
               onClick={() => onPlayClick(item.video_id)}
@@ -237,7 +235,6 @@ export const VideoSection = ({
   );
 };
 
-// ต้องการปิดปุ่มดาวน์โหลด จาก video element
 export const ShowVideo = ({ id }: { id: number }) => {
   const [videoData, setVideoData] = useState<any>(null);
 
@@ -325,7 +322,11 @@ export const QuestionSection = ({
     return bytes.toString(CryptoJS.enc.Utf8);
   };
 
-  const fetchData = async (new_question_id : any, products_id : number,  products_title_id : number) => {
+  const fetchData = async (
+    new_question_id: any,
+    products_id: number,
+    products_title_id: number
+  ) => {
     try {
       const data = {
         products_id: products_id,
@@ -379,8 +380,6 @@ export const QuestionSection = ({
         products_title_id: activeTitle,
       };
 
-      console.log(data);
-
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/question/new/add`,
         data,
@@ -394,6 +393,7 @@ export const QuestionSection = ({
       );
 
       if (res.status === 200) {
+        fetchDataAllNewQuestion();
         toast.success(res.data.message);
       } else {
         toast.error("มีข้อผิดพลาดเกิดขึ้น");
@@ -413,16 +413,16 @@ export const QuestionSection = ({
     products_id: number,
     products_title_id: number
   ) => {
-    const new_question_id = id
+    const new_question_id = id;
     setSendData({
       product_id: products_id,
       products_title_id: products_title_id,
       new_question_id: id,
     });
-     fetchData(new_question_id, products_id,  products_title_id );
+    fetchData(new_question_id, products_id, products_title_id);
   };
 
-  const handleDefaleQuestion = async() => {
+  const handleDefaleQuestion = async () => {
     setSendData({
       product_id: product_id,
       products_title_id: activeTitle,
@@ -432,37 +432,43 @@ export const QuestionSection = ({
   };
 
   useEffect(() => {
-    fetchData(sendData.new_question_id, sendData.product_id, sendData.products_title_id );
+    fetchData(sendData.new_question_id, sendData.product_id, activeTitle);
     fetchDataAllNewQuestion();
   }, [activeTitle, sendData]);
   return (
-    <div>
-      <div className="flex flex-col md:flex-row gap-3">
-        <div className="w-full lg:w-2/4 bg-white px-6 py-4 rounded-md shadow-sm border border-gray-200 h-96 md:h-full overflow-y-scroll">
+    <div className="bg-white px-8 py-8 shadow-lg rounded-lg">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="w-full lg:w-2/4 bg-gray-100 px-6 py-4 rounded-md shadow-lg border border-gray-200 h-96 md:h-full overflow-y-scroll">
           <ul className="flex flex-col gap-4">
             {data.map((item: any, index: number) => (
               <li className="flex flex-row justify-between" key={item.id}>
                 ข้อที่ {index + 1} : {item.question}
                 <div className="flex gap-2">
                   <button
+                    disabled={!item.image_question}
                     onClick={() => handleShowImage(item.image_question)}
-                    className="bg-indigo-900 text-gray-300 px-2 rounded-md text-sm"
+                    className={`${
+                      item.image_question ? "bg-indigo-900" : "bg-gray-300"
+                    } text-gray-300 px-2 rounded-md text-sm`}
                   >
-                    ดูคำถาม
+                    คำถาม
                   </button>
                   <button
+                    disabled={!item.image_answer}
                     onClick={() => handleShowImage(item.image_answer)}
-                    className="bg-indigo-900 text-gray-300 px-2 rounded-md text-sm"
+                    className={`${
+                      item.image_answer ? "bg-indigo-900" : "bg-gray-300"
+                    } text-gray-300 px-2 rounded-md text-sm`}
                   >
-                    ดูเฉลย
+                    เฉลย
                   </button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-        <div className="w-full lg:w-2/4">
-          <div className="bg-white shadow-md rounded-md">
+        <div className="w-full lg:w-1/4">
+          <div className="bg-gray-100 shadow-md rounded-md">
             <h2 className="bg-gray-300 text-gray-900 px-8 py-2 rounded-t-md">
               รูปเฉลย
             </h2>
@@ -484,47 +490,62 @@ export const QuestionSection = ({
 
         <div className="w-full lg:w-1/4">
           <div className="flex flex-row gap-2 justify-center lg:justify-start">
-            <Button onClick={handleDefaleQuestion} variant="outlined">
+            <Button
+              onClick={handleDefaleQuestion}
+              variant="outlined"
+              className="text-sm"
+            >
               คำถามเริ่มต้น
             </Button>
-            <Button onClick={handleRequest}>ขอชุดคำถามใหม่</Button>
+            <Button onClick={handleRequest} className="text-sm">
+              ขอคำถามชุดใหม่
+            </Button>
           </div>
 
-          <div className=" overflow-y-scroll h-96">
-          {dataAllNew.map((item: any, index: any) => (
-            <div className="bg-white shadow-md rounded-md mt-4" key={item.id}>
-              <div className=" px-4 py-4 flex flex-row md:flex-col  justify-start gap-3">
-                {index + 1}.
-                {item.status === 0 ? (
-                  <p className="text-red-800 bg-red-100 rounded-sm px-4">
-                    ดำเนินการ
-                  </p>
-                ) : (
-                  <p className="text-green-800 bg-green-100 rounded-sm px-4">
-                    เสร็จแล้ว
-                  </p>
-                )}
-                {item.status === 0 ? (
-                  <p className="text-sm text-gray-700">ดูไม่ได้</p>
-                ) : (
-                  <button
-                    className="bg-black text-white px-2 rounded-md text-sm"
-                    onClick={() =>
-                      handleChangeQuestion(
-                        item.id,
-                        item.products_id,
-                        item.products_title_id
-                      )
-                    }
-                  >
-                    ดูคำถาม
-                  </button>
-                )}
+          <div className=" ">
+            {dataAllNew.map((item: any, index: any) => (
+              <div className="bg-gray-100 shadow-md rounded-md mt-4 border-l-4 border-gray-300 border-t border-t-gray-300" key={item.id}>
+                <div className=" px-4 py-4 flex flex-row md:flex-col  justify-start  gap-3">
+                  <div className="w-1/3 md:w-full">
+                  <h3 className="text-base">รายการที่ {index + 1}</h3>
+                  </div>
+
+                  <div className="flex flex-col md:flex-row  items-center justify-between gap-2 w-2/3 md:w-full ">
+                    <section className="w-full">
+                      <p
+                        className={`rounded-md px-4 py-1.5 text-center ${
+                          item.status === 0
+                            ? "text-red-800 bg-red-100"
+                            : "text-green-800 bg-green-100"
+                        }`}
+                      >
+                        {item.status === 0 ? "รอดำเนินการ" : "เสร็จแล้ว"}
+                      </p>
+                    </section>
+
+                    <section className="w-full">
+                      {item.status === 0 ? (
+                        <p className="text-sm text-gray-700">รอดำเนินการ</p>
+                      ) : (
+                        <button
+                          className="bg-indigo-800 text-white px-2 py-1.5 rounded-md text-sm w-full"
+                          onClick={() =>
+                            handleChangeQuestion(
+                              item.id,
+                              item.products_id,
+                              item.products_title_id
+                            )
+                          }
+                        >
+                          ดูคำถาม
+                        </button>
+                      )}
+                    </section>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
-     
         </div>
       </div>
     </div>
