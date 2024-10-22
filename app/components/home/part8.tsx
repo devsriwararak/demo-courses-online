@@ -112,7 +112,7 @@ const Part8 = () => {
       </div>
 
       <div className="bg-[#07172D]  pt-4 text-white     ">
-        <div className="container mx-auto px-6 lg:px-60 flex flex-row items-center justify-between gap-4">
+        <div className="container mx-auto px-6 lg:px-60 flex flex-row items-center justify-between gap-0 lg:gap-4">
           <p className="  text-[12px] md:text-[16px] font-[700]   ">
             Copyright © 2024 all rights reserved. | Nang Fah Pa Trade
           </p>

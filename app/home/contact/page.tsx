@@ -4,12 +4,23 @@ import Link from "next/link";
 import { FaPhoneSquare } from "react-icons/fa";
 import { LuMapPin, LuPhone, LuAlarmClock, LuMail } from "react-icons/lu";
 import { FaLine } from "react-icons/fa6";
+import Image from "next/image";
 
 export default function Page() {
   return (
     <div className="bg-gray-100 h-full">
       <div className="mx-auto container px-6 md:px-20 py-10">
-        <h1 className="text-3xl ">ติดต่อเรา</h1>
+        <div>
+          <Image
+            src="/contact_1.webp"
+            width={900}
+            height={900}
+            alt=""
+            loading="lazy"
+            className="w-full  rounded-md"
+          />
+        </div>
+        <h1 className="text-3xl mt-12 ">ติดต่อเรา</h1>
 
         <div className="flex flex-col lg:flex-row gap-8 mt-8 items-end">
           <div className="w-full ">
@@ -22,14 +33,13 @@ export default function Page() {
                   label="ชื่อ"
                   color="indigo"
                 />
-              
-              <Input
-                    crossOrigin="anonymous"
-                    type="text"
-                    label="เบอร์โทร"
-                    color="indigo"
-                  />
-                  
+
+                <Input
+                  crossOrigin="anonymous"
+                  type="text"
+                  label="เบอร์โทร"
+                  color="indigo"
+                />
               </div>
               <div className="mt-4   rounded-md w-full   ">
                 <Textarea label="รายละเอียด" className=" " color="indigo" />
@@ -53,13 +63,13 @@ export default function Page() {
               สำหรับการเป็นเทรดเดอร์มืออาชีพ
             </p>
 
-            <div className="flex flex-col md:flex-row gap-3 md:gap-6 mt-5 px-4 lg:px-0">
+            <div className="flex flex-col md:flex-row gap-6 mt-6 px-4 lg:px-0">
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
-                <div className="flex flex-row gap-0 items-center justify-center">
-                  <div className="w-1/3">
+                <div className="flex flex-row gap-4 items-center justify-center">
+                  <div className="w-1/5">
                     <LuMapPin size={40} className="text-indigo-900" />
                   </div>
-                  <div className="w-2/3">
+                  <div className="w-4/5">
                     <h2 className="text-lg text-indigo-900">ที่อยู่</h2>
                     <p className=" text-sm text-gray-600 mt-1 ">
                       998/5 ม.7 9.เมืองเก่า อ.เมืองเก่า จ. ขอนแก่น 40000
@@ -69,11 +79,11 @@ export default function Page() {
               </div>
 
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
-                <div className="flex flex-row gap-0 items-center justify-center">
-                  <div className="w-1/3">
+                <div className="flex flex-row gap-4 items-center justify-center">
+                  <div className="w-1/5">
                     <LuPhone size={40} className="text-indigo-900" />
                   </div>
-                  <div className="w-2/3">
+                  <div className="w-4/5">
                     <h2 className="text-lg text-indigo-800">เบอร์โทร</h2>
 
                     <ul className=" text-sm text-gray-600 mt-1">
@@ -92,10 +102,10 @@ export default function Page() {
             <div className="flex flex-col md:flex-row gap-6 mt-6 px-4 lg:px-0">
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
                 <div className="flex flex-row gap-4 items-center justify-center">
-                  <div className="w-1/3">
+                  <div className="w-1/5">
                     <LuAlarmClock size={40} className="text-indigo-900" />
                   </div>
-                  <div className="w-2/3">
+                  <div className="w-4/5">
                     <h2 className="text-lg text-indigo-800">เวลาทำการ</h2>
                     <p className=" text-sm text-gray-600 mt-1">
                       สามารถเข้าเรียนออนไลน์ได้ตลอด 24 ชั่วโมง
@@ -105,19 +115,22 @@ export default function Page() {
               </div>
 
               <div className="w-full border border-gray-100 rounded-md px-4 py-3 bg-white shadow-lg">
-                <div className="flex  gap-4 items-center justify-center">
-                  <div className="w-1/3">
-                    <FaLine size={40} className="text-indigo-900" />
-                  </div>
-                  <div className="w-2/3">
-                    <h2 className="text-lg text-indigo-800">Line</h2>
-                    <Link href="https://line.me/R/ti/p/@nangfahpatrade">
+                <Link href="https://line.me/R/ti/p/@nangfahpatrade">
+                  <div className="flex  gap-4 items-center justify-center">
+                    <div className="w-1/5">
+                      <FaLine size={40} className="text-indigo-900" />
+                    </div>
+                    <div className="w-4/5">
+                      <h2 className="text-lg text-indigo-800">
+                        @nangfahpatrade
+                      </h2>
+
                       <p className=" text-sm text-gray-600 mt-1">
-                        ติดต่อสอบถาม มีแอดมินคอยให้คำปรึกษา คลิก
+                        ติดต่อสอบถาม มีแอดมินคอยให้คำปรึกษา 
                       </p>
-                    </Link>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
