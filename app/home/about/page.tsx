@@ -121,12 +121,12 @@ export default function Page() {
       </div>
 
       {/* Location 2 bg-gradient-to-b from-transparent via-indigo-50 to-purple-100 */}
-      <div className="bg-gray-200 mt-8">
+      <div className="bg-gray-200 mt-2 lg:mt-8">
         <div className="   mx-auto container py-16 pb-24  px-6 lg:px-0 ">
           <p className="text-sm text-center text-gray-700">
             สอนเทรดออนไลน์ จาก zero ถึง Hero
           </p>
-          <h2 className="mt-2 text-4xl text-center">
+          <h2 className="mt-2 text-2xl lg:text-4xl text-center">
             ข้อดีของการเรียนเทรดออนไลน์กับนางฟ้าพาเทรด
           </h2>
 

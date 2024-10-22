@@ -20,9 +20,9 @@ export default function Page() {
             className="w-full  rounded-md"
           />
         </div>
-        <h1 className="text-3xl mt-12 ">ติดต่อเรา</h1>
+        <h1 className="text-3xl mt-6 lg:mt-12 ">ติดต่อเรา</h1>
 
-        <div className="flex flex-col lg:flex-row gap-8 mt-8 items-end">
+        <div className="flex flex-col lg:flex-row gap-8 mt-4 lg:mt-6 items-end">
           <div className="w-full ">
             <div className="bg-white border border-gray-200 shadow-md rounded-md px-6 py-8">
               <h1 className="text-xl text-gray-800">ส่งข้อความหาเรา</h1>
@@ -53,10 +53,10 @@ export default function Page() {
           </div>
 
           <div className="w-full md:mx-4">
-            <h1 className="text-3xl text-gray-800">
+            <h1 className=" text-2xl lg:text-3xl text-gray-800">
               บริษัท นางฟ้าพาเทรด จํากัด
             </h1>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-700 text-sm">
               {" "}
               มุ่งเน้นให้ความรู้เกี่ยวกับการวิเคราะห์ตลาด
               ใช้เครื่องมือทางการเงิน และการจัดการความเสี่ยง
