@@ -276,7 +276,7 @@ const ManageEbook: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-3">
+    <div className="flex flex-col lg:flex-row justify-center gap-3 container mx-auto py-4">
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="w-full lg:w-7/12 2xl:w-5/12 ">
         <Card className="flex gap-5 w-full px-5  py-5">

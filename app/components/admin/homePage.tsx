@@ -232,7 +232,7 @@ const AdminPage: React.FC = () => {
 
   return (
    
-    <div className="flex justify-center gap-3 ">
+    <div className="flex justify-center gap-3 container mx-auto py-4 ">
       <ToastContainer autoClose={3000} theme="colored" />
       <Card className="flex w-full h-[85vh] mb-2">
         <div className="w-full p-5 justify-center items-center">

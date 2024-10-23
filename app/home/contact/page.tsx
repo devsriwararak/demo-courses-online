@@ -22,7 +22,7 @@ export default function Page() {
         </div>
         <h1 className="text-3xl mt-6 lg:mt-12 ">ติดต่อเรา</h1>
 
-        <div className="flex flex-col lg:flex-row gap-8 mt-4 lg:mt-6 items-end">
+        <div className="flex flex-col lg:flex-row gap-8 mt-4 lg:mt-6c items-end">
           <div className="w-full ">
             <div className="bg-white border border-gray-200 shadow-md rounded-md px-6 py-8">
               <h1 className="text-xl text-gray-800">ส่งข้อความหาเรา</h1>

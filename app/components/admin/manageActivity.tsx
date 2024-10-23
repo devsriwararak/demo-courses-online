@@ -345,7 +345,7 @@ const ManageActivity: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center gap-3">
+    <div className="flex justify-center gap-3 container mx-auto py-4">
       <ToastContainer autoClose={2000} theme="colored" />
       <Card className="flex w-full px-5 h-[85vh]">
         <div className="flex flex-col sm:flex-row mt-3 sm:justify-between gap-3 lg:items-center">

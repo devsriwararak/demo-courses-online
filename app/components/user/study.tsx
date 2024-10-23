@@ -355,7 +355,7 @@ export const QuestionSection = ({
   const fetchDataAllNewQuestion = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/question/new/${userId}`,
+        `${process.env.NEXT_PUBLIC_API}/api/question/new/${userId}/${activeTitle}`,
         {
           headers: {
             Authorization: `Bearer ${decryptData(

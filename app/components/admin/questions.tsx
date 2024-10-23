@@ -15,6 +15,17 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import Image from "next/image";
+import {
+  VscArchive,
+  VscArrowCircleDown,
+  VscEdit,
+  VscExpandAll,
+  VscFolder,
+  VscSymbolEnum,
+} from "react-icons/vsc";
+import { Card, Typography } from "@material-tailwind/react";
+
+const TABLE_HEAD = ["ผู้เรียน", "คอร์สเรียน", "หัวข้อ", "สถานะ", "รายละเอียด"];
 
 interface OptionType {
   id: number;
@@ -95,7 +106,6 @@ const Questions: React.FC<QuestionProps> = ({}) => {
       if (res.status === 200) {
         const options: OptionType[] = res.data.data.map((item: any) => ({
           value: item.id,
-          // label: item.products_title,
           label: item.name,
           products_title: item.products_title,
           products_title_name: item.products_title_name,
@@ -431,11 +441,25 @@ const Questions: React.FC<QuestionProps> = ({}) => {
     setIsModalOpen(true);
   };
 
-  // const toggleValue = () => {
-  //   const newValue = !isTrue;
-  //   setIsTrue(newValue);
-  //   localStorage.setItem("isTrue", newValue.toString()); // บันทึกลงใน localStorage
-  // };
+  const handleDelete = async (id: any) => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/api/question/new/${id}`,
+        {
+          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+        }
+      );
+      if (res.status === 200) {
+        fetchDataSelect();
+        fetchDataRequest();
+        fetchDataList();
+        fetchAllData();
+        toast.success("ลบสำเร็จ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem("isTrue", JSON.stringify(false));
@@ -449,7 +473,7 @@ const Questions: React.FC<QuestionProps> = ({}) => {
   }, [selectedOption, selectedRequest, search]);
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-3 ">
+    <div className="flex flex-col lg:flex-row justify-center gap-3 container mx-auto py-4 ">
       <ToastContainer autoClose={2000} theme="colored" />
 
       {/* เรนเดอร์ Modal */}
@@ -460,8 +484,13 @@ const Questions: React.FC<QuestionProps> = ({}) => {
       />
 
       {/* SECTION 1 */}
-      <section className="w-full lg:w-4/6  ">
-        <p className="text-sm font-semibold">ยังไม่ทำรายการ</p>
+      <section className="w-full lg:w-4/7   ">
+        <div className="flex flex-row gap-3 items-center">
+          <VscSymbolEnum className="text-gray-700" size={23} />
+          <p className="text-base font-semibold text-gray-800">
+            ยังไม่ทำรายการ ( 1 )
+          </p>
+        </div>
         <Select
           value={selectedOption}
           onChange={(option) => handleChange(option, 1)}
@@ -469,71 +498,149 @@ const Questions: React.FC<QuestionProps> = ({}) => {
           placeholder="เลือก"
           className="w-full shadow-xl mt-3"
         />
-        <div className="bg-white shadow-xl rounded-md px-4 py-4 mt-4 lg:h-[520px] overflow-y-scroll">
-          <p className="text-sm font-semibold">รายการที่เคยขอไปแล้ว</p>
-          <ul className="py-4">
-            {dataRequest.map((item, index) => (
-              <li
-                key={item.value}
-                className={`${item.new_question_id == selectedRequest?.new_question_id ? "bg-gray-200" : "" } px-2 rounded-sm flex flex-row justify-between pt-2 py-2 hover:bg-gray-100`}
-              >
-                <p className="text-sm">
-                  {index + 1}. {item.name}{" "}
-                </p>
-                <div className="flex flex-row gap-2 ">
-                  {item.status === 1 ? (
-                    <p className="text-xs bg-green-100 text-green-800 px-2 rounded-md flex items-center">
-                      ส่งแล้ว
-                    </p>
-                  ) : (
-                    <p className="text-xs bg-red-100 text-red-800 px-2 rounded-md flex items-center">
-                      รอดำเนินการ
-                    </p>
-                  )}
-                  <button
-                    onClick={() => handleChange(item, 2)}
-                    className="bg-purple-600 hover:bg-purple-800 text-white px-2 rounded-md"
-                  >
-                    เลือก
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+        <div className=" px-4 py-4 mt-4   ">
+          <div className="flex flex-row gap-2 items-center">
+            <VscArrowCircleDown size={20} className="text-gray-600" />
+            <p className="text-sm font-semibold">รายการที่เคยขอไปแล้ว</p>
+          </div>
+
+          <Card className=" w-full overflow-scroll mt-6 h-[600px]">
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th
+                      key={head}
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                    >
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal leading-none opacity-70"
+                      >
+                        {head}
+                      </Typography>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {dataRequest.map((item, index) => {
+                  const isLast = index === dataRequest.length - 1;
+                  const classes = isLast
+                    ? "p-3 text-center "
+                    : "p-3 border-b border-blue-gray-50 text-center ";
+
+                  return (
+                    <tr key={item.id} className="hover:bg-gray-100">
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.name}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.products_title}
+                        </Typography>
+                      </td>
+
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {item.products_title_name}
+                        </Typography>
+                      </td>
+
+                      <td className={"p-4"}>
+                        {item.status === 1 ? (
+                          <p className="text-xs   bg-green-100 text-green-800 px-1 py-1  rounded-md flex items-center justify-center">
+                            ส่งแล้ว
+                          </p>
+                        ) : (
+                          <p className="text-xs  bg-red-100 text-red-800 px-1 py-1 rounded-md flex items-center justify-center">
+                            รอดำเนินการ
+                          </p>
+                        )}
+                      </td>
+                      <td className={classes}>
+                        <div className="flex flex-row gap-2">
+                          <button
+                            onClick={() => handleChange(item, 2)}
+                            className="bg-purple-600 hover:bg-purple-800 text-white px-2 rounded-md"
+                          >
+                            เลือก
+                          </button>
+
+                          <button
+                            onClick={() => handleDelete(item.value)}
+                            className="bg-red-600 hover:bg-red-800 text-white px-2 rounded-md"
+                          >
+                            ลบ
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Card>
         </div>
       </section>
 
       {/* SECTION 2 */}
 
-      <section className="w-full lg:w-3/6   ">
+      <section className="w-full lg:w-3/7   ">
         <div className="bg-white shadow-xl rounded-md px-6 py-4  ">
-          <p className="text-sm font-semibold">
-            {saveDataList.id ? "แก้ไขข้อมูล" : "เพิ่มข้อมูลใหม่"}
-          </p>
-          <div className="mt-4 text-sm flex flex-col gap-2">
-            <p>
-              คอร์สเรียน{" "}
-              <span className="text-gray-700">
-              {saveDataList.products_name
-                ? saveDataList.products_name
-                : selectedOption?.products_title
-                ? selectedOption?.products_title
-                : selectedRequest?.products_title}
-              </span>
-            </p>
-            <p>
-              บทเรียน{" "}
-             <span className="text-gray-700">
-             {saveDataList.products_title_name
-                ? saveDataList.products_title_name
-                : selectedOption?.products_title_name
-                ? selectedOption?.products_title_name
-                : selectedRequest?.products_title_name}
-             </span>
+          <div className="flex flex-row gap-2 items-center">
+            <VscExpandAll size={23} className="text-gray-500" />
+            <p className="text-base text-gray-800 font-semibold">
+              {saveDataList.id ? "แก้ไขข้อมูล ( 2 )" : "เพิ่มข้อมูลใหม่ ( 2 )"}
             </p>
           </div>
 
-          <form className="mt-4">
+          <div className="mt-6 text-sm flex flex-col gap-2">
+            <div className="flex flex-row gap-1 items-center">
+              <VscArrowCircleDown className="text-gray-700" size={18} />
+              <p className=" font-semibold">คอร์สเรียน </p>
+            </div>
+            <p>
+              <span className="text-gray-700">
+                {saveDataList.products_name
+                  ? saveDataList.products_name
+                  : selectedOption?.products_title
+                  ? selectedOption?.products_title
+                  : selectedRequest?.products_title}
+              </span>
+            </p>
+
+            <div className="flex flex-row gap-1 items-center mt-2">
+              <VscArrowCircleDown className="text-gray-700" size={18} />
+              <p className=" font-semibold">บทเรียน </p>
+            </div>
+            <p>
+              <span className="text-gray-700">
+                {saveDataList.products_title_name
+                  ? saveDataList.products_title_name
+                  : selectedOption?.products_title_name
+                  ? selectedOption?.products_title_name
+                  : selectedRequest?.products_title_name}
+              </span>
+            </p>
+          </div>
+
+          <form className="mt-6">
             <div className="mt-2">
               <Input
                 crossOrigin="anonymous"
@@ -561,19 +668,25 @@ const Questions: React.FC<QuestionProps> = ({}) => {
               />
             </div>
 
-            <div className="mt-4 flex flex-col ">
-              <label htmlFor="" className="text-sm text-gray-700 mb-2">
-                สร้างคำถาม
-              </label>
-              <Textarea
-                value={questionText ? questionText : saveDataList.question}
-                onChange={(e) => setQuestionText(e.target.value)}
-                className="bg-gray-200 h-40"
-                name=""
-                id=""
-                label="สร้างคำถาม"
-                color="purple"
-              ></Textarea>
+            <div className="mt-6 flex flex-col ">
+              <div className="flex flex-row gap-1 items-center">
+                <VscArrowCircleDown className="text-gray-700" size={18} />
+                <label htmlFor="" className="text-sm text-gray-700 mb-2">
+                  คำถาม
+                </label>
+              </div>
+              <div className="w-full">
+                <Textarea
+                  value={questionText ? questionText : saveDataList.question}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  className="bg-gray-200"
+                  name=""
+                  id=""
+                  label="สร้างคำถาม"
+                  color="purple"
+                  rows={14}
+                ></Textarea>
+              </div>
             </div>
 
             <div className="text-right my-6">
@@ -588,31 +701,43 @@ const Questions: React.FC<QuestionProps> = ({}) => {
         </div>
       </section>
 
-      {/* SECTION 2 */}
+      {/* SECTION 3 */}
 
-      <section className="w-full lg:w-3/6">
-        <div className="bg-white shadow-xl rounded-md px-4 py-4 lg:h-[610px] overflow-y-scroll">
-        <p className="text-sm font-semibold mb-2">รายการ</p>
-          <Input
-            crossOrigin="anonymous"
-            type="text"
-            className="bg-gray-200 w-full"
-            label="ค้นหา"
-            value={search}
-            onChange={(e) => setSearch(e.target.value ?? "")}
-            color="purple"
-          />
+      <section className="w-full lg:w-3/7">
+        <div className="bg-white shadow-xl rounded-md px-4 py-4 lg:h-[760px] overflow-y-scroll">
+          <div className="flex flex-row gap-2 items-center">
+            <VscFolder size={20} className="text-gray-500" />
+            <p className="text-base font-semibold  text-gray-800">
+              รายการ ( 3 )
+            </p>
+          </div>
+
+          <div className="mt-4">
+            <Input
+              crossOrigin="anonymous"
+              type="text"
+              className="bg-gray-200 w-full"
+              label="ค้นหา"
+              value={search}
+              onChange={(e) => setSearch(e.target.value ?? "")}
+              color="purple"
+            />
+          </div>
 
           <ul className="mt-6">
             {dataList.map((item, index) => (
               <li
                 key={item.id}
-                className={`${item.id === saveDataList.id ? "bg-gray-200": ""} px-2 rounded-sm flex flex-row justify-between pt-1.5 pb-1.5 hover:bg-gray-100`}
+                className={`${
+                  item.id === saveDataList.id ? "bg-gray-200" : ""
+                } px-2 rounded-sm flex flex-row justify-between pt-4 pb-4 hover:bg-gray-100`}
               >
-                <p className="text-sm">{index + 1}. {" "} <span className="text-gray-700">{item.question}</span></p>
+                <p className="text-sm">
+                  <span className="text-gray-700">{item.question}</span>
+                </p>
                 <div className=" flex flex-row gap-2">
                   <button
-                    className="text-sm text-purple-700 px-1 border border-purple-200 rounded-md  "
+                    className="text-sm bg-purple-700 text-white px-2 py-1 rounded-md "
                     onClick={() =>
                       handleOpenModal(
                         item.question,
@@ -623,18 +748,16 @@ const Questions: React.FC<QuestionProps> = ({}) => {
                   >
                     รูป
                   </button>
-                  <button
-                    className="text-sm bg-purple-700 text-white px-1 rounded-md"
+                  <VscEdit
+                    size={20}
                     onClick={() => handleShowEdit(item.id)}
-                  >
-                    แก้ไข
-                  </button>
-                  <button
+                    className="text-purple-800 cursor-pointer"
+                  />
+                  <VscArchive
+                    size={20}
                     onClick={() => gandleDelete(item.id)}
-                    className="text-sm bg-red-500 text-white px-1 rounded-md"
-                  >
-                    ลบ
-                  </button>
+                    className="text-purple-800 cursor-pointer"
+                  />
                 </div>
               </li>
             ))}

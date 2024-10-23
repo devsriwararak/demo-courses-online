@@ -130,6 +130,7 @@ const ShopCourse: React.FC = () => {
 
   const handleClickCategory = (id: number) => {
     setSelectCatetegory(id);
+    setSelectedCategory(id)
     setIndex(id);
   };
 
@@ -210,8 +211,6 @@ const ShopCourse: React.FC = () => {
           </div>
         </div>
 
-      
-
         <div className="flex justify-center mt-4 ">
           <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 ">
             {product?.map((course, index) => (
@@ -243,9 +242,18 @@ const ShopCourse: React.FC = () => {
 
                     <Typography className="text-sm mt-2 text-gray-800 ps-3 pr-1">
                       {/* {course?.products_dec} */}
-                      {parse(
+                      {/* {parse(
                         truncateText(
                           course.products_dec.replace(/<\/?[^>]+(>|$)/g, ""),
+                          100
+                        )
+                      )} */}
+                      {parse(
+                        truncateText(
+                          (course.products_dec || "").replace(
+                            /<\/?[^>]+(>|$)/g,
+                            ""
+                          ),
                           100
                         )
                       )}
@@ -254,11 +262,9 @@ const ShopCourse: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col mt-4 px-6 pb-5 ">
-                  <div className="flex w-full text-wrap">
-                  </div>
+                  <div className="flex w-full text-wrap"></div>
                   <Button
                     className="w-full justify-center items-center text-base font-normal bg-indigo-800 hover:bg-indigo-600 "
-                   
                     size="sm"
                   >
                     {`ดูเนื้อหา`}

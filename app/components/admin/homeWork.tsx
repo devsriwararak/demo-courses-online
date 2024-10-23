@@ -640,9 +640,8 @@ const HomeWorkPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  console.log(selectedItem);
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto">
+    <div className="flex flex-col lg:flex-row justify-center gap-3 overflow-auto container mx-auto py-4">
       <ToastContainer autoClose={2000} theme="colored" />
       <div className="w-full lg:w-5/12">
         <div className="flex flex-col gap-3">

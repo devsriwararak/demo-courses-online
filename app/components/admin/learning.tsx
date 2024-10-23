@@ -306,7 +306,7 @@ const LearningPage: React.FC = () => {
   return (
    
       
-      <div className="flex w-full flex-col xl:flex-row justify-center gap-3 ">
+      <div className="flex w-full flex-col xl:flex-row justify-center gap-3 container mx-auto py-4 ">
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
           <div className="w-full  ">

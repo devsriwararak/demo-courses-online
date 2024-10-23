@@ -180,30 +180,31 @@ const LoginPage: React.FC = () => {
                 </div>
 
                 <div className="flex flex-row items-center justify-center gap-4">
-                  <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-700"></hr>
-                  <p className="text-gray-600 text-sm">ตัวเลือกอื่น</p>
-                  <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
+                  <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-500"></hr>
+                  <p className="text-gray-500 text-center w-16 text-sm">ตัวเลือกอื่น</p>
+                  <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-600"></hr>
                 </div>
 
-                <div className="flex w-full  flex-row  gap-2 justify-center items-center   ">
-                  <div className="w-full ">
+                <div className="flex w-full  flex-row  gap-0 justify-center items-center     ">
+                  <div className="w-1/2 lg:w-1/4 ">
                     <p
-                      className=" text-right text-purple-300 hover:bg-purple-50 px-2  py-1 cursor-pointer "
+                      className=" text-center text-purple-300  hover:bg-purple-50 rounded-lg   py-1 cursor-pointer "
                       onClick={() => router.push("/loginopt")}
                     >
                       เข้าสู่ระบบ OTP
                     </p>
                   </div>
 
-                  <div className="w-full ">
+                  <div className="w-1/2 lg:w-1/4 ">
                     <p
-                      className=" text-left text-purple-300 hover:bg-purple-50 px-2 py-1  cursor-pointer "
+                      className=" text-center text-purple-300 hover:bg-purple-50 rounded-lg  py-1  cursor-pointer "
                       onClick={() => router.push("/reset")}
                     >
                       ลืมรหัสผ่าน{" "}
                     </p>
                   </div>
                 </div>
+
                 <div className="flex justify-end px-1"></div>
               </div>
             </div>
