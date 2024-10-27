@@ -34,7 +34,7 @@ export default function Page() {
         </section>
         <section className="w-full ">
           <p className="text-gray-500">สอนเทรดมือใหม่ ให้เป็นมืออาชีพ </p>
-          <h1 className="text-4xl mt-2">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
+          <h1 className="text-3xl lg:text-4xl mt-2">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
           <p className="mt-6 text-gray-600 ">
             <span className=" font-semibold text-indigo-900">
               บริษัทนางฟ้าพาเทรดเปิดมา 3 ปี
@@ -82,7 +82,7 @@ export default function Page() {
             </section>
           </div>
 
-          <div className=" flex flex-col lg:flex-row gap-6 items-center">
+          <div className=" flex flex-col lg:flex-row gap-6 items-start lg:items-center mt-4">
             <Button className="text-sm bg-indigo-900">คอร์สเรียนทั้งหมด</Button>
             <div className="flex flex-row gap-3">
               <Link href="xxx">
@@ -123,10 +123,10 @@ export default function Page() {
       {/* Location 2 bg-gradient-to-b from-transparent via-indigo-50 to-purple-100 */}
       <div className="bg-gray-200 mt-2 lg:mt-8">
         <div className="   mx-auto container py-16 pb-24  px-6 lg:px-0 ">
-          <p className="text-sm text-center text-gray-700">
+          <p className="text-sm text-left lg:text-center text-gray-700">
             สอนเทรดออนไลน์ จาก zero ถึง Hero
           </p>
-          <h2 className="mt-2 text-2xl lg:text-4xl text-center">
+          <h2 className="mt-2 text-2xl lg:text-4xl text-left lg:text-center">
             ข้อดีของการเรียนเทรดออนไลน์กับนางฟ้าพาเทรด
           </h2>
 

@@ -10,7 +10,7 @@ export default function Page() {
     <div className="">
       <div className="flex flex-col lg:flex-row gap-3 items-end mx-auto container px-6 md:px-20 py-14 lg:py-20">
         <section className="w-full">
-          <h1 className="text-3xl leading">
+          <h1 className="text-2xl lg:text-3xl  leading-relaxed">
             สมัครสมาชิกเครื่องมือเทรดเดอร์แบบที่มืออาชีพใช้กัน HFM
           </h1>
 
@@ -72,10 +72,10 @@ export default function Page() {
 
       <div className=" bg-gray-200">
         <div className=" mx-auto container px-6 md:px-20 py-16 lg:py-20">
-          <h2 className="text-2xl leading-relaxed lg:text-3xl text-center">
+          <h2 className="text-2xl leading-relaxed lg:text-3xl text-left lg:text-center">
             HFM (HotForex Markets) เป็นโบรกเกอร์การเทรดออนไลน์
           </h2>
-          <p className="mt-3 text-gray-700 text-center">
+          <p className="mt-3 text-gray-700 tet-sm text-left lg:text-center">
             ให้บริการด้านการเทรดสินทรัพย์ต่าง ๆ เช่น ฟอเร็กซ์, สินค้าโภคภัณฑ์,
             ดัชนี, หุ้น, และสกุลเงินดิจิทัล
             โบรกเกอร์นี้ได้รับความนิยมในกลุ่มนักลงทุนทั่วโลก
