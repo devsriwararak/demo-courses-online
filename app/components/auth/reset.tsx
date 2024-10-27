@@ -104,7 +104,7 @@ const Reset: React.FC = () => {
             <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  DEV SRIWARARAK
+                  DEV SRIWARARAK (ลืมรหัสผ่าน)
                 </Typography>
               </div>
               <div>
@@ -212,29 +212,24 @@ const Reset: React.FC = () => {
                   </div>
 
                   <div className="flex flex-row items-center justify-center gap-4">
-                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
-                    <p className="text-gray-600 text-sm">ตัวเลือกอื่น</p>
-                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
+                    <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-500"></hr>
+                    <p className="text-gray-500 text-center w-16 text-sm">
+                      ตัวเลือกอื่น
+                    </p>
+                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-600"></hr>
                   </div>
 
-                  <div className="flex w-full flex-row gap-2 justify-center items-center">
-                    <div className="w-full ">
+                  <div className="flex w-full  flex-row  gap-0 justify-center items-center     ">
+                    <div className="w-2/2 lg:w-2/4 ">
                       <p
-                        className="text-right text-purple-300 hover:bg-purple-50 px-2 py-1 cursor-pointer"
+                        className=" text-center text-purple-300  hover:bg-purple-50 rounded-lg px-2   py-1 cursor-pointer "
                         onClick={() => router.push("/login")}
                       >
-                        เข้าสู่ระบบ user/password
-                      </p>
-                    </div>
-                    <div className="w-full ">
-                      <p
-                        className="text-left text-purple-300 hover:bg-purple-50 px-2 py-1 cursor-pointer"
-                        onClick={() => router.push("/loginopt")}
-                      >
-                        เข้าสู่ระบบ OTP
+                        เข้าสู่ระบบแบบปกติ
                       </p>
                     </div>
                   </div>
+
                   <div className="flex justify-end px-1"></div>
                 </div>
               </div>

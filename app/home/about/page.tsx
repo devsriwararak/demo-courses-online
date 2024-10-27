@@ -34,7 +34,7 @@ export default function Page() {
         </section>
         <section className="w-full ">
           <p className="text-gray-500">สอนเทรดมือใหม่ ให้เป็นมืออาชีพ </p>
-          <h1 className="text-3xl lg:text-4xl mt-2">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
+          <h1 className="text-3xl lg:text-4xl mt-2 leading-relaxed">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
           <p className="mt-6 text-gray-600 ">
             <span className=" font-semibold text-indigo-900">
               บริษัทนางฟ้าพาเทรดเปิดมา 3 ปี
@@ -126,7 +126,7 @@ export default function Page() {
           <p className="text-sm text-left lg:text-center text-gray-700">
             สอนเทรดออนไลน์ จาก zero ถึง Hero
           </p>
-          <h2 className="mt-2 text-2xl lg:text-4xl text-left lg:text-center">
+          <h2 className="mt-2 text-2xl lg:text-4xl text-left lg:text-center leading-relaxed">
             ข้อดีของการเรียนเทรดออนไลน์กับนางฟ้าพาเทรด
           </h2>
 
