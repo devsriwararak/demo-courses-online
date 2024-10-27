@@ -5,7 +5,9 @@ const Part1: React.FC = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/top-banner-bg.jpg')`,
+        // backgroundImage: `url('/top-banner-bg.jpg')`,
+        backgroundImage: `url('/banner_2.jpg')`,
+
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

@@ -28,6 +28,7 @@ const CoursesPage: React.FC = () => {
   const [dataSelect, setDataSelect] = useState<any[]>([]);
   const [search, setSearch] = useState<string>("");
   const [selectType, setSelectType] = useState<any>("");
+  const [selectTypeName, setSelectTypeName] = useState<any>("");
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
@@ -64,6 +65,23 @@ const CoursesPage: React.FC = () => {
     }
   };
 
+  const handleSelectType = (e: any) => {
+    const id = e.target.value;
+    const findData = dataSelect.find((item) => item.id == id);
+    console.log(id);
+    
+    if (id) {
+      setSelectType(id);
+    } else {
+      setSelectType("");
+    }
+    if (findData) {
+      setSelectTypeName(findData.name);
+    }else {
+      setSelectTypeName("");
+    }
+  };
+
   useEffect(() => {
     const fetchCourses = async () => {
       const data = await fetchData();
@@ -90,7 +108,7 @@ const CoursesPage: React.FC = () => {
       {/* Sidebar Filters p-5 md:p-10 2xl:px-10 */}
       {/* lg:w-3/12 2xl:w-2/12 */}
       <div className="w-full md:w-4/12 lg:w-1/5 p-4  bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
-        <div className="flex flex-row items-center justify-between md:flex-col mb-3 gap-3">
+        <div className="flex flex-row items-center lg:items-start justify-between md:flex-col mb-3 gap-3">
           <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
           <h2 className="text-indigo-800 text-sm font-light">
             คอร์เรียนทั้งหมด
@@ -140,10 +158,11 @@ const CoursesPage: React.FC = () => {
 
           <div className="mt-3 ">
             <select
-              onChange={(e) => setSelectType(e.target.value)}
+              onChange={(e) => handleSelectType(e)}
               value={selectType || ""}
               className="w-full bg-gray-100 py-1.5 px-2 border border-gray-300 rounded-md "
             >
+              <option value="">ทั้งหมด</option>
               {dataSelect.map((item, index) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -176,7 +195,9 @@ const CoursesPage: React.FC = () => {
           <div>
             <p className="text-xl md:text-2xl font-bold">
               คอร์สเรียน{" "}
-              <span className="text-indigo-800 font-bold">ทั้งหมด</span>
+              <span className="text-indigo-800 font-bold">
+                {selectTypeName ? selectTypeName : "ทั้งหมด"}
+              </span>
             </p>
             <p className="mb-4 text-sm text-gray-700">
               ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>

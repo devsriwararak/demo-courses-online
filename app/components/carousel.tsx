@@ -86,13 +86,13 @@ const SliderComponent = () => {
           swiperRef.current = swiper;
         }}
         spaceBetween={20}
-        // slidesPerView={Math.min(slides.length, 4)} 
-        // slidesPerGroup={Math.min(slides.length, 4)} 
+        // slidesPerView={Math.min(slides.length, 4)}
+        // slidesPerGroup={Math.min(slides.length, 4)}
         navigation={{
           nextEl: ".swiper-button-next-custom",
           prevEl: ".swiper-button-prev-custom",
         }}
-        // loop={slides.length >= 4} 
+        // loop={slides.length >= 4}
         autoplay={{
           delay: 1500,
           disableOnInteraction: false,
@@ -119,37 +119,24 @@ const SliderComponent = () => {
         }}
         modules={[Navigation, Autoplay]}
       >
-        {/* {getSlides(slides).map((slide, index) => (
-          <SwiperSlide key={index}>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.id}>
             <Link href={`/home/course/${slide.id}`}>
               <div className="relative w-full h-48">
                 <Image
-                  style={{ objectFit: "cover" }}
+                  layout="fill"
+                  objectFit="cover"
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
-                  alt={slide.title || `Slide ${index + 1}`}
-                  width={500}
-                  height={500}
-                  className="w-full h-full rounded-md "
+                  loading="lazy"
+                  className="  w-full rounded-md"
+                  alt={slide.title}
                 />
               </div>
-              <p className="text-white text-sm  py-2 rounded-b-md px-2 text-center bg-black bg-opacity-40">{slide.title}</p>
-            </Link>
-          </SwiperSlide>
-        ))} */}
 
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full h-48">
-              <Image
-                layout="fill"
-                objectFit="cover"
-                src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${slide.image}`}
-                loading="lazy"
-                className="  w-full rounded-md"
-                alt={slide.title}
-              />
-            </div>
-            <p className="text-white text-sm  py-2 rounded-b-md px-2 text-center bg-black bg-opacity-40">{slide.title}</p>
+              <p className="text-white text-sm  py-2 rounded-b-md px-2 text-center bg-black bg-opacity-40">
+                {slide.title}
+              </p>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

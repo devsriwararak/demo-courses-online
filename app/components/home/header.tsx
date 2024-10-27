@@ -17,7 +17,7 @@ const navItems = [
   { href: "/home", label: "หน้าหลัก" },
   { href: "/home/course", label: "คอร์สเรียน" },
   { href: "/home/broker", label: "โบรกเกอร์" },
-  { href: "/home/ebook", label: "EBook" },
+  { href: "/home/ebook", label: "Ebook" },
   { href: "/home/about", label: "เกี่ยวกับเรา" },
   { href: "/home/portfolio", label: "ผลงาน" },
   { href: "/home/activity", label: "กิจกรรม" },
@@ -44,7 +44,7 @@ const NavItem: React.FC<NavItemProps> = ({
       as="li"
       key={href}
       variant="small"
-      className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
+      className={`relative pb-1 flex justify-center items-center text-white   ${
         currentPath === href ? "active " : ""
       }`}
     >
@@ -135,14 +135,14 @@ export function HeaderHome() {
         }}
       >
         <div className="flex flex-row  items-center justify-between gap-5  ">
-          <div className=" w-full ">
+          <div className=" w-full   ">
             <Link href="/home">
               <Image
-                src={"/logonavbar.svg"}
+                src={"/logo_3.png"}
                 alt=""
-                width={500}
-                height={500}
-                className=" w-24  md:w-28  object-cover "
+                width={900}
+                height={900}
+                className=" w-36  md:w-36  object-cover "
               />
             </Link>
           </div>

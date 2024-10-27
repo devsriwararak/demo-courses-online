@@ -10,22 +10,22 @@ export default function Page() {
     <div className="">
       <div className="flex flex-col lg:flex-row gap-3 items-end mx-auto container px-6 md:px-20 py-14 lg:py-20">
         <section className="w-full">
-          <h1 className="text-3xl">
-            สมัครสมาชิกเครื่องมือเทรดเดอร์มืออาชีพกับ HFM
+          <h1 className="text-3xl leading">
+            สมัครสมาชิกเครื่องมือเทรดเดอร์แบบที่มืออาชีพใช้กัน HFM
           </h1>
 
           <ul className="text-indigo-600 mt-6 flex flex-col gap-2">
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>เลเวอเรจ 1:2000</p>
+              <p className="text-base lg:text-xl">เลเวอเรจ 1:2000</p>
             </li>
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>การดำเนินการที่รวดเร็วเป็นพิเศษ</p>
+              <p className="text-base lg:text-xl">การดำเนินการที่รวดเร็วเป็นพิเศษ</p>
             </li>
             <li className="flex flex-row gap-2 items-center">
               <FaCheckSquare size={20} className="text-indigo-800" />{" "}
-              <p>ไม่มีค่าสวอป</p>
+              <p className="text-base lg:text-xl">ไม่มีค่าสวอป</p>
             </li>
           </ul>
 
@@ -72,7 +72,7 @@ export default function Page() {
 
       <div className=" bg-gray-200">
         <div className=" mx-auto container px-6 md:px-20 py-16 lg:py-20">
-          <h2 className="text-3xl text-center">
+          <h2 className="text-2xl leading-relaxed lg:text-3xl text-center">
             HFM (HotForex Markets) เป็นโบรกเกอร์การเทรดออนไลน์
           </h2>
           <p className="mt-3 text-gray-700 text-center">
