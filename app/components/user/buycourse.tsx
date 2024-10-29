@@ -427,14 +427,14 @@ const BuyCourse = () => {
                 <div className="w-full">
                   <div
                     className={`${
-                      checkPay.status == 0 ? "bg-red-500" : "bg-green-500"
+                      checkPay.status == 0 ? "bg-red-500" : checkPay.status === 1 ? "bg-green-500" : "" 
                     } py-2 px-4  flex gap-2 rounded-md`}
                   >
                     <Typography className="font-semibold text-white">
                       สถานะ :
                     </Typography>
                     <Typography className="font-semibold text-white">
-                      {checkPay.status == 0 ? "ยังไม่ชำระ" : "ชำระเงินแล้ว"}
+                      {checkPay.status == 0 ? "ยังไม่ชำระ" : checkPay.status === 1 ? "ชำระเงินแล้ว" : ""}
                     </Typography>
                   </div>
                 </div>
