@@ -27,7 +27,9 @@ const BuyCourse = () => {
   const [bill, setBill] = useState("");
   const [payId, setPayId] = useState("");
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("กำลังตรวจสอบ...");
+  2;
+  const [loadingQrcode, setLoadingQrcode] = useState(false);
   const [file, setFile] = useState(null);
   const [imageQrCode, setImageQrCode] = useState("");
 
@@ -75,7 +77,10 @@ const BuyCourse = () => {
         const price = res.data.products_price_sale
           ? res.data.products_price_sale
           : res.data.products_price;
-        await fetchDataMyPay(price);
+
+        setTimeout(() => {
+          fetchDataMyPay(price);
+        }, 2000);
       } else {
         toast.error("error");
       }
@@ -92,8 +97,6 @@ const BuyCourse = () => {
         users_id: userId,
       };
 
-      console.log(sendData);
-
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/pay/users/check_pay`,
         sendData,
@@ -105,7 +108,7 @@ const BuyCourse = () => {
           },
         }
       );
-      console.log(res);
+      console.log({ mypat: res });
 
       if (res.status === 200) {
         setCheckPay({
@@ -114,12 +117,17 @@ const BuyCourse = () => {
           status: res.data.status,
         });
 
+        setLoadingQrcode(true);
+        await fetchDataCreateQrCode(price);
+
         if (res.data.id) {
+          setLoading("");
           setShow(true);
-          await fetchDataCreateQrCode(price);
-          // setTimeout(() => {
-          //   fetchDataCreateQrCode(price);
-          // }, 3000);
+
+          // await
+        } else {
+          setShow(false);
+          setLoading("ยังไม่ทำรายการซื้อ");
         }
       }
     } catch (error) {
@@ -143,9 +151,11 @@ const BuyCourse = () => {
           },
         }
       );
-      if (res.status === 200) {
-        console.log(res.data);
-        setImageQrCode(res.data.qrCodePath);
+      const qrCodePath = await res.data.qrCodePath;
+      if (qrCodePath) {
+        console.log({ qrCodePath });
+        setImageQrCode(qrCodePath);
+        setLoadingQrcode(true);
       }
     } catch (error) {
       console.log(error);
@@ -161,7 +171,7 @@ const BuyCourse = () => {
   };
 
   const handleCheck = async () => {
-    setLoading(true);
+    setLoading("");
     MySwal.fire({
       title: "กำลังส่งข้อมูล...",
       allowOutsideClick: false,
@@ -177,7 +187,7 @@ const BuyCourse = () => {
       product_id: Number(buyData?.product_id),
     };
     try {
-      console.log(data);
+      // console.log(data);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/pay/add`,
         data,
@@ -199,7 +209,7 @@ const BuyCourse = () => {
       MySwal.close();
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
-      setLoading(false);
+      setLoading("");
     }
   };
 
@@ -209,7 +219,6 @@ const BuyCourse = () => {
       return;
     }
 
-    setLoading(true);
     MySwal.fire({
       title: "กำลังส่งข้อมูล...",
       allowOutsideClick: false,
@@ -229,8 +238,8 @@ const BuyCourse = () => {
     //     : buyData?.price?.toString() || "0";
 
     const price = buyData?.products_price_sale
-    ? buyData?.products_price_sale.toLocaleString()
-    : buyData?.products_price.toLocaleString()
+      ? buyData?.products_price_sale.toLocaleString()
+      : buyData?.products_price.toLocaleString();
 
     formData.append("price", price);
     formData.append("file", file);
@@ -251,7 +260,7 @@ const BuyCourse = () => {
         setSuccess(true);
         MySwal.close();
       } else {
-        setLoading(false);
+        setLoading("");
         toast.error("Form submission failed!");
         MySwal.close();
       }
@@ -259,7 +268,7 @@ const BuyCourse = () => {
       MySwal.close();
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
-      setLoading(false);
+      setLoading("");
     }
   };
 
@@ -295,7 +304,9 @@ const BuyCourse = () => {
 
             <div className=" flex flex-col lg:flex-row gap-2  ">
               <div className="w-full lg:w-1/6">
-                <Typography className="font-bold text-black  text-base">ราคา :</Typography>
+                <Typography className="font-bold text-black  text-base">
+                  ราคา :
+                </Typography>
               </div>
               <div className="w-full text-sm lg:w-5/6">
                 <Typography className="text-base">
@@ -318,15 +329,16 @@ const BuyCourse = () => {
                   {buyData?.products_price_sale
                     ? buyData?.products_price.toLocaleString()
                     : 0}
-                    <span className="ml-1.5">บาท</span>
+                  <span className="ml-1.5">บาท</span>
                 </Typography>
-                
               </div>
             </div>
 
             <div className=" flex flex-col lg:flex-row gap-2 items-start ">
               <div className=" w-full lg:w-1/6">
-                <Typography className="font-bold text-black ">รายละเอียด :</Typography>
+                <Typography className="font-bold text-black ">
+                  รายละเอียด :
+                </Typography>
               </div>
               {/* <Typography>{truncateText(buyData?.dec || "", 70)}</Typography> */}
               <div className="w-full text-sm lg:w-5/6">
@@ -375,18 +387,22 @@ const BuyCourse = () => {
 
           <hr className=" " />
 
+          {loading && <p>{loading}</p>}
+
           {show ? (
             <div className="flex flex-col gap-3 ">
               <>
                 <div className="flex flex-col lg:flex-row gap-4">
                   <div className="w-full">
-                    {imageQrCode && (
-                      <img
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageQrCode}`}
-                        className="w-32"
-                        alt=""
-                      />
-                    )}
+                    {loadingQrcode
+                      ? imageQrCode && (
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageQrCode}`}
+                            className="w-32"
+                            alt=""
+                          />
+                        )
+                      : "กำลังสร้าง QR Code ...."}
                   </div>
                   <div className="w-full">
                     <ul className="text-base">
@@ -444,14 +460,16 @@ const BuyCourse = () => {
                       </Typography>
                     </div>
 
-                    <div className="w-full">
-                      <Input
-                        type="file"
-                        label="แนบสลิป files"
-                        onChange={handleFileChange}
-                        crossOrigin="anonymous"
-                      />
-                    </div>
+                    {checkPay.status === 0 && (
+                      <div className="w-full">
+                        <Input
+                          type="file"
+                          label="แนบสลิป files"
+                          onChange={handleFileChange}
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
