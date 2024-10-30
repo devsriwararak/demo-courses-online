@@ -188,7 +188,7 @@ const MyOrder: React.FC = () => {
                       />
                       <MdFactCheck
                         className={`h-5 w-5 text-purple-500 cursor-pointer ${
-                          item?.status === 1 ? "hidden" : ""
+                          item?.status === 1 || item?.status === 2 ? "hidden" : ""
                         }`}
                         onClick={() => openModalWithImage1(item)}
                       />
