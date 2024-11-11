@@ -53,7 +53,7 @@ const Part2 = () => {
           
           {Array.isArray(results) &&
             results.map((item: any) => (
-              <div className="bg-[#252525] w-[230px] h-[230px] p-4  rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto">
+              <div className="bg-[#252525] w-[230px] h-[230px] p-4  rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto" key={item.id}>
                 <Image
                   src={item.icon}
                   alt="เลือกคอร์สเรียน"
