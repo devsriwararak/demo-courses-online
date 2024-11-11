@@ -5,7 +5,6 @@ import Part4 from "./part4";
 import Part5 from "./part5";
 import Part6 from "./part6";
 import Part7 from "./part7";
-import Part8 from "./part8";
 
 const HomePage: React.FC = () => {
   return (
@@ -17,7 +16,6 @@ const HomePage: React.FC = () => {
       <Part5 />
       <Part6 />
       <Part7 />
-      {/* <Part8 /> */}
     </div>
   );
 };

@@ -2,6 +2,8 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import Part8 from "../home/part8";
+import { useLocale } from "next-intl";
+
 
 const SITEMAP = [
     {
@@ -30,10 +32,12 @@ const currentYear = new Date().getFullYear();
 
 export function UserFooter() {
     const router = useRouter();
+    const locale = useLocale();
+
 
     return (
         <div>
-       <Part8 />
+       <Part8 locale={locale} />
 
         </div>
 
