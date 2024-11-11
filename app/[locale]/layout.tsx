@@ -1,11 +1,11 @@
-// app/[locale]/layout.tsx
-//  Error: This component must be used inside a <RecoilRoot> component.
+// Error: setRequestLocale is not defined
 
 import { NextIntlClientProvider } from "next-intl";
 import { ReactNode } from "react";
 import Header from "../components/layout/home/Header";
 import { HeaderHome } from "../components/home/header";
 import Part8 from "../components/home/part8";
+import { setRequestLocale } from "next-intl/server";
 
 export default async function LocaleLayout({
   children,
@@ -14,6 +14,9 @@ export default async function LocaleLayout({
   children: ReactNode;
   params: { locale: string };
 }) {
+
+    // ใช้ setRequestLocale เพื่อเปิดใช้งาน Static Rendering
+  setRequestLocale(locale);
   const messages = (await import(`../../messages/${locale}.json`)).default;
 
   return (
