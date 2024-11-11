@@ -1,4 +1,4 @@
-import Home from '../../components/home/home'
+import Page from '@/app/home/page'
 
 
 const HomePage = () => {
@@ -6,7 +6,8 @@ const HomePage = () => {
     <div>
       {/* text : {t("title")} */}
       
-      <Home/>
+      <Page/>
+
       </div>
   )
 }
