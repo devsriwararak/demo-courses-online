@@ -1,11 +1,9 @@
-import HomePage from "../components/home/home";
-import HomeTH from "./th/page";
+import Page from '@/app/home/page'
 
 export default function Page() {
     return (
         <div>
-            {/* <HomePage /> */}
-            <HomeTH/>
+            <Page />
         </div>
     );
 }
