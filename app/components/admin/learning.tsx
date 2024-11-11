@@ -288,7 +288,7 @@ const LearningPage: React.FC = () => {
     }
   };
 
-  const handleEdit = (data: Course) => {
+  const handleEdit = (data: any) => {
     setFormData({
       id: data.id,
       category_id: data?.category_id?.toString() || "",
