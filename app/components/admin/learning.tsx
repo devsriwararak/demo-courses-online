@@ -45,6 +45,7 @@ interface Course {
   videoFile: File;
   dec: string;
   lesson: string;
+  youtube: string;
 }
 
 const LearningPage: React.FC = () => {
@@ -79,6 +80,7 @@ const LearningPage: React.FC = () => {
     lesson: "",
     regularPrice: 0,
     discountPrice: 0,
+    youtube : ""
   });
 
   const [learningAdd, setLearningAdd] = useState(0);
@@ -153,6 +155,7 @@ const LearningPage: React.FC = () => {
     formDataToSubmit.append("price", formData.regularPrice.toString());
     formDataToSubmit.append("price_sale", formData.discountPrice.toString());
     formDataToSubmit.append("category_id", formData.category_id.toString());
+    formDataToSubmit.append("youtube", formData.youtube);
     if (statusEdit === 1) {
       formDataToSubmit.append("id", formData.id.toString());
     }
@@ -218,6 +221,7 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: 0,
       discountPrice: 0,
+      youtube : ""
     });
     setStatusEdit(0); // รีเซ็ตสถานะ
     fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
@@ -253,6 +257,7 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: 0,
       discountPrice: 0,
+      youtube : "2222"
     });
     // setStatusEdit(0); // รีเซ็ตสถานะ
     // fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
@@ -295,6 +300,7 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: data.price,
       discountPrice: data.price_sale,
+      youtube : data.youtube
     });
     setLearningAdd(1);
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข

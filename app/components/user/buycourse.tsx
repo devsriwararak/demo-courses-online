@@ -17,6 +17,7 @@ import Topsale from "../topsale";
 import parse from "html-react-parser";
 
 import CryptoJS from "crypto-js";
+import ModalHowToPay from "./ModalHowToPay";
 
 const MySwal = withReactContent(Swal);
 
@@ -52,6 +53,11 @@ const BuyCourse = () => {
   };
 
   const userId = decryptData(localStorage.getItem("Id") || "");
+
+  // Modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+ 
 
   const truncateText = (text: string, limit: number) => {
     if (text.length > limit) {
@@ -161,6 +167,7 @@ const BuyCourse = () => {
       console.log(error);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -275,6 +282,7 @@ const BuyCourse = () => {
   return (
     <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
+      <ModalHowToPay open={open} handleOpen={handleOpen}  />
 
       <div className="w-full md:w-3/5 ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white  ">
@@ -370,19 +378,36 @@ const BuyCourse = () => {
 
       <div className="w-full md:w-2/5  ">
         <Card className="lg:h-[550px] w-full overflow-auto gap-5 px-6 py-4">
-          <div className="w-full sm:w-[150px] ">
-            <Button
-              className="w-full justify-center items-center text-base font-normal mb-0"
-              size="sm"
-              style={{
-                backgroundImage:
-                  "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
-              }}
-              onClick={handleCheck}
-              disabled={checkPay.id}
-            >
-              ทำรายการซื้อ
-            </Button>
+          <div className="flex flex-col lg:flex-row gap-4 ">
+            <div className="w-full sm:w-[150px]">
+              <Button
+                className="w-full justify-center items-center text-base font-normal mb-0"
+                size="sm"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                }}
+                onClick={handleCheck}
+                disabled={checkPay.id}
+              >
+                ทำรายการซื้อ
+              </Button>
+            </div>
+
+            <div className="w-full sm:w-[150px]">
+              <Button
+                className="w-full justify-center items-center text-base font-normal mb-0"
+                size="sm"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                }}
+                onClick={handleOpen}
+                
+              >
+                วิธีการชำระเงิน
+              </Button>
+            </div>
           </div>
 
           <hr className=" " />
@@ -427,14 +452,22 @@ const BuyCourse = () => {
                 <div className="w-full">
                   <div
                     className={`${
-                      checkPay.status == 0 ? "bg-red-500" : checkPay.status === 1 ? "bg-green-500" : "" 
+                      checkPay.status == 0
+                        ? "bg-red-500"
+                        : checkPay.status === 1
+                        ? "bg-green-500"
+                        : ""
                     } py-2 px-4  flex gap-2 rounded-md`}
                   >
                     <Typography className="font-semibold text-white">
                       สถานะ :
                     </Typography>
                     <Typography className="font-semibold text-white">
-                      {checkPay.status == 0 ? "ยังไม่ชำระ" : checkPay.status === 1 ? "ชำระเงินแล้ว" : ""}
+                      {checkPay.status == 0
+                        ? "ยังไม่ชำระ"
+                        : checkPay.status === 1
+                        ? "ชำระเงินแล้ว"
+                        : ""}
                     </Typography>
                   </div>
                 </div>

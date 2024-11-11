@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,8 @@ const ActivityPage = () => {
   const [data, setData] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const t = useTranslations("ActivityPage");
+
 
   const fetchData = async () => {
     const requestData = {
@@ -65,12 +68,12 @@ const ActivityPage = () => {
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left w-full md:w-1/2">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
+              {t('title_1')} <span className="text-indigo-800 font-bold">{t('title_2')}</span>
             </h1>
             <p className="text-gray-600 text-base">
-              ผลลัพท์การค้นหา{" "}
+            {t('dec_1')}{" "}
               <span className="">
-                {data?.data?.length || 0} กิจกรรม
+                {data?.data?.length || 0} {t('dec_2')}
               </span>
             </p>
           </div>

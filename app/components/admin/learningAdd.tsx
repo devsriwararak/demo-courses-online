@@ -22,6 +22,7 @@ interface FormData {
   lesson: string;
   regularPrice: number;
   discountPrice: number;
+  youtube: string
 }
 
 interface LearningADDProps {
@@ -111,7 +112,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
             />
           </div>
           <div className="flex flex-col gap-2 xl:flex-row md:justify-between">
-            <div className="w-full xl:w-3/12">
+            <div className="w-full lg:w-1/3 ">
               <Input
                 label="ราคาปกติ"
                 type="number"
@@ -128,7 +129,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
-            <div className="w-full xl:w-3/12">
+            <div className="w-full lg:w-1/3 ">
               <Input
                 label="ราคาลดแล้ว"
                 type="number"
@@ -145,7 +146,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                 style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>
-            <div className="w-full xl:w-3/12 flex  justify-center">
+            <div className="w-full lg:w-1/3 flex  justify-center">
               <Select
                 options={categories.map((category) => ({
                   value: category.id?.toString(),
@@ -170,9 +171,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     borderRadius: "8px", // ปรับความมนของกรอบ
                     borderWidth: state.isFocused ? "" : "1px",
                     backgroundColor: "#f4f2ff",
-                    borderColor: state.isFocused
-                      ? "#673AB7"
-                      : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
+                    borderColor: state.isFocused ? "#673AB7" : "#673AB7", // เปลี่ยนสีขอบเมื่อถูกเลือก
                     boxShadow: state.isFocused
                       ? "0 0 0 1px #673AB7"
                       : provided.boxShadow, // เปลี่ยนสีเงาขอบเมื่อถูกเลือก
@@ -182,9 +181,9 @@ const LearningADD: React.FC<LearningADDProps> = ({
                         : provided.borderColor, // เปลี่ยนสีขอบเมื่อ hover
                     },
                   }),
-                  placeholder: (provided ) => ({
+                  placeholder: (provided) => ({
                     ...provided,
-                    color: "#673AB7" , // เปลี่ยนสีของ placeholder เป็นสีม่วง
+                    color: "#673AB7", // เปลี่ยนสีของ placeholder เป็นสีม่วง
                   }),
                   singleValue: (provided) => ({
                     ...provided,
@@ -193,8 +192,7 @@ const LearningADD: React.FC<LearningADDProps> = ({
                   menu: (provided) => ({
                     ...provided,
                     borderRadius: "8px", // ปรับความมนของเมนู dropdown
-                     color: "#673AB7"
-                    
+                    color: "#673AB7",
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -206,21 +204,40 @@ const LearningADD: React.FC<LearningADDProps> = ({
                     color: state.isSelected ? "#ffffff" : provided.color,
                     "&:hover": {
                       backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
-                      color: "#673AB7" // สีข้อความเมื่อ hover
+                      color: "#673AB7", // สีข้อความเมื่อ hover
                     },
                   }),
                 }}
               />
             </div>
-            <div className="w-full xl:w-[200px]">
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="w-1/3">
               <Input
                 label="Uploadรูปหน้าปก"
                 type="file"
                 crossOrigin="anonymous"
                 accept="image/*"
-                 color="gray"
+                color="gray"
                 id="imageInput"
                 onChange={handleImageUpload}
+                style={{ backgroundColor: "#f5f5f5" }}
+              />
+            </div>
+            <div className="w-1/3">
+              <Input
+                label="Link จาก iframe"
+                type="text"
+                crossOrigin="anonymous"
+                color="gray"
+                value={formData.youtube}
+              onChange={(e) =>
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  youtube: e.target.value,
+                }))
+              }
                 style={{ backgroundColor: "#f5f5f5" }}
               />
             </div>

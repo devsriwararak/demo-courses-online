@@ -1,9 +1,11 @@
 import HomePage from "../components/home/home";
+import HomeTH from "./th/page";
 
 export default function Page() {
     return (
         <div>
-            <HomePage />
+            {/* <HomePage /> */}
+            <HomeTH/>
         </div>
     );
 }

@@ -1,16 +1,22 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Part8 = () => {
+type HeaderProps = {
+  locale: string;
+};
+
+const Part8: React.FC<HeaderProps> = ({ locale }) => {
+  const t = useTranslations("HomePage.section_7");
+
   return (
     <footer>
       <div className="bg-[#042044] text-white py-14 ">
         <div className="container mx-auto  grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:gap-8 ">
           {/* โลโก้และที่อยู่ */}
           <div className="flex flex-col space-y-4  ">
-            {/* <h2 className="text-xl font-semibold">Nang Fah Pa Trade</h2>
-            <span className="text-[#DF9E10]">If i want it ,i get it.</span> */}
+
             <div className="flex flex-col gap-5 items-center">
               <Image
                 src="/logo_3.png"
@@ -20,8 +26,7 @@ const Part8 = () => {
                 className=" rounded-lg w-48   "
               />
               <div className=" text-center ">
-                <p className="text-[16px] ">998/5 ม.7 ต.เมืองเก่า อ.เมือง</p>
-                <p className="text-[16px] ">จ. ขอนแก่น 40000</p>
+                <p className="text-[16px] px-28 ">{t('address')}</p>
               </div>
             </div>
           </div>
@@ -31,38 +36,38 @@ const Part8 = () => {
             <div className="flex flex-col space-y-3">
               <ul className="space-y-1">
                 <li className="text-[16px]  text-nowrap">
-                  <Link href="/home/course" className="hover:text-gray-500">
-                    คอร์สเรียนทั้งหมด
+                  <Link href={`/${locale}/home/course`} className="hover:text-gray-500">
+                    {t('results.course')}
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href="/home/broker" className="hover:text-gray-500">
-                    โบรกเกอร์
+                  <Link href={`/${locale}/home/broker`} className="hover:text-gray-500">
+                  {t('results.broker')}
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href="/home/ebook" className="hover:text-gray-500">
-                    Ebook
+                  <Link href={`/${locale}/home/ebook`}  className="hover:text-gray-500">
+                  {t('results.ebook')}
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href="/home/about" className="hover:text-gray-500">
-                    เกี่ยวกับเรา
+                  <Link href={`/${locale}/home/about`} className="hover:text-gray-500">
+                  {t('results.about')}
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href="/home/portfolio" className="hover:text-gray-500">
-                    ผลงาน
+                  <Link href={`/${locale}/home/portfolio`}className="hover:text-gray-500">
+                  {t('results.portfolio')}
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href="/home/activity" className="hover:text-gray-500">
-                    กิจกรรมทั้งหมด
+                  <Link href={`/${locale}/home/activity`} className="hover:text-gray-500">
+                  {t('results.activity')}
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href="/home/contact" className="hover:text-gray-500">
-                    ติดต่อเรา
+                  <Link href={`/${locale}/home/contact`} className="hover:text-gray-500">
+                  {t('results.contact')}
                   </Link>
                 </li>
               </ul>
@@ -70,13 +75,13 @@ const Part8 = () => {
             <div className="flex flex-col space-y-2">
               <ul className="space-y-1">
                 <li className="text-[16px] text-nowrap">
-                  <Link href="/home/bycourse" className="hover:text-gray-500">
-                    วิธีการซื้อคอร์สเรียน
+                  <Link href={`/${locale}/home/bycourse`} className="hover:text-gray-500">
+                    {t('results.howToBuy')}
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href="/" className="hover:text-gray-500">
-                    นโยบายความเป็นส่วนตัว
+                  <Link href={`/${locale}/home`} className="hover:text-gray-500">
+                  {t('results.nayobuy')}
                   </Link>
                 </li>
               </ul>
@@ -165,7 +170,7 @@ const Part8 = () => {
               className=" w-6 md:w-[30px] h-6 md:h-[30px] "
             />
             <p className="  px-2 text-[12px] md:text-[18px] font-[300] text-nowrap  ">
-              สอบถามเพิ่มเติม
+              {t('btn_text')}
             </p>
           </div>
         </div>

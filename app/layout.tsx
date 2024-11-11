@@ -1,4 +1,6 @@
-// RootLayout.tsx
+// ต้องการใช้งาน 2 ภาษา
+
+// app/layout.tsx
 import { Inter } from "next/font/google";
 import "./globals.css";
 import RecoilProvider from "./recoilProvider"; // นำเข้า RecoilProvider
@@ -6,11 +8,9 @@ import RecoilProvider from "./recoilProvider"; // นำเข้า RecoilProvi
 const inter = Inter({ subsets: ["latin"] });
 
 import type { Metadata } from "next";
-// import RemoveToken from "./removeToken"
-
 export const metadata: Metadata = {
-  title: "ระบบคอร์สเรียน(เฉพาะธุรกิจ)",
-  // description: "aaaaaa",
+  title: "ระบบคอร์สเรียน (เฉพาะธุรกิจ)",
+  description: "ระบบการเรียนการสอนออนไลน์ที่ออกแบบมาเฉพาะสำหรับธุรกิจ",
 };
 
 export default function RootLayout({
@@ -20,11 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <RecoilProvider>
-          {children}
-        </RecoilProvider>
+      <body >
+        <RecoilProvider>{children}</RecoilProvider>
       </body>
     </html>
   );
 }
+
+// app/[locale]/layout.tsx ต้องเป็นยังไง

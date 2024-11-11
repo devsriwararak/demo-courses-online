@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import CryptoJS from "crypto-js";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface ReviewFormData {
   id: number;
@@ -28,6 +29,7 @@ export default function Page() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const router = useRouter();
+  const t = useTranslations("EbookPage");
 
   const fetchData = async () => {
     try {
@@ -72,13 +74,10 @@ export default function Page() {
           variant="h2"
           className="text-center  text-indigo-800 text-2xl md:text-4xl"
         >
-          เพิ่มศักยภาพการเรียนรู้ด้วย Ebook และคอร์สเรียนเทรด
+          {t("title")}
         </Typography>
         <p className="text-gray-600 text-sm md:text-base mt-6 text-center">
-          การเริ่มต้นศึกษาอาจเป็นเรื่องยากด้วยเหตุนี้ Ebook
-          และคอร์สเรียนเทรดจึงเป็นแหล่งความรู้ที่เข้าถึงง่าย
-          ช่วยทำให้สร้างรายได้อย่างมีประสิทธิภาพ
-          สำหรับผู้ที่มีความรู้และความเข้าใจในตลาด
+          {t("dec")}
         </p>
 
         {/* grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 */}
@@ -88,8 +87,8 @@ export default function Page() {
 
         <div className="flex flex-wrap ">
           {data?.map((item: any, index: any) => (
-            <div className="w-full lg:w-1/5 p-2 " key={item.id} >
-              <Link href={item.link} >
+            <div className="w-full lg:w-1/5 p-2 " key={item.id}>
+              <Link href={item.link}>
                 <Card
                   key={index}
                   className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"

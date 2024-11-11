@@ -207,7 +207,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                   ราคา
                 </th>
                 <th className="border-b p-2 text-left whitespace-nowrap">
-                  สถานะ
+                  ลดราคาเหลือ
                 </th>
                 <th className="border-b p-2 text-left whitespace-nowrap">
                   แก้ไข/ลบ
@@ -244,7 +244,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                         {item?.title}
                       </Typography>
                     </td>
-                    <td className="border-b p-2 text-center">
+                    <td className="border-b p-2 text-left">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -253,7 +253,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                         {item?.category_name}
                       </Typography>
                     </td>
-                    <td className="border-b p-2 text-center">
+                    <td className="border-b p-2 text-left">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -261,23 +261,30 @@ const LearningShow: React.FC<LearningShowProps> = ({
                           item?.price_sale > 0 ? "text-red-500" : ""
                         }`}
                       >
-                        {item?.price_sale > 0
+                        {/* {item?.price_sale > 0
                           ? item?.price_sale.toLocaleString()
                           : item?.price.toLocaleString()}{" "}
                         <span className="line-through text-gray-500">
                           {item?.price_sale > 0
                             ? item?.price.toLocaleString()
                             : ""}
-                        </span>
+                        </span> */}
+                        
+                          {item?.price ? item?.price.toLocaleString() : 0}
+                    
                       </Typography>
                     </td>
-                    <td className="border-b p-2 text-center">
+                    <td className="border-b p-2 text-left">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal text-green-500 bg-green-300 bg-opacity-25 px-2 overflow-hidden text-ellipsis whitespace-nowrap"
+                        className="font-normal text-ellipsis whitespace-nowrap"
                       >
-                        ตรวจแล้ว
+                        
+                          {item?.price_sale
+                            ? item?.price_sale.toLocaleString()
+                            : 0}
+                  
                       </Typography>
                     </td>
                     <td className="border-b p-2 text-center">

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
@@ -20,6 +21,9 @@ const data = [
 ];
 
 const Part7 = () => {
+  const t = useTranslations("HomePage.section_6");
+  const results = t.raw("results");
+
   return (
     <div
       className=" py-16 md:py-32  "
@@ -27,6 +31,10 @@ const Part7 = () => {
         background: "linear-gradient(89.98deg, #151519 12.72%, #232325 89.74%)",
       }}
     >
+      {/* {JSON.stringify(results)} */}
+
+
+
       <div className="px-10 lg:px-18  mx-auto container flex flex-col lg:flex-row 2xl:gap-24 items-center">
         {/* ภาพทางด้านซ้าย  */}
         <div className="w-full 2xl:w-[450px]">
@@ -44,50 +52,21 @@ const Part7 = () => {
           <h2 className="text-white text-2xl md:text-[50px]   font-[700] mb-6">
             FAQ
             <span className="text-white text-2xl  md:text-[30px] font-[700]   ps-6">
-              คำถามที่พบบ่อย เรื่องคอร์สเรียนเทรดออนไลน์
+              {t('title')}
             </span>
           </h2>
 
-          {/* <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52">
-            <details className="group">
-              <summary className="flex justify-between items-center cursor-pointer">
-                <h3 className="text-[#093165] font-[700] text-[24px]">
-                  มีคอร์สสำหรับทดลองเรียนหรือไม่?
-                </h3>
-                <span className="text-2xl font-bold text-[#093165] group-open:hidden">
-                  <Image
-                    src="/icon-plus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
-                    alt="บวก"
-                    width={500}
-                    height={500}
-                    className=" w-full h-auto "
-                  />
-                </span>
-                <span className="text-2xl font-bold text-[#093165] hidden group-open:inline">
-                  <Image
-                    src="/icon-minus.svg" // เปลี่ยนพาธให้ตรงกับไฟล์ของคุณ
-                    alt="ลบ"
-                    width={500}
-                    height={500}
-                    className=" w-full h-auto "
-                  />
-                </span>
-              </summary>
-              <p className="text-[#2c2c2c] text-[16px] font-[400] mt-2">
-                เรามีคอร์สสอนเทรดพื้นฐานให้คุณทดลองเรียนฟรี
-                ให้คุณกล้าที่จะเริ่มต้นครั้งใหม่ ไปกับเรา สามารถเริ่มเรียนได้ฟรี
-                ไม่มีค่าใช้จ่ายเพิ่มเติม
-              </p>
-            </details>
-          </div> */}
+  
 
           {/* FAQ Item */}
           <div>
-            {data.map((item, index) => (
-              <div className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52" key={item.id}>
+            {results.map((item : any, index : any) => (
+              <div
+                className="bg-[#F3F4F6] rounded-lg p-4 mb-4 2xl:mr-52"
+                key={item.id}
+              >
                 <details className="group">
                   <summary className="flex justify-between items-center cursor-pointer ">
-
                     <section className="w-5/6">
                       <h3 className="text-[#093165] font-[700] text-base md:text-lg">
                         {item.title}

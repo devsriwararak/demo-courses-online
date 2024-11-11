@@ -26,13 +26,25 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
 
   console.log(data);
-  
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
       {/* ส่วนข้อมูลหลัก */}
       <div className="lg:col-span-2">
-        <div className="flex flex-col gap-10">
+        <div className="w-full">
+          {data?.products_youtube && (
+            <iframe
+              className="w-full h-60 md:h-96 rounded-lg"
+              src={data?.products_youtube}
+              title="YouTube video player"
+              // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-10 mt-4">
           <div className="bg-white shadow rounded-xl">
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.product_image}`}
@@ -51,7 +63,9 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
             {data?.product_title}
           </h1>
 
-          <div className="text-gray-700">{parse(`<div>${data?.product_dec?.toString() || ""}</div>`)}</div>
+          <div className="text-gray-700">
+            {parse(`<div>${data?.product_dec?.toString() || ""}</div>`)}
+          </div>
 
           <div className="flex w-full flex-wrap gap-3 mt-4">
             <p
@@ -61,14 +75,15 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
                   : "text-red-500 font-semibold"
               } mb-2 pr-1`}
             >
-              ราคา {data?.products_price_sale > 0
+              ราคา{" "}
+              {data?.products_price_sale > 0
                 ? data?.products_price_sale?.toLocaleString()
                 : data?.products_price?.toLocaleString()}{" "}
               บาท
             </p>
-             {data?.products_price_sale > 0 && (
+            {data?.products_price_sale > 0 && (
               <p className="line-through mb-2 pr-1 text-gray-700">
-               ลดจาก {data?.products_price.toLocaleString()}{" "} บาท
+                ลดจาก {data?.products_price.toLocaleString()} บาท
               </p>
             )}
           </div>
@@ -83,8 +98,12 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
                 key={index}
                 className="flex border-b last:border-none py-3 px-5 justify-between items-center hover:bg-gray-100 transition duration-200"
               >
-                <h2 className="font-semibold text-gray-800 text-base">{lesson.title}</h2>
-                <h2 className="text-gray-500 text-sm">{lesson.video_count} บทเรียน</h2>
+                <h2 className="font-semibold text-gray-800 text-base">
+                  {lesson.title}
+                </h2>
+                <h2 className="text-gray-500 text-sm">
+                  {lesson.video_count} บทเรียน
+                </h2>
               </div>
             ))}
           </div>
@@ -95,7 +114,11 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
       <div className="lg:col-span-1 flex flex-col gap-4">
         <SubCoursePath data={data} />
         {/* ย้าย NewsSidebar ไปด้านขวา */}
-        <NewsSidebar id={params.id} name="products" title="คอร์สเรียนที่เกี่ยวข้อง" />
+        <NewsSidebar
+          id={params.id}
+          name="products"
+          title="คอร์สเรียนที่เกี่ยวข้อง"
+        />
       </div>
     </div>
   );

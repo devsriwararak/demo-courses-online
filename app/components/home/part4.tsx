@@ -1,6 +1,6 @@
-("");
 import { truncateText } from "@/app/libs/TruncateText";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { parse } from "path";
@@ -27,6 +27,7 @@ export const fetchNews = async () => {
 };
 
 
+
 interface NewsItemProps {
   image: string; // ประเภท string สำหรับ URL ของรูปภาพ
   title: string; // ประเภท string สำหรับหัวข้อข่าว
@@ -41,16 +42,19 @@ interface News {
   dec: string;
 }
 
+// interface setTitle {
+//   title : any;
+// }
+
 // Main Component
 const Part4 = async () => {
   const data = await fetchNews();
 
+
   return (
     <div className="bg-[#222222] py-14 md:py-20  h-full   ">
       <div className="px-8 lg:px-18  mx-auto container">
-        <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
-          ข่าวสารและกิจกรรมล่าสุด
-        </h2>
+      <SetTitle />
         <div className="flex flex-col w-full lg:flex-row gap-8 ">
           <LargeNewsItem
             image={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${
@@ -165,6 +169,19 @@ const NewsItem: React.FC<NewsItemProps> = ({
     </div>
   </div>
 );
+
+// Components H2 2 ภาษา
+// และ เรียกใช้ ภายใน File เดียวกัน
+ const SetTitle  = ()=>{
+  "use client"
+  const t = useTranslations("HomePage.section_3");
+
+  return (
+    <h2 className="text-white text-[28px] sm:text-[35px] font-[700] text-nowrap">
+    {t('title')}
+  </h2>
+  )
+}
 
 
 
