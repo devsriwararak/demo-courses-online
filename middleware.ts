@@ -125,6 +125,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
+import { setRequestLocale } from 'next-intl/server';
 
 // สร้าง Middleware สำหรับ next-intl
 const intlMiddleware = createMiddleware({
@@ -150,7 +151,11 @@ function checkPermission(pathname: string, permission: PermissionType): boolean 
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, locale } = request.nextUrl;
+
+  if (locale) {
+    setRequestLocale(locale);
+  }
 
   // ตรวจสอบสิทธิ์การเข้าถึงสำหรับ `/admin`, `/super`, `/user`
   let permission: PermissionType | '' = '';
