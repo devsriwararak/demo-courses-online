@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import Carousel from "../carousel";
 import { useTranslations } from "next-intl";

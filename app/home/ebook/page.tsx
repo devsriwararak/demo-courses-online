@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { Card, Typography, Button } from "@material-tailwind/react";
 import { HeaderAPI, HeaderMultiAPI } from "@/headerApi";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,7 +27,6 @@ export default function Page() {
   const [data, setData] = useState<any>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
-  const router = useRouter();
   const t = useTranslations("EbookPage");
 
   const fetchData = async () => {

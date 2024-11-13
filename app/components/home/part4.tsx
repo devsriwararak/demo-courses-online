@@ -1,9 +1,11 @@
+'use client'
 import { truncateText } from "@/app/libs/TruncateText";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { parse } from "path";
+import { useEffect, useState } from "react";
 
 export const fetchNews = async () => {
   const requestData = {
@@ -47,8 +49,40 @@ interface News {
 // }
 
 // Main Component
-const Part4 = async () => {
-  const data = await fetchNews();
+const Part4 =  () => {
+  // const data = await fetchNews();
+
+  const [data, setData] = useState<any>([])
+
+   const fetchNews = async () => {
+    const requestData = {
+      page: 1,
+      search: "",
+      full: false,
+      home: true,
+    };
+  
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,
+        requestData
+      );
+      
+      if(res.status === 200){
+        setData(res.data)
+        
+      }
+
+    } catch (err) {
+      const error = err as { response: { data: { message: string } } };
+      console.error(error.response?.data?.message);
+    }
+  };
+
+  useEffect(()=>{
+    fetchNews()
+  },[])
+  
 
 
   return (

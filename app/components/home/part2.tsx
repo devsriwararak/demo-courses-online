@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import Carousel2 from "../carousel2";
 import Image from "next/image";

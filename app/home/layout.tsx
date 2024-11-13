@@ -6,8 +6,6 @@ import Part8 from "../components/home/part8";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
 
-  
-
     // useEffect(() => {
     //     const storedValue = sessionStorage.getItem("login");
     //       console.log(storedValue);

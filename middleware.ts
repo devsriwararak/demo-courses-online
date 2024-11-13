@@ -119,7 +119,9 @@
 // };
 
 
-// middleware.ts ของฉัน แก้ไขเพิ่มยังไง
+// middleware.ts  
+// Error: `setRequestLocale` is not supported in Client Components.
+
 
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
@@ -127,10 +129,9 @@ import createMiddleware from 'next-intl/middleware';
 // สร้าง Middleware สำหรับ next-intl
 const intlMiddleware = createMiddleware({
   locales: ['en', 'th'],
-  defaultLocale: 'en',
+  defaultLocale: 'th',
 });
 
-// ตรวจสอบสิทธิ์การเข้าถึง
 type PermissionType = 'admin' | 'super' | 'user';
 
 const permissions: Record<PermissionType, string[]> = {
@@ -140,42 +141,30 @@ const permissions: Record<PermissionType, string[]> = {
 };
 
 // ฟังก์ชันตรวจสอบสิทธิ์
-function checkPermission(pathname: string, permition: PermissionType): boolean {
-  const allowedPaths = permissions[permition] || [];
+function checkPermission(pathname: string, permission: PermissionType): boolean {
+  const allowedPaths = permissions[permission] || [];
   return allowedPaths.some((allowedPath) => {
     const pathPattern = new RegExp(`^${allowedPath.replace(/:\w+/g, '\\w+').replace(/\*/g, '.*')}$`);
     return pathPattern.test(pathname);
   });
 }
 
-// Middleware หลัก
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const url = request.nextUrl.clone();
-
-  // ถ้าผู้ใช้เข้าถึง '/' หรือ '/home' โดยไม่มี locale ให้ Redirect ไปยัง defaultLocale
-  if (pathname === '/' || pathname === '/home') {
-    return NextResponse.redirect(new URL('/th/home', request.url));
-  }
 
   // ตรวจสอบสิทธิ์การเข้าถึงสำหรับ `/admin`, `/super`, `/user`
-  let permition: PermissionType | '' = '';
-  if (pathname.startsWith('/admin')) permition = 'admin';
-  else if (pathname.startsWith('/super')) permition = 'super';
-  else if (pathname.startsWith('/user')) permition = 'user';
+  let permission: PermissionType | '' = '';
+  if (pathname.startsWith('/admin')) permission = 'admin';
+  else if (pathname.startsWith('/super')) permission = 'super';
+  else if (pathname.startsWith('/user')) permission = 'user';
 
-  // ถ้าผู้ใช้ไม่มีสิทธิ์เข้าถึงเส้นทางนั้น ให้ Redirect ไปยังหน้าแรก
-  if (permition && !checkPermission(pathname, permition)) {
+  // ถ้าผู้ใช้ไม่มีสิทธิ์เข้าถึงเส้นทางนั้น ให้ Redirect ไปยังหน้า `/th/home`
+  if (permission && !checkPermission(pathname, permission)) {
     return NextResponse.redirect(new URL('/th/home', request.url));
   }
 
   // ใช้ next-intl สำหรับการจัดการภาษา
-  if (!pathname.startsWith('/admin') && !pathname.startsWith('/super') && !pathname.startsWith('/user')) {
-    return intlMiddleware(request);
-  }
-
-  // ให้ Next.js จัดการเส้นทางที่เหลือ
-  return NextResponse.next();
+  return intlMiddleware(request);
 }
 
 // การตั้งค่า Matcher สำหรับ Middleware

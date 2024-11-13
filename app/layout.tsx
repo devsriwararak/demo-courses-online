@@ -7,6 +7,7 @@ import RecoilProvider from "./recoilProvider"; // นำเข้า RecoilProvi
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "ระบบคอร์สเรียน (เฉพาะธุรกิจ)",
@@ -27,4 +28,3 @@ export default function RootLayout({
   );
 }
 
-// app/[locale]/layout.tsx ต้องเป็นยังไง
