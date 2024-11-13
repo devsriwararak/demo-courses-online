@@ -120,12 +120,9 @@
 
 
 // middleware.ts  
-// Error: `setRequestLocale` is not supported in Client Components.
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
-import { setRequestLocale } from 'next-intl/server';
 
 // สร้าง Middleware สำหรับ next-intl
 const intlMiddleware = createMiddleware({
@@ -151,11 +148,7 @@ function checkPermission(pathname: string, permission: PermissionType): boolean 
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname, locale } = request.nextUrl;
-
-  if (locale) {
-    setRequestLocale(locale);
-  }
+  const { pathname } = request.nextUrl;
 
   // ตรวจสอบสิทธิ์การเข้าถึงสำหรับ `/admin`, `/super`, `/user`
   let permission: PermissionType | '' = '';
@@ -168,11 +161,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/th/home', request.url));
   }
 
-  // ใช้ next-intl สำหรับการจัดการภาษา
+  // ใช้ next-intl middleware สำหรับการจัดการภาษา
   return intlMiddleware(request);
 }
 
-// การตั้งค่า Matcher สำหรับ Middleware
 export const config = {
   matcher: [
     '/admin/:path*',

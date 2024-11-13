@@ -1,18 +1,14 @@
-import React from 'react'
-import Page from '@/app/home/about/page'
 import { setRequestLocale } from 'next-intl/server';
+import Page from '@/app/home/about/page';
 
 export const dynamic = 'force-static';
 
-
-const page = ({ params: { locale } }: { params: { locale: string } }) => {
+export default async function AboutPage({ params: { locale } }: { params: { locale: string } }) {
+  // ตั้งค่า locale โดยใช้ setRequestLocale
   setRequestLocale(locale);
-
   return (
-   <div>
-     <Page />
-   </div>
-  )
+    <div>
+      <Page />
+    </div>
+  );
 }
-
-export default page
