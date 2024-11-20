@@ -45,7 +45,7 @@ interface Course {
   videoFile: File;
   dec: string;
   lesson: string;
-  youtube: string;
+  youtube?: string;
 }
 
 const LearningPage: React.FC = () => {
@@ -316,6 +316,7 @@ const LearningPage: React.FC = () => {
         <ToastContainer autoClose={2000} theme="colored" />
         {learningAdd === 0 ? (
           <div className="w-full  ">
+
               <LearningShow
                 showToast={showToast}
                 onEdit={handleEdit}
