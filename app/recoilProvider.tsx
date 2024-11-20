@@ -1,4 +1,3 @@
-// RecoilProvider.tsx
 'use client'
 import React, { ReactNode } from "react";
 import { RecoilRoot } from "recoil";
@@ -12,3 +11,5 @@ const RecoilProvider: React.FC<RecoilProviderProps> = ({ children }) => {
 };
 
 export default RecoilProvider;
+
+

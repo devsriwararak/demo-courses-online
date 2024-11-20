@@ -14,6 +14,7 @@ import {
   FaThumbsUp,
   FaCashRegister,
   FaChalkboardTeacher,
+  FaUserLock,
 } from "react-icons/fa";
 import { FaClipboardQuestion } from "react-icons/fa6";
 import { IoAccessibility } from "react-icons/io5";
@@ -155,6 +156,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                 hasDivider: true,
               },
             ],
+            hasDivider: false,
+          },
+          {
+            text: "จัดการเข้าสู่ระบบ",
+            icon: <FaUserLock />,
+            path: "/admin/checkuser",
             hasDivider: false,
           },
           {

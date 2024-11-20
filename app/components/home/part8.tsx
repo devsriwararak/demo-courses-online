@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Part8 = () => {
+  const t = useTranslations("HomePage.section_7");
+
   return (
     <footer>
       <div className="bg-[#042044] text-white py-14 ">
@@ -20,8 +23,7 @@ const Part8 = () => {
                 className=" rounded-lg w-48   "
               />
               <div className=" text-center ">
-                <p className="text-[16px] ">998/5 ม.7 ต.เมืองเก่า อ.เมือง</p>
-                <p className="text-[16px] ">จ. ขอนแก่น 40000</p>
+                <p className="text-[16px] ">{t('address')}</p>
               </div>
             </div>
           </div>

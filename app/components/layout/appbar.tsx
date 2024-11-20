@@ -21,6 +21,9 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import axios from "axios";
+import CryptoJS from "crypto-js";
+
 
 interface AppbarComponentProps {
   isSmallScreen: boolean;
@@ -35,11 +38,47 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
   // const login = sessionStorage.getItem("login");
   const statusLogin = localStorage.getItem("Status");
 
-  const handleLogout = (): void => {
-    sessionStorage.removeItem("login");
-    localStorage.removeItem("Token")
-    localStorage.removeItem("Status")
-    router.push("/");
+  // const handleLogout = (): void => {
+  //   sessionStorage.removeItem("login");
+  //   localStorage.removeItem("Token")
+  //   localStorage.removeItem("Status")
+  //   router.push("/");
+  // };
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
+  const userId = decryptData(localStorage.getItem("Id") || "");
+
+  const handleLogout = async () => {
+    try {
+      const data = {
+        id: userId,
+      };
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/logout`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${decryptData(
+              localStorage.getItem("Token") || ""
+            )}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        sessionStorage.removeItem("login");
+        localStorage.removeItem("Token");
+        localStorage.removeItem("Status");
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={`fixed w-full bg-white border px-3 shadow-sm z-20 `}>

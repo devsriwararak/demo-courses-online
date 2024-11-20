@@ -38,6 +38,7 @@ interface LearningTitleProps {
       lesson: string;
       regularPrice: number;
       discountPrice: number;
+      youtube : string;
     }>
   >;
   pageTitle: number;

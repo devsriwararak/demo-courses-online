@@ -9,7 +9,7 @@ import {
   ButtonProps,
 } from "@material-tailwind/react";
 import { IoMenu } from "react-icons/io5";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,7 +52,7 @@ const NavItem: React.FC<NavItemProps> = ({
         onClick={() => onClick(href)}
         className="inline-block py-1 pr-2 pt-3 text-[16px] transition-transform hover:scale-105"
       >
-        {label} 
+        {label}
       </button>
     </Typography>
   );
@@ -87,6 +87,15 @@ export function HeaderHome() {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
+  const searchParams = useSearchParams();
+
+  const changeLanguage = (lang: string) => {
+    const params = searchParams ? `?${searchParams.toString()}` : "";
+    const pathWithoutLang = currentPath.replace(/\/(en|th)$/, "");
+    const newPath = `${pathWithoutLang}/${lang}`;
+    // เปลี่ยนเส้นทาง
+    window.location.href = `${newPath}${params}`;
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -134,6 +143,14 @@ export function HeaderHome() {
           borderBottom: "3px solid #DF9E10",
         }}
       >
+        {(currentPath == "/home" || currentPath == "/home/th" ||  currentPath == "/home/en" || currentPath == "/home/course") &&
+           (
+            <div>
+              <button onClick={() => changeLanguage("en")}>English</button>
+              <button onClick={() => changeLanguage("th")}>ไทย</button>
+            </div>
+          )}
+
         <div className="flex flex-row  items-center justify-between gap-5  ">
           <div className=" w-full   ">
             <Link href="/home">

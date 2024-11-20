@@ -12,6 +12,9 @@ import { IoMenu } from "react-icons/io5";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import CryptoJS from "crypto-js";
+
 
 const navItems = [
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
@@ -110,9 +113,43 @@ export function UserHeader() {
     [router, openNav]
   );
 
-  const handleLogout = () => {
-    router.push("/home");
-    localStorage.clear();
+  // const handleLogout = () => {
+  //   router.push("/home");
+  //   localStorage.clear();
+  // };
+
+  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
+  const decryptData = (ciphertext: string) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+  const userId = decryptData(localStorage.getItem("Id") || "");
+
+  const handleLogout = async () => {
+    try {
+      const data = {
+        id: userId,
+      };
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/api/logout`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${decryptData(
+              localStorage.getItem("Token") || ""
+            )}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        sessionStorage.removeItem("login");
+        localStorage.removeItem("Token");
+        localStorage.removeItem("Status");
+        router.push("/home");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const navList = useMemo(
@@ -164,7 +201,7 @@ export function UserHeader() {
                   className="hidden lg:inline-block "
                   onClick={handleLogout}
                 >
-                  ออกจากระบบ
+                  ออกจากระบบ 
                 </Button>
               ) : (
                 <HeaderButton href="/login" variant="gradient">
@@ -192,7 +229,7 @@ export function UserHeader() {
               className="mb-3 bg-indigo-800 text-indigo-100"
               onClick={handleLogout}
             >
-              <span>ออกจากระบบ</span>
+              <span>ออกจากระบบ </span>
             </Button>
           </div>
         </Collapse>
