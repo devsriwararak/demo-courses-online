@@ -1,7 +1,6 @@
 //app/[locale]/home/page.tsx
-// ต้องการทำปุ่มเปลี่ยน ภาษา th en
-'use client';
 
+'use client';
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
