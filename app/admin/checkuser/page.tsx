@@ -16,7 +16,7 @@ const TABLE_HEAD = [
   "เลือก",
 ];
 
-const page = () => {
+const Page = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -228,4 +228,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
