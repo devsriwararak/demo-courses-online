@@ -1,14 +1,10 @@
+import PortfolioPage from "@/app/components/home/portfolio";
 
-import React from 'react'
-import Page from '@/app/home/portfolio/page'
+export default function Page() {
+    return (
+       <div>
+        <PortfolioPage/>
+       </div>
 
-
-const page = () => {
-  return (
-   <div>
-     <Page />
-   </div>
-  )
+    );
 }
-
-export default page

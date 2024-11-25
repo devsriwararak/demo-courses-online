@@ -1,46 +1,30 @@
 // next.config.mjs
-// 2 ภาษา
-// import createNextIntlPlugin from 'next-intl/plugin'
-// const withNextIntl = createNextIntlPlugin('./i18n.ts', {
-//   static: true,
-// })
+
+// /** @type {import('next').NextConfig} */
+// // 2 ภาษา
+// import createNextIntlPlugin from "next-intl/plugin";
+// const withNextIntl = createNextIntlPlugin("./i18n.ts");
 
 // const nextConfig = {
-//     // async redirects() {
-//     //     return [
-//     //       {
-//     //         source: '/',
-//     //         destination: '/home',
-//     //         permanent: true,
-//     //       },
-//     //     ];
-//     //   },
-//       images: {
-//         domains: ['courses-online-api.devsriwararak.com'],
-//       },
-//       i18n: {
-//         locales: ['th', 'en'],
-//         defaultLocale: 'th',
-//       },
+//   images: {
+//     domains: ["courses-online-api.devsriwararak.com"],
+//   },
 // };
-
-
 
 // export default withNextIntl(nextConfig);
 
+
 // next.config.mjs
 
-/** @type {import('next').NextConfig} */
 import createNextIntlPlugin from 'next-intl/plugin';
-
-const withNextIntl = createNextIntlPlugin('./i18n.ts', {
-  static: true,
-});
-
+ 
+const withNextIntl = createNextIntlPlugin();
+ 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['courses-online-api.devsriwararak.com'],
+    images: {
+    domains: ["courses-online-api.devsriwararak.com"],
   },
 };
-
+ 
 export default withNextIntl(nextConfig);

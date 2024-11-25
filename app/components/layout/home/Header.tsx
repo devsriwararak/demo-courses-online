@@ -3,7 +3,6 @@ import React from 'react'
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
 type HeaderProps = {
     locale: string;
@@ -12,8 +11,6 @@ type HeaderProps = {
 const Header : React.FC<HeaderProps>= ({locale}) => {
     const pathName = usePathname()
     const router = useRouter()
-    const t = useTranslations("NavbarLinks")
-
 
       // เปลี่ยนภาษา
   const handleChangeLanguage = (newLocale : string)=>{
@@ -24,11 +21,11 @@ const Header : React.FC<HeaderProps>= ({locale}) => {
     <ul className="flex gap-6">
     <li>
         {/* Cannot find name 'locale'. */}
-      <Link href={`/${locale}/home`}>{t("home")}</Link>
+      <Link href={`/${locale}/home`}>Home</Link>
     </li>
     <li>
         {/* Cannot find name 'locale'. */}
-      <Link href={`/${locale}/courses`}>{t("course")}</Link>
+      <Link href={`/${locale}/courses`}>Courses</Link>
     </li>
     <li onClick={()=>handleChangeLanguage('th')}>TH</li>
     <li onClick={()=>handleChangeLanguage('en')}>EN</li>

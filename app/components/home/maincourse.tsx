@@ -1,7 +1,7 @@
 "use client";
 import { Input, Option, Radio, Select } from "@material-tailwind/react";
 import axios from "axios";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -30,9 +30,7 @@ const CoursesPage: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const [selectType, setSelectType] = useState<any>("");
   const [selectTypeName, setSelectTypeName] = useState<any>("");
-
-  const t = useTranslations("CoursesPage");
-
+  const locale = useLocale()
 
   // ฟังก์ชันดึงข้อมูลจาก API โดยรับชนิดข้อมูลที่ชัดเจน
   const fetchData = async (): Promise<{ data: Course[] } | undefined> => {
@@ -113,30 +111,30 @@ const CoursesPage: React.FC = () => {
       {/* lg:w-3/12 2xl:w-2/12 */}
       <div className="w-full md:w-4/12 lg:w-1/5 p-4  bg-white shadow-md rounded-lg mb-5 md:mb-0 md:mr-4">
         <div className="flex flex-row items-center lg:items-start justify-between md:flex-col mb-3 gap-3">
-          <h2 className="font-light text-lg">{t("left.title_1")}</h2>
+          <h2 className="font-light text-lg">คอร์เรียนใหม่</h2>
           <h2 className="text-indigo-800 text-sm font-light">
-          {t("left.title_2")}
+            คอร์เรียนทั้งหมด 
           </h2>
         </div>
         <hr className="border border-gray-200 my-1" />
         <div className="flex justify-between mb-2">
-          <h2 className="text-lg md:text-sm font-bold ">{t("left.title_3")}</h2>
+          <h2 className="text-lg md:text-sm font-bold ">ตัวกรองคอร์สเรียน</h2>
           <button
             className="text-lg md:text-sm text-red-500 font-light "
             onClick={resetFilters}
           >
-            {t("left.title_4")}
+            ล้างตัวกรอง
           </button>
         </div>
 
         {/* Radio Buttons for Price Filter */}
 
-        <small className="text-gray-500"> {t("left.title_5")}</small>
+        <small className="text-gray-500"> ราคา</small>
         <div className="flex flex-row md:flex-col ">
           <Radio
             crossOrigin="anonymous"
             name="type"
-            label={t("left.title_6")}
+            label="ราคา น้อย-มาก"
             value="1"
             checked={filterPrice === 1}
             onChange={() => handleFilterChange(1)}
@@ -147,7 +145,7 @@ const CoursesPage: React.FC = () => {
           <Radio
             crossOrigin="anonymous"
             name="type"
-            label={t("left.title_7")}
+            label="ราคา มาก-น้อย"
             value="2"
             checked={filterPrice === 2}
             onChange={() => handleFilterChange(2)}
@@ -158,7 +156,7 @@ const CoursesPage: React.FC = () => {
         <hr className="border border-gray-200 my-2" />
 
         <div className="">
-          <small className="text-gray-500"> {t("left.title_8")}</small>
+          <small className="text-gray-500"> หมวดหมู่</small>
 
           <div className="mt-3 ">
             <select
@@ -198,13 +196,13 @@ const CoursesPage: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 ">
           <div>
             <p className="text-xl md:text-2xl font-bold">
-              {t("title_1")}{" "}
+              คอร์สเรียน{" "}
               <span className="text-indigo-800 font-bold">
-                {selectTypeName ? selectTypeName : `${t("title_2")}`}
+                {selectTypeName ? selectTypeName : "ทั้งหมด"}
               </span>
             </p>
             <p className="mb-4 text-sm text-gray-700">
-            {t("dec_1")} <span>{coursesData.length} {t("title_2")} </span>
+              ผลลัพท์การค้นหา <span>{coursesData.length} คอร์ส </span>
             </p>
           </div>
         </div>
@@ -216,7 +214,7 @@ const CoursesPage: React.FC = () => {
               key={course.id}
               className="bg-white border border-gray-100 pb-3 shadow-sm rounded-md flex flex-col justify-between"
             >
-              <Link href={`/home/course/${course.id}`}>
+              <Link href={`/${locale}/home/course/${course.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
                   alt={course.title}

@@ -1,16 +1,11 @@
-
-'use client'
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 const Part5 = () => {
-  const t = useTranslations("HomePage.section_4");
-
   return (
     <div className="bg-[#222222] py-14  md:py-20 h-full border-t-gray-800 border-t-[1px]     ">
       <h2 className="text-white text-3xl md:text-[35px]  font-[700] text-center mb-10 px-8">
-        {t('title')}
+        เรียนเทรดกับเราดีอย่างไร
       </h2>
 
       <div className="flex flex-col lg:flex-row items-center gap-16 2xl:gap-0 w-full lg:w-10/12 px-8 lg:px-18  mx-auto container">
@@ -41,26 +36,28 @@ const Part5 = () => {
         <div className="flex flex-col items-start text-white space-y-8 text-left lg:w-6/12">
           <div>
             <h3 className="text-xl md:text-[25px]  font-[700]">
-            {t('result_1.title')}
+              แชร์ความรู้เรื่องการเทรด ทดลองเรียนฟรี
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2 ">
-            {t('result_1.dec')}
+              Nang Fah Pa Trade ให้ความรู้เรื่องการเทรด ยังมีคอร์สทดลองเรียนฟรี
             </p>
           </div>
           <div>
             <h3 className="text-xl md:text-[25px] font-[700]">
-            {t('result_2.title')}
+              คอร์สเรียนดูได้นานถึง 1 ปี เรียนได้ทุกอุปกรณ์
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2">
-            {t('result_2.dec')}
+              รับชมคอร์สเรียน คอร์สเรียนมีอายุ 1 ปีต่อคอร์สเรียน
+              นับตั้งแต่วันที่สมัคร
             </p>
           </div>
           <div>
             <h3 className="text-xl md:text-[25px] font-[700]">
-            {t('result_3.title')}
+              มีเจ้าหน้าที่พร้อมดูแลหลายช่องทาง
             </h3>
             <p className="text-[17px] font-[400] text-[#a3a3a3] mt-2 ">
-            {t('result_3.dec')}
+              หากมีคำถามหรือติดปัญหา สามารถแจ้งปัญหาผ่านทางแชท โทรศัพท์ ตลอด 24
+              ชั่วโมง
             </p>
           </div>
         </div>

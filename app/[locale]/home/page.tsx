@@ -1,15 +1,19 @@
-import Page from '@/app/home/page'
+//app/[locale]/home/page.tsx
 
+"use client";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import OpenHomePage from "@/app/components/home/home";
 
 const HomePage = () => {
+  // const router = useRouter();
+  // const t = useTranslations("");
+
   return (
-    <div>
-      {/* text : {t("title")} */}
-      
-      <Page/>
+    <>
+      <OpenHomePage />
+    </>
+  );
+};
 
-      </div>
-  )
-}
-
-export default HomePage
+export default HomePage;

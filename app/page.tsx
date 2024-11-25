@@ -1,13 +1,10 @@
 // app/page.tsx
 
-import HomePage from "./[locale]/home/page";
-// import HomePage from "./components/home/home";
 
-export default function Page() {
+
+import PageFromLocale from './[locale]/page'
+export default function HomePage() {
     return (
-
-        <div>
-            <HomePage/>
-        </div>
+      <PageFromLocale params={{ locale: 'th' }} />
     );
-}
+  }

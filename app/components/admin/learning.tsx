@@ -45,11 +45,10 @@ interface Course {
   videoFile: File;
   dec: string;
   lesson: string;
-  youtube: string;
+  youtube?: string;
 }
 
 const LearningPage: React.FC = () => {
-
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
   const decryptData = (ciphertext: string) => {
@@ -80,7 +79,7 @@ const LearningPage: React.FC = () => {
     lesson: "",
     regularPrice: 0,
     discountPrice: 0,
-    youtube : ""
+    youtube: "",
   });
 
   const [learningAdd, setLearningAdd] = useState(0);
@@ -191,7 +190,7 @@ const LearningPage: React.FC = () => {
 
       if (res.status === 200) {
         toast.success(res.data.message);
-        if(statusEdit === 0){
+        if (statusEdit === 0) {
           setCourseSelect(res.data.id);
           fetchTitle(res.data.id);
           // resetForm1();
@@ -221,12 +220,12 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: 0,
       discountPrice: 0,
-      youtube : ""
+      youtube: "",
     });
     setStatusEdit(0); // รีเซ็ตสถานะ
     fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
-    setCourseSelect(undefined)
-    setTitleId(0)
+    setCourseSelect(undefined);
+    setTitleId(0);
 
     // Reset file inputs
     const imageInput = document.getElementById(
@@ -257,7 +256,7 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: 0,
       discountPrice: 0,
-      youtube : "2222"
+      youtube: "2222",
     });
     // setStatusEdit(0); // รีเซ็ตสถานะ
     // fetchTitle(0); // เรียกใช้ fetchTitle เมื่อกดปุ่มแก้ไข
@@ -288,7 +287,7 @@ const LearningPage: React.FC = () => {
     }
   };
 
-  const handleEdit = (data: any) => {
+  const handleEdit = (data: Course) => {
     setFormData({
       id: data.id,
       category_id: data?.category_id?.toString() || "",
@@ -300,7 +299,7 @@ const LearningPage: React.FC = () => {
       lesson: "",
       regularPrice: data.price,
       discountPrice: data.price_sale,
-      youtube : data.youtube
+      youtube: data.youtube || "",
     });
     setLearningAdd(1);
     setStatusEdit(1); // ตั้งสถานะเป็นแก้ไข
@@ -310,57 +309,54 @@ const LearningPage: React.FC = () => {
   };
 
   return (
-   
-      
-      <div className="flex w-full flex-col xl:flex-row justify-center gap-3 container mx-auto py-4 ">
-        <ToastContainer autoClose={2000} theme="colored" />
-        {learningAdd === 0 ? (
-          <div className="w-full  ">
-              <LearningShow
-                showToast={showToast}
-                onEdit={handleEdit}
-                setLearningAdd={setLearningAdd}
-                learningAdd={learningAdd}
-                onResetForm={resetForm}
-              />
+    <div className="flex w-full flex-col xl:flex-row justify-center gap-3 container mx-auto py-4 ">
+      <ToastContainer autoClose={2000} theme="colored" />
+      {learningAdd === 0 ? (
+        <div className="w-full  ">
+          <LearningShow
+            showToast={showToast}
+            onEdit={handleEdit}
+            setLearningAdd={setLearningAdd}
+            learningAdd={learningAdd}
+            onResetForm={resetForm}
+          />
+        </div>
+      ) : (
+        <div className="flex flex-col lg:flex-row w-full  gap-3">
+          <div className="w-full lg:w-2/3">
+            <LearningADD
+              categories={categories}
+              onFormSubmit={handleFormSubmit}
+              onResetForm={resetForm}
+              formData={formData}
+              setFormData={setFormData}
+              statusEdit={statusEdit}
+              setLearningAdd={setLearningAdd}
+            />
           </div>
-        ) : (
-          <div className="flex flex-col lg:flex-row w-full  gap-3">
-            <div className="w-full lg:w-2/3">
-              <LearningADD
-                categories={categories}
-                onFormSubmit={handleFormSubmit}
-                onResetForm={resetForm}
-                formData={formData}
-                setFormData={setFormData}
-                statusEdit={statusEdit}
-                setLearningAdd={setLearningAdd}
-              />
-            </div>
-            <div className="flex flex-col w-full lg:w-1/3 gap-3">
-              <LearningTitle
-                courseSelect={courseSelect}
-                formData={formData}
-                setFormData={setFormData}
-                pageTitle={pageTitle}
-                setPageTitle={setPageTitle}
-                setDataTitle={setDataTitle}
-                setTitleId={setTitleId}
-                dataTitle={dataTitle}
-              />
-              <LearningVedio
-                showToast={showToast}
-                titleId={titleId}
-                pageVideo={pageVideo}
-                setPageVideo={setPageVideo}
-                setDataVideo={setDataVideo}
-                dataVideo={dataVideo}
-              />
-            </div>
+          <div className="flex flex-col w-full lg:w-1/3 gap-3">
+            <LearningTitle
+              courseSelect={courseSelect}
+              formData={formData}
+              setFormData={setFormData}
+              pageTitle={pageTitle}
+              setPageTitle={setPageTitle}
+              setDataTitle={setDataTitle}
+              setTitleId={setTitleId}
+              dataTitle={dataTitle}
+            />
+            <LearningVedio
+              showToast={showToast}
+              titleId={titleId}
+              pageVideo={pageVideo}
+              setPageVideo={setPageVideo}
+              setDataVideo={setDataVideo}
+              dataVideo={dataVideo}
+            />
           </div>
-        )}
-      </div>
-
+        </div>
+      )}
+    </div>
   );
 };
 

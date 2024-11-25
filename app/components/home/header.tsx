@@ -12,18 +12,18 @@ import { IoMenu } from "react-icons/io5";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+
 
 const navItems = [
-  { href: "/home", label: "home" },
-  { href: "/home/course", label: "course" },
-  { href: "/home/broker", label: "broker" },
-  { href: "/home/ebook", label: "ebook" },
-  { href: "/home/about", label: "about" },
-  { href: "/home/portfolio", label: "portfolio" },
-  { href: "/home/activity", label: "activity" },
-  { href: "/home/bycourse", label: "bycourse" },
-  { href: "/home/contact", label: "contact" },
+  { href: "/home", label: "หน้าหลัก" },
+  { href: "/home/course", label: "คอร์สเรียน" },
+  { href: "/home/broker", label: "โบรกเกอร์" },
+  { href: "/home/ebook", label: "Ebook" },
+  { href: "/home/about", label: "เกี่ยวกับเรา" },
+  { href: "/home/portfolio", label: "ผลงาน" },
+  { href: "/home/activity", label: "กิจกรรม" },
+  { href: "/home/bycourse", label: "วิธีการซื้อคอร์ส" },
+  { href: "/home/contact", label: "ติดต่อเรา" },
 ];
 
 interface NavItemProps {
@@ -32,10 +32,6 @@ interface NavItemProps {
   currentPath: string;
   onClick: (href: string) => void;
 }
-
-type HeaderProps = {
-  locale: string;
-};
 
 const NavItem: React.FC<NavItemProps> = ({
   href,
@@ -79,33 +75,29 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
     <Button
       variant={variant}
       size="sm"
-      className="hidden lg:inline-block rounded-full"
+      className="hidden lg:inline-block"
       style={{ background: "#DF9E10" }}
       onClick={() => router.push(href)}
     >
-      <span className="text-sm">{children}</span>
+      <span className="font-semibold px-1 text-[16px]">{children}</span>
     </Button>
   );
 };
 
-export const HeaderHome: React.FC<HeaderProps> = ({ locale }) => {
+export function HeaderHome({ locale }: { locale: string }) {
   const [openNav, setOpenNav] = useState(false);
   const router = useRouter();
   const currentPath = usePathname();
   const searchParams = useSearchParams();
+// const locale22 = useLocale()
 
-  // 2 ภาษา
-  const t = useTranslations("NavbarLinks");
-  const t_login = useTranslations("btn_login");
-
-  const handleChangeLanguage = (newLocale: any) => {
-    // const locale = newLocale.target.value;
-    const locale = newLocale
-    const path = currentPath.split("/").slice(2).join("/");
-    router.push(`/${locale}/${path}`);
-  };
-
-
+  // const changeLanguage = (lang: string) => {
+  //   const params = searchParams ? `?${searchParams.toString()}` : "";
+  //   const pathWithoutLang = currentPath.replace(/\/(en|th)$/, "");
+  //   const newPath = `${pathWithoutLang}/${lang}`;
+  //   // เปลี่ยนเส้นทาง
+  //   window.location.href = `${newPath}${params}`;
+  // };
 
   useEffect(() => {
     const handleResize = () => {
@@ -129,12 +121,12 @@ export const HeaderHome: React.FC<HeaderProps> = ({ locale }) => {
 
   const navList = useMemo(
     () => (
-      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-7 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5  ">
+      <ul className="mt-2 mb-4 flex flex-col gap-2 2xl:gap-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-5  ">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
             href={`/${locale}${item.href}`}
-            label={t(`${item.label}`)}
+            label={item.label}
             currentPath={currentPath}
             onClick={handleNavigation}
           />
@@ -144,49 +136,62 @@ export const HeaderHome: React.FC<HeaderProps> = ({ locale }) => {
     [handleNavigation, currentPath]
   );
 
+
+  {}
+  const changeLanguage = (locale: string) => {
+    const normalizationPath = currentPath.replace(/^\/(th|en)/,"")
+    router.push(`/${locale}/${normalizationPath}`);
+  };
+
   return (
-    <div className="max-h-[768px] sticky top-0 z-30">
+    <div className="max-h-[768px]">
       <Navbar
-        className=" min-w-full  h-max    rounded-none  lg:px-28 mx-auto container "
+        className="sticky min-w-full  top-0 z-10 h-max    rounded-none  lg:px-60  mx-auto container "
         style={{
           backgroundColor: "#042044",
           borderBottom: "3px solid #DF9E10",
         }}
       >
-        <div className="flex flex-row  items-center justify-between gap-5  ">
-          <div className=" w-full lg:w-1/6    ">
-            <Link href={`/${locale}/home`}>
+        {/* {(currentPath == "/home" ||
+          currentPath == "/home/th" ||
+          currentPath == "/home/en" ||
+          currentPath == "/home/course") && (
+          <div>
+            <button onClick={() => changeLanguage("en")}>English</button>
+            <button onClick={() => changeLanguage("th")}>ไทย</button>
+          </div>
+        )} */}
+
+        <div className="flex flex-row  items-center justify-between gap-4 ">
+          <div className=" w-full     ">
+            <Link href="/home">
               <Image
                 src={"/logo_3.png"}
                 alt=""
                 width={900}
                 height={900}
-                className=" w-32   object-cover "
+                className=" w-36  md:w-36  object-cover "
               />
             </Link>
           </div>
-          <div className="w-full lg:w-5/6  ">
-            <div className="flex justify-end">
+          <div className="w-full   ">
+            <div className="flex items-center xl:gap-2 whitespace-nowrap">
               <div className="mr-4 hidden   lg:block">{navList}</div>
-
-              <div className="flex rounded-lg gap-4 items-center">
-                <HeaderButton href="/login" variant="gradient">
-                  {t_login("login")}
-                </HeaderButton>
-
-                <div className="flex gap-2">
-                <img src="/th.png" alt="" className="w-7 cursor-pointer" onClick={() => handleChangeLanguage('th')} />
-                <img src="/en.png" alt="" className="w-7 cursor-pointer" onClick={() => handleChangeLanguage('en')} />
+              <div className="flex rounded-lg gap-2">
+                <div className="w-full">
+                  <HeaderButton href="/login" variant="gradient">
+                    เข้าสู่ระบบ
+                  </HeaderButton>
                 </div>
-                {/* <select
-                  value={locale}
-                  onChange={(e) => handleChangeLanguage(e)}
-                  className="text-gray-900 w-12 h-6 rounded-sm bg-gray-300"
-                >
-                  <option value="th"> TH </option>
-                  <option value="en">EN</option>
-                </select> */}
-                
+
+                <div className="w-full flex gap-2">
+                  <button className="flex items-center justify-center w-8 h-8   " onClick={()=>changeLanguage("th")}>
+                    <Image src={"/th.png"} alt="th" width={300} height={300} className=" rounded-sm" />
+                  </button>
+                  <button className="flex items-center justify-center w-8 h-8 " onClick={()=>changeLanguage("en")}>
+                    <Image src={"/en.png"} alt="en" width={300} height={300} className=" rounded-sm" />
+                  </button>
+                </div>
               </div>
 
               <IconButton
@@ -198,11 +203,8 @@ export const HeaderHome: React.FC<HeaderProps> = ({ locale }) => {
                 <IoMenu className="text-2xl " />
               </IconButton>
             </div>
-
-            <div className="flex items-center xl:gap-4 whitespace-nowrap"></div>
           </div>
         </div>
-
         <Collapse open={openNav}>
           {navList}
           <div className="flex items-center justify-center gap-x-1">
@@ -221,4 +223,4 @@ export const HeaderHome: React.FC<HeaderProps> = ({ locale }) => {
       </Navbar>
     </div>
   );
-};
+}

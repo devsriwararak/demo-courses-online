@@ -1,4 +1,7 @@
 {
+  "welcome": "Welcome ss",
+  "description": "This is your homepage in English",
+
   "NavbarLinks": {
     "home": "Home",
     "course": "Courses",
@@ -346,9 +349,6 @@
         "dec": "Contact us for inquiries. An admin is available to provide advice."
       }
     }
-  },
+  }
 
-  "greeting": "Hello",
-
-  "welcome": "Welcome to our website"
 }

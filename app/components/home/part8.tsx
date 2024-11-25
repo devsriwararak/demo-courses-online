@@ -1,15 +1,9 @@
-'use client'
-
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type HeaderProps = {
-  locale: string;
-};
-
-const Part8: React.FC<HeaderProps> = ({ locale }) => {
+const Part8 = () => {
   const t = useTranslations("HomePage.section_7");
 
   return (
@@ -18,7 +12,8 @@ const Part8: React.FC<HeaderProps> = ({ locale }) => {
         <div className="container mx-auto  grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:gap-8 ">
           {/* โลโก้และที่อยู่ */}
           <div className="flex flex-col space-y-4  ">
-
+            {/* <h2 className="text-xl font-semibold">Nang Fah Pa Trade</h2>
+            <span className="text-[#DF9E10]">If i want it ,i get it.</span> */}
             <div className="flex flex-col gap-5 items-center">
               <Image
                 src="/logo_3.png"
@@ -28,7 +23,7 @@ const Part8: React.FC<HeaderProps> = ({ locale }) => {
                 className=" rounded-lg w-48   "
               />
               <div className=" text-center ">
-                <p className="text-[16px] px-28 ">{t('address')}</p>
+                <p className="text-[16px] ">{t('address')}</p>
               </div>
             </div>
           </div>
@@ -38,38 +33,38 @@ const Part8: React.FC<HeaderProps> = ({ locale }) => {
             <div className="flex flex-col space-y-3">
               <ul className="space-y-1">
                 <li className="text-[16px]  text-nowrap">
-                  <Link href={`/${locale}/home/course`} className="hover:text-gray-500">
-                    {t('results.course')}
+                  <Link href="/home/course" className="hover:text-gray-500">
+                    คอร์สเรียนทั้งหมด
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href={`/${locale}/home/broker`} className="hover:text-gray-500">
-                  {t('results.broker')}
+                  <Link href="/home/broker" className="hover:text-gray-500">
+                    โบรกเกอร์
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href={`/${locale}/home/ebook`}  className="hover:text-gray-500">
-                  {t('results.ebook')}
+                  <Link href="/home/ebook" className="hover:text-gray-500">
+                    Ebook
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href={`/${locale}/home/about`} className="hover:text-gray-500">
-                  {t('results.about')}
+                  <Link href="/home/about" className="hover:text-gray-500">
+                    เกี่ยวกับเรา
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href={`/${locale}/home/portfolio`}className="hover:text-gray-500">
-                  {t('results.portfolio')}
+                  <Link href="/home/portfolio" className="hover:text-gray-500">
+                    ผลงาน
                   </Link>
                 </li>
                 <li className="text-[16px]  text-nowrap">
-                  <Link href={`/${locale}/home/activity`} className="hover:text-gray-500">
-                  {t('results.activity')}
+                  <Link href="/home/activity" className="hover:text-gray-500">
+                    กิจกรรมทั้งหมด
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href={`/${locale}/home/contact`} className="hover:text-gray-500">
-                  {t('results.contact')}
+                  <Link href="/home/contact" className="hover:text-gray-500">
+                    ติดต่อเรา
                   </Link>
                 </li>
               </ul>
@@ -77,13 +72,13 @@ const Part8: React.FC<HeaderProps> = ({ locale }) => {
             <div className="flex flex-col space-y-2">
               <ul className="space-y-1">
                 <li className="text-[16px] text-nowrap">
-                  <Link href={`/${locale}/home/bycourse`} className="hover:text-gray-500">
-                    {t('results.howToBuy')}
+                  <Link href="/home/bycourse" className="hover:text-gray-500">
+                    วิธีการซื้อคอร์สเรียน
                   </Link>
                 </li>
                 <li className="text-[16px] ">
-                  <Link href={`/${locale}/home`} className="hover:text-gray-500">
-                  {t('results.nayobuy')}
+                  <Link href="/" className="hover:text-gray-500">
+                    นโยบายความเป็นส่วนตัว
                   </Link>
                 </li>
               </ul>
@@ -172,7 +167,7 @@ const Part8: React.FC<HeaderProps> = ({ locale }) => {
               className=" w-6 md:w-[30px] h-6 md:h-[30px] "
             />
             <p className="  px-2 text-[12px] md:text-[18px] font-[300] text-nowrap  ">
-              {t('btn_text')}
+              สอบถามเพิ่มเติม
             </p>
           </div>
         </div>

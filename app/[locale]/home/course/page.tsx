@@ -1,15 +1,14 @@
 import React from 'react'
-import Page from '@/app/home/course/page'
-
+import MainCourse from '@/app/components/home/maincourse'
 
 const page = () => {
-
-
   return (
     <div>
-      <Page />
+       <MainCourse />
     </div>
   )
 }
 
 export default page
+
+

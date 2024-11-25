@@ -1,13 +1,9 @@
-import React from 'react'
-import Page from '@/app/home/activity/page'
+import MainAvtivity from "@/app/components/home/mainactivity"
 
-
-const page = () => {
-  return (
-   <div>
-     <Page />
-   </div>
-  )
+export default function Page() {
+    return (
+        <div>
+        <MainAvtivity />
+        </div>
+    );
 }
-
-export default page

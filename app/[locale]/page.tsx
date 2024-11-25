@@ -1,15 +1,14 @@
 // app/[locale]/page.tsx
-'use client'
-import { useTranslations } from "next-intl";
 
-export default function HomePage() {
-  const t = useTranslations();
-  return (
-    <main>
-      {/* ลิ้งค์ไปหน้าพวกนี้ไม่ได้ เพราะไม่มี /th และ /en */}
-  
-      <h1>{t("greeting")}</h1>
-      <p>{t("welcome")}</p>
-    </main>
-  );
+import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/routing';
+import { redirect } from 'next/navigation';
+
+ 
+export default function HomePage({params} : {params : {locale : string}}) {
+  const t = useTranslations('');
+  redirect(`/${params.locale}/home`);
+
+  return null;
+
 }

@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -20,8 +20,7 @@ const PortfolioPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [type, setType] = useState(0);
-  const t = useTranslations("PortfolioPage");
-
+  const locale = useLocale()
 
   const fetchData = async () => {
     const requestData = {
@@ -73,7 +72,7 @@ const PortfolioPage = () => {
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
           >
-            {t('btn_1')}
+            สัมมนา 
           </button>
           <button
             onClick={() => setType(1)}
@@ -84,18 +83,18 @@ const PortfolioPage = () => {
             }`}
             style={{ maxWidth: "150px" }} // จำกัดความกว้างของปุ่ม
           >
-            {t('btn_2')}
+            รีวิว
           </button>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 md:mt-10">
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-            {t('title_1')} <span className="text-indigo-800 font-bold">{t('title_2')}</span>
+              กิจกรรม <span className="text-indigo-800 font-bold">ทั้งหมด</span>
             </h1>
             <p className="text-gray-600">
-            {t('dec_1')}{" "}
+              ผลลัพท์การค้นหา{" "}
               <span className="font-semibold">
-                {data?.data?.length || 0} {t('dec_2')}
+                {data?.data?.length || 0} กิจกรรม
               </span>
             </p>
           </div>
@@ -122,7 +121,7 @@ const PortfolioPage = () => {
               className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 flex flex-col lg:flex-row"
             >
               <Link
-                href={`/home/portfolio/${portfolio?.id}`}
+                href={`/${locale}/home/portfolio/${portfolio?.id}`}
                 className="lg:w-2/5"
               >
                 <Image
