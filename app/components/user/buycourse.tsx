@@ -78,7 +78,7 @@ const BuyCourse = () => {
           },
         }
       );
-      if (res.status === 200) {
+      if (res.status === 200) {        
         setBuyData(res.data);
         const price = res.data.products_price_sale
           ? res.data.products_price_sale
@@ -114,7 +114,7 @@ const BuyCourse = () => {
           },
         }
       );
-      console.log({ mypat: res });
+      // console.log({ mypat: res.data });
 
       if (res.status === 200) {
         setCheckPay({
@@ -132,8 +132,10 @@ const BuyCourse = () => {
 
           // await
         } else {
-          setShow(false);
-          setLoading("ยังไม่ทำรายการซื้อ");
+          console.log('1111111111111111111111111');
+          
+          // setShow(false);
+          // setLoading("ยังไม่ทำรายการซื้อ");
         }
       }
     } catch (error) {
@@ -159,7 +161,6 @@ const BuyCourse = () => {
       );
       const qrCodePath = await res.data.qrCodePath;
       if (qrCodePath) {
-        console.log({ qrCodePath });
         setImageQrCode(qrCodePath);
         setLoadingQrcode(true);
       }
@@ -180,7 +181,7 @@ const BuyCourse = () => {
   const handleCheck = async () => {
     setLoading("");
     MySwal.fire({
-      title: "กำลังส่งข้อมูล...",
+      title: "ทำรายการซื้อ .....",
       allowOutsideClick: false,
       width: "350px",
       padding: "35px",
@@ -193,8 +194,8 @@ const BuyCourse = () => {
       users_id: Number(userId),
       product_id: Number(buyData?.product_id),
     };
+    
     try {
-      // console.log(data);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/pay/add`,
         data,
@@ -204,14 +205,13 @@ const BuyCourse = () => {
       );
 
       if (res.status === 200) {
+        MySwal.close();
         toast.success(res.data.message);
         setPayId(res.data.pay_id);
         setShow(true);
         setBill(res?.data?.bill_number);
-        MySwal.close();
-      } else {
-        return;
-      }
+       
+      } 
     } catch (err) {
       MySwal.close();
       const error = err as { response: { data: { message: string } } };
@@ -280,12 +280,13 @@ const BuyCourse = () => {
   };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
+    <div className="flex flex-col w-full justify-center items-start  lg:flex-row gap-5 py-0 lg:py-10 px-3 lg:px-36   ">
       <ToastContainer autoClose={2000} theme="colored" />
       <ModalHowToPay open={open} handleOpen={handleOpen}  />
 
+
       <div className="w-full md:w-3/5 ">
-        <Card className="lg:h-[550px] w-full overflow-auto gap-5 !bg-white  ">
+        <Card className="lg:h-full w-full  gap-5 !bg-white  ">
           <div className="w-full flex justify-center bg-gray-300 rounded-sm   ">
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${buyData?.product_image}`}
@@ -303,8 +304,8 @@ const BuyCourse = () => {
                   หัวข้อ :
                 </Typography>
               </div>
-              <div className="w-full text-sm lg:w-5/6">
-                <Typography className="text-base ">
+              <div className="w-full text-sm lg:w-5/6 ">
+                <Typography className="text-base  " >
                   {buyData?.product_title || ""}
                 </Typography>
               </div>
@@ -355,17 +356,17 @@ const BuyCourse = () => {
             </div>
 
             <div className="mt-4 mb-10">
-              <h2 className="text-lg text-back">รายละเอียดบทเรียน</h2>
+              <h2 className="text-lg text-black">รายละเอียดบทเรียน</h2>
               <div className="mt-5 bg-gray-50 rounded-md">
                 {buyData?.result_list?.map((lesson: any, index: number) => (
                   <div
                     key={index}
                     className="flex border-b  py-3 px-5 justify-between items-center border  border-gray-200 hover:bg-gray-100 transition duration-200"
                   >
-                    <h2 className="font-semibold text-sm text-gray-700">
+                    <h2 className="font-medium text-sm text-gray-900">
                       {lesson.title}
                     </h2>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-900 text-sm ">
                       จำนวน {lesson.video_count} บทเรียน
                     </p>
                   </div>
@@ -413,8 +414,139 @@ const BuyCourse = () => {
           <hr className=" " />
 
           {loading && <p>{loading}</p>}
+    
 
-          {show ? (
+        {show && (
+              <div className="flex flex-col gap-3 ">
+              <>
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="w-full">
+                    { loadingQrcode
+                      ? imageQrCode && (
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageQrCode}`}
+                            className="w-32"
+                            alt=""
+                          />
+                        )
+                      : "กำลังสร้าง QR Code ...."}
+                  </div>
+                  <div className="w-full">
+                    <ul className="text-base">
+                      <li>บัญชี : พร้อมเพย์</li>
+                      <li>เลขที่บัญชี : 1360400163514</li>
+                      <li>ชื่อบัญชี : น.ส. ปรัศนี เดชจำเริญ</li>
+                    </ul>
+                  </div>
+                </div>
+              </>
+
+              <div className="flex flex-col 2xl:flex-row gap-5 2xl:gap-[57px] items-center mb-2 ">
+                <div className="w-full">
+                  <Typography className="font-bold whitespace-nowrap  ">
+                    บิลเลขที่ :
+                  </Typography>
+                  <Typography className="text-base">
+                    {bill || checkPay.code}
+                  </Typography>
+                </div>
+
+                <div className="w-full">
+                  <div
+                    className={`${
+                      checkPay.status == 0
+                        ? "bg-red-500"
+                        : checkPay.status === 1
+                        ? "bg-green-500"
+                        : ""
+                    } py-2 px-4  flex gap-2 rounded-md`}
+                  >
+                    <Typography className="font-semibold text-white">
+                      สถานะ :
+                    </Typography>
+                    <Typography className="font-semibold text-white">
+                      {checkPay.status == 0
+                        ? "ยังไม่ชำระ"
+                        : checkPay.status === 1
+                        ? "ชำระเงินแล้ว"
+                        : ""}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+
+              {success ? (
+                ""
+              ) : (
+                <div className="">
+                  <hr className="" />
+
+                  <div className="flex flex-col 2xl:flex-row items-center gap-5 2xl:gap-[34px]  py-2">
+                    <div className="w-full">
+                      <Typography className="font-bold text-base whitespace-nowrap ">
+                        ราคารวมภาษีมูลค่าเพิ่ม :
+                      </Typography>
+                      <Typography className="text-lg">
+                        ราคา{" "}
+                        {buyData?.products_price_sale || 0 > 0
+                          ? buyData?.products_price_sale?.toLocaleString()
+                          : buyData?.products_price?.toLocaleString()}{" "}
+                        บาท
+                      </Typography>
+                    </div>
+                
+                    {checkPay.status === 0 && (
+                      <div className="w-full">
+                        <Input
+                          type="file"
+                          label="แนบสลิป files"
+                          onChange={handleFileChange}
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <hr className="" />
+              {success || checkPay.status === 1 ? (
+                <div className=" flex gap-2  w-full sm:w-[200px] mt-5">
+                  <Button
+                    className="w-full justify-center items-center text-base font-normal mb-0"
+                    size="sm"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                    }}
+                    onClick={() => router.push("/user/mycourse")}
+                  >
+                    ไปที่คอร์สเรียนของคุณ
+                  </Button>
+                </div>
+              ) : (
+                <div className=" flex gap-2 w-full sm:w-[150px] mt-3 ">
+                  <Button
+                    className="w-full justify-center items-center text-base font-normal mb-0"
+                    size="sm"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(150deg, rgba(162,102,246,1) 10.8%, rgba(203,159,249,1) 94.3%)",
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    สั่งซื้อคอร์สเรียนนี้
+                  </Button>
+                </div>
+              )}
+              <small className="text-red-700 mt-1">
+                ** เราใช่ระบบตรวจจับสลิปโอนเงิน กรุณาตรวจสอบให้ถูกต้องก่อนโอน
+              </small>
+            </div>
+        )}
+      
+
+          {/* {show ? (
             <div className="flex flex-col gap-3 ">
               <>
                 <div className="flex flex-col lg:flex-row gap-4">
@@ -543,7 +675,7 @@ const BuyCourse = () => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
         </Card>
       </div>
     </div>

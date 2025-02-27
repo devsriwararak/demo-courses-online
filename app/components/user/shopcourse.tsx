@@ -58,7 +58,9 @@ const ShopCourse: React.FC = () => {
   const [courseCategories, setCourseCategories] = useState<Category[]>([]);
   const [product, setProduct] = useState<Course[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectCatetegory, setSelectCatetegory] = useState(0);
+  // const [selectCatetegory, setSelectCatetegory] = useState(0);
+  const [selectCatetegory, setSelectCatetegory] = useState<number>(0);
+
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState<number>(0);
   const [buyCourse, setBuyCourse] = useRecoilState(BuyCourseStore);
@@ -139,7 +141,7 @@ const ShopCourse: React.FC = () => {
 
   const handleClickCategory = (id: number) => {
     setSelectCatetegory(id);
-    setIndex(id);
+    // setIndex(id);
   };
 
   return (
@@ -158,67 +160,31 @@ const ShopCourse: React.FC = () => {
           </Typography>
         </div>
 
-        <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
-          <Input
-            type="text"
-            label="ค้นหาคอร์สเรียน"
-            icon={<FaSearch />}
-            crossOrigin="anonymous"
-            className="bg-white  !bg-opacity-100"
-            onChange={(e) => setSearchQuery(e.target.value)}
-            color="indigo"
-          />
-        </div>
-
-        <div className=" flex flex-row lg:flex-wrap gap-2 items-center  justify-start mt-3 md:mt-6 ">
-          <div className="w-1/4 lg:w-full">
-            <Button
-              size="sm"
-              className=" font-light bg-indigo-800 lg:hidden"
-              onClick={() => handleClickCategory(0)}
-            >
-              ทั้งหมด
-            </Button>
+        <div className="flex flex-col lg:flex-row gap-4 items-end">
+          <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
+            <Input
+              type="text"
+              label="ค้นหาคอร์สเรียน"
+              icon={<FaSearch />}
+              crossOrigin="anonymous"
+              className="bg-white  !bg-opacity-100"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              color="indigo"
+            />
           </div>
-
-          <div className="w-3/4 lg:w-full">
-            <div className=" md:hidden bg-white mt-1">
-              <Select color="indigo" label="เลือกหมวดหมู่">
-                {courseCategories.map((category, key) => (
-                  <Option
-                    key={key}
-                    value={String(category.id)}
-                    onClick={() => handleClickCategory(category.id)}
-                  >
-                    {category?.name}
-                  </Option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="hidden lg:flex lg:flex-row lg:gap-2">
-              <Button
-                size="sm"
-                className=" font-light bg-indigo-800"
-                onClick={() => handleClickCategory(0)}
-              >
-                ทั้งหมด
-              </Button>
+          <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
+            <select
+              value={selectCatetegory.toString()}
+              onChange={(e) => setSelectCatetegory(Number(e.target.value))}
+              className="w-full py-1.5 px-4 border border-gray-400 rounded-md"
+            >
+              <option value="0">ทั้งหมด</option>
               {courseCategories.map((category, key) => (
-                <Button
-                  key={key}
-                  size="sm"
-                  className={`${
-                    index == category.id
-                      ? "bg-yellow-900 text-white border border-yellow-500 "
-                      : "border border-indigo-800 bg-gray-200 text-indigo-800"
-                  } `}
-                  onClick={() => handleClickCategory(category.id)}
-                >
-                  {category?.name}
-                </Button>
+                <option key={key} value={category.id.toString()}>
+                  {category?.name} 
+                </option>
               ))}
-            </div>
+            </select>
           </div>
         </div>
 

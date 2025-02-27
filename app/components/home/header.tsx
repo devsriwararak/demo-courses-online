@@ -41,6 +41,12 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   return (
     //
+    // const navItems = [
+    //   { href: "/home", label: "หน้าหลัก" },
+    //   { href: "/home/course", label: "คอร์สเรียน" },
+
+  //  ต้องการให้ active  start with /home/course และอื่นๆ โดยไม่นับ /home นำหน้า
+  // 
     <Typography
       as="li"
       key={href}

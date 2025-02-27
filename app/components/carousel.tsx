@@ -33,7 +33,6 @@ const SliderComponent = () => {
         `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`,
         requestData
       );
-      console.log(res);
       if (res.status === 200) {
         setSlides(res?.data?.data || []); // อัพเดต state
         setIsDataLoaded(true); // ตั้งค่าว่าโหลดข้อมูลเสร็จแล้ว
@@ -121,7 +120,7 @@ const SliderComponent = () => {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id}>
-            <Link href={`/home/course/${slide.id}`}>
+            <Link href={`/th/home/course/${slide.id}`}>
               <div className="relative w-full h-48">
                 <Image
                   layout="fill"

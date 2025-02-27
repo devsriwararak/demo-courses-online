@@ -228,6 +228,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       <div className="flex justify-center">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item.image}`}
+                          // src="https://courses-online.sgp1.cdn.digitaloceanspaces.com/images/18ff55dd-c842-4141-8e41-15b69364841d-..png"
                           alt=""
                           width={40}
                           height={40}

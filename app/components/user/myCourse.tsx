@@ -130,7 +130,7 @@ const ShopCourse: React.FC = () => {
 
   const handleClickCategory = (id: number) => {
     setSelectCatetegory(id);
-    setSelectedCategory(id)
+    setSelectedCategory(id);
     setIndex(id);
   };
 
@@ -147,19 +147,36 @@ const ShopCourse: React.FC = () => {
           </Typography>
         </div>
 
-        <div className=" bg-white rounded-lg mt-4  lg:mb-0 lg:w-[300px]">
-          <Input
-            type="text"
-            label="ค้นหาคอร์สเรียน"
-            icon={<FaSearch />}
-            crossOrigin="anonymous"
-            className="bg-white  !bg-opacity-100"
-            onChange={(e) => setSearchQuery(e.target.value)}
-            color="indigo"
-          />
+        <div className="flex flex-col lg:flex-row gap-4 items-center">
+          <div className=" bg-white rounded-lg mt-4  lg:mb-0 lg:w-[300px]">
+            <Input
+              type="text"
+              label="ค้นหาคอร์สเรียน"
+              icon={<FaSearch />}
+              crossOrigin="anonymous"
+              className="bg-white  !bg-opacity-100"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              color="indigo"
+            />
+          </div>
+
+          <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
+            <select
+              value={selectCatetegory.toString()}
+              onChange={(e) => setSelectCatetegory(Number(e.target.value))}
+              className="w-full py-1.5 px-4 border border-gray-400 rounded-md"
+            >
+              <option value="0">ทั้งหมด</option>
+              {courseCategories.map((category, key) => (
+                <option key={key} value={category.category_id.toString()}>
+                  {category?.category_name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className=" flex flex-row lg:flex-wrap gap-2 items-center justify-start mt-3 md:mt-6 ">
+        {/* <div className=" flex flex-row lg:flex-wrap gap-2 items-center justify-start mt-3 md:mt-6 ">
           <div className="w-1/4">
             <Button
               size="sm"
@@ -209,7 +226,8 @@ const ShopCourse: React.FC = () => {
               ))}
             </div>
           </div>
-        </div>
+
+        </div> */}
 
         <div className="flex justify-center mt-4 ">
           <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 ">

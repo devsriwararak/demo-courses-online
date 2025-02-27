@@ -113,7 +113,7 @@ export default function Page() {
                 </Link>
                 <FaChevronRight
                   size={20}
-                  className="bg-gray-400 p-1 rounded-full"
+                  className="bg-gray-200 p-1 rounded-full"
                 />
               </div>
             </section>
@@ -147,7 +147,7 @@ export default function Page() {
                 </Link>
                 <FaChevronRight
                   size={20}
-                  className="bg-gray-400 p-1 rounded-full"
+                  className="bg-gray-200 p-1 rounded-full"
                 />
               </div>
             </section>

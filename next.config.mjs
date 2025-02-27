@@ -23,7 +23,7 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-    domains: ["courses-online-api.devsriwararak.com"],
+    domains: ["courses-online-api.devsriwararak.com", "courses-online.sgp1.cdn.digitaloceanspaces.com"],
   },
 };
  

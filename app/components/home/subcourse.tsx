@@ -16,6 +16,7 @@ const fetchData = async (id: String) => {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_API}/api/homepage/courses/${id}`
     );
+    
     return res.data;
   } catch (error) {
     console.log(error);
@@ -24,9 +25,6 @@ const fetchData = async (id: String) => {
 
 const SubCourse: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
-
-  console.log(data);
-
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
       {/* ส่วนข้อมูลหลัก */}
@@ -98,10 +96,10 @@ const SubCourse: React.FC<PageProps> = async ({ params }) => {
                 key={index}
                 className="flex border-b last:border-none py-3 px-5 justify-between items-center hover:bg-gray-100 transition duration-200"
               >
-                <h2 className="font-semibold text-gray-800 text-base">
+                <h2 className="font-medium text-gray-800 text-base">
                   {lesson.title}
                 </h2>
-                <h2 className="text-gray-500 text-sm">
+                <h2 className="text-gray-500 font-medium text-sm">
                   {lesson.video_count} บทเรียน
                 </h2>
               </div>
